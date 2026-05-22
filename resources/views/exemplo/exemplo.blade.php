@@ -1,0 +1,1 @@
+<!-- Use "php artisan make:view" para criar uma view -->
