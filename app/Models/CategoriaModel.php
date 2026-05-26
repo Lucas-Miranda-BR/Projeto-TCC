@@ -11,6 +11,6 @@ class CategoriaModel extends Model
     protected $tabçe = 'categoria';
     protected $fillable = [
         'categoria_id', // PK
-        'categoria_nome'
+        'nome'
     ];
 }

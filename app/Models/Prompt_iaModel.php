@@ -12,7 +12,7 @@ class Prompt_iaModel extends Model
     protected $fillable = [
         'prompt_ia_id', // PK
         'cliente_id', // FK
-        'caminho_imagem',
+        'imagem_prompt',
         'cor',
         'formato',
         'extra',

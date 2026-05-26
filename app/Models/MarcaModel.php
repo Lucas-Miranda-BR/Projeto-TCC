@@ -11,6 +11,6 @@ class MarcaModel extends Model
     protected $table = 'marca';
     protected $fillable = [
         'marca_id', // PK
-        'marca_nome'
+        'nome'
     ];
 }

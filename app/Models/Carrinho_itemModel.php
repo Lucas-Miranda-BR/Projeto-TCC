@@ -12,7 +12,7 @@ class Carrinho_itemModel extends Model
     protected $fillable = [
         'pedido_id', // PK
         'item_id', // PK
-        'quantidade',
-        'subtotal'
+        'subtotal',
+        'quantidade'
     ];
 }

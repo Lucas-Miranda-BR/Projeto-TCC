@@ -12,8 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cliente', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->primary('cliente_id');
+            $table->foreignId('estado_id')->constrained(
+                table: 'estado', indexName: 'estado_id'
+            );
+            $table->foreignId('cidade_id')->constrained(
+                table: 'cidade', indexName: 'cidade_id'
+            );
+            $table->string('nome');
+            $table->string('sobrenome');
+            $table->unique('cpf');
+            $table->string('telefone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('endereco');
+            $table->date('data_nascimento');
         });
     }
 

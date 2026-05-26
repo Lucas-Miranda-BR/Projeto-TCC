@@ -11,6 +11,6 @@ class CidadeModel extends Model
     protected $table = 'cidade';
     protected $fillable = [
         'cidade_id', // PK
-        'cidade_nome'
+        'nome'
     ];
 }

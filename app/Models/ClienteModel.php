@@ -14,7 +14,7 @@ class ClienteModel extends Model
         'cliente_id', // PK
         'estado_id', // FK
         'cidade_id', // FK
-        'cliente_nome',
+        'nome',
         'sobrenome',
         'cpf',
         'telefone',

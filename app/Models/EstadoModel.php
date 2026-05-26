@@ -11,6 +11,6 @@ class EstadoModel extends Model
     protected $table = 'estado';
     protected $fillable = [
         'estado_id', // PK
-        'estado_nome'
+        'nome'
     ];
 }

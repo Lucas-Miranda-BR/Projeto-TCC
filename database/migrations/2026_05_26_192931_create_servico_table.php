@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('servico', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->primary('servico_id');
+            $table->foreignId('imagem_gerada_id')->constrained(
+                table: 'imagem_gerada', indexName: 'imagem_gerada_id'
+            );
+            $table->string('tipo');
+            $table->decimal('preco', total: 8, places: 2);
+            $table->date('data_agendada');
         });
     }
 

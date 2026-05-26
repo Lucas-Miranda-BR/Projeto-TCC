@@ -13,7 +13,7 @@ class ItemModel extends Model
         'item_id', // PK
         'marca_id', // FK
         'categoria_id', // FK
-        'item_nome',
+        'nome',
         'preco',
         'estoque'
     ];

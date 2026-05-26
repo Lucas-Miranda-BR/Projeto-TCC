@@ -12,7 +12,7 @@ class NotificacaoModel extends Model
     protected $fillable = [
         'notificacao_id',
         'cliente_id',
-        'nome_notificacao',
+        'titulo',
         'conteudo',
         'data_recebida',
         'visualizada'
