@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrinho_servico', function (Blueprint $table) {
-            $table->primary('pedido_id', 'servico_id');
+            $table->id('pedido_id', 'servico_id');
             $table->decimal('subtotal', total: 8, places: 2);
             $table->interger('quantidade');
         });

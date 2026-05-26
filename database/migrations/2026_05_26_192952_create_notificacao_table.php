@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notificacao', function (Blueprint $table) {
-            $table->primary('notificacao_id');
-            $table->foreignId('cliente_id')->constrained(
-                table: 'cliente', indexName: 'cliente_id'
-            );
+            $table->id('notificacao_id');
+            $table->foreign('cliente_id')->references('cliente_id')->on('cliente');
             $table->string('titulo');
             $table->string('conteudo');
             $table->timestamp('data_recebida')->useCurrent();

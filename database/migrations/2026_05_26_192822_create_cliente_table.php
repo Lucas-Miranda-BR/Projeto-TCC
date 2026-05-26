@@ -12,13 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cliente', function (Blueprint $table) {
-            $table->primary('cliente_id');
-            $table->foreignId('estado_id')->constrained(
-                table: 'estado', indexName: 'estado_id'
-            );
-            $table->foreignId('cidade_id')->constrained(
-                table: 'cidade', indexName: 'cidade_id'
-            );
+            $table->id('cliente_id');
+            $table->foreign('estado_id')->references('estado_id')->on('estado');
+            $table->foreign('cidade_id')->references('cidade_id')->on('cidade');
             $table->string('nome');
             $table->string('sobrenome');
             $table->unique('cpf');

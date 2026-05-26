@@ -12,10 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prompt_ia', function (Blueprint $table) {
-            $table->primary('prompt_ia_id');
-            $table->foreignId('cliente_id')->constrained(
-                table: 'cliente', indexName: 'cliente_id'
-            );
+            $table->id('prompt_ia_id');
+            $table->foreign('cliente_id')->references('cliente_id')->on('cliente');
             $table->string('imagem_prompt');
             $table->string('cor');
             $table->string('formato');
