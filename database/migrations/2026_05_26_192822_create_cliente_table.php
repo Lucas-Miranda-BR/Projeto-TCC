@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('cliente', function (Blueprint $table) {
             $table->id('cliente_id');
-            $table->foreign('estado_id')->references('estado_id')->on('estado');
-            $table->foreign('cidade_id')->references('cidade_id')->on('cidade');
+            $table->integer('estado_id')->foreign()->references('estado_id')->on('estado');
+            $table->integer('cidade_id')->foreign()->references('cidade_id')->on('cidade');
             $table->string('nome');
             $table->string('sobrenome');
-            $table->unique('cpf');
+            $table->string('cpf')->unique();
             $table->string('telefone')->nullable();
             $table->string('email')->nullable();
             $table->string('endereco');

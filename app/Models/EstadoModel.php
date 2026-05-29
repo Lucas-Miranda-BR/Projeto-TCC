@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EstadoModel extends Model
 {
@@ -13,4 +14,8 @@ class EstadoModel extends Model
         'estado_id', // PK
         'nome'
     ];
+
+    public function cliente(): HasMany {
+        return $this->hasMany(ClienteModel::class, 'estado_id', 'estado_id');
+    }
 }

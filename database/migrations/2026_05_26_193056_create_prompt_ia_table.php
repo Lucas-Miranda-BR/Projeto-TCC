@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prompt_ia', function (Blueprint $table) {
             $table->id('prompt_ia_id');
-            $table->foreign('cliente_id')->references('cliente_id')->on('cliente');
+            $table->integer('cliente_id')->foreign()->references('cliente_id')->on('cliente');
             $table->string('imagem_prompt');
             $table->string('cor');
             $table->string('formato');

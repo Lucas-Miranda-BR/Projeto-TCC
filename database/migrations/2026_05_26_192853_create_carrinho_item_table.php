@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrinho_item', function (Blueprint $table) {
-            $table->id('pedido_id', 'item_id');
+            $table->integer('pedido_id')->foreign()->references('pedido_id')->on('pedido');
+            $table->integer('item_id')->foreign()->references('item_id')->on('item');
             $table->decimal('subtotal', total: 8, places: 2);
-            $table->interger('quantidade');
+            $table->integer('quantidade');
         });
     }
 

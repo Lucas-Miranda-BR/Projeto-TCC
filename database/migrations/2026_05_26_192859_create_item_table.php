@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('item', function (Blueprint $table) {
             $table->id('item_id');
-            $table->foreign('marca_id')->references('marca_id')->on('marca');
-            $table->foreign('categoria_id')->references('categoria_id')->on('categoria');
+            $table->integer('marca_id')->foreign()->references('marca_id')->on('marca');
+            $table->integer('categoria_id')->foreign()->references('categoria_id')->on('categoria');
             $table->string('nome');
             $table->decimal('preco', total: 8, places: 2);
             $table->integer('estoque');

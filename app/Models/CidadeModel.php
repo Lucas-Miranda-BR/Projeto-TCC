@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CidadeModel extends Model
 {
@@ -13,4 +14,8 @@ class CidadeModel extends Model
         'cidade_id', // PK
         'nome'
     ];
+
+    public function cliente(): HasMany {
+        return $this->hasMany(ClienteModel::class, 'cidade_id', 'cidade_id');
+    }
 }
