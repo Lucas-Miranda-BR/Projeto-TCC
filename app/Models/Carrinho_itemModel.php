@@ -20,7 +20,7 @@ class Carrinho_itemModel extends Model
     public function item(): BelongsTo{
         return $this->belongsTo(ItemModel::class, 'item_id', 'item_id');
     }
-    public function pedido(): belongsTo{
+    public function pedido(): BelongsTo{
         return $this->belongsTo(PedidoModel::class, 'pedido_id', 'pedido_id');
     }
 }

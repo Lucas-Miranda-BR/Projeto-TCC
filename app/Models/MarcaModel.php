@@ -15,7 +15,7 @@ class MarcaModel extends Model
         'nome'
     ];
 
-    public function item(): BelongsTo {
-        return $this->belongsTo(ItemModel::class, 'marca_id', 'marca_id');
+    public function item(): HasMany {
+        return $this->hasMany(ItemModel::class, 'marca_id', 'marca_id');
     }
 }
