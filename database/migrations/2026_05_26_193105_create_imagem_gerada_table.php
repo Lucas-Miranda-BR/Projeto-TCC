@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('imagem_gerada', function (Blueprint $table) {
             $table->id('imagem_gerada_id');
-            $table->integer('prompt_ia_id')->foreign()->references('prompt_ia_id')->on('prompt_ia');
+            $table->foreignId('prompt_ia_id')->constrained(
+                table: 'prompt_ia', indexName: 'prompt_ia_id'
+            );
             $table->string('imagem_gerada');
         });
     }

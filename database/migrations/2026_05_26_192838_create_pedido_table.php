@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('pedido', function (Blueprint $table) {
             $table->id('pedido_id');
-            $table->integer('cliente_id')->foreign()->references('cliente_id')->on('cliente');
+            $table->foreignId('cliente_id')->constrained(
+                table: 'cliente', indexName: 'cliente_id'
+            );
             $table->decimal('valor_total', total: 8, places: 2);
             $table->timestamp('pedido_data')->useCurrent();
             $table->string('forma_pagamento');

@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrinho_servico', function (Blueprint $table) {
-            $table->integer('pedido_id')->foreign()->references('pedido_id')->on('pedido');
-            $table->integer('servico_id')->foreign()->refernces('servico_id')->on('servico');
+            $table->foreignId('pedido_id')->constrained(
+                table: 'pedido', indexName: 'pedido_id'
+            );
+            $table->foreignId('servico_id')->constrained(
+                table: 'servico', indexName: 'servico_id'
+            );
             $table->decimal('subtotal', total: 8, places: 2);
             $table->integer('quantidade');
         });

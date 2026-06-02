@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('notificacao', function (Blueprint $table) {
             $table->id('notificacao_id');
-            $table->integer('cliente_id')->foreign()->references('cliente_id')->on('cliente');
+            $table->foreignId('cliente_id')->constrained(
+                table: 'cliente', indexName: 'cliente_id'
+            );
             $table->string('titulo');
             $table->string('conteudo');
             $table->timestamp('data_recebida')->useCurrent();

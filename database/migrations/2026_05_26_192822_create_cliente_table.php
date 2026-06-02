@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('cliente', function (Blueprint $table) {
             $table->id('cliente_id');
-            $table->integer('estado_id')->foreign()->references('estado_id')->on('estado');
-            $table->integer('cidade_id')->foreign()->references('cidade_id')->on('cidade');
             $table->string('nome');
             $table->string('sobrenome');
             $table->string('cpf')->unique();
@@ -22,6 +20,12 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('endereco');
             $table->date('data_nascimento');
+            $table->foreignId('estado_id')->constrained(
+                table: 'estado', indexName: 'estado_id'
+            );
+            $table->foreignId('cidade_id')->constrained(
+                table: 'cidade', indexName: 'cidade_id'
+            );
         });
     }
 

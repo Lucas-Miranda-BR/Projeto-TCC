@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('servico', function (Blueprint $table) {
             $table->id('servico_id');
-            $table->integer('imagem_gerada_id')->foreign()->references('imagem_gerada_id')->on('imagem_gerada');
+            $table->foreignId('imagem_gerada_id')->constrained(
+                table: 'imagem_gerada', indexName: 'imagem_gerada_id'
+            );
             $table->string('tipo');
             $table->decimal('preco', total: 8, places: 2);
             $table->date('data_agendada');
