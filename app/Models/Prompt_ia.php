@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Prompt_iaModel extends Model
+class Prompt_ia extends Model
 {
     use HasFactory;
     protected $table = 'prompt_ia';
+    protected $primaryKey = 'prompt_ia_id';
     protected $fillable = [
-        'prompt_ia_id', // PK
         'cliente_id', // FK
         'imagem_prompt',
         'cor',
@@ -21,10 +21,10 @@ class Prompt_iaModel extends Model
         'tipo_corte'
     ];
 
-    public function imagem_gerada(): HasOne {
-        return $this->hasOne(Imagem_geradaModel::class, 'prompt_ia_id', 'prompt_ia_id');
+    public function imagens_geradas(): HasOne {
+        return $this->hasOne(Imagem_gerada::class, 'prompt_ia_id', 'prompt_ia_id');
     }
     public function cliente(): BelongsTo{
-        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'cliente_id');
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
     }
 }

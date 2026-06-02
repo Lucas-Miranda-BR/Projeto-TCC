@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ItemModel extends Model
+class Item extends Model
 {
     use HasFactory;
     protected $table = 'item';
+    protected $primaryKey = 'item_id';
     protected $fillable = [
-        'item_id', // PK
         'marca_id', // FK
         'categoria_id', // FK
         'nome',
@@ -20,13 +20,13 @@ class ItemModel extends Model
         'estoque'
     ];
 
-    public function marca(): BelongsTo{
-        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
+    public function marcas(): BelongsTo{
+        return $this->belongsTo(Marca::class, 'marca_id', 'marca_id');
     }
-    public function categoria(): BelongsTo{
-        return $this->belongsTo(CategoriaModel::class, 'categoria_id', 'categoria_id');
+    public function categorias(): BelongsTo{
+        return $this->belongsTo(Categoria::class, 'categoria_id', 'categoria_id');
     }
-    public function carrinho_item(): HasMany {
-        return $this->hasMany(Carrinho_itemModel::class, 'item_id', 'item_id');
+    public function carrinhos_itens(): HasMany {
+        return $this->hasMany(Carrinho_item::class, 'item_id', 'item_id');
     }
 }

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('marca', function (Blueprint $table) {
             $table->id('marca_id');
-            $table->string('nome');
+            $table->timestamps();
+            $table->string('nome')->unique();
         });
     }
 

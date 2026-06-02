@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class EstadoModel extends Model
+class Estado extends Model
 {
     use HasFactory;
     protected $table = 'estado';
+    protected $primaryKey = 'estado_id';
     protected $fillable = [
-        'estado_id', // PK
         'nome'
     ];
 
-    public function cliente(): HasMany {
-        return $this->hasMany(ClienteModel::class, 'estado_id', 'estado_id');
+    public function clientes(): HasMany {
+        return $this->hasMany(Cliente::class, 'estado_id', 'estado_id');
     }
 }

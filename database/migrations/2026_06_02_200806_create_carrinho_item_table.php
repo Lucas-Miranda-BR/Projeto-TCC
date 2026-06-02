@@ -12,13 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrinho_item', function (Blueprint $table) {
+            $table->id('carrinho_item_id');
             $table->decimal('subtotal', total: 8, places: 2);
             $table->integer('quantidade');
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('item_id');
-            
-            $table->foreign('pedido_id')->references('pedido_id')->on('pedido');
-            $table->foreign('item_id')->references('item_id')->on('item');
+
+            $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
+            $table->foreign('item_id')->references('item_id')->on('item')->restrictOnDelete();
+
+            $table->unique(['pedido_id', 'item_id']);
         });
     }
 

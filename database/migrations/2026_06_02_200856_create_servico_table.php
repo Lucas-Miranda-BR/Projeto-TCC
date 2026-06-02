@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('servico', function (Blueprint $table) {
             $table->id('servico_id');
+            $table->timestamps();
             $table->string('tipo');
             $table->decimal('preco', total: 8, places: 2);
             $table->date('data_agendada');
             $table->unsignedBigInteger('imagem_gerada_id');
-            
-            $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada');
+
+            $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada')->restrictOnDelete();
         });
     }
 

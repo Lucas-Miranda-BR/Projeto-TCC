@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MarcaModel extends Model
+class Marca extends Model
 {
     use HasFactory;
     protected $table = 'marca';
+    protected $primaryKey = 'marca_id';
     protected $fillable = [
-        'marca_id', // PK
         'nome'
     ];
 
-    public function item(): HasMany {
-        return $this->hasMany(ItemModel::class, 'marca_id', 'marca_id');
+    public function itens(): HasMany {
+        return $this->hasMany(Item::class, 'marca_id', 'marca_id');
     }
 }

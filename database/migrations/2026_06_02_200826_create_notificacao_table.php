@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('notificacao', function (Blueprint $table) {
             $table->id('notificacao_id');
+            $table->timestamps();
             $table->string('titulo');
             $table->string('conteudo');
             $table->timestamp('data_recebida')->useCurrent();
             $table->boolean('visualizada')->default(false);
             $table->unsignedBigInteger('cliente_id');
-            
-            $table->foreign('cliente_id')->references('cliente_id')->on('cliente');
+
+            $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
         });
     }
 

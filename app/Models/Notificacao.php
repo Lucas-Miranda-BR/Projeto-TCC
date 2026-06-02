@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class NotificacaoModel extends Model
+class Notificacao extends Model
 {
     use HasFactory;
     protected $table = 'notificacao';
+    protected $primaryKey = 'notificacao_id';
     protected $fillable = [
-        'notificacao_id', // PK
         'cliente_id', // FK
         'titulo',
         'conteudo',
@@ -19,7 +19,12 @@ class NotificacaoModel extends Model
         'visualizada'
     ];
 
-    public function cliente(): BelongsTo{
-        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'cliente_id');
+    protected $casts = [
+        'data_recebida' => 'datetime',
+        'visualizada' => 'boolean'
+    ];
+
+    public function clientes(): BelongsTo{
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
     }
 }

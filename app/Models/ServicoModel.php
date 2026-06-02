@@ -11,18 +11,22 @@ class ServicoModel extends Model
 {
     use HasFactory;
     protected $table = 'servico';
+    protected $primaryKey = 'servico_id';
     protected $fillable = [
-        'servico_id', // PK
         'imagem_gerada_id', // FK
         'tipo',
         'preco',
         'data_agendada'
     ];
 
-    public function imagem_gerada(): BelongsTo{
-        return $this->belongsTo(Imagem_geradaModel::class, 'imagem_gerada_id', 'imagem_gerada_id');
+    protected $casts = [
+        'data_agendada' => 'date'
+    ];
+
+    public function imagens_geradas(): BelongsTo{
+        return $this->belongsTo(Imagem_gerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
     }
-    public function carrinho_servico(): HasMany {
-        return $this->hasMany(Carrinho_servicoModel::class, 'servico_id', 'servico_id');
+    public function carrinhos_servicos(): HasMany {
+        return $this->hasMany(Carrinho_servico::class, 'servico_id', 'servico_id');
     }
 }
