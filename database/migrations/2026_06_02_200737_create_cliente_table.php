@@ -20,12 +20,11 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('endereco');
             $table->date('data_nascimento');
-            $table->foreignId('estado_id')->constrained(
-                table: 'estado', indexName: 'estado_id'
-            );
-            $table->foreignId('cidade_id')->constrained(
-                table: 'cidade', indexName: 'cidade_id'
-            );
+            $table->unsignedBigInteger('estado_id');
+            $table->unsignedBigInteger('cidade_id');
+            
+            $table->foreign('estado_id')->references('estado_id')->on('estado');
+            $table->foreign('cidade_id')->references('cidade_id')->on('cidade');
         });
     }
 

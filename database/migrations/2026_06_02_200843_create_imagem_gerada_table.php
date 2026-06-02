@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('imagem_gerada', function (Blueprint $table) {
             $table->id('imagem_gerada_id');
-            $table->foreignId('prompt_ia_id')->constrained(
-                table: 'prompt_ia', indexName: 'prompt_ia_id'
-            );
             $table->string('imagem_gerada');
+            $table->unsignedBigInteger('prompt_ia_id');
+            
+            $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia');
         });
     }
 

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('prompt_ia', function (Blueprint $table) {
             $table->id('prompt_ia_id');
-            $table->foreignId('cliente_id')->constrained(
-                table: 'cliente', indexName: 'cliente_id'
-            );
             $table->string('imagem_prompt');
             $table->string('cor');
             $table->string('formato');
             $table->string('extra');
             $table->string('tipo_corte');
+            $table->unsignedBigInteger('cliente_id');
+            
+            $table->foreign('cliente_id')->references('cliente_id')->on('cliente');
         });
     }
 
