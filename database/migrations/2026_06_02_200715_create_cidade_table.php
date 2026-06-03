@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exemplo', function (Blueprint $table) {
-            $table->id();
+        Schema::create('cidade', function (Blueprint $table) {
+            $table->id('cidade_id');
             $table->timestamps();
-            $table->string('exemplo');
+            $table->string('nome');
         });
     }
 
@@ -23,10 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('exemplo');
+        Schema::dropIfExists('cidade');
     }
 };
-
-// Use "php artisan:make migration" para criar uma migração
-// Use "php artisan migrate" para rodar as migrações
-// use "php artisan migrate:rollback" para dropar as migrações
