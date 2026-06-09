@@ -1,0 +1,44 @@
+.container-login{
+    display:flex;
+    height:100vh;
+}
+
+.left{
+    width:50%;
+    background:#f7e5e5;
+    padding:60px;
+}
+
+.left h1{
+    font-size:60px;
+}
+
+.left span{
+    color:#b80d0d;
+}
+
+.right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+form{
+    width:350px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:20px;
+}
