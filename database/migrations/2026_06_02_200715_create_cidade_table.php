@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('cidade', function (Blueprint $table) {
             $table->id('cidade_id');
-            $table->timestamps();
             $table->string('nome');
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

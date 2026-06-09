@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('categoria', function (Blueprint $table) {
             $table->id('categoria_id');
-            $table->timestamps();
             $table->string('nome')->unique();
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

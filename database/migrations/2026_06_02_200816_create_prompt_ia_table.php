@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('prompt_ia', function (Blueprint $table) {
             $table->id('prompt_ia_id');
-            $table->timestamps();
             $table->string('imagem_prompt');
             $table->string('cor');
             $table->string('formato');
             $table->string('extra');
             $table->string('tipo_corte');
             $table->unsignedBigInteger('cliente_id');
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
         });
