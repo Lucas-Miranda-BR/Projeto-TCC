@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('quantidade');
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('servico_id');
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
             $table->foreign('servico_id')->references('servico_id')->on('servico')->restrictOnDelete();

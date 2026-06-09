@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('marca', function (Blueprint $table) {
             $table->id('marca_id');
-            $table->timestamps();
             $table->string('nome')->unique();
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

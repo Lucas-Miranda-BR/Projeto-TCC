@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('imagem_gerada', function (Blueprint $table) {
             $table->id('imagem_gerada_id');
-            $table->timestamps();
             $table->string('imagem_gerada');
             $table->unsignedBigInteger('prompt_ia_id');
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia')->restrictOnDelete();
         });
