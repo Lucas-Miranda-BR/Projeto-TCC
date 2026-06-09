@@ -25,4 +25,12 @@ class Pedido extends Model
     public function clientes(): BelongsTo{
         return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
     }
+
+    public function carrinhos_itens(): HasMany{
+        return $this->hasMany(Carrinho_item::class, 'carrinho_item_id', 'carrinho_item_id');
+    }
+
+    public function carrinhos_servicos(): HasMany{
+        return $this->hasMany(Carrinho_servico::class, 'carrinho_sevico_id', 'carrinho_sevico_id');
+    }
 }

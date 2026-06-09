@@ -28,7 +28,7 @@ class Cliente extends Model
     
     protected $casts = [
         'senha' => 'hashed',
-        'is_admin' => 'boolean',
+        'admin' => 'boolean',
         'data_nascimento' => 'date'
     ];
 
