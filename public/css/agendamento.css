@@ -1,54 +1,101 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
+.agendamento-container{
+
+    width:90%;
+
+    margin:40px auto;
 }
 
-h1,h2,h3{
-    font-family:'Playfair Display', serif;
-}
-.agendamento{
-    padding:40px;
-}
+.agendamento-container h1{
 
-.agendamento h1{
     text-align:center;
+
+    color:#9d1228;
+
     margin-bottom:30px;
 }
 
-.conteudo{
+.topo{
+
     display:flex;
-    justify-content:center;
+
+    gap:30px;
+
+    margin-bottom:30px;
+}
+
+.servico{
+
+    flex:2;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    display:flex;
+
+    gap:20px;
+}
+
+.servico img{
+
+    width:90px;
+    height:90px;
+}
+
+.resumo{
+
+    flex:1;
+
+    background:#9d1228;
+
+    color:white;
+
+    padding:20px;
+
+    border-radius:10px;
+}
+
+.agenda{
+
+    display:flex;
+
     gap:30px;
 }
 
-.servico,
 .calendario,
-.resumo{
-    width:300px;
+.horarios{
+
+    flex:1;
+
+    background:white;
+
     padding:20px;
-    border:1px solid #ccc;
-    border-radius:8px;
+
+    border-radius:10px;
 }
 
-.item{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.horarios button{
+
+    margin:5px;
+
+    padding:10px 15px;
 }
 
-.item img{
-    width:60px;
-    height:60px;
-    object-fit:cover;
-}
+.confirmar{
 
-button{
+    margin-top:30px;
+
     width:100%;
-    padding:12px;
-    background:#a8142c;
+
+    padding:15px;
+
+    background:#9d1228;
+
     color:white;
+
     border:none;
-    margin-top:15px;
+
+    border-radius:10px;
 }

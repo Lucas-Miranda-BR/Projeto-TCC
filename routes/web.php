@@ -17,6 +17,9 @@ Route::prefix('site')->group(function(){
 
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
+
+    Route::get('/produtos', [SiteController::class,'produtos'])
+        ->name('site.produtos');    
 });
 
 Route::prefix('auth')->group(function(){
@@ -38,6 +41,10 @@ Route::prefix('cliente')->group(function(){
 
     Route::get('/agendamentos', [ClienteController::class,'agendamentos'])
         ->name('cliente.agendamentos');
+
+    Route::post('/agendamento/salvar',[AgendamentoController::class,'salvar']
+    )->name('cliente.salvar');
+
 });
 
 Route::prefix('admin')->group(function(){
