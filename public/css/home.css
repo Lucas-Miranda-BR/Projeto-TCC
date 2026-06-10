@@ -1,13 +1,19 @@
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+h1,h2,h3{
+    font-family:'Playfair Display', serif;
 }
 
 .hero{
     height:100vh;
 
-    background-image:url('/images/salao.jpg');
+    background-image:url('../images/salao.png');
 
     background-size:cover;
     background-position:center;
@@ -23,22 +29,6 @@
     background:rgba(0,0,0,.35);
 }
 
-.navbar{
-
-    position:absolute;
-
-    width:100%;
-
-    top:20px;
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    padding:0 40px;
-
-    z-index:2;
-}
 
 .menu-right{
 

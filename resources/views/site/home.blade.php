@@ -6,29 +6,12 @@
 
 @section('content')
 
+@include('components.navbar')
 <section class="hero">
 
     <div class="overlay"></div>
 
-    <nav class="navbar">
-
-        <div></div>
-
-        <div class="menu-right">
-
-            <a href="{{ route('site.sobre') }}" class="btn-about">
-                Sobre Mim
-            </a>
-
-            <a href="{{ route('auth.login') }}" class="btn-profile">
-
-                <img src="{{ asset('images/perfil.png') }}" alt="Perfil">
-
-            </a>
-
-        </div>
-
-    </nav>
+    
 
     <div class="hero-content">
 
@@ -43,5 +26,7 @@
     </div>
 
 </section>
+
+@include('components.footer')
 
 @endsection

@@ -6,42 +6,109 @@
 
 @section('content')
 
-<div class="container-cadastro">
+@include('components.navbar')
 
-    <div class="left">
+<div class="cadastro-page">
 
-        <h1>
-            Sua Jornada de
-            <span>Beleza e Poder</span>
-            Começa Aqui
-        </h1>
+    <div class="left-panel">
+
+        <div class="overlay"></div>
+
+        <div class="left-content">
+
+            <img src="{{ asset('images/logo.png') }}" class="logo-login">
+
+            <h1>
+                Sua Jornada de
+                <span>Beleza e Poder</span>
+                Começa Aqui
+            </h1>
+
+            <p>
+                Crie sua conta para agendar horários,
+                acompanhar serviços e receber novidades.
+            </p>
+
+        </div>
 
     </div>
 
-    <div class="right">
+    <div class="right-panel">
 
-        <form>
+        <div class="cadastro-box">
 
-            <h2>Crie sua conta</h2>
+            <h2>Crie sua Conta</h2>
 
-            <input type="text" placeholder="Nome">
+            <form>
 
-            <input type="text" placeholder="Sobrenome">
+                <div class="form-row">
 
-            <input type="email" placeholder="Email">
+                    <input
+                        type="text"
+                        placeholder="Nome"
+                    >
 
-            <input type="text" placeholder="Telefone">
+                    <input
+                        type="text"
+                        placeholder="Sobrenome"
+                    >
 
-            <input type="password" placeholder="Senha">
+                </div>
 
-            <button>
-                CRIAR CONTA
-            </button>
+                <div class="form-row">
 
-        </form>
+                    <input
+                        type="email"
+                        placeholder="E-mail"
+                    >
+
+                    <input
+                        type="text"
+                        placeholder="Telefone"
+                    >
+
+                </div>
+
+                <div class="form-row">
+
+                    <input
+                        type="text"
+                        placeholder="Cidade"
+                    >
+
+                    <input
+                        type="text"
+                        placeholder="Estado"
+                    >
+
+                </div>
+
+                <div class="form-row">
+
+                    <input
+                        type="password"
+                        placeholder="Senha"
+                    >
+
+                    <input
+                        type="password"
+                        placeholder="Confirmar Senha"
+                    >
+
+                </div>
+
+                <button type="submit">
+                    Criar Conta
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
 
 </div>
+
+@include('components.footer')
 
 @endsection

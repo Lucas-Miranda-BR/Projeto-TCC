@@ -6,40 +6,71 @@
 
 @section('content')
 
-<div class="container-login">
+@include('components.navbar')
 
-    <div class="left">
+<div class="login-page">
 
-        <h1>
-            Sua Jornada de
-            <span>Beleza e Poder</span>
-            Começa Aqui
-        </h1>
+    <div class="left-panel">
 
-        <p>
-            Acesse sua conta para agendar serviços.
-        </p>
+        <div class="overlay"></div>
+
+        <div class="left-content">
+
+            <img src="{{ asset('images/logo.png') }}" class="logo-login">
+
+            <h1>
+                Sua Jornada de
+                <span>Beleza e Poder</span>
+                Começa Aqui
+            </h1>
+
+            <p>
+                Acesse sua conta e agende seus serviços
+                com praticidade e segurança.
+            </p>
+
+        </div>
 
     </div>
 
-    <div class="right">
+    <div class="right-panel">
 
-        <form>
+        <div class="login-box">
 
-            <h2>Faça seu login</h2>
+            <h2>Faça seu Login</h2>
 
-            <input type="email" placeholder="Email">
+            <form>
 
-            <input type="password" placeholder="Senha">
+                <input
+                    type="email"
+                    placeholder="Digite seu e-mail"
+                >
 
-            <button type="submit">
-                Login
-            </button>
+                <input
+                    type="password"
+                    placeholder="Digite sua senha"
+                >
 
-        </form>
+                <button type="submit">
+                    Entrar
+                </button>
+
+            </form>
+
+            <div class="divider">
+                ou
+            </div>
+
+            <a href="{{ route('auth.cadastro') }}" class="btn-secondary">
+                Criar Conta
+            </a>
+
+        </div>
 
     </div>
 
 </div>
+
+@include('components.footer')
 
 @endsection

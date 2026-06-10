@@ -6,62 +6,51 @@
 
 @section('content')
 
-<nav class="navbar">
+@include('components.navbar')
 
-    <img src="{{ asset('images/logo.png') }}" class="logo">
-
-    <ul>
-
-        <li><a href="{{ route('site.home') }}">Início</a></li>
-
-        <li><a href="#">Produtos</a></li>
-
-        <li><a href="#">IA</a></li>
-
-        <li><a href="#">Notificações</a></li>
-
-        <li><a href="{{ route('site.servicos') }}">Serviços</a></li>
-
-    </ul>
-
-</nav>
+</header>
 
 <section class="galeria">
 
-    <img src="{{ asset('images/trabalho1.jpg') }}">
-
-    <img src="{{ asset('images/trabalho2.jpg') }}">
-
-    <img src="{{ asset('images/trabalho3.jpg') }}">
+    <img src="{{ asset('images/trabalho1.png') }}">
+    <img src="{{ asset('images/trabalho2.png') }}">
+    <img src="{{ asset('images/trabalho3.png') }}">
 
 </section>
 
-<section class="sobre">
+<section class="quem-sou">
 
-    <h2>QUEM SOU?</h2>
+    <div class="titulo">
+        <h2>QUEM SOU?</h2>
+    </div>
 
-    <div class="sobre-content">
+    <div class="conteudo">
 
         <div class="nome">
-
-            Sandra<br>Nerys
-
+            <h1>
+                Sandra<br>
+                Nerys
+            </h1>
         </div>
 
         <div class="texto">
 
             <p>
-                Sandra Nerys é especialista em embelezamento
-                e apaixonada por elevar a autoestima de suas clientes.
+                Sandra Nerys, 41 anos, é especialista em embelezamento e
+                apaixonada por elevar a autoestima de suas clientes.
             </p>
 
             <p>
-                Proprietária do Salão Sempre Diva desde 2015.
+                Proprietária do Salão Sempre Diva desde 2015,
+                onde oferece um atendimento cuidadoso,
+                moderno e personalizado.
             </p>
 
             <p>
-                Com dedicação e profissionalismo transforma
-                beleza em confiança.
+                Com dedicação e sensibilidade,
+                Sandra transforma beleza em confiança,
+                criando uma experiência única para cada mulher
+                que passa pelo seu salão.
             </p>
 
         </div>
@@ -69,5 +58,42 @@
     </div>
 
 </section>
+<!-- DIFERENCIAIS -->
+
+<section class="diferenciais">
+
+    <h2>Nossos Diferenciais</h2>
+
+    <div class="cards">
+
+        <div class="card-dif">
+            <h3>✨ Atendimento Personalizado</h3>
+            <p>
+                Cada cliente recebe um atendimento único,
+                pensado para valorizar sua beleza natural.
+            </p>
+        </div>
+
+        <div class="card-dif">
+            <h3>💇 Profissional Especializada</h3>
+            <p>
+                Experiência e dedicação para oferecer
+                resultados modernos e de qualidade.
+            </p>
+        </div>
+
+        <div class="card-dif">
+            <h3>❤️ Autoestima e Confiança</h3>
+            <p>
+                Nosso objetivo é fazer cada mulher se sentir
+                bonita, segura e confiante.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+@include('components.footer')
 
 @endsection

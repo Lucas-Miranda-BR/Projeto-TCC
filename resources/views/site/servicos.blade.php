@@ -6,44 +6,32 @@
 
 @section('content')
 
-<nav class="navbar">
-
-    <img src="{{ asset('images/logo.png') }}" class="logo">
-
-    <ul>
-        <li><a href="{{ route('site.home') }}">Início</a></li>
-        <li><a href="{{ route('site.sobre') }}">Sobre Mim</a></li>
-        <li><a href="#">Produtos</a></li>
-        <li><a href="#">IA</a></li>
-        <li><a href="#">Notificações</a></li>
-    </ul>
-
-</nav>
+@include('components.navbar')
 
 <section class="banner">
 
-    <img src="{{ asset('images/banner.jpg') }}">
+    <img src="{{ asset('images/salao.png') }}">
 
 </section>
 
 <section class="servicos">
 
     <div class="card">
-        <img src="{{ asset('images/depilacao.jpg') }}">
+        <img src="{{ asset('images/depilacao.png') }}">
         <h3>Depilação</h3>
         <p>A partir de R$20</p>
         <a href="{{ route('cliente.agendamentos') }}">Agendar</a>
     </div>
 
     <div class="card">
-        <img src="{{ asset('images/manicure.jpg') }}">
+        <img src="{{ asset('images/manicure.png') }}">
         <h3>Manicure</h3>
         <p>A partir de R$45</p>
         <a href="{{ route('cliente.agendamentos') }}">Agendar</a>
     </div>
 
     <div class="card">
-        <img src="{{ asset('images/corte.jpg') }}">
+        <img src="{{ asset('images/trabalho1.png') }}">
         <h3>Corte</h3>
         <p>A partir de R$150</p>
         <a href="{{ route('cliente.agendamentos') }}">Agendar</a>
@@ -60,5 +48,7 @@
     </a>
 
 </section>
+
+@include('components.footer')
 
 @endsection
