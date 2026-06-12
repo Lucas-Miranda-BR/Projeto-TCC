@@ -26,7 +26,7 @@
 
             <div class="servico">
 
-                <img src="{{ asset('images/corte.png') }}" alt="Corte">
+                <img src="{{ asset('public/css/images/trabalho.png') }}" alt="Corte">
 
                 <div>
 

@@ -61,10 +61,17 @@
                         type="email"
                         placeholder="E-mail"
                     >
+                    <input
+                        type="tel"
+                        placeholder="Telefone"
+                        pattern='[0-9]{11}'
+                    >
+
 
                     <input
-                        type="text"
-                        placeholder="Telefone"
+                        type="number"
+                        placeholder="CPF"
+                        pattern='[0-9]{11}'
                     >
 
                 </div>
@@ -73,12 +80,15 @@
 
                     <input
                         type="text"
-                        placeholder="Cidade"
+                        placeholder="Endereço"
                     >
-
+                    <label for="data_nascimento">Data de Nascimento</label>
                     <input
-                        type="text"
-                        placeholder="Estado"
+                    placeholder="Data Nascimento"
+                        type="date"
+                        id="data_nascimento"
+                        name="data_nascimento"
+                        
                     >
 
                 </div>
