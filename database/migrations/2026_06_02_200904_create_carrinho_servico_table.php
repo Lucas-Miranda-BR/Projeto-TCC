@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id('carrinho_servico_id');
             $table->decimal('subtotal', total: 8, places: 2);
             $table->integer('quantidade');
-            $table->unsignedBigInteger('pedido_id');
-            $table->unsignedBigInteger('servico_id');
+            $table->unsignedBigInteger('pedido_id')->default(0);
+            $table->unsignedBigInteger('servico_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
-            $table->foreign('servico_id')->references('servico_id')->on('servico')->restrictOnDelete();
+            // $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
+            // $table->foreign('servico_id')->references('servico_id')->on('servico')->restrictOnDelete();
 
             $table->unique(['pedido_id', 'servico_id']);
         });

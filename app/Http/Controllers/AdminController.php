@@ -12,6 +12,10 @@ class AdminController extends Controller
     public function clientes()
     {
         return view('admin.clientes');
+
+    }
+    function indexCliente(){
+        return view('cliente.read', ['clientes'=>ClienteModel::all()]);
     }
 
     public function agendamentos()

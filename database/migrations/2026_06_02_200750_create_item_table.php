@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('nome');
             $table->decimal('preco', total: 8, places: 2);
             $table->integer('estoque');
-            $table->unsignedBigInteger('marca_id');
-            $table->unsignedBigInteger('categoria_id');
+            $table->unsignedBigInteger('marca_id')->default(0);
+            $table->unsignedBigInteger('categoria_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('marca_id')->references('marca_id')->on('marca')->restrictOnDelete();
-            $table->foreign('categoria_id')->references('categoria_id')->on('categoria')->restrictOnDelete();
+            // $table->foreign('marca_id')->references('marca_id')->on('marca')->restrictOnDelete();
+            // $table->foreign('categoria_id')->references('categoria_id')->on('categoria')->restrictOnDelete();
         });
     }
 

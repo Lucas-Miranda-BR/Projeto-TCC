@@ -22,19 +22,16 @@ Route::prefix('site')->group(function(){
         ->name('site.produtos');    
 });
 
-Route::prefix('auth')->group(function(){
-
-    Route::get('/login', [AuthController::class,'login'])
-        ->name('auth.login');
-
-    Route::get('/cadastro', [AuthController::class,'cadastro'])
-        ->name('auth.cadastro');
-});
-
 Route::prefix('cliente')->group(function(){
 
-    Route::get('/dashboard', [ClienteController::class,'dashboard'])
-        ->name('cliente.dashboard');
+    Route::get('/cadastro', [ClienteController::class,'createCliente'])
+        ->name('cliente.cadastro');
+
+    Route::post('/create', [ClienteController::class,'storeCliente'])
+        ->name('cliente.create');
+
+        Route::get('/login', [ClienteController::class,'loginCliente'])
+        ->name('cliente.login');
 
     Route::get('/perfil', [ClienteController::class,'perfil'])
         ->name('cliente.perfil');
@@ -61,6 +58,6 @@ Route::prefix('admin')->group(function(){
     Route::get('/calendario', [AdminController::class,'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/produtos', [AdminController::class,'produtos'])
+    Route::get('/dashboard/produtos', [AdminController::class,'produtos'])
         ->name('admin.produtos');
 });

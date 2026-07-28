@@ -16,7 +16,7 @@
 
         <a href="#">Notificações</a>
 
-        <a href="{{ route('auth.login') }}" class="btn-login">
+        <a href="{{ route('cliente.login') }}" class="btn-login">
             Login
         </a>
 
