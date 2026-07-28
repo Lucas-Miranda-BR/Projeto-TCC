@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia')->restrictOnDelete();
+            // $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia')->restrictOnDelete();
         });
     }
 

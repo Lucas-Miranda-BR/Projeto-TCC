@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
+            // $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
         });
     }
 

@@ -77,7 +77,7 @@ class ClienteController extends Controller
 
         Cliente::create($validated);
 
-        return redirect()->route('site.home');
+        return redirect()->route('site.sobre');
     }
 
     
@@ -91,7 +91,7 @@ class ClienteController extends Controller
     function updateCliente(Request $dados, $id) {
         $cliente = Cliente::findOrFail($id);
 
-        $validated = $dados->validate([
+        $validator = Validator::make($dados->all(), [
             'nome' => [
                 'required',
                 'string',
@@ -117,6 +117,7 @@ class ClienteController extends Controller
             'max:11',
             'nullable',
             Rule::unique('cliente', 'telefone')->ignore($cliente->id)
+
         ],
 
             'email' => [
@@ -139,10 +140,18 @@ class ClienteController extends Controller
         ]
         ]);
 
-        $cliente->update($validated);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('cliente.cadastro')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
 
         return redirect()->route('site.home');
     }
+
 
     function destroyCliente(string $id) {
             Cliente::destroy($id);
@@ -180,14 +189,14 @@ class ClienteController extends Controller
                 'admin' => $cliente->admin,
             ]);
     
-            return redirect()->route('principal');
+            return redirect()->route('site.sobre');
         }
     
             public function logoutCliente()
         {
             session()->flush();
     
-            return redirect()->route('principal');
+            return redirect()->route('cliente.login');
         }
     
 }

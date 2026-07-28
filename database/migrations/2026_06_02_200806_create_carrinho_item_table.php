@@ -20,8 +20,8 @@ return new class extends Migration
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
-            $table->foreign('item_id')->references('item_id')->on('item')->restrictOnDelete();
+            // $table->foreign('pedido_id')->references('pedido_id')->on('pedido')->restrictOnDelete();
+            // $table->foreign('item_id')->references('item_id')->on('item')->restrictOnDelete();
 
             $table->unique(['pedido_id', 'item_id']);
         });
