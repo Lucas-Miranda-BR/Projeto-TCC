@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('valor_total', total: 8, places: 2);
             $table->timestamp('pedido_data')->useCurrent();
             $table->string('forma_pagamento');
-            $table->unsignedBigInteger('cliente_id');
+            $table->unsignedBigInteger('cliente_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

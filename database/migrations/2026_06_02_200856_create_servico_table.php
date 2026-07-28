@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tipo');
             $table->decimal('preco', total: 8, places: 2);
             $table->date('data_agendada');
-            $table->unsignedBigInteger('imagem_gerada_id');
+            $table->unsignedBigInteger('imagem_gerada_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

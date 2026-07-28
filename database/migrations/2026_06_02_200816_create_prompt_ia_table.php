@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('formato');
             $table->string('extra');
             $table->string('tipo_corte');
-            $table->unsignedBigInteger('cliente_id');
+            $table->unsignedBigInteger('cliente_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

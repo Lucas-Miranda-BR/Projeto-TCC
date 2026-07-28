@@ -27,8 +27,8 @@ return new class extends Migration
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-           // $table->foreign('estado_id')->references('estado_id')->on('estado')->restrictOnDelete();
-            // $table->foreign('cidade_id')->references('cidade_id')->on('cidade')->restrictOnDelete();
+            $table->foreign('estado_id')->references('estado_id')->on('estado')->restrictOnDelete();
+            $table->foreign('cidade_id')->references('cidade_id')->on('cidade')->restrictOnDelete();
         });
     }
 
