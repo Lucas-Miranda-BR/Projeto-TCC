@@ -22,13 +22,13 @@ return new class extends Migration
             $table->date('data_nascimento');
             $table->string('senha');
             $table->boolean('admin')->default(false);
-            $table->unsignedBigInteger('estado_id');
-            $table->unsignedBigInteger('cidade_id');
+            $table->unsignedBigInteger('estado_id')->default(0);
+            $table->unsignedBigInteger('cidade_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('estado_id')->references('estado_id')->on('estado')->restrictOnDelete();
-            $table->foreign('cidade_id')->references('cidade_id')->on('cidade')->restrictOnDelete();
+           // $table->foreign('estado_id')->references('estado_id')->on('estado')->restrictOnDelete();
+            // $table->foreign('cidade_id')->references('cidade_id')->on('cidade')->restrictOnDelete();
         });
     }
 

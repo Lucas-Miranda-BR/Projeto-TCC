@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cidade', function (Blueprint $table) {
-            $table->id('cidade_id');
+            //$table->id('cidade_id');
             $table->string('nome');
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
