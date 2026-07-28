@@ -107,7 +107,8 @@ class ClienteController extends Controller
                 'required',
                 'string',
                 'unique:cliente',
-                'max:11'
+                'max:11',
+                Rule::unique('cliente', 'cpf')->ignore($cliente->id)
 
             ],
             'telefone' => [
@@ -135,7 +136,7 @@ class ClienteController extends Controller
             'required'
         ],
         'senha' => [
-            'required',
+            'nullable',
             Password::min(8)->letters()->mixedCase()->numbers()->symbols()
         ]
         ]);
@@ -145,6 +146,12 @@ class ClienteController extends Controller
                 ->route('cliente.cadastro')
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        if (!empty($validated['senha'])) {
+            $validated['senha'] = Hash::make($validated['senha']);
+        } else {
+            unset($validated['senha']);
         }
 
         $validated = $validator->validated();
