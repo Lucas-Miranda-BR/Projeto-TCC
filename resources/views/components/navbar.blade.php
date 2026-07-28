@@ -10,13 +10,13 @@
 
         <a href="{{ route('site.servicos') }}">Serviços</a>
 
-        <a href="#">Produtos</a>
+        <a href="{{ route('site.produtos') }}">Produtos</a>
 
         <a href="#">IA</a>
 
         <a href="#">Notificações</a>
 
-        <a href="{{ route('auth.login') }}" class="btn-login">
+        <a href="{{ route('cliente.login') }}" class="btn-login">
             Login
         </a>
 

@@ -39,18 +39,36 @@
 
             <h2>Crie sua Conta</h2>
 
-            <form>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul style="margin:0;padding-left:18px;">
+                        @foreach ($errors->all() as $erro)
+                            <li>{{ $erro }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('cliente.salvarCadastro') }}" method="POST">
+
+                @csrf
 
                 <div class="form-row">
 
                     <input
                         type="text"
+                        name="nome"
                         placeholder="Nome"
+                        value="{{ old('nome') }}"
+                        required
                     >
 
                     <input
                         type="text"
+                        name="sobrenome"
                         placeholder="Sobrenome"
+                        value="{{ old('sobrenome') }}"
+                        required
                     >
 
                 </div>
@@ -59,19 +77,26 @@
 
                     <input
                         type="email"
+                        name="email"
                         placeholder="E-mail"
+                        value="{{ old('email') }}"
+                        required
                     >
+
                     <input
                         type="tel"
+                        name="telefone"
                         placeholder="Telefone"
-                        pattern='[0-9]{11}'
+                        value="{{ old('telefone') }}"
+                        required
                     >
 
-
                     <input
-                        type="number"
+                        type="text"
+                        name="cpf"
                         placeholder="CPF"
-                        pattern='[0-9]{11}'
+                        value="{{ old('cpf') }}"
+                        required
                     >
 
                 </div>
@@ -80,29 +105,44 @@
 
                     <input
                         type="text"
+                        name="endereco"
                         placeholder="Endereço"
+                        value="{{ old('endereco') }}"
+                        required
                     >
-                    <label for="data_nascimento">Data de Nascimento</label>
+
+                    <label for="data_nascimento">
+                        Data de Nascimento
+                    </label>
+
                     <input
-                    placeholder="Data Nascimento"
                         type="date"
                         id="data_nascimento"
                         name="data_nascimento"
-                        
+                        value="{{ old('data_nascimento') }}"
+                        required
                     >
 
                 </div>
+
+                {{-- Ajuste os IDs conforme existirem no seu banco --}}
+                <input type="hidden" name="estado_id" value="1">
+                <input type="hidden" name="cidade_id" value="1">
 
                 <div class="form-row">
 
                     <input
                         type="password"
+                        name="senha"
                         placeholder="Senha"
+                        required
                     >
 
                     <input
                         type="password"
+                        name="senha_confirmation"
                         placeholder="Confirmar Senha"
+                        required
                     >
 
                 </div>

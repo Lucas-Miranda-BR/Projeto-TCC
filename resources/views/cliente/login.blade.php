@@ -39,16 +39,45 @@
 
             <h2>Faça seu Login</h2>
 
-            <form>
+            @if(session('sucesso'))
+                <div class="alert alert-success">
+                    {{ session('sucesso') }}
+                </div>
+            @endif
+
+            @if(session('erro'))
+                <div class="alert alert-danger">
+                    {{ session('erro') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul style="margin:0;padding-left:18px;">
+                        @foreach ($errors->all() as $erro)
+                            <li>{{ $erro }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('cliente.entrar') }}" method="POST">
+
+                @csrf
 
                 <input
                     type="email"
+                    name="email"
                     placeholder="Digite seu e-mail"
+                    value="{{ old('email') }}"
+                    required
                 >
 
                 <input
                     type="password"
+                    name="senha"
                     placeholder="Digite sua senha"
+                    required
                 >
 
                 <button type="submit">
@@ -61,7 +90,7 @@
                 ou
             </div>
 
-            <a href="{{ route('auth.cadastro') }}" class="btn-secondary">
+            <a href="{{ route('cliente.cadastro') }}" class="btn-secondary">
                 Criar Conta
             </a>
 
