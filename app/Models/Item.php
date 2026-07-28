@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Item extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'item';
     protected $primaryKey = 'item_id';
     protected $fillable = [

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Notificacao extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'notificacao';
     protected $primaryKey = 'notificacao_id';
     protected $fillable = [

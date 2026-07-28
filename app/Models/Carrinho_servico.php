@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Carrinho_servico extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'carrinho_servico';
     protected $primaryKey = 'carrinho_servico_id';
     protected $fillable = [

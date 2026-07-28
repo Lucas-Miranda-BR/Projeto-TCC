@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Marca extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'marca';
     protected $primaryKey = 'marca_id';
     protected $fillable = [

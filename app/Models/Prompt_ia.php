@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Prompt_ia extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'prompt_ia';
     protected $primaryKey = 'prompt_ia_id';
     protected $fillable = [

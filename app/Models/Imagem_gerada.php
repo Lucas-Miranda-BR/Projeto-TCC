@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Imagem_gerada extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'imagem_gerada';
     protected $primaryKey = 'imagem_gerada_id';
     protected $fillable = [

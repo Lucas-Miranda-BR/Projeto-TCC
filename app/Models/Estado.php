@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Estado extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'estado';
     protected $primaryKey = 'estado_id';
     protected $fillable = [
