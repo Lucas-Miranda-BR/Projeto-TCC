@@ -1,0 +1,184 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+h1,h2,h3{
+    font-family:'Playfair Display', serif;
+}
+.container-login{
+    display:flex;
+    height:100vh;
+}
+
+.left{
+    width:50%;
+    background:#f7e5e5;
+    padding:60px;
+}
+
+.left h1{
+    font-size:60px;
+}
+
+.left span{
+    color:#b80d0d;
+}
+
+.right{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+form{
+    width:350px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:20px;
+}.login-page{
+    display:flex;
+    min-height:calc(100vh - 140px);
+}
+
+.left-panel{
+    width:50%;
+    position:relative;
+
+    background:url('/images/salao.png');
+    background-size:cover;
+    background-position:center;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(157,18,40,.75);
+}
+
+.left-content{
+    position:relative;
+    z-index:2;
+
+    color:white;
+
+    height:100%;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    padding:60px;
+}
+
+.logo-login{
+    width:120px;
+    margin-bottom:30px;
+}
+
+.left-content h1{
+    font-size:60px;
+    font-family:'Playfair Display',serif;
+    line-height:70px;
+}
+
+.left-content span{
+    color:#ffd9df;
+}
+
+.left-content p{
+    margin-top:20px;
+    font-size:18px;
+    max-width:500px;
+}
+
+.right-panel{
+    width:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:white;
+}
+
+.login-box{
+    width:450px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.login-box h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.login-box input{
+    width:100%;
+
+    padding:15px;
+
+    margin-bottom:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+}
+
+.login-box button{
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    background:#9d1228;
+
+    color:white;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+.divider{
+    text-align:center;
+    margin:20px 0;
+}
+
+.btn-secondary{
+    display:block;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    padding:15px;
+
+    border:1px solid #9d1228;
+
+    color:#9d1228;
+
+    border-radius:8px;
+}
