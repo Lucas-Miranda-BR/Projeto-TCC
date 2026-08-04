@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ServicoModel extends Model
+class Servico extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -15,7 +15,7 @@ class ServicoModel extends Model
     protected $primaryKey = 'servico_id';
     protected $fillable = [
         'imagem_gerada_id', // FK
-        'tipo',
+        'tipo_id', // FK
         'preco',
         'data_agendada'
     ];
@@ -29,5 +29,9 @@ class ServicoModel extends Model
     }
     public function carrinhos_servicos(): HasMany {
         return $this->hasMany(Carrinho_servico::class, 'servico_id', 'servico_id');
+    }
+
+    public function tipos(): HasMany {
+        return $this->hasMany(Tipo::class, 'tipo_id', 'tipo_id');
     }
 }

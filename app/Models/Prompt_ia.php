@@ -15,17 +15,18 @@ class Prompt_ia extends Model
     protected $primaryKey = 'prompt_ia_id';
     protected $fillable = [
         'cliente_id', // FK
-        'imagem_prompt',
-        'cor',
-        'formato',
-        'extra',
-        'tipo_corte'
+        'cor_unha_id', // FK
+        'cor_cabelo_id', // FK
+        'formato_id', // FK
+        'extra_id', // FK
+        'corte_id', // FK
+        'imagem_prompt'
     ];
 
     public function imagens_geradas(): HasOne {
         return $this->hasOne(Imagem_gerada::class, 'prompt_ia_id', 'prompt_ia_id');
     }
-    public function cliente(): BelongsTo{
+    public function clientes(): BelongsTo{
         return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
     }
 }
