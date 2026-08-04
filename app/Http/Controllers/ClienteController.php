@@ -37,7 +37,8 @@ class ClienteController extends Controller
                 'required',
                 'string',
                 'unique:cliente',
-                'max:11'
+                'max:11',
+                'min:11'
 
             ],
             'telefone' => [
@@ -110,6 +111,7 @@ class ClienteController extends Controller
                 'string',
                 'unique:cliente',
                 'max:11',
+                'min:11',
                 Rule::unique('cliente', 'cpf')->ignore($cliente->id)
 
             ],
@@ -171,12 +173,12 @@ class ClienteController extends Controller
             return view('cliente.login');
         }
     
-            public function autenticar(Request $request)
+            public function authCliente(Request $request)
         {
-            $cliente = Cliente::where('email', $request->email)->first();
+            $cliente = Cliente::where('auth', $request->email)->first();
             
             if (!$cliente) {
-                $cliente = Cliente::where('telefone', $request->telefone)->first();
+                $cliente = Cliente::where('auth', $request->telefone)->first();
             }
     
             if (!$cliente) {

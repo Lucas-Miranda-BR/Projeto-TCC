@@ -10,7 +10,7 @@ class Corte extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'cor';
+    protected $table = 'corte';
     protected $primaryKey = 'corte_id';
     protected $fillable = [
         'nome',

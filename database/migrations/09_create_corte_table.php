@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('corte', function (Blueprint $table) {
             $table->id('corte_id');
             $table->string('nome');
-            $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

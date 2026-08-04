@@ -13,6 +13,6 @@ class CorteSeeder extends Seeder
     {
 
         Corte::create(['nome' => '']);
-        
+
     }
 }

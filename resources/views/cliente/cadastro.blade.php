@@ -86,7 +86,8 @@
                     <label for="cpf">CPF</label>
                     <input
                         type="number"
-                        pattern='[0-9]{11}'
+                        minlenght="11"
+                        maxlenght="11"
                         id="cpf"
                         name="cpf"
                         required

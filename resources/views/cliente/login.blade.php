@@ -43,12 +43,12 @@
 
                 @csrf
 
-                <label for="auth">E-mail</label>
+                <label for="auth">E-mail/Telefone</label>
                 <input
                     type="text"
                     name="auth"
                     id="auth"
-                    placeholder="Digite seu e-mail"
+                    placeholder="Digite seu e-mail ou telefone"
                     value="{{ old('auth') }}"
                     autocomplete="off"
                     required
@@ -59,7 +59,7 @@
                     type="password"
                     name="senha"
                     id="senha"
-                    placeholder="Digite seu e-mail"
+                    placeholder="Digite sua senha"
                     value="{{ old('senha') }}"
                     autocomplete="off"
                     required
