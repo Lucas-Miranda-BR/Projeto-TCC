@@ -174,7 +174,8 @@ class ClienteController extends Controller
             public function autenticar(Request $request)
         {
             $cliente = Cliente::where('email', $request->email)->first();
-            if ($cliente == null) {
+            
+            if (!$cliente) {
                 $cliente = Cliente::where('telefone', $request->telefone)->first();
             }
     
@@ -188,13 +189,6 @@ class ClienteController extends Controller
     
             session([
                 'cliente_id' => $cliente->cliente_id,
-                'nome' => $cliente->nome,
-                'sobrenome' => $cliente->sobrenome,
-                'cpf' => $cliente->cpf,
-                'telefone' => $cliente->telefone,
-                'email' => $cliente->email,
-                'endereco' => $cliente->endereco,
-                'data_nascimento' => $cliente->data_nascimento,
                 'admin' => $cliente->admin,
             ]);
     
