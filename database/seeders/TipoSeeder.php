@@ -12,13 +12,12 @@ class TipoSeeder extends Seeder
     public function run(): void
     {
 
-        Tipo::create([
-            'nome' => 'Manicure',
-            'nome' => 'Pedicure',
-            'nome' => 'Limpeza de pele',
-            'nome' => 'Spa dos pés',
-            'nome' => 'Spa das mãos',
-            'nome' => 'Sobrancelha'
-        ]);
+        Tipo::create(['nome' => 'Manicure']);
+        Tipo::create(['nome' => 'Pedicure']);
+        Tipo::create(['nome' => 'Limpeza de pele']);
+        Tipo::create(['nome' => 'Spa dos pés']);
+        Tipo::create(['nome' => 'Spa das mãos']);
+        Tipo::create(['nome' => 'Sobrancelha']);
+        
     }
 }

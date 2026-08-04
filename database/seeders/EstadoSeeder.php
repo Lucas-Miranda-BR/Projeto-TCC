@@ -12,8 +12,7 @@ class EstadoSeeder extends Seeder
     public function run(): void
     {
 
-        EstadO::create([
-            'nome' => 'SP'
-        ]);
+        EstadO::create(['nome' => 'SP']);
+
     }
 }

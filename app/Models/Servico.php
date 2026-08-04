@@ -25,10 +25,10 @@ class Servico extends Model
     ];
 
     public function imagens_geradas(): BelongsTo{
-        return $this->belongsTo(Imagem_gerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
+        return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
     }
     public function carrinhos_servicos(): HasMany {
-        return $this->hasMany(Carrinho_servico::class, 'servico_id', 'servico_id');
+        return $this->hasMany(CarrinhoServico::class, 'servico_id', 'servico_id');
     }
 
     public function tipos(): HasMany {

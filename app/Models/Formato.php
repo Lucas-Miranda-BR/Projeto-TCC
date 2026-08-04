@@ -14,7 +14,6 @@ class Formato extends Model
     protected $primaryKey = 'formato_id';
     protected $fillable = [
         'nome',
-        'disponivel'
     ];
 
     public function formatos(): HasMany {

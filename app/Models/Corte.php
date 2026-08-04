@@ -14,7 +14,6 @@ class Corte extends Model
     protected $primaryKey = 'corte_id';
     protected $fillable = [
         'nome',
-        'disponivel'
     ];
 
     public function cortes(): HasMany {

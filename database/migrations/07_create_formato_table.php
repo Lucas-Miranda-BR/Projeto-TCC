@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('imagem_gerada', function (Blueprint $table) {
-            $table->id('imagem_gerada_id');
-            $table->string('imagem_gerada');
-            $table->unsignedBigInteger('prompt_ia_id')->default(0);
+        Schema::create('formato', function (Blueprint $table) {
+            $table->id('formato_id');
+            $table->string('nome');
+            $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-
-            // $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia')->restrictOnDelete();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('imagem_gerada');
+        Schema::dropIfExists('estado');
     }
 };

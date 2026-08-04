@@ -12,8 +12,7 @@ class CidadeSeeder extends Seeder
     public function run(): void
     {
 
-        Cidade::create([
-            'nome' => 'Tatuí'
-        ]);
+        Cidade::create(['nome' => 'Tatuí']);
+        
     }
 }

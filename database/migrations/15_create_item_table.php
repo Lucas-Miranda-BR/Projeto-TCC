@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servico', function (Blueprint $table) {
-            $table->id('servico_id');
+        Schema::create('item', function (Blueprint $table) {
+            $table->id('item_id');
+            $table->string('nome');
             $table->decimal('preco', total: 8, places: 2);
-            $table->date('data_agendada');
+            $table->integer('estoque');
+            $table->unsignedBigInteger('marca_id')->default(0);
+            $table->unsignedBigInteger('categoria_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('imagem_gerada_id')->default(0);
-            $table->unsignedBigInteger('tipo_id')->default(0);
 
-            // $table->foreign('tipo_id')->references('tipo_id')->on('tipo')->restrictOnDelete();
-            // $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada')->restrictOnDelete();
+            $table->foreign('marca_id')->references('marca_id')->on('marca')->restrictOnDelete();
+            $table->foreign('categoria_id')->references('categoria_id')->on('categoria')->restrictOnDelete();
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servico');
+        Schema::dropIfExists('item');
     }
 };
