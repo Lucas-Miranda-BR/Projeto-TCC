@@ -39,12 +39,12 @@ class ClienteController extends Controller
                 'unique:cliente',
                 'max:11',
                 'min:11'
-
             ],
             'telefone' => [
             'required_without:email',
             'string',
             'unique:cliente',
+            'min:11',
             'max:11',
             'nullable'
         ],
@@ -53,19 +53,26 @@ class ClienteController extends Controller
                 'required_without:telefone',
                 'email',
                 'max:255',
-                'nullable'
+                'nullable',
+                'unique:cliente',
         ],
-        'endereco' => [
-            'string',
-            'required'
+            'endereco' => [
+                'string',
+                'required'
         ],
-        'data_nascimento' => [
-            'date',
-            'required'
+            'data_nascimento' => [
+                'date',
+                'required'
         ],
         'senha' => [
             'required',
             Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+        ],
+        'cep' => [
+                'required',
+                'string',
+                'max:8',
+                'min:8'
         ]
         ]);
 
@@ -120,6 +127,7 @@ class ClienteController extends Controller
             'string',
             'unique:cliente',
             'max:11',
+            'min:11',
             'nullable',
             Rule::unique('cliente', 'telefone')->ignore($cliente->id)
 
@@ -127,9 +135,12 @@ class ClienteController extends Controller
 
             'email' => [
                 'required_without:telefone',
+                'unique:cliente',
                 'email',
                 'max:255',
-                'nullable'
+                'nullable',
+                Rule::unique('cliente', 'email')->ignore($cliente->id)
+
         ],
         'endereco' => [
             'string',
@@ -142,7 +153,13 @@ class ClienteController extends Controller
         'senha' => [
             'nullable',
             Password::min(8)->letters()->mixedCase()->numbers()->symbols()
-        ]
+        ],
+        'cep' => [
+            'required',
+            'string',
+            'max:8',
+            'min:8'
+    ]
         ]);
 
         if ($validator->fails()) {

@@ -14,11 +14,10 @@ class Cliente extends Model
     protected $table = 'cliente';
     protected $primaryKey = 'cliente_id';
     protected $fillable = [
-        'estado_id', // FK
-        'cidade_id', // FK
         'nome',
         'sobrenome',
         'cpf',
+        'cep',
         'telefone',
         'email',
         'endereco',

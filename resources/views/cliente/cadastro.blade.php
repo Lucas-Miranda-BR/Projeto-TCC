@@ -109,6 +109,18 @@
                         autocomplete="off"                    
                         >
 
+                        <label for="cep">CEP</label>
+                    <input
+                        type="number"
+                        minlenght="8"
+                        maxlenght="8"
+                        id="cep"
+                        name="cep"
+                        required
+                        value="{{ old('cep') }}"
+                        autocomplete="off"     
+                    >
+
                     <label for="data_nascimento">Data de Nascimento</label>
                     <input
                     placeholder="Data Nascimento"
