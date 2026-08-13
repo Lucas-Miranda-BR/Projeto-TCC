@@ -16,9 +16,9 @@ class Servico extends Model
     protected $fillable = [
         'imagem_gerada_id', // FK
         'tipo_id', // FK
-        'preco',
-        'data_agendada'
-    ];
+        'agendamento_id', // FK
+        'total',
+        ];
 
     protected $casts = [
         'data_agendada' => 'date'
@@ -31,7 +31,11 @@ class Servico extends Model
         return $this->hasMany(CarrinhoServico::class, 'servico_id', 'servico_id');
     }
 
-    public function tipos(): HasMany {
-        return $this->hasMany(Tipo::class, 'tipo_id', 'tipo_id');
+    public function tipos(): BelongsTo{
+        return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
+    }
+
+    public function agendamentos(): BelongsTo{
+        return $this->belongsTo(Agendamento::class, 'agendamento_id', 'agendamento_id');
     }
 }

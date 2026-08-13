@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('servico', function (Blueprint $table) {
             $table->id('servico_id');
-            $table->decimal('preco', total: 8, places: 2);
-            $table->date('data_agendada');
+            $table->decimal('total', total: 8, places: 2);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
             $table->unsignedBigInteger('imagem_gerada_id')->default(0);
             $table->unsignedBigInteger('tipo_id')->default(0);
+            $table->unsignedBigInteger('agendamento_id')->default(0);
 
             $table->foreign('tipo_id')->references('tipo_id')->on('tipo')->restrictOnDelete();
             $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada')->restrictOnDelete();
+            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
         });
     }
 
