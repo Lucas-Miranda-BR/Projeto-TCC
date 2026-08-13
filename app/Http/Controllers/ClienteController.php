@@ -175,11 +175,12 @@ class ClienteController extends Controller
     
             public function authCliente(Request $request)
         {
-            $cliente = Cliente::where('auth', $request->email)->first();
-            
-            if (!$cliente) {
-                $cliente = Cliente::where('auth', $request->telefone)->first();
-            }
+
+            $auth = $request->auth;
+
+            $cliente = Cliente::where('email', $auth)
+                ->orWhere('telefone', $auth)
+                ->first();
     
             if (!$cliente) {
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
@@ -188,12 +189,14 @@ class ClienteController extends Controller
             if (!Hash::check($request->senha, $cliente->senha)) {
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
             }
+
+
     
             session([
                 'cliente_id' => $cliente->cliente_id,
                 'admin' => $cliente->admin,
             ]);
-    
+            
             return redirect()->route('site.sobre');
         }
     

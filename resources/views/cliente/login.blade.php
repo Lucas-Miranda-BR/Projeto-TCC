@@ -59,8 +59,6 @@
                     type="password"
                     name="senha"
                     id="senha"
-                    placeholder="Digite sua senha"
-                    value="{{ old('senha') }}"
                     autocomplete="off"
                     required
                 >
@@ -70,6 +68,12 @@
                 </button>
 
             </form>
+
+            @if (session('erro'))
+                <div class="alert-error">
+                    {{ session('erro') }}
+                </div>
+            @endif
 
             <div class="divider">
                 ou

@@ -33,7 +33,7 @@ Route::prefix('cliente')->group(function(){
         Route::get('/login', [ClienteController::class,'loginCliente'])
         ->name('cliente.login');
 
-        Route::get('/auth', [ClienteController::class,'authCliente'])
+        Route::post('/auth', [ClienteController::class,'authCliente'])
         ->name('cliente.auth');
 
     Route::get('/perfil', [ClienteController::class,'perfil'])
