@@ -17,7 +17,7 @@ class Extra extends Model
         'disponivel'
     ];
 
-    public function extras(): HasMany {
+    public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'extra_id', 'extra_id');
     }
 }

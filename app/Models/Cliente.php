@@ -32,12 +32,6 @@ class Cliente extends Model
         'data_nascimento' => 'date'
     ];
 
-    public function estados(): BelongsTo {
-        return $this->belongsTo(Estado::class, 'estado_id', 'estado_id');
-    }
-    public function cidades(): BelongsTo {
-        return $this->belongsTo(Cidade::class, 'cidade_id', 'cidade_id');
-    }
     public function notificacoes(): HasMany {
         return $this->hasMany(Notificacao::class, 'cliente_id', 'cliente_id');
     }

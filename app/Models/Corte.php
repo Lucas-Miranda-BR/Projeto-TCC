@@ -16,7 +16,7 @@ class Corte extends Model
         'nome',
     ];
 
-    public function cortes(): HasMany {
+    public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'corte_id', 'corte_id');
     }
 }

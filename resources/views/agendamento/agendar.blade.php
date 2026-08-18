@@ -18,24 +18,28 @@
         </div>
     @endif
 
-    <form action="{{ route('cliente.salvar') }}" method="POST">
+    <form action="{{ route('agendamento.create') }}" method="POST">
+
+        <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $cliente->cliente_id }}">
+
 
         @csrf
 
         <div class="topo">
 
             <div class="servico">
-
-                <img src="{{ asset('public/css/images/trabalho.png') }}" alt="Corte">
-
-                <div>
-
-                    <h3>Corte Feminino</h3>
-
-                    <p>R$ 150,00</p>
-
-                </div>
-
+                <label for="servico_id">Selecione o Serviço</label>
+                
+                <select name="tipo_id" id="tipo_id" required>
+                    <option value="" disabled selected>Escolha um serviço...</option>
+                    
+                    @foreach($tipos as $tipo)
+                        <option value="{{ $tipo->tipo_id }}">
+                            {{ $tipo->nome }}
+                        </option>
+                    @endforeach
+                    
+                </select>
             </div>
 
             <div class="resumo">
@@ -45,23 +49,7 @@
                 <p><strong>Serviço:</strong> Corte Feminino</p>
                 <p><strong>Valor:</strong> R$150,00</p>
 
-                <input type="hidden" name="servico" value="Corte Feminino">
-                <input type="hidden" name="valor" value="150">
-
             </div>
-
-        </div>
-
-        <div class="dados-cliente">
-
-            <h2>Dados do Cliente</h2>
-
-            <input
-                type="text"
-                name="nome"
-                placeholder="Digite seu nome"
-                required
-            >
 
         </div>
 
@@ -74,6 +62,7 @@
                 <input
                     type="date"
                     name="data"
+                    id="data"
                     required
                 >
 
@@ -86,27 +75,27 @@
                 <div class="botoes-horario">
 
                     <label>
-                        <input type="radio" name="hora" value="09:00" required>
+                        <input type="radio" name="hora" id='hora' value="09:00" required>
                         <span>09:00</span>
                     </label>
 
                     <label>
-                        <input type="radio" name="hora" value="10:00">
+                        <input type="radio" name="hora" id='hora' value="10:00">
                         <span>10:00</span>
                     </label>
 
                     <label>
-                        <input type="radio" name="hora" value="11:00">
+                        <input type="radio" name="hora" id='hora' value="11:00">
                         <span>11:00</span>
                     </label>
 
                     <label>
-                        <input type="radio" name="hora" value="14:00">
+                        <input type="radio" name="hora" id='hora' value="14:00">
                         <span>14:00</span>
                     </label>
 
                     <label>
-                        <input type="radio" name="hora" value="15:00">
+                        <input type="radio" name="hora" id='hora' value="15:00">
                         <span>15:00</span>
                     </label>
 
@@ -126,6 +115,16 @@
         </button>
 
     </form>
+
+    @if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
     @isset($agendamentos)
 

@@ -4,28 +4,49 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Agendamento;
+use App\Models\Tipo;
+use App\Models\Cliente;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AgendamentoController extends Controller
 {
-    public function index()
+    public function createAgendamento()
     {
-        return view('cliente.agendamentos');
+        $tipos = \App\Models\Tipo::All();
+
+        $cliente = Cliente::findOrFail(1);
+
+        $agendamentos = Agendamento::with('servico')->get();
+
+        return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos'));
     }
 
-    public function salvar(Request $request)
+    public function storeAgendamento(Request $dados)
     {
-        Agendamento::create([
+        $validator = Validator::make($dados->all(), [
+            'hora' => [
+                'required',
+                'date_format:H:i'
+            ],
 
-            'nome' => $request->nome,
-            'servico' => $request->servico,
-            'data' => $request->data,
-            'hora' => $request->hora,
-            'valor' => $request->valor,
-
+            'data' => [
+                'required',
+                'date'
+            ]
         ]);
 
-        return redirect()
-            ->back()
-            ->with('success','Agendamento realizado!');
+        if ($validator->fails()) {
+            return redirect()
+                ->route('agendamento.agendar')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        Agendamento::create($validated);
+
+        return redirect()->route('site.sobre');
     }
 }

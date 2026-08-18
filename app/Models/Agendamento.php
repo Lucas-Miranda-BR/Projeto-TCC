@@ -19,7 +19,6 @@ class Agendamento extends Model
     ];
 
     protected $casts = [
-        'hora' => 'time',
         'data' => 'date'
     ];
 
