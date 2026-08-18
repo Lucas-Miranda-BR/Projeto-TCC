@@ -19,7 +19,8 @@ Route::prefix('site')->group(function(){
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class,'produtos'])
-        ->name('site.produtos');    
+        ->name('site.produtos'); 
+        Route::get('/ia', [SiteController::class, 'ia'])->name('site.ia');   
 });
 
 Route::prefix('cliente')->group(function(){

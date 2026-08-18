@@ -1,0 +1,590 @@
+/* =========================
+   PÁGINA IA
+========================= */
+
+.ia-page {
+    background: #f8e8e8;
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.ia-header {
+    text-align: center;
+    padding: 60px 20px 45px;
+}
+
+.ia-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 12px;
+}
+
+.ia-header p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: #333;
+    margin: 0;
+}
+
+
+/* =========================
+   ÁREA PRINCIPAL
+========================= */
+
+.ia-container {
+    width: 90%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 30px;
+}
+
+
+/* =========================
+   ENVIO DA FOTO
+========================= */
+
+.ia-upload,
+.ia-options {
+    background: #fff;
+
+    padding: 35px;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.ia-upload h2,
+.ia-options h2 {
+    font-family: 'Playfair Display', serif;
+
+    font-size: 30px;
+
+    text-align: center;
+
+    margin-bottom: 8px;
+}
+
+.ia-upload > p,
+.ia-options > p {
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    color: #555;
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+.upload-area {
+    min-height: 300px;
+
+    border: 2px dashed #b5102d;
+
+    border-radius: 8px;
+
+    background: #fffafa;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    padding: 30px;
+
+    transition: 0.3s;
+}
+
+.upload-area:hover {
+    background: #fdf1f1;
+}
+
+.upload-icon {
+    font-size: 42px;
+
+    margin-bottom: 12px;
+}
+
+.upload-area h3 {
+    font-family: 'Playfair Display', serif;
+
+    font-size: 23px;
+
+    margin-bottom: 5px;
+}
+
+.upload-area p {
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    color: #777;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   BOTÃO UPLOAD
+========================= */
+
+.btn-upload {
+    display: inline-block;
+
+    background: #b5102d;
+
+    color: white;
+
+    padding: 12px 30px;
+
+    border-radius: 22px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.btn-upload:hover {
+    background: #970d26;
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+.preview-container {
+    display: none;
+
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+.preview-container.active {
+    display: block;
+}
+
+.preview-container img {
+    width: 170px;
+
+    height: 170px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    display: block;
+
+    margin: 0 auto 10px;
+}
+
+.btn-remover {
+    border: none;
+
+    background: transparent;
+
+    color: #b5102d;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   OPÇÕES
+========================= */
+
+.option-group {
+    margin-bottom: 22px;
+}
+
+.option-group label {
+    display: block;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    margin-bottom: 8px;
+}
+
+.option-group select {
+    width: 100%;
+
+    height: 45px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d8caca;
+
+    border-radius: 6px;
+
+    background: white;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.option-group select:focus {
+    border-color: #b5102d;
+}
+
+
+/* =========================
+   INFORMAÇÃO DA IA
+========================= */
+
+.ia-description {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    background: #f8e8e8;
+
+    border-radius: 7px;
+
+    padding: 15px;
+
+    margin-bottom: 25px;
+}
+
+.ia-description span {
+    font-size: 18px;
+}
+
+.ia-description p {
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    margin: 0;
+}
+
+
+/* =========================
+   BOTÃO GERAR
+========================= */
+
+.btn-gerar {
+    width: 100%;
+
+    border: none;
+
+    background: #b5102d;
+
+    color: white;
+
+    padding: 13px;
+
+    border-radius: 22px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.btn-gerar:hover {
+    background: #970d26;
+}
+
+
+/* =========================
+   RESULTADO
+========================= */
+
+.ia-result {
+    width: 90%;
+
+    max-width: 1100px;
+
+    margin: 50px auto 0;
+
+    padding: 40px;
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    text-align: center;
+
+    display: none;
+}
+
+.ia-result.active {
+    display: block;
+}
+
+
+/* =========================
+   CABEÇALHO DO RESULTADO
+========================= */
+
+.result-header h2 {
+    font-family: 'Playfair Display', serif;
+
+    font-size: 36px;
+
+    margin-bottom: 8px;
+}
+
+.result-header p {
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    color: #555;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   ANTES E DEPOIS
+========================= */
+
+.before-after {
+    display: grid;
+
+    grid-template-columns: 1fr 60px 1fr;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.result-image > span {
+    display: block;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 18px;
+
+    margin-bottom: 10px;
+}
+
+.image-box {
+    width: 100%;
+
+    height: 380px;
+
+    background: #f8e8e8;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.image-box img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.result-arrow {
+    font-size: 30px;
+
+    color: #b5102d;
+}
+
+
+/* =========================
+   CARREGAMENTO
+========================= */
+
+#loading {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+#loading p {
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    margin-top: 12px;
+}
+
+.loader {
+    width: 38px;
+
+    height: 38px;
+
+    border: 4px solid #f1cccc;
+
+    border-top-color: #b5102d;
+
+    border-radius: 50%;
+
+    animation: girar 1s linear infinite;
+}
+
+@keyframes girar {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================
+   AÇÕES DO RESULTADO
+========================= */
+
+.result-actions {
+    margin-top: 30px;
+}
+
+.result-actions p {
+    font-family: 'Playfair Display', serif;
+
+    font-size: 22px;
+
+    margin-bottom: 15px;
+}
+
+.btn-agendar {
+    display: inline-block;
+
+    background: #b5102d;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 12px 35px;
+
+    border-radius: 22px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+.btn-agendar:hover {
+    background: #970d26;
+}
+
+
+/* =========================
+   AVISO
+========================= */
+
+.ia-disclaimer {
+    display: block;
+
+    margin-top: 25px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 11px;
+
+    color: #777;
+}
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 850px) {
+
+    .ia-container {
+        grid-template-columns: 1fr;
+    }
+
+    .before-after {
+        grid-template-columns: 1fr;
+    }
+
+    .result-arrow {
+        transform: rotate(90deg);
+
+        margin: 10px 0;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .ia-header h1 {
+        font-size: 35px;
+    }
+
+    .ia-upload,
+    .ia-options,
+    .ia-result {
+        padding: 25px;
+    }
+
+}

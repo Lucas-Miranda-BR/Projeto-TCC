@@ -18,4 +18,9 @@ class SiteController extends Controller
     {
         return view('site.servicos');
     }
+
+    public function ia()
+    {
+        return view('site.ia');
+    }
 }
