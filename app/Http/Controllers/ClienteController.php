@@ -11,6 +11,8 @@ use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class ClienteController extends Controller
 {
@@ -35,13 +37,14 @@ class ClienteController extends Controller
                 'required',
                 'string',
                 'unique:cliente',
-                'max:11'
-
+                'max:11',
+                'min:11'
             ],
             'telefone' => [
             'required_without:email',
             'string',
             'unique:cliente',
+            'min:11',
             'max:11',
             'nullable'
         ],
@@ -50,19 +53,26 @@ class ClienteController extends Controller
                 'required_without:telefone',
                 'email',
                 'max:255',
-                'nullable'
+                'nullable',
+                'unique:cliente',
         ],
-        'endereco' => [
-            'string',
-            'required'
+            'endereco' => [
+                'string',
+                'required'
         ],
-        'data_nascimento' => [
-            'date',
-            'required'
+            'data_nascimento' => [
+                'date',
+                'required'
         ],
         'senha' => [
             'required',
             Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+        ],
+        'cep' => [
+                'required',
+                'string',
+                'max:8',
+                'min:8'
         ]
         ]);
 
@@ -79,8 +89,6 @@ class ClienteController extends Controller
 
         return redirect()->route('site.sobre');
     }
-
-    
 
     function editCliente(string $id){
         $cliente = Cliente::findOrFail($id);
@@ -107,7 +115,9 @@ class ClienteController extends Controller
                 'required',
                 'string',
                 'unique:cliente',
-                'max:11'
+                'max:11',
+                'min:11',
+                Rule::unique('cliente', 'cpf')->ignore($cliente->id)
 
             ],
             'telefone' => [
@@ -115,29 +125,39 @@ class ClienteController extends Controller
             'string',
             'unique:cliente',
             'max:11',
+            'min:11',
             'nullable',
             Rule::unique('cliente', 'telefone')->ignore($cliente->id)
 
-        ],
+            ],
 
             'email' => [
                 'required_without:telefone',
+                'unique:cliente',
                 'email',
                 'max:255',
-                'nullable'
-        ],
-        'endereco' => [
-            'string',
-            'required'
-        ],
-        'data_nascimento' => [
-            'date',
-            'required'
-        ],
-        'senha' => [
-            'required',
-            Password::min(8)->letters()->mixedCase()->numbers()->symbols()
-        ]
+                'nullable',
+                Rule::unique('cliente', 'email')->ignore($cliente->id)
+
+            ],
+            'endereco' => [
+                'string',
+                'required'
+            ],
+            'data_nascimento' => [
+                'date',
+                'required'
+            ],
+            'senha' => [
+                'nullable',
+                Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+            ],
+            'cep' => [
+                'required',
+                'string',
+                'max:8',
+                'min:8'
+            ]
         ]);
 
         if ($validator->fails()) {
@@ -147,11 +167,16 @@ class ClienteController extends Controller
                 ->withInput();
         }
 
+        if (!empty($validated['senha'])) {
+            $validated['senha'] = Hash::make($validated['senha']);
+        } else {
+            unset($validated['senha']);
+        }
+
         $validated = $validator->validated();
 
         return redirect()->route('site.home');
     }
-
 
     function destroyCliente(string $id) {
             Cliente::destroy($id);
@@ -162,12 +187,14 @@ class ClienteController extends Controller
             return view('cliente.login');
         }
     
-            public function autenticar(Request $request)
+            public function authCliente(Request $request)
         {
-            $cliente = Cliente::where('email', $request->email)->first();
-            if ($cliente == null) {
-                $cliente = Cliente::where('telefone', $request->telefone)->first();
-            }
+
+            $auth = $request->auth;
+
+            $cliente = Cliente::where('email', $auth)
+                ->orWhere('telefone', $auth)
+                ->first();
     
             if (!$cliente) {
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
@@ -176,19 +203,12 @@ class ClienteController extends Controller
             if (!Hash::check($request->senha, $cliente->senha)) {
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
             }
-    
+
             session([
                 'cliente_id' => $cliente->cliente_id,
-                'nome' => $cliente->nome,
-                'sobrenome' => $cliente->sobrenome,
-                'cpf' => $cliente->cpf,
-                'telefone' => $cliente->telefone,
-                'email' => $cliente->email,
-                'endereco' => $cliente->endereco,
-                'data_nascimento' => $cliente->data_nascimento,
                 'admin' => $cliente->admin,
             ]);
-    
+            
             return redirect()->route('site.sobre');
         }
     

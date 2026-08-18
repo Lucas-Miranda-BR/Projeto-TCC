@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedido', function (Blueprint $table) {
-            $table->id('pedido_id');
-            $table->decimal('valor_total', total: 8, places: 2);
-            $table->timestamp('pedido_data')->useCurrent();
-            $table->string('forma_pagamento');
-            $table->unsignedBigInteger('cliente_id')->default(0);
+        Schema::create('cor_cabelo', function (Blueprint $table) {
+            $table->id('cor_cabelo_id');
+            $table->string('nome');
+            $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-
-            // $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
         });
     }
 
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedido');
+        Schema::dropIfExists('estado');
     }
 };

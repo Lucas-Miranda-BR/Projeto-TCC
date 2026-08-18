@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Imagem_gerada extends Model
+class ImagemGerada extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -19,7 +19,7 @@ class Imagem_gerada extends Model
     ];
 
     public function prompts_ia(): BelongsTo{
-        return $this->belongsTo(Prompt_ia::class, 'prompt_ia_id', 'prompt_ia_id');
+        return $this->belongsTo(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
     }
 
     public function servicos(): HasOne {

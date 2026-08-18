@@ -86,7 +86,8 @@
                     <label for="cpf">CPF</label>
                     <input
                         type="number"
-                        pattern='[0-9]{11}'
+                        minlenght="11"
+                        maxlenght="11"
                         id="cpf"
                         name="cpf"
                         required
@@ -107,6 +108,18 @@
                         value="{{ old('endereco') }}"
                         autocomplete="off"                    
                         >
+
+                        <label for="cep">CEP</label>
+                    <input
+                        type="number"
+                        minlenght="8"
+                        maxlenght="8"
+                        id="cep"
+                        name="cep"
+                        required
+                        value="{{ old('cep') }}"
+                        autocomplete="off"     
+                    >
 
                     <label for="data_nascimento">Data de Nascimento</label>
                     <input
@@ -147,7 +160,7 @@
 </div>
 
 @if ($errors->any())
-    <div class="alert alert-danger">
+    <div>
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>

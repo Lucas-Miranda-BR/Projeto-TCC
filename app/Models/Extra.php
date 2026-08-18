@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Estado extends Model
+class Extra extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'estado';
-    protected $primaryKey = 'estado_id';
+    protected $table = 'extra';
+    protected $primaryKey = 'extra_id';
     protected $fillable = [
-        'nome'
+        'nome',
+        'disponivel'
     ];
 
-    public function clientes(): HasMany {
-        return $this->hasMany(Cliente::class, 'estado_id', 'estado_id');
+    public function extras(): HasMany {
+        return $this->hasMany(Prompt_ia::class, 'extra_id', 'extra_id');
     }
 }

@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Cidade extends Model
+class Formato extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'cidade';
-    protected $primaryKey = 'cidade_id';
+    protected $table = 'formato';
+    protected $primaryKey = 'formato_id';
     protected $fillable = [
-        'nome'
+        'nome',
     ];
 
-    public function clientes(): HasMany {
-        return $this->hasMany(Cliente::class, 'cidade_id', 'cidade_id');
+    public function formatos(): HasMany {
+        return $this->hasMany(Prompt_ia::class, 'formato_id', 'formato_id');
     }
 }

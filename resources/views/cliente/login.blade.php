@@ -39,16 +39,28 @@
 
             <h2>Faça seu Login</h2>
 
-            <form>
+            <form method="post" action="{{ route('cliente.auth') }}">
 
+                @csrf
+
+                <label for="auth">E-mail/Telefone</label>
                 <input
-                    type="email"
-                    placeholder="Digite seu e-mail"
+                    type="text"
+                    name="auth"
+                    id="auth"
+                    placeholder="Digite seu e-mail ou telefone"
+                    value="{{ old('auth') }}"
+                    autocomplete="off"
+                    required
                 >
 
+                <label for="senha">Senha</label>
                 <input
                     type="password"
-                    placeholder="Digite sua senha"
+                    name="senha"
+                    id="senha"
+                    autocomplete="off"
+                    required
                 >
 
                 <button type="submit">
@@ -57,11 +69,17 @@
 
             </form>
 
+            @if (session('erro'))
+                <div class="alert-error">
+                    {{ session('erro') }}
+                </div>
+            @endif
+
             <div class="divider">
                 ou
             </div>
 
-            <a href="{{ route('auth.cadastro') }}" class="btn-secondary">
+            <a href="{{ route('cliente.cadastro') }}" class="btn-secondary">
                 Criar Conta
             </a>
 

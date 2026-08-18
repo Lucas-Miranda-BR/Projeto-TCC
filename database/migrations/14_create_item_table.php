@@ -21,8 +21,8 @@ return new class extends Migration
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-            // $table->foreign('marca_id')->references('marca_id')->on('marca')->restrictOnDelete();
-            // $table->foreign('categoria_id')->references('categoria_id')->on('categoria')->restrictOnDelete();
+            $table->foreign('marca_id')->references('marca_id')->on('marca')->restrictOnDelete();
+            $table->foreign('categoria_id')->references('categoria_id')->on('categoria')->restrictOnDelete();
         });
     }
 

@@ -28,6 +28,6 @@ class Item extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id', 'categoria_id');
     }
     public function carrinhos_itens(): HasMany {
-        return $this->hasMany(Carrinho_item::class, 'item_id', 'item_id');
+        return $this->hasMany(CarrinhoItem::class, 'item_id', 'item_id');
     }
 }
