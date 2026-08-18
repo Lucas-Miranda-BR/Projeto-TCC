@@ -90,8 +90,6 @@ class ClienteController extends Controller
         return redirect()->route('site.sobre');
     }
 
-    
-
     function editCliente(string $id){
         $cliente = Cliente::findOrFail($id);
 
@@ -131,7 +129,7 @@ class ClienteController extends Controller
             'nullable',
             Rule::unique('cliente', 'telefone')->ignore($cliente->id)
 
-        ],
+            ],
 
             'email' => [
                 'required_without:telefone',
@@ -141,25 +139,25 @@ class ClienteController extends Controller
                 'nullable',
                 Rule::unique('cliente', 'email')->ignore($cliente->id)
 
-        ],
-        'endereco' => [
-            'string',
-            'required'
-        ],
-        'data_nascimento' => [
-            'date',
-            'required'
-        ],
-        'senha' => [
-            'nullable',
-            Password::min(8)->letters()->mixedCase()->numbers()->symbols()
-        ],
-        'cep' => [
-            'required',
-            'string',
-            'max:8',
-            'min:8'
-    ]
+            ],
+            'endereco' => [
+                'string',
+                'required'
+            ],
+            'data_nascimento' => [
+                'date',
+                'required'
+            ],
+            'senha' => [
+                'nullable',
+                Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+            ],
+            'cep' => [
+                'required',
+                'string',
+                'max:8',
+                'min:8'
+            ]
         ]);
 
         if ($validator->fails()) {
@@ -179,7 +177,6 @@ class ClienteController extends Controller
 
         return redirect()->route('site.home');
     }
-
 
     function destroyCliente(string $id) {
             Cliente::destroy($id);
@@ -207,8 +204,6 @@ class ClienteController extends Controller
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
             }
 
-
-    
             session([
                 'cliente_id' => $cliente->cliente_id,
                 'admin' => $cliente->admin,
