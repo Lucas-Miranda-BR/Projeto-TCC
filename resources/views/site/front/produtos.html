@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salão Sempre Diva | Produtos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine-900:#4a0712;
+    --wine-800:#650a19;
+    --wine-700:#7d0e21;
+    --wine-600:#9c1329;
+    --rose-500:#c62f45;
+    --rose-100:#f7d9de;
+    --pink-bg:#f6c9cf;
+    --pink-bg-2:#f3b9c2;
+    --cream:#fdf3f1;
+    --cream-2:#faeae7;
+    --ink:#2b1b1d;
+    --muted:#8a7375;
+    --line:#ecdcda;
+    --gold:#caa25b;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,.brand-name{font-family:'Playfair Display',serif;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 48px;
+    background:var(--rose-100);
+  }
+  .nav-logo{
+    display:flex;align-items:center;gap:10px;font-weight:700;color:var(--wine-800);
+  }
+  .nav-links{
+    display:flex;align-items:center;gap:34px;
+    font-size:15px;font-weight:500;color:#3a2c2d;
+  }
+  .nav-links a{padding:6px 2px;border-bottom:2px solid transparent;transition:color .2s ease,border-color .2s ease;}
+  .nav-links a:hover{color:var(--wine-700);}
+  .nav-links a.active{color:var(--wine-700);font-weight:600;border-color:var(--wine-700);}
+  .nav-links .ia-link{display:inline-flex;align-items:center;gap:5px;}
+  .nav-right{display:flex;align-items:center;gap:18px;}
+  .icon-btn{
+    position:relative;width:38px;height:38px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:transparent;border:none;cursor:pointer;color:#3a2c2d;
+  }
+  .icon-btn:hover{background:rgba(0,0,0,.05);}
+  .badge-dot{
+    position:absolute;top:4px;right:6px;width:8px;height:8px;border-radius:50%;
+    background:var(--wine-700);border:1.5px solid var(--rose-100);
+  }
+  .login-btn{
+    display:flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--wine-700),var(--wine-900));
+    color:#fff;border:none;border-radius:24px;
+    padding:6px 20px 6px 6px;font-weight:600;font-size:14px;cursor:pointer;
+  }
+  .login-avatar{
+    width:28px;height:28px;border-radius:50%;
+    background:#f0d9b5;display:flex;align-items:center;justify-content:center;font-size:14px;
+  }
+  .settings-btn svg{width:20px;height:20px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(115deg,var(--wine-900) 0%,var(--wine-700) 45%,var(--wine-600) 100%);
+    padding:38px 48px 46px;
+    display:flex;align-items:center;justify-content:space-between;
+    overflow:hidden;
+    color:#fff;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 15% 120%, rgba(0,0,0,.35), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-left{display:flex;align-items:center;gap:24px;position:relative;z-index:1;}
+  .hero-logo{width:120px;height:120px;flex-shrink:0;opacity:.95;}
+  .hero-brand{font-size:12px;letter-spacing:.5px;opacity:.85;margin-bottom:2px;}
+  .hero-title{
+    font-family:'Playfair Display',serif;
+    font-size:26px;font-weight:800;line-height:1.15;letter-spacing:.3px;
+    margin-bottom:10px;
+  }
+  .hero-sub{font-size:12px;line-height:1.6;color:#e8d2d6;max-width:280px;margin-bottom:14px;}
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid rgba(255,255,255,.6);
+    color:#fff;background:transparent;
+    padding:8px 16px;border-radius:20px;font-size:11px;font-weight:600;
+    letter-spacing:.4px;cursor:pointer;
+  }
+  .hero-cta svg{width:12px;height:12px;}
+  .hero-right{position:relative;z-index:1;}
+  .hero-products-btn{
+    display:flex;align-items:center;gap:10px;
+    background:#fff;color:var(--wine-800);
+    padding:14px 26px;border-radius:10px;font-weight:600;font-size:15px;
+    border:none;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18);
+  }
+
+  /* ---------- PAGE TITLE ---------- */
+  .page-title{
+    text-align:center;font-size:34px;font-weight:700;color:var(--ink);
+    margin:40px 0 32px;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .content{
+    display:grid;
+    grid-template-columns:250px 1fr;
+    gap:28px;
+    padding:0 48px 64px;
+    align-items:start;
+    max-width:1280px;
+    margin:0 auto;
+  }
+
+  /* ---------- FILTERS ---------- */
+  .filters{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 22px 26px;
+  }
+  .filters h2{font-size:19px;font-weight:600;margin-bottom:10px;}
+  .filters-divider{height:1px;background:var(--line);margin-bottom:18px;}
+  .filter-group{margin-bottom:22px;}
+  .filter-group:last-child{margin-bottom:0;}
+  .filter-group h3{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--ink);}
+  .filter-option{
+    display:flex;align-items:center;gap:10px;
+    font-size:13.5px;color:#4d3c3d;margin-bottom:11px;cursor:pointer;
+  }
+  .filter-option input[type="checkbox"],
+  .filter-option input[type="radio"]{
+    width:15px;height:15px;accent-color:var(--wine-700);cursor:pointer;
+  }
+
+  /* ---------- PRODUCT GRID ---------- */
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .product-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .product-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 30px rgba(74,7,18,.10);
+  }
+  .product-media{
+    position:relative;
+    aspect-ratio:1/0.92;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .product-badge{
+    position:absolute;top:12px;left:12px;
+    background:var(--wine-800);color:#fff;
+    font-size:10px;font-weight:600;letter-spacing:.3px;
+    padding:5px 10px;border-radius:20px;
+    z-index:2;
+  }
+  .product-badge.new{background:var(--wine-600);}
+  .product-body{padding:16px 16px 18px;flex:1;display:flex;flex-direction:column;}
+  .product-cat{font-size:11.5px;font-weight:600;color:var(--rose-500);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px;}
+  .product-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:5px;}
+  .product-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+  .product-footer{
+    margin-top:auto;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .product-price{font-size:14.5px;font-weight:700;color:var(--ink);}
+  .product-link{
+    font-size:11px;font-weight:600;color:var(--wine-700);
+    border:1px solid var(--wine-700);
+    padding:6px 14px;border-radius:20px;
+    background:transparent;cursor:pointer;white-space:nowrap;
+    transition:background .2s ease,color .2s ease;
+  }
+  .product-link:hover{background:var(--wine-700);color:#fff;}
+
+  /* ---------- PRODUCT ILLUSTRATIONS ---------- */
+  .media-pink1{background:radial-gradient(circle at 35% 30%, #f6c3ca, #eda2ae 70%);}
+  .media-pink2{background:radial-gradient(circle at 40% 25%, #fbd6cf, #f0aeae 75%);}
+  .media-pink3{background:radial-gradient(circle at 45% 30%, #f8cdd2, #e79aa4 75%);}
+
+  .pedestal{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:64%;height:14%;
+    background:rgba(255,255,255,.55);
+    border-radius:50%;
+    filter:blur(1px);
+  }
+
+  /* ---------- FOOTER SPACER ---------- */
+  footer{
+    text-align:center;font-size:12px;color:var(--muted);
+    padding:28px 0 40px;
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-logo">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+        <path d="M20 20C20 20 12 4 3 6C-3 7.5 4 22 20 20Z" fill="#650a19"/>
+        <path d="M20 20C20 20 28 4 37 6C43 7.5 36 22 20 20Z" fill="#650a19"/>
+      </svg>
+      <span class="brand-name" style="font-size:17px;">Sandra Nerys</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#">Início</a>
+      <a href="#">Sobre mim</a>
+      <a href="#" class="active">Produtos</a>
+      <a href="#" class="ia-link">IA
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      </a>
+      <a href="#">Notificações</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Notificações">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <button class="login-btn">
+        <span class="login-avatar">🦋</span>
+        Login
+      </button>
+      <button class="icon-btn settings-btn" aria-label="Configurações">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <svg class="hero-logo" viewBox="0 0 200 200" fill="none">
+        <path d="M100 100C100 100 60 20 20 30C-10 38 20 110 100 100Z" fill="#fff" opacity="0.92"/>
+        <path d="M100 100C100 100 140 20 180 30C210 38 180 110 100 100Z" fill="#fff" opacity="0.92"/>
+        <circle cx="100" cy="100" r="6" fill="#4a0712"/>
+      </svg>
+      <div>
+        <div class="hero-brand">Salão Sempre Diva</div>
+        <h1 class="hero-title">BELEZA QUE<br>REALÇA SUA ESSÊNCIA.</h1>
+        <p class="hero-sub">Serviços de beleza com excelência, cuidado e autoestima.</p>
+        <button class="hero-cta">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          CONFIRA NOSSOS SERVIÇOS
+        </button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <button class="hero-products-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2l1.5 4h9L18 2"/><path d="M3 8h18l-1.5 12a2 2 0 01-2 2H6.5a2 2 0 01-2-2L3 8z"/><path d="M9 12a3 3 0 006 0"/></svg>
+        Confira nossos produtos
+      </button>
+    </div>
+  </section>
+
+  <!-- TITLE -->
+  <h2 class="page-title">Produtos do Salão</h2>
+
+  <div class="content">
+
+    <!-- FILTERS -->
+    <aside class="filters">
+      <h2>Filtros</h2>
+      <div class="filters-divider"></div>
+
+      <div class="filter-group">
+        <h3>Categorias</h3>
+        <label class="filter-option"><input type="checkbox">Todos</label>
+        <label class="filter-option"><input type="checkbox">Shampoos</label>
+        <label class="filter-option"><input type="checkbox">Condicionadores</label>
+        <label class="filter-option"><input type="checkbox">Máscaras de Tratamento</label>
+        <label class="filter-option"><input type="checkbox">Finalizadores</label>
+        <label class="filter-option"><input type="checkbox">Kits</label>
+      </div>
+
+      <div class="filter-group">
+        <h3>Preço</h3>
+        <label class="filter-option"><input type="radio" name="preco">Até 50 R$</label>
+        <label class="filter-option"><input type="radio" name="preco">50 R$ - 100 R$</label>
+        <label class="filter-option"><input type="radio" name="preco">100 R$ - 200 R$</label>
+        <label class="filter-option"><input type="radio" name="preco">Acima de 200 R$</label>
+      </div>
+    </aside>
+
+    <!-- PRODUCT GRID -->
+    <div class="product-grid" id="productGrid"></div>
+
+  </div>
+
+  <footer>© 2026 Salão Sempre Diva — Todos os direitos reservados.</footer>
+
+<script>
+  // ---- Ilustrações SVG simples para cada tipo de produto ----
+  const arts = {
+    shampoo: `
+      <div class="pedestal"></div>
+      <svg width="46%" viewBox="0 0 100 220" fill="none">
+        <rect x="30" y="20" width="40" height="18" rx="4" fill="#3a0710"/>
+        <rect x="36" y="8" width="28" height="16" rx="3" fill="#2a0509"/>
+        <rect x="20" y="38" width="60" height="170" rx="10" fill="#8c0f24"/>
+        <rect x="20" y="38" width="60" height="170" rx="10" fill="url(#g1)"/>
+        <circle cx="50" cy="95" r="16" fill="#efe0c0" opacity=".9"/>
+        <text x="50" y="100" font-size="11" fill="#7d0e21" text-anchor="middle" font-family="Playfair Display, serif" font-weight="700">SN</text>
+        <rect x="26" y="150" width="48" height="30" rx="3" fill="#efe0c0" opacity=".85"/>
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#a3132a"/>
+            <stop offset="1" stop-color="#6d0a1c"/>
+          </linearGradient>
+        </defs>
+      </svg>`,
+    jar: `
+      <div class="pedestal"></div>
+      <svg width="42%" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="100" rx="42" ry="8" fill="rgba(0,0,0,.08)"/>
+        <rect x="22" y="40" width="76" height="60" rx="14" fill="#f2ead9"/>
+        <rect x="22" y="40" width="76" height="60" rx="14" fill="url(#g2)"/>
+        <rect x="18" y="24" width="84" height="22" rx="10" fill="#efe4c8"/>
+        <rect x="34" y="55" width="52" height="30" rx="4" fill="#fff" opacity=".55"/>
+        <defs>
+          <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#faf3e4"/>
+            <stop offset="1" stop-color="#eaddc0"/>
+          </linearGradient>
+        </defs>
+      </svg>`,
+    dropper: `
+      <div class="pedestal"></div>
+      <svg width="30%" viewBox="0 0 70 200" fill="none">
+        <rect x="15" y="60" width="40" height="110" rx="8" fill="#7a3b10"/>
+        <rect x="15" y="60" width="40" height="110" rx="8" fill="url(#g3)"/>
+        <rect x="22" y="20" width="26" height="46" rx="4" fill="#1a1a1a"/>
+        <rect x="27" y="0" width="16" height="24" rx="3" fill="#111"/>
+        <rect x="20" y="90" width="30" height="18" rx="3" fill="#fff" opacity=".2"/>
+        <defs>
+          <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#c9740f"/>
+            <stop offset="1" stop-color="#8a4a08"/>
+          </linearGradient>
+        </defs>
+      </svg>`,
+    spray: `
+      <div class="pedestal"></div>
+      <svg width="38%" viewBox="0 0 100 220" fill="none">
+        <rect x="28" y="46" width="44" height="150" rx="9" fill="#a3132a"/>
+        <rect x="28" y="46" width="44" height="150" rx="9" fill="url(#g4)"/>
+        <rect x="36" y="20" width="28" height="30" rx="4" fill="#eee"/>
+        <rect x="20" y="10" width="40" height="14" rx="6" fill="#ddd"/>
+        <rect x="55" y="4" width="8" height="20" rx="3" fill="#ccc"/>
+        <rect x="36" y="110" width="28" height="40" rx="3" fill="#fff" opacity=".5"/>
+        <defs>
+          <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b8172f"/>
+            <stop offset="1" stop-color="#7a0e20"/>
+          </linearGradient>
+        </defs>
+      </svg>`,
+    box: `
+      <div class="pedestal"></div>
+      <svg width="46%" viewBox="0 0 140 180" fill="none">
+        <rect x="10" y="10" width="120" height="160" rx="6" fill="#5a1c2e"/>
+        <rect x="10" y="10" width="120" height="160" rx="6" fill="url(#g5)"/>
+        <circle cx="70" cy="65" r="34" fill="#e9c9c9" opacity=".8"/>
+        <rect x="24" y="118" width="92" height="34" rx="3" fill="#3a1120" opacity=".8"/>
+        <text x="70" y="140" font-size="13" fill="#f2c9c9" text-anchor="middle" font-family="Playfair Display, serif" font-weight="700">COCULIRE</text>
+        <defs>
+          <linearGradient id="g5" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7a2338"/>
+            <stop offset="1" stop-color="#3d0f1c"/>
+          </linearGradient>
+        </defs>
+      </svg>`,
+    tube: `
+      <div class="pedestal"></div>
+      <svg width="34%" viewBox="0 0 90 200" fill="none">
+        <path d="M20 30 L70 30 L62 190 Q45 200 28 190 Z" fill="#fdfdfd"/>
+        <path d="M20 30 L70 30 L62 190 Q45 200 28 190 Z" fill="url(#g6)"/>
+        <rect x="14" y="10" width="62" height="24" rx="8" fill="#f7a8b8"/>
+        <circle cx="45" cy="95" r="16" fill="#f7c9d2"/>
+        <defs>
+          <linearGradient id="g6" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="1" stop-color="#f2e4e0"/>
+          </linearGradient>
+        </defs>
+      </svg>`
+  };
+
+  const bgClasses = ["media-pink1","media-pink2","media-pink3"];
+
+  const products = [
+    {art:"shampoo", badge:"Mais vendido", cat:"Limpeza", name:"Shampoo Reconstrução Intensa", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+    {art:"jar", badge:"Novo", cat:"Limpeza", name:"Máscara Hair Conditioner", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+    {art:"dropper", badge:null, cat:"Limpeza", name:"Sérum Reconstrutor Capilar", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+    {art:"spray", badge:null, cat:"Limpeza", name:"Leave-in Reparador Total", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+    {art:"box", badge:"Mais vendido", cat:"Limpeza", name:"Coloração Coculiiré 7.150", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+    {art:"tube", badge:null, cat:"Limpeza", name:"Creme Ativador de Cachos", desc:"Repõe massa capilar e devolve resistência aos fios danificados.", price:"R$ 89,90"},
+  ];
+
+  const grid = document.getElementById("productGrid");
+  const total = 12; // 4 linhas x 3 colunas, repetindo o padrão de 6 produtos
+  let html = "";
+  for(let i=0;i<total;i++){
+    const p = products[i % products.length];
+    const bg = bgClasses[i % bgClasses.length];
+    html += `
+      <div class="product-card">
+        <div class="product-media ${bg}">
+          ${p.badge ? `<span class="product-badge ${p.badge==='Novo'?'new':''}">${p.badge}</span>` : ""}
+          ${arts[p.art]}
+        </div>
+        <div class="product-body">
+          <div class="product-cat">${p.cat}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-footer">
+            <span class="product-price">${p.price}</span>
+            <button class="product-link">Saiba mais</button>
+          </div>
+        </div>
+      </div>`;
+  }
+  grid.innerHTML = html;
+</script>
+
+</body>
+</html>
