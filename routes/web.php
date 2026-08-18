@@ -15,8 +15,12 @@ Route::prefix('site')->group(function(){
     Route::get('/sobre', [SiteController::class,'sobre'])
         ->name('site.sobre');
 
+        // Separar "servicos" em um Prefix
+
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
+
+        // Separar "produtos" em um Prefix
 
     Route::get('/produtos', [SiteController::class,'produtos'])
         ->name('site.produtos');    
@@ -39,11 +43,13 @@ Route::prefix('cliente')->group(function(){
     Route::get('/perfil', [ClienteController::class,'perfil'])
         ->name('cliente.perfil');
 
+        // Separar "agendamentos" em um Prefix
+
     Route::get('/agendamentos', [ClienteController::class,'agendamentos'])
         ->name('cliente.agendamentos');
 
     Route::post('/agendamento/salvar',[AgendamentoController::class,'salvar']
-    )->name('cliente.salvar');
+    )->name('cliente.salvar'); 
 
 });
 
