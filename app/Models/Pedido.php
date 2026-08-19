@@ -15,9 +15,7 @@ class Pedido extends Model
     protected $primaryKey = 'pedido_id';
     protected $fillable = [
         'cliente_id', // FK
-        'valor_total',
-        'pedido_data',
-        'forma_pagamento'
+        'valor_total'
     ];
 
     protected $casts = [

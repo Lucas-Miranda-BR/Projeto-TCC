@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
@@ -40,5 +39,8 @@ class Cliente extends Model
     }
     public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'cliente_id', 'cliente_id');
+    }
+    public function agendamentos(): HasMany {
+        return $this->hasMany(Agendamento::class, 'cliente_id', 'cliente_id');
     }
 }

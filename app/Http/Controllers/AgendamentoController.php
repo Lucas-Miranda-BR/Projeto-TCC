@@ -15,9 +15,16 @@ class AgendamentoController extends Controller
     {
         $tipos = \App\Models\Tipo::All();
 
-        $cliente = Cliente::findOrFail(1);
+        $cliente_id = session('cliente_id');
 
-        $agendamentos = Agendamento::with('servico')->get();
+        $cliente = \App\Models\Cliente::find($cliente_id);
+
+        if(!$cliente){
+            return redirect()->route('cliente.cadastro')
+            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
+        }
+
+        $agendamentos = Agendamento::with('servicos')->get();
 
         return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos'));
     }
@@ -33,6 +40,10 @@ class AgendamentoController extends Controller
             'data' => [
                 'required',
                 'date'
+            ],
+
+            'cliente_id' => [
+                'required'
             ]
         ]);
 

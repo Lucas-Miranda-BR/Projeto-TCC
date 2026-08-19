@@ -85,7 +85,9 @@ class ClienteController extends Controller
 
         $validated = $validator->validated();
 
-        Cliente::create($validated);
+        $cliente = Cliente::create($validated);
+
+        session(['cliente_id' => $cliente->cliente_id]);
 
         return redirect()->route('site.sobre');
     }

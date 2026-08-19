@@ -14,6 +14,7 @@ class Agendamento extends Model
     protected $table = 'agendamento';
     protected $primaryKey = 'agendamento_id';
     protected $fillable = [
+        'cliente_id', // FK
         'hora',
         'data'
     ];
@@ -24,6 +25,10 @@ class Agendamento extends Model
 
     public function servicos(): HasMany {
         return $this->hasMany(Servico::class, 'agendamento_id', 'agendamento_id');
+    }
+
+    public function clientes(): BelongsTo {
+        return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
     }
 
 }
