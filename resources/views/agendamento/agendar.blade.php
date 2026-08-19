@@ -31,14 +31,19 @@
                 <label for="servico_id">Selecione o Serviço</label>
                 
                 <select name="tipo_id" id="tipo_id" required>
-                    <option value="" disabled selected>Escolha um serviço...</option>
-                    
+                    <option value="" disabled {{ empty($tipo_selecionado) ? 'selected' : '' }}>
+                        Escolha um serviço...
+                    </option>
+                                    
                     @foreach($tipos as $tipo)
-                        <option value="{{ $tipo->tipo_id }}">
+                        <option 
+                            value="{{ $tipo->tipo_id }}" 
+                            {{ (isset($tipo_selecionado) && $tipo_selecionado == $tipo->tipo_id) ? 'selected' : '' }}
+                            >
                             {{ $tipo->nome }}
                         </option>
                     @endforeach
-                    
+                                    
                 </select>
             </div>
 

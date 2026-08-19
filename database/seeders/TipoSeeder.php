@@ -17,7 +17,8 @@ class TipoSeeder extends Seeder
         Tipo::create(['nome' => 'Limpeza de pele']);
         Tipo::create(['nome' => 'Spa dos pés']);
         Tipo::create(['nome' => 'Spa das mãos']);
-        Tipo::create(['nome' => 'Sobrancelha']);
+        Tipo::create(['nome' => 'Corte']);
+        Tipo::create(['nome' => 'Depilação']);
         
     }
 }

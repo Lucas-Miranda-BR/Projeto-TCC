@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AgendamentoController extends Controller
 {
-    public function createAgendamento()
+    public function createAgendamento(Request $request)
     {
         $tipos = \App\Models\Tipo::All();
 
@@ -26,7 +26,9 @@ class AgendamentoController extends Controller
 
         $agendamentos = Agendamento::with('servicos')->get();
 
-        return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos'));
+        $tipo_selecionado = $request->query('tipo_selecionado');
+
+        return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos', 'tipo_selecionado'));
     }
 
     public function storeAgendamento(Request $dados)

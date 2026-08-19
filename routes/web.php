@@ -20,7 +20,7 @@ Route::prefix('site')->group(function(){
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
 
-        // Separar "produtos" em um Prefix
+        // Criar "produtos" em um Prefix
 
     Route::get('/produtos', [SiteController::class,'produtos'])
         ->name('site.produtos');    
