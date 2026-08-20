@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CorCabeloSeeder::class,
             ExtraSeeder::class,
             FormatoSeeder::class,
-            CorteSeeder::class
+            CorteSeeder::class,
+            ClienteDummySeeder::class
 
         ]);
     }

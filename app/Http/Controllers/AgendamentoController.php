@@ -47,6 +47,13 @@ class AgendamentoController extends Controller
             'cliente_id' => [
                 'required'
             ]
+        ],
+        [
+            'hora.required' => 'Selecione uma hora disponível.',
+            'hora.date_format' => 'Formato de hora incorreto.',
+
+            'data.required' => 'Selecione uma data disponível.',
+            'data.date' => 'Formato de data incorreto.',
         ]);
 
         if ($validator->fails()) {

@@ -17,7 +17,7 @@ class Servico extends Model
         'imagem_gerada_id', // FK
         'tipo_id', // FK
         'agendamento_id', // FK
-        'total',
+        'total'
         ];
 
     protected $casts = [

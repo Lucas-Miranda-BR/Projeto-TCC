@@ -51,8 +51,8 @@
 
                 <h3>Resumo do Agendamento</h3>
 
-                <p><strong>Serviço:</strong> Corte Feminino</p>
-                <p><strong>Valor:</strong> R$150,00</p>
+                <p><strong>Serviço: Selecione um serviço</strong></p>
+                <p><strong>Valor:</strong> R$0,00</p>
 
             </div>
 
@@ -156,9 +156,9 @@
 
                 <tr>
 
-                    <td>{{ $agendamento->nome }}</td>
+                    <td>{{ $agendamento->cliente_id }}</td>
 
-                    <td>{{ $agendamento->servico }}</td>
+                    <td>{{ $agendamento->servico_id }}</td>
 
                     <td>{{ date('d/m/Y', strtotime($agendamento->data)) }}</td>
 

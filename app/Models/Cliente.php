@@ -21,6 +21,7 @@ class Cliente extends Model
         'email',
         'endereco',
         'data_nascimento',
+        'foto',
         'admin',
         'senha'
     ];
@@ -29,6 +30,10 @@ class Cliente extends Model
         'senha' => 'hashed',
         'admin' => 'boolean',
         'data_nascimento' => 'date'
+    ];
+
+    protected $hidden = [
+        'senha'
     ];
 
     public function notificacoes(): HasMany {
