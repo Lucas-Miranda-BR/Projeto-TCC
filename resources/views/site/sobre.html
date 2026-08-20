@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Salão Sempre Diva — Conheça a trajetória de Sandra Nerys.">
+<title>Salão Sempre Diva | Sobre Mim</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  :root{
+    --wine-900:#4a0712;
+    --wine-800:#650a19;
+    --wine-700:#7d0e21;
+    --wine-600:#9c1329;
+    --rose-500:#c62f45;
+    --rose-100:#f7d9de;
+    --cream:#fdf3f1;
+    --ink:#2b1b1d;
+    --muted:#8a7375;
+    --line:#ecdcda;
+    --navbar-h:56px;
+    --badge-grad:linear-gradient(135deg,#5e0908 0%,#c41311 100%);
+  }
+
+  body{
+    font-family:'Poppins',sans-serif;
+    background:#fff;
+    color:var(--ink);
+    padding-top:var(--navbar-h);
+  }
+  h1,h2,h3,.brand-name{font-family:'Playfair Display',serif;}
+
+  .bg-wine{background-color:var(--rose-100)!important;}
+  .text-wine{color:var(--wine-700)!important;}
+
+  .btn-wine{
+    background:linear-gradient(135deg,var(--wine-700),var(--wine-900));
+    color:#fff;border:none;
+  }
+  .btn-wine:hover{color:#fff;opacity:.92;}
+  .btn-outline-wine{
+    color:var(--wine-700);border:1.5px solid var(--wine-700);background:transparent;
+  }
+  .btn-outline-wine:hover{background:var(--wine-700);color:#fff;}
+
+  /* ---------- Ícones ---------- */
+  .icon{
+    width:18px;height:18px;
+    stroke:currentColor;fill:none;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+    flex-shrink:0;vertical-align:-3px;
+  }
+  .icon-sm{width:14px;height:14px;}
+
+  /* ---------- Navbar ---------- */
+  .navbar{min-height:var(--navbar-h);}
+  .navbar .nav-link{color:#3a2c2d;font-weight:500;font-size:.92rem;padding-top:.25rem;padding-bottom:.25rem;display:flex;align-items:center;gap:.35rem;}
+  .navbar .nav-link:hover, .navbar .nav-link.active{color:var(--wine-700)!important;font-weight:600;}
+  .navbar .nav-link.active{border-bottom:2px solid var(--wine-700);}
+  .navbar .btn{font-size:.85rem;padding-top:.35rem;padding-bottom:.35rem;}
+  .btn-icon-transparent{background:transparent;border:none;color:#3a2c2d;}
+  .btn-icon-transparent:hover{color:var(--wine-700);}
+  .badge-dot{
+    position:absolute;top:2px;right:-4px;width:7px;height:7px;border-radius:50%;
+    background:var(--wine-700);border:1.5px solid #fff;
+  }
+  .login-avatar{
+    width:24px;height:24px;border-radius:50%;
+    background:#f0d9b5;display:flex;align-items:center;justify-content:center;
+    color:var(--wine-800);
+  }
+
+  /* ---------- Hero / Intro ---------- */
+  .about-hero{padding:64px 0 40px;}
+  .about-name{font-size:2.4rem;font-weight:700;line-height:1.1;}
+  .about-name .last{color:var(--wine-700);}
+  .about-desc{color:#544345;font-size:.92rem;max-width:420px;line-height:1.6;}
+
+  .stats-row{border-top:1px solid var(--line);padding-top:18px;margin-top:24px;max-width:420px;}
+  .stat-item + .stat-item{border-left:1px solid var(--line);}
+  .stat-num{font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:var(--ink);}
+  .stat-label{font-size:.68rem;color:var(--muted);}
+
+  .about-photo-wrap{position:relative;display:inline-block;}
+  .about-photo-wrap::before{
+    content:"";position:absolute;inset:-25px -25px -25px 40px;
+    background:radial-gradient(circle at 70% 40%, rgba(198,47,69,.55), transparent 70%);
+    filter:blur(10px);z-index:0;
+  }
+  .about-photo{
+    position:relative;z-index:1;
+    width:100%;max-width:340px;
+    border-radius:16px;
+    box-shadow:0 20px 40px rgba(74,7,18,.25);
+    object-fit:cover;
+  }
+
+  .section-divider{border:none;border-top:1px solid var(--line);margin:0;}
+
+  /* ---------- Citação ---------- */
+  .quote-section{padding:70px 0;text-align:center;}
+  .quote-icon{color:var(--wine-700);font-size:1.6rem;margin-bottom:20px;}
+  .quote-text{
+    font-family:'Playfair Display',serif;font-weight:600;
+    font-size:1.5rem;max-width:640px;margin:0 auto;line-height:1.5;color:var(--ink);
+  }
+
+  /* ---------- Trajetória ---------- */
+  .eyebrow{
+    color:var(--wine-700);font-size:.78rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.4px;
+  }
+  .section-title{font-weight:700;font-size:1.9rem;margin-top:.4rem;}
+
+  .timeline{position:relative;margin-top:2.5rem;padding-left:28px;}
+  .timeline::before{
+    content:"";position:absolute;left:5px;top:6px;bottom:6px;
+    width:1px;background:var(--line);
+  }
+  .timeline-item{position:relative;padding-bottom:2rem;}
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-item::before{
+    content:"";position:absolute;left:-28px;top:4px;
+    width:11px;height:11px;border-radius:50%;
+    background:var(--wine-700);box-shadow:0 0 0 4px #fff;
+  }
+  .timeline-year{color:var(--wine-700);font-weight:700;font-size:.9rem;}
+  .timeline-title{font-weight:700;font-size:1rem;color:var(--ink);margin:.15rem 0 .3rem;}
+  .timeline-desc{color:var(--muted);font-size:.82rem;max-width:520px;line-height:1.5;}
+
+  /* ---------- Certificações ---------- */
+  .certifications{background:var(--cream);padding:70px 0;}
+  .cert-card{
+    border-radius:12px;overflow:hidden;
+    box-shadow:0 10px 24px rgba(74,7,18,.12);
+    transition:transform .2s ease;
+  }
+  .cert-card:hover{transform:translateY(-4px);}
+  .cert-card img{width:100%;height:200px;object-fit:cover;display:block;}
+
+  /* ---------- CTA ---------- */
+  .cta-banner{
+    background:linear-gradient(115deg,var(--wine-900) 0%,var(--wine-700) 45%,var(--wine-600) 100%);
+    border-radius:20px;color:#fff;text-align:center;
+    padding:56px 24px;
+  }
+  .cta-banner h2{font-weight:700;font-size:1.8rem;}
+  .cta-banner p{color:#f1d9dd;max-width:460px;margin:.6rem auto 1.6rem;font-size:.9rem;}
+  .btn-cta{
+    background:transparent;border:1.5px solid rgba(255,255,255,.7);color:#fff;
+    border-radius:30px;font-size:.85rem;padding:.5rem 1.2rem;
+  }
+  .btn-cta:hover{background:rgba(255,255,255,.15);color:#fff;}
+
+  footer{
+    border-top:1px solid var(--line);
+    font-size:.85rem;color:var(--ink);
+    padding:1.2rem 0;
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-wine px-3 px-lg-5 fixed-top shadow-sm align-items-center">
+    <div class="container-fluid px-0 justify-content-end">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-label="Abrir menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-lg-4 me-lg-4">
+          <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Serviços</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sobre mim</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Produtos</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              IA
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
+              </svg>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="#">
+              Notificações
+              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+              <span class="badge-dot"></span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <button class="btn btn-wine rounded-pill d-flex align-items-center gap-2 px-3" type="button">
+            <span class="login-avatar">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            Login
+          </button>
+          <button class="btn btn-icon-transparent rounded-circle" type="button" aria-label="Configurações">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO / INTRODUÇÃO -->
+  <section class="about-hero container-fluid px-3 px-lg-5" style="max-width:1280px;">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6">
+        <h1 class="about-name mb-3">
+          Sandra<br><span class="last">Nerys</span>
+        </h1>
+        <p class="about-desc">
+          Sandra Nerys, 41 anos, é especialista em embelezamento e apaixonada por elevar a autoestima de seus clientes.
+          Desde 2015, é proprietária do Salão Sempre Diva, onde oferece atendimento cuidadoso, moderno e personalizado.
+          Com dedicação e sensibilidade, Sandra transforma beleza em confiança, criando uma experiência única para
+          cada mulher que passa pelo seu salão.
+        </p>
+
+        <div class="stats-row d-flex">
+          <div class="stat-item text-center flex-fill">
+            <div class="stat-num">20</div>
+            <div class="stat-label">anos de carreira</div>
+          </div>
+          <div class="stat-item text-center flex-fill">
+            <div class="stat-num">4K</div>
+            <div class="stat-label">atendimentos</div>
+          </div>
+          <div class="stat-item text-center flex-fill">
+            <div class="stat-num">6</div>
+            <div class="stat-label">certificados</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 text-lg-end text-center">
+        <div class="about-photo-wrap">
+          <img class="about-photo" src="../../../public/images/sandra-portrait-DG3g3Jq0.jpg" alt="Sandra Nerys, proprietária do Salão Sempre Diva">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- CITAÇÃO -->
+  <section class="quote-section container-fluid px-3">
+    <div class="quote-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="6" cy="6" r="3"/>
+        <circle cx="6" cy="18" r="3"/>
+        <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+        <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+        <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+      </svg>
+    </div>
+    <p class="quote-text">
+      "Cada cabelo conta uma história. Meu trabalho é fazer com que essa história seja contada com orgulho."
+    </p>
+  </section>
+
+  <!-- TRAJETÓRIA -->
+  <section class="container-fluid px-3 px-lg-5 py-4" style="max-width:1280px;">
+    <div class="eyebrow">Trajetória</div>
+    <h2 class="section-title">Uma carreira construída fio a fio</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2005</div>
+        <div class="timeline-title">O primeiro corte</div>
+        <p class="timeline-desc">Começou como assistente em um salão de bairro, aprendendo lavagem, escova e o valor de ouvir cada cliente.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2010</div>
+        <div class="timeline-title">Especialização em coloração</div>
+        <p class="timeline-desc">Mergulhou no universo da colorimetria: correção de cor, loiros complexos e vermelhos vibrantes.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2015</div>
+        <div class="timeline-title">Nasce o Sempre Diva</div>
+        <p class="timeline-desc">Abriu seu próprio salão, com atendimento cuidadoso, moderno e totalmente personalizado.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-title">Cortes e visagismo</div>
+        <p class="timeline-desc">Formação em visagismo para desenhar cortes que conversam com o rosto e a personalidade de cada mulher.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Hoje</div>
+        <div class="timeline-title">Referência em autoestima</div>
+        <p class="timeline-desc">Mais de 4 mil atendimentos e uma missão simples: transformar beleza em confiança.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICAÇÕES -->
+  <section class="certifications">
+    <div class="container-fluid px-3 px-lg-5" style="max-width:1280px;">
+      <div class="eyebrow">Certificações</div>
+      <h2 class="section-title mb-4">Certificados &amp; especializações</h2>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-1.jpg" alt="Certificado de especialização 1">
+          </div>
+        </div>
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-2.jpg" alt="Certificado de especialização 2">
+          </div>
+        </div>
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-3.jpg" alt="Certificado de especialização 3">
+          </div>
+        </div>
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-4.jpg" alt="Certificado de especialização 4">
+          </div>
+        </div>
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-5.jpg" alt="Certificado de especialização 5">
+          </div>
+        </div>
+        <div class="col">
+          <div class="cert-card">
+            <img src="../../../public/images/certificado-6.jpg" alt="Certificado de especialização 6">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container-fluid px-3 px-lg-5 py-5" style="max-width:1280px;">
+    <div class="cta-banner">
+      <h2>Vamos cuidar do seu cabelo?</h2>
+      <p>Agende um horário no Salão Sempre Diva e viva uma experiência feita sob medida para você.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <button class="btn btn-cta d-inline-flex align-items-center gap-2" type="button">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          (15) 98180-7270
+        </button>
+        <button class="btn btn-cta d-inline-flex align-items-center gap-2" type="button">
+          <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          @salaosemprediva
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container-fluid px-3 px-lg-5 d-flex justify-content-between flex-wrap gap-2" style="max-width:1280px;">
+      <span>Salão Sempre Diva</span>
+      <span class="d-inline-flex align-items-center gap-1">
+        <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        Tatuí - SP
+      </span>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS (necessário para o menu recolhível no mobile) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
