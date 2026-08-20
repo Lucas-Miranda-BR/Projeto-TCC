@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Salão Sempre Diva — Catálogo de produtos profissionais para cabelo.">
+<title>Salão Sempre Diva | Produtos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  :root{
+    --wine-900:#4a0712;
+    --wine-800:#650a19;
+    --wine-700:#7d0e21;
+    --wine-600:#9c1329;
+    --rose-500:#c62f45;
+    --rose-100:#f7d9de;
+    --cream:#fdf3f1;
+    --ink:#2b1b1d;
+    --muted:#8a7375;
+    --line:#ecdcda;
+    --navbar-h:56px;
+    --badge-grad:linear-gradient(135deg,#5e0908 0%,#c41311 100%);
+    --badge-grad-new:linear-gradient(135deg,#7a1030 0%,#c62f45 100%);
+  }
+
+  body{
+    font-family:'Poppins',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    padding-top:var(--navbar-h);
+  }
+  h1,h2,.brand-name{font-family:'Playfair Display',serif;}
+
+  /* ---------- Cores da marca reaproveitando utilitários do Bootstrap ---------- */
+  .bg-wine{background-color:var(--rose-100)!important;}
+  .bg-wine-gradient{
+    background:linear-gradient(115deg,var(--wine-900) 0%,var(--wine-700) 45%,var(--wine-600) 100%)!important;
+  }
+  .text-wine{color:var(--wine-700)!important;}
+  .text-wine-dark{color:var(--wine-800)!important;}
+
+  .btn-wine{
+    background:linear-gradient(135deg,var(--wine-700),var(--wine-900));
+    color:#fff;border:none;
+  }
+  .btn-wine:hover{color:#fff;opacity:.92;}
+  .btn-outline-wine{
+    color:#fff;border:1px solid rgba(255,255,255,.6);background:transparent;
+  }
+  .btn-outline-wine:hover{background:rgba(255,255,255,.15);color:#fff;}
+  .btn-white-wine{
+    background:#fff;color:var(--wine-800);font-weight:600;
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+  }
+  .btn-white-wine:hover{color:var(--wine-800);opacity:.92;}
+  .btn-link-wine{
+    font-size:.72rem;font-weight:600;color:var(--wine-700);
+    border:1px solid var(--wine-700);border-radius:20px;
+    padding:.35rem .9rem;background:transparent;white-space:nowrap;
+  }
+  .btn-link-wine:hover{background:var(--wine-700);color:#fff;}
+
+  /* ---------- Ícones ---------- */
+  .icon{
+    width:18px;height:18px;
+    stroke:currentColor;fill:none;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+    flex-shrink:0;vertical-align:-3px;
+  }
+  .icon-sm{width:14px;height:14px;}
+  .icon-lg{width:20px;height:20px;}
+
+  /* ---------- Navbar ---------- */
+  .navbar{min-height:var(--navbar-h);}
+  .navbar .nav-link{color:#3a2c2d;font-weight:500;font-size:.92rem;padding-top:.25rem;padding-bottom:.25rem;display:flex;align-items:center;gap:.35rem;}
+  .navbar .nav-link:hover, .navbar .nav-link.active{color:var(--wine-700)!important;font-weight:600;}
+  .navbar .nav-link.active{border-bottom:2px solid var(--wine-700);}
+  .navbar .btn{font-size:.85rem;padding-top:.35rem;padding-bottom:.35rem;}
+  .navbar .btn.rounded-circle{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;}
+  .btn-icon-transparent{
+    background:transparent;border:none;color:#3a2c2d;
+  }
+  .btn-icon-transparent:hover{color:var(--wine-700);}
+  .badge-dot{
+    position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;
+    background:var(--wine-700);border:1.5px solid var(--rose-100);
+  }
+  .login-avatar{
+    width:24px;height:24px;border-radius:50%;
+    background:#f0d9b5;display:flex;align-items:center;justify-content:center;
+    color:var(--wine-800);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 15% 120%, rgba(0,0,0,.35), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-logo{
+    width:150px;height:auto;object-fit:contain;
+  }
+  .hero-title{font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.3px;}
+  .hero-sub{color:#e8d2d6;max-width:320px;}
+
+  /* ---------- Filtros ---------- */
+  .filters-aside{
+    position:sticky;
+    top:calc(var(--navbar-h) + 20px);
+    align-self:flex-start;
+  }
+  .filters{border-color:var(--line)!important;}
+  .filters .form-check-input:checked{background-color:var(--wine-700);border-color:var(--wine-700);}
+  .filters .form-check-label{font-size:.85rem;color:#4d3c3d;}
+
+  /* ---------- Cards de produto ---------- */
+  .product-card{
+    border:1px solid var(--line);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .product-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 16px 30px rgba(74,7,18,.10);
+  }
+  .product-media{
+    position:relative;
+    aspect-ratio:1/0.92;
+    overflow:hidden;
+  }
+  .product-media img{
+    width:100%;height:100%;object-fit:cover;
+  }
+  .product-badge{
+    position:absolute;top:12px;left:12px;z-index:2;
+    background:var(--badge-grad);color:#fff;
+    font-size:.62rem;font-weight:600;letter-spacing:.3px;
+  }
+  .product-badge.new{background:var(--badge-grad-new);}
+  .product-cat{
+    font-size:.7rem;font-weight:600;color:var(--rose-500);
+    text-transform:uppercase;letter-spacing:.3px;
+  }
+  .product-name{font-family:'Inria Serif',serif;font-size:1.02rem;font-weight:700;color:var(--ink);}
+  .product-desc{font-size:.72rem;color:var(--muted);}
+  .product-price{font-size:.9rem;font-weight:700;color:var(--ink);}
+  .product-price.has-discount{color:var(--wine-700);}
+  .product-oldprice{
+    font-size:.74rem;color:var(--muted);
+    text-decoration:line-through;margin-right:.4rem;
+  }
+  .discount-badge{
+    display:inline-block;
+    background:var(--badge-grad);color:#fff;
+    font-size:.62rem;font-weight:700;
+    padding:.1rem .4rem;border-radius:20px;
+    margin-left:.4rem;vertical-align:middle;
+  }
+
+  .container-catalog{max-width:1280px;}
+
+  footer{color:var(--muted);font-size:.75rem;}
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg bg-wine px-3 px-lg-5 fixed-top shadow-sm align-items-center">
+    <div class="container-fluid px-0 justify-content-end">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-label="Abrir menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
+        <ul class="navbar-nav align-items-lg-center gap-lg-4 me-lg-4">
+          <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sobre mim</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Produtos</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              IA
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
+              </svg>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Notificações
+              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <button class="btn btn-wine rounded-pill d-flex align-items-center gap-2 px-3" type="button">
+            <span class="login-avatar">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            Login
+          </button>
+          <button class="btn btn-icon-transparent rounded-circle" type="button" aria-label="Configurações">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero bg-wine-gradient text-white py-5 px-3 px-lg-5">
+    <div class="container-fluid position-relative">
+      <div class="row align-items-center gy-4">
+        <div class="col-lg-8 d-flex align-items-center gap-4">
+          <img class="hero-logo d-none d-sm-block" src="../../../public/images/ChatGPT Image 20 de ago. de 2026, 01_13_21.png" alt="Salão Sempre Diva - Sandra Nerys">
+          <div>
+            <div class="small opacity-75 mb-1">Salão Sempre Diva</div>
+            <h1 class="hero-title fs-2 mb-2">BELEZA QUE<br>REALÇA SUA ESSÊNCIA.</h1>
+            <p class="hero-sub small mb-3">Serviços de beleza com excelência, cuidado e autoestima.</p>
+            <button class="btn btn-outline-wine btn-sm rounded-pill d-inline-flex align-items-center gap-2" type="button">
+              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              CONFIRA NOSSOS SERVIÇOS
+            </button>
+          </div>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <button class="btn btn-white-wine rounded-3 px-4 py-3 d-inline-flex align-items-center gap-2" type="button">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 2l1.5 4h9L18 2"/>
+              <path d="M3 8h18l-1.5 12a2 2 0 01-2 2H6.5a2 2 0 01-2-2L3 8z"/>
+              <path d="M9 12a3 3 0 006 0"/>
+            </svg>
+            Confira nossos produtos
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TITLE -->
+  <h2 class="text-center fw-bold my-5">Produtos do Salão</h2>
+
+  <div class="container-fluid container-catalog px-3 px-lg-5 pb-5">
+    <div class="row g-4">
+
+      <!-- FILTERS -->
+      <aside class="col-lg-3 filters-aside">
+        <div class="filters bg-white border rounded-3 p-4">
+          <h2 class="fs-5 fw-semibold mb-2">Filtros</h2>
+          <hr>
+
+          <div class="mb-4">
+            <h3 class="fs-6 fw-semibold mb-3">Categorias</h3>
+            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat1"><label class="form-check-label" for="cat1">Todos</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat2"><label class="form-check-label" for="cat2">Shampoos</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat3"><label class="form-check-label" for="cat3">Condicionadores</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat4"><label class="form-check-label" for="cat4">Máscaras de Tratamento</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat5"><label class="form-check-label" for="cat5">Finalizadores</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="cat6"><label class="form-check-label" for="cat6">Kits</label></div>
+          </div>
+
+          <div>
+            <h3 class="fs-6 fw-semibold mb-3">Preço</h3>
+            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p1"><label class="form-check-label" for="p1">Até 50 R$</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p2"><label class="form-check-label" for="p2">50 R$ - 100 R$</label></div>
+            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p3"><label class="form-check-label" for="p3">100 R$ - 200 R$</label></div>
+            <div class="form-check"><input class="form-check-input" type="radio" name="preco" id="p4"><label class="form-check-label" for="p4">Acima de 200 R$</label></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCT GRID -->
+      <div class="col-lg-9">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill ">Mais vendido</span>
+              <img src="../../../public/images/prod-1-BPQ7Wc6b.jpg" alt="Shampoo Reconstrução Intensa" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Shampoo Reconstrução Intensa</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 109,90</span><span class="discount-badge">-18%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill new">Novo</span>
+              <img src="../../../public/images/prod-2-DD_EaWGG.jpg" alt="Máscara Hair Conditioner" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Máscara Hair Conditioner</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-3-DirrTLqy.jpg" alt="Sérum Reconstrutor Capilar" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Sérum Reconstrutor Capilar</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-4-BMtT688m.jpg" alt="Leave-in Reparador Total" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Leave-in Reparador Total</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 119,90</span><span class="discount-badge">-25%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill ">Mais vendido</span>
+              <img src="../../../public/images/prod-5-DJHLsHAq.jpg" alt="Coloração Coculiiré 7.150" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Coloração Coculiiré 7.150</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 129,90</span><span class="discount-badge">-31%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-6-Bs4GUQg3.jpg" alt="Creme Ativador de Cachos" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Creme Ativador de Cachos</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill ">Mais vendido</span>
+              <img src="../../../public/images/prod-1-BPQ7Wc6b.jpg" alt="Shampoo Reconstrução Intensa" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Shampoo Reconstrução Intensa</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 109,90</span><span class="discount-badge">-18%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill new">Novo</span>
+              <img src="../../../public/images/prod-2-DD_EaWGG.jpg" alt="Máscara Hair Conditioner" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Máscara Hair Conditioner</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-3-DirrTLqy.jpg" alt="Sérum Reconstrutor Capilar" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Sérum Reconstrutor Capilar</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-4-BMtT688m.jpg" alt="Leave-in Reparador Total" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Leave-in Reparador Total</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 119,90</span><span class="discount-badge">-25%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              <span class="product-badge badge rounded-pill ">Mais vendido</span>
+              <img src="../../../public/images/prod-5-DJHLsHAq.jpg" alt="Coloração Coculiiré 7.150" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Coloração Coculiiré 7.150</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div>
+                <div><span class="product-oldprice">R$ 129,90</span><span class="discount-badge">-31%</span></div>
+                <span class="product-price has-discount">R$ 89,90</span>
+              </div>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="product-card card h-100 rounded-3 overflow-hidden">
+            <div class="product-media">
+              
+              <img src="../../../public/images/prod-6-Bs4GUQg3.jpg" alt="Creme Ativador de Cachos" loading="lazy">
+            </div>
+            <div class="card-body d-flex flex-column">
+              <div class="product-cat">Limpeza</div>
+              <div class="product-name mb-1">Creme Ativador de Cachos</div>
+              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <span class="product-price">R$ 89,90</span>
+                <button class="btn-link-wine" type="button">Saiba mais</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="text-center py-4">© 2026 Salão Sempre Diva — Todos os direitos reservados.</footer>
+
+  <!-- Bootstrap JS (necessário para o menu recolhível no mobile) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
