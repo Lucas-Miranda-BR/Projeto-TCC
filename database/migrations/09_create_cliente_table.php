@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('cep');
             $table->string('endereco');
             $table->date('data_nascimento');
+            $table->date('foto')->default('default.png');
             $table->string('senha');
             $table->boolean('admin')->default(false);
             $table->timestamp('criado')->useCurrent();

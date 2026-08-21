@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SiteController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 
@@ -15,8 +15,12 @@ Route::prefix('site')->group(function(){
     Route::get('/sobre', [SiteController::class,'sobre'])
         ->name('site.sobre');
 
+        // Separar "servicos" em um Prefix
+
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
+
+        // Criar "produtos" em um Prefix
 
     Route::get('/produtos', [SiteController::class,'produtos'])
         ->name('site.produtos');    
@@ -39,11 +43,14 @@ Route::prefix('cliente')->group(function(){
     Route::get('/perfil', [ClienteController::class,'perfil'])
         ->name('cliente.perfil');
 
-    Route::get('/agendamentos', [ClienteController::class,'agendamentos'])
-        ->name('cliente.agendamentos');
+});
 
-    Route::post('/agendamento/salvar',[AgendamentoController::class,'salvar']
-    )->name('cliente.salvar');
+Route::prefix('agendamento')->group(function(){
+
+    Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])->name('agendamento.agendar');
+
+    Route::post('/create', [AgendamentoController::class,'storeAgendamento'])
+    ->name('agendamento.create');
 
 });
 

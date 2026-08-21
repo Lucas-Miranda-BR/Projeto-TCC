@@ -10,7 +10,7 @@
 
         <a href="{{ route('site.servicos') }}">Serviços</a>
 
-        <a href="#">Produtos</a>
+        <a href="{{ route('site.produtos') }}">Produtos</a>
 
         <a href="#">IA</a>
 

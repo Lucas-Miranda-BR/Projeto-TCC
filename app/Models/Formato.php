@@ -16,7 +16,7 @@ class Formato extends Model
         'nome',
     ];
 
-    public function formatos(): HasMany {
+    public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'formato_id', 'formato_id');
     }
 }

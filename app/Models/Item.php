@@ -18,6 +18,7 @@ class Item extends Model
         'categoria_id', // FK
         'nome',
         'preco',
+        'foto',
         'estoque'
     ];
 
