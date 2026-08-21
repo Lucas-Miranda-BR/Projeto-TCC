@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notificacao', function (Blueprint $table) {
-            $table->id('notificacao_id');
-            $table->timestamps();
-            $table->string('titulo');
-            $table->string('conteudo');
-            $table->timestamp('data_recebida')->useCurrent();
-            $table->boolean('visualizada')->default(false);
-            $table->unsignedBigInteger('cliente_id');
+        Schema::create('pedido', function (Blueprint $table) {
+            $table->id('pedido_id');
+            $table->decimal('valor_total', total: 8, places: 2);
+            $table->timestamp('pedido_data')->useCurrent();
+            $table->unsignedBigInteger('cliente_id')->default(0);
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notificacao');
+        Schema::dropIfExists('pedido');
     }
 };

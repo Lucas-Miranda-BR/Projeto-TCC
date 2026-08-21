@@ -39,44 +39,27 @@
 
             <h2>Faça seu Login</h2>
 
-            @if(session('sucesso'))
-                <div class="alert alert-success">
-                    {{ session('sucesso') }}
-                </div>
-            @endif
-
-            @if(session('erro'))
-                <div class="alert alert-danger">
-                    {{ session('erro') }}
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul style="margin:0;padding-left:18px;">
-                        @foreach ($errors->all() as $erro)
-                            <li>{{ $erro }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{ route('cliente.entrar') }}" method="POST">
+            <form method="post" action="{{ route('cliente.auth') }}">
 
                 @csrf
 
+                <label for="auth">E-mail/Telefone</label>
                 <input
-                    type="email"
-                    name="email"
-                    placeholder="Digite seu e-mail"
-                    value="{{ old('email') }}"
+                    type="text"
+                    name="auth"
+                    id="auth"
+                    placeholder="Digite seu e-mail ou telefone"
+                    value="{{ old('auth') }}"
+                    autocomplete="off"
                     required
                 >
 
+                <label for="senha">Senha</label>
                 <input
                     type="password"
                     name="senha"
-                    placeholder="Digite sua senha"
+                    id="senha"
+                    autocomplete="off"
                     required
                 >
 
@@ -85,6 +68,12 @@
                 </button>
 
             </form>
+
+            @if (session('erro'))
+                <div class="alert-error">
+                    {{ session('erro') }}
+                </div>
+            @endif
 
             <div class="divider">
                 ou

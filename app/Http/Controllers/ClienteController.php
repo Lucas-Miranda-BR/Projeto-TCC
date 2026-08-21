@@ -2,203 +2,218 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\Password;
+use App\Models\Cliente;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class ClienteController extends Controller
 {
-    /* ===========================
-       PÁGINAS
-    ============================*/
-
-    public function dashboard()
-    {
-        if (!session()->has('cliente_id')) {
-            return redirect()->route('cliente.login');
-        }
-
-        return view('cliente.dashboard');
-    }
-
-    public function perfil()
-    {
-        if (!session()->has('cliente_id')) {
-            return redirect()->route('cliente.login');
-        }
-
-        return view('cliente.perfil');
-    }
-
-    public function agendamentos()
-    {
-        if (!session()->has('cliente_id')) {
-            return redirect()->route('cliente.login');
-        }
-
-        return view('cliente.agendamentos');
-    }
-
-    public function login()
-    {
-        return view('cliente.login');
-    }
-
-    public function cadastro()
-    {
+    function createCliente(){
         return view('cliente.cadastro');
     }
 
-    /* ===========================
-       CADASTRO
-    ============================*/
+    function storeCliente(Request $dados){
+        $validator = Validator::make($dados->all(), [
+            'nome' => ['required','string','min:2'],
 
-    public function salvarCadastro(Request $request)
-    {
+            'sobrenome' => ['required','string','min:2'],
+            
+            'cpf' => ['required','string','unique:cliente','max:11','min:11'],
+            
+            'telefone' => ['required_without:email','string','unique:cliente','min:11','max:11','nullable'],
 
-        $request->validate([
-
-            'nome' => 'required|max:100',
-            'sobrenome' => 'required|max:100',
-            'cpf' => 'required|unique:cliente,cpf',
-            'telefone' => 'required',
-            'email' => 'required|email|unique:cliente,email',
-            'endereco' => 'required',
-            'data_nascimento' => 'required|date',
-            'senha' => 'required|min:6|confirmed',
-
-            'estado_id' => 'required',
-            'cidade_id' => 'required',
-
-        ],[
-
-            'nome.required' => 'Informe o nome.',
-
-            'sobrenome.required' => 'Informe o sobrenome.',
-
-            'cpf.required' => 'Informe o CPF.',
-
-            'cpf.unique' => 'Este CPF já está cadastrado.',
-
-            'telefone.required' => 'Informe o telefone.',
-
-            'email.required' => 'Informe o e-mail.',
-
-            'email.email' => 'Digite um e-mail válido.',
-
+            'email' => ['required_without:telefone','email','max:255','nullable','unique:cliente',],
+            
+            'endereco' => ['string','required'],
+            
+            'data_nascimento' => ['date','required'],
+            
+            'senha' => ['required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+            
+            'cep' => ['required','string','max:8','min:8']
+        ],
+        [
+            'nome.required' => 'O campo nome é necessário.',
+            'nome.min' => 'O nome precisa ter pelo menos 2 caracteres.',
+            
+            'sobrenome.required' => 'O campo sobrenome é necessário.',
+            'sobrenome.min' => 'O sobrenome precisa ter pelo menos 2 caracteres.',
+            
+            'cpf.required' => 'O CPF é necessário.',
+            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
+            'cpf.max' => 'O CPF deve conter exatamente 11 números.',
+            'cpf.min' => 'O CPF deve conter exatamente 11 números.',
+            
+            'telefone.required_without' => 'Informe o telefone ou o e-mail para contato.',
+            'telefone.unique' => 'Este número de telefone já está cadastrado.',
+            'telefone.min' => 'O telefone deve ter 11 caracteres (com DDD).',
+            'telefone.max' => 'O telefone deve ter 11 caracteres (com DDD).',
+            
+            'email.required_without' => 'Informe o e-mail ou o telefone para contato.',
+            'email.email' => 'Digite um endereço de e-mail válido.',
             'email.unique' => 'Este e-mail já está cadastrado.',
-
-            'endereco.required' => 'Informe o endereço.',
-
-            'data_nascimento.required' => 'Informe a data de nascimento.',
-
-            'senha.required' => 'Informe uma senha.',
-
-            'senha.min' => 'A senha deve possuir no mínimo 6 caracteres.',
-
-            'senha.confirmed' => 'As senhas não conferem.'
-
+            
+            'endereco.required' => 'O endereço é necessário.',
+            
+            'data_nascimento.required' => 'A data de nascimento é necessária.',
+            'data_nascimento.date' => 'Insira uma data de nascimento válida.',
+            
+            'senha.required' => 'A senha é necessária.',
+            
+            'cep.required' => 'O CEP é necessário.',
+            'cep.max' => 'O CEP deve ter 8 caracteres.',
+            'cep.min' => 'O CEP deve ter 8 caracteres.'
         ]);
 
-        Cliente::create([
-
-            'nome' => $request->nome,
-
-            'sobrenome' => $request->sobrenome,
-
-            'cpf' => $request->cpf,
-
-            'telefone' => $request->telefone,
-
-            'email' => $request->email,
-
-            'endereco' => $request->endereco,
-
-            'data_nascimento' => $request->data_nascimento,
-
-            'estado_id' => $request->estado_id,
-
-            'cidade_id' => $request->cidade_id,
-
-            'admin' => false,
-
-            'senha' => Hash::make($request->senha)
-
-        ]);
-
-        return redirect()
-            ->route('cliente.login')
-            ->with('sucesso', 'Cadastro realizado com sucesso! Faça seu login.');
-
-    }
-
-    /* ===========================
-       LOGIN
-    ============================*/
-
-    public function entrar(Request $request)
-    {
-
-        $request->validate([
-
-            'email' => 'required|email',
-
-            'senha' => 'required'
-
-        ]);
-
-        $cliente = Cliente::where('email', $request->email)->first();
-
-        if (!$cliente) {
-
-            return back()
-
-                ->withInput()
-
-                ->with('erro', 'E-mail não cadastrado.');
-
+        if ($validator->fails()) {
+            return redirect()
+                ->route('cliente.cadastro')
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        if (!Hash::check($request->senha, $cliente->senha)) {
+        $validated = $validator->validated();
 
-            return back()
+        $cliente = Cliente::create($validated);
 
-                ->withInput()
+        session(['cliente' => $cliente]);
 
-                ->with('erro', 'Senha incorreta.');
+        return redirect()->route('site.sobre');
+    }
 
-        }
+    function editCliente(string $id){
+        $cliente = Cliente::findOrFail($id);
 
-        session([
+        return view('cliente.update', compact('cliente'));
+    }
 
-            'cliente_id' => $cliente->cliente_id,
+    function updateCliente(Request $dados, $id) {
+        $cliente = Cliente::findOrFail($id);
 
-            'cliente_nome' => $cliente->nome,
+        $validator = Validator::make($dados->all(), [
+            'nome' => ['required', 'string', 'min:2'],
 
-            'cliente_email' => $cliente->email,
+            'sobrenome' => ['required','string','min:2'],
 
-            'cliente_admin' => $cliente->admin
+            'cpf' => ['required','string','unique:cliente','max:11','min:11',Rule::unique('cliente', 'cpf')->ignore($cliente->id)],
+            
+            'telefone' => ['required_without:email','string','unique:cliente','max:11','min:11','nullable',Rule::unique('cliente', 'telefone')->ignore($cliente->id)],
+            
+            'email' => ['required_without:telefone','unique:cliente','email','max:255','nullable',Rule::unique('cliente', 'email')->ignore($cliente->id)],
 
+            'endereco' => ['string','required'],
+
+            'data_nascimento' => ['date','required'],
+
+            'senha' => ['nullable',Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+
+            'cep' => ['required','string','max:8','min:8']
+        ],
+        [
+            'nome.required' => 'O campo nome é necessário.',
+            'nome.min' => 'O nome precisa ter pelo menos 2 caracteres.',
+
+            'sobrenome.required' => 'O campo sobrenome é necessário.',
+            'sobrenome.min' => 'O sobrenome precisa ter pelo menos 2 caracteres.',
+
+            'cpf.required' => 'O CPF é necessário.',
+            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
+            'cpf.max' => 'O CPF deve conter exatamente 11 números.',
+            'cpf.min' => 'O CPF deve conter exatamente 11 números.',
+            
+            'telefone.required_without' => 'Informe o telefone ou o e-mail para contato.',
+            'telefone.unique' => 'Este número de telefone já está cadastrado.',
+            'telefone.min' => 'O telefone deve ter 11 caracteres (com DDD).',
+            'telefone.max' => 'O telefone deve ter 11 caracteres (com DDD).',
+            
+            'email.required_without' => 'Informe o e-mail ou o telefone para contato.',
+            'email.email' => 'Digite um endereço de e-mail válido.',
+            'email.unique' => 'Este e-mail já está cadastrado.',
+            
+            'endereco.required' => 'O endereço é necessário.',
+            
+            'data_nascimento.required' => 'A data de nascimento é necessária.',
+            'data_nascimento.date' => 'Insira uma data de nascimento válida.',
+            
+            'senha.required' => 'A senha é necessária.',
+            
+            'cep.required' => 'O CEP é necessário.',
+            'cep.max' => 'O CEP deve ter 8 caracteres.',
+            'cep.min' => 'O CEP deve ter 8 caracteres.'
         ]);
 
-        return redirect()->route('cliente.dashboard');
+        if ($validator->fails()) {
+            return redirect()
+                ->route('cliente.cadastro')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
+        if (!empty($validated['senha'])) {
+            $validated['senha'] = Hash::make($validated['senha']);
+        } else {
+            unset($validated['senha']);
+        }
+
+        $validated = $validator->validated();
+
+        $cliente->update($validated);
+
+        if (session()->has('cliente') && session('cliente')->cliente_id == $cliente->cliente_id) {
+            session(['cliente' => $cliente]);
+        }
+
+        return redirect()->route('site.home');
     }
 
-    /* ===========================
-       LOGOUT
-    ============================*/
+    function destroyCliente(string $id) {
+            Cliente::destroy($id);
+            return redirect()->route('cliente.cadastro');
+        }
 
-    public function sair()
-    {
+        function loginCliente(){
+            return view('cliente.login');
+        }
+    
+            public function authCliente(Request $request)
+        {
 
-        session()->flush();
+            $auth = $request->auth;
 
-        return redirect()
+            $cliente = Cliente::where('email', $auth)
+                ->orWhere('telefone', $auth)
+                ->first();
+    
+            if (!$cliente) {
+                return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
+            }
+    
+            if (!Hash::check($request->senha, $cliente->senha)) {
+                return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
+            }
 
-            ->route('cliente.login')
-
-            ->with('sucesso', 'Logout realizado com sucesso.');
-
-    }
+            session([
+                'cliente' => $cliente
+            ]);
+            
+            return redirect()->route('site.sobre');
+        }
+    
+            public function logoutCliente()
+        {
+            session()->flush();
+    
+            return redirect()->route('cliente.login');
+        }
+    
 }
+
+

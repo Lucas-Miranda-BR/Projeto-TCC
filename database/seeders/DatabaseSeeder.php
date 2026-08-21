@@ -12,7 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(FornecedorSeeder::class);
-        $this->call(ContatoSeeder::class);
+        
+        $this->call([
+            
+
+            TipoSeeder::class,
+            CorUnhaSeeder::class,
+            CorCabeloSeeder::class,
+            ExtraSeeder::class,
+            FormatoSeeder::class,
+            CorteSeeder::class,
+            ClienteDummySeeder::class
+
+        ]);
     }
 }

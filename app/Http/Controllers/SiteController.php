@@ -18,4 +18,9 @@ class SiteController extends Controller
     {
         return view('site.servicos');
     }
+
+    public function produtos()
+    {
+        return view('site.produtos');
+    }
 }

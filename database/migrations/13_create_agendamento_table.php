@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prompt_ia', function (Blueprint $table) {
-            $table->id('prompt_ia_id');
-            $table->timestamps();
-            $table->string('imagem_prompt');
-            $table->string('cor');
-            $table->string('formato');
-            $table->string('extra');
-            $table->string('tipo_corte');
-            $table->unsignedBigInteger('cliente_id');
+        Schema::create('agendamento', function (Blueprint $table) {
+            $table->id('agendamento_id');
+            $table->time('hora');
+            $table->date('data');
+            $table->unsignedBigInteger('cliente_id')->default(0);
+            $table->timestamp('criado')->useCurrent();
+            $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
+
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prompt_ia');
+        Schema::dropIfExists('agendamento');
     }
 };

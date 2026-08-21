@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgendamentoController;
@@ -16,48 +17,42 @@ Route::prefix('site')->group(function () {
     Route::get('/sobre', [SiteController::class, 'sobre'])
         ->name('site.sobre');
 
-    Route::get('/servicos', [SiteController::class, 'servicos'])
+        // Separar "servicos" em um Prefix
+
+    Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
 
-    Route::get('/produtos', [SiteController::class, 'produtos'])
-        ->name('site.produtos');
+        // Criar "produtos" em um Prefix
+
+    Route::get('/produtos', [SiteController::class,'produtos'])
+        ->name('site.produtos');    
 });
 
+Route::prefix('cliente')->group(function(){
 
-
-Route::prefix('cliente')->group(function () {
-
-
-    Route::get('/login', [ClienteController::class, 'login'])
-        ->name('cliente.login');
-
-    Route::post('/login', [ClienteController::class, 'entrar'])
-        ->name('cliente.entrar');
-
-
-    Route::get('/cadastro', [ClienteController::class, 'cadastro'])
+    Route::get('/cadastro', [ClienteController::class,'createCliente'])
         ->name('cliente.cadastro');
 
-    Route::post('/cadastro', [ClienteController::class, 'salvarCadastro'])
-        ->name('cliente.salvarCadastro');
+    Route::post('/create', [ClienteController::class,'storeCliente'])
+        ->name('cliente.create');
 
+        Route::get('/login', [ClienteController::class,'loginCliente'])
+        ->name('cliente.login');
 
-    Route::get('/logout', [ClienteController::class, 'sair'])
-        ->name('cliente.logout');
-
-    
-
-    Route::get('/dashboard', [ClienteController::class, 'dashboard'])
-        ->name('cliente.dashboard');
+        Route::post('/auth', [ClienteController::class,'authCliente'])
+        ->name('cliente.auth');
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
         ->name('cliente.perfil');
 
-    Route::get('/agendamentos', [ClienteController::class, 'agendamentos'])
-        ->name('cliente.agendamentos');
+});
 
-    Route::post('/agendamento/salvar', [AgendamentoController::class, 'salvar'])
-        ->name('cliente.salvar');
+Route::prefix('agendamento')->group(function(){
+
+    Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])->name('agendamento.agendar');
+
+    Route::post('/create', [AgendamentoController::class,'storeAgendamento'])
+    ->name('agendamento.create');
 
 });
 
@@ -78,7 +73,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/produtos', [AdminController::class, 'produtos'])
+    Route::get('/dashboard/produtos', [AdminController::class,'produtos'])
         ->name('admin.produtos');
 
 });

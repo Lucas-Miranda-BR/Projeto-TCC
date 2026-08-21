@@ -4,40 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'cliente';
     protected $primaryKey = 'cliente_id';
     protected $fillable = [
-        'estado_id', // FK
-        'cidade_id', // FK
         'nome',
         'sobrenome',
         'cpf',
+        'cep',
         'telefone',
         'email',
         'endereco',
         'data_nascimento',
+        'foto',
         'admin',
         'senha'
     ];
     
     protected $casts = [
         'senha' => 'hashed',
-        'is_admin' => 'boolean',
+        'admin' => 'boolean',
         'data_nascimento' => 'date'
     ];
 
-    public function estados(): BelongsTo {
-        return $this->belongsTo(Estado::class, 'estado_id', 'estado_id');
-    }
-    public function cidades(): BelongsTo {
-        return $this->belongsTo(Cidade::class, 'cidade_id', 'cidade_id');
-    }
+    protected $hidden = [
+        'senha'
+    ];
+
     public function notificacoes(): HasMany {
         return $this->hasMany(Notificacao::class, 'cliente_id', 'cliente_id');
     }
@@ -46,5 +44,8 @@ class Cliente extends Model
     }
     public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'cliente_id', 'cliente_id');
+    }
+    public function agendamentos(): HasMany {
+        return $this->hasMany(Agendamento::class, 'cliente_id', 'cliente_id');
     }
 }

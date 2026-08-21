@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Item extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'item';
     protected $primaryKey = 'item_id';
     protected $fillable = [
@@ -17,6 +18,7 @@ class Item extends Model
         'categoria_id', // FK
         'nome',
         'preco',
+        'foto',
         'estoque'
     ];
 
@@ -27,6 +29,6 @@ class Item extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id', 'categoria_id');
     }
     public function carrinhos_itens(): HasMany {
-        return $this->hasMany(Carrinho_item::class, 'item_id', 'item_id');
+        return $this->hasMany(CarrinhoItem::class, 'item_id', 'item_id');
     }
 }

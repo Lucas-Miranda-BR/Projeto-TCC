@@ -39,110 +39,110 @@
 
             <h2>Crie sua Conta</h2>
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul style="margin:0;padding-left:18px;">
-                        @foreach ($errors->all() as $erro)
-                            <li>{{ $erro }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <form action="{{route('cliente.create')}}" method="post">
 
-            <form action="{{ route('cliente.salvarCadastro') }}" method="POST">
-
-                @csrf
-
+            @csrf
                 <div class="form-row">
-
+                <label for="nome">Nome</label>
                     <input
                         type="text"
+                        id="nome"
                         name="nome"
-                        placeholder="Nome"
                         value="{{ old('nome') }}"
                         required
+                        autocomplete="off"  
                     >
-
+                    <label for="sobrenome">Sobrenome</label>
                     <input
                         type="text"
+                        id="sobrenome"
                         name="sobrenome"
-                        placeholder="Sobrenome"
                         value="{{ old('sobrenome') }}"
                         required
+                        autocomplete="off"  
                     >
 
                 </div>
 
                 <div class="form-row">
-
+                <label for="email">E-mail</label>
                     <input
                         type="email"
+                        id="email"
                         name="email"
-                        placeholder="E-mail"
                         value="{{ old('email') }}"
-                        required
+                        autocomplete="off"  
                     >
-
+                    <label for="telefone">Telefone</label>
                     <input
                         type="tel"
+                        pattern='[0-9]{11}'
+                        id="telefone"
                         name="telefone"
-                        placeholder="Telefone"
                         value="{{ old('telefone') }}"
-                        required
+                        autocomplete="off"  
                     >
 
+                    <label for="cpf">CPF</label>
                     <input
-                        type="text"
+                        type="number"
+                        minlenght="11"
+                        maxlenght="11"
+                        id="cpf"
                         name="cpf"
-                        placeholder="CPF"
-                        value="{{ old('cpf') }}"
                         required
+                        value="{{ old('cpf') }}"
+                        autocomplete="off"     
                     >
 
                 </div>
 
                 <div class="form-row">
 
+                <label for="endereco">Endereço</label>
                     <input
                         type="text"
+                        id="endereco"
                         name="endereco"
-                        placeholder="Endereço"
-                        value="{{ old('endereco') }}"
                         required
+                        value="{{ old('endereco') }}"
+                        autocomplete="off"                    
+                        >
+
+                        <label for="cep">CEP</label>
+                    <input
+                        type="number"
+                        minlenght="8"
+                        maxlenght="8"
+                        id="cep"
+                        name="cep"
+                        required
+                        value="{{ old('cep') }}"
+                        autocomplete="off"     
                     >
 
-                    <label for="data_nascimento">
-                        Data de Nascimento
-                    </label>
-
+                    <label for="data_nascimento">Data de Nascimento</label>
                     <input
+                    placeholder="Data Nascimento"
                         type="date"
                         id="data_nascimento"
                         name="data_nascimento"
-                        value="{{ old('data_nascimento') }}"
                         required
+                        value="{{ old('data_nascimento') }}"
+                        autocomplete="off"
                     >
 
                 </div>
 
-                {{-- Ajuste os IDs conforme existirem no seu banco --}}
-                <input type="hidden" name="estado_id" value="1">
-                <input type="hidden" name="cidade_id" value="1">
-
                 <div class="form-row">
-
+                <label for="senha">Senha</label>
                     <input
                         type="password"
                         name="senha"
-                        placeholder="Senha"
+                        id="senha"
                         required
-                    >
-
-                    <input
-                        type="password"
-                        name="senha_confirmation"
-                        placeholder="Confirmar Senha"
-                        required
+                        value="{{ old('senha') }}"
+                        autocomplete="off"
                     >
 
                 </div>
@@ -158,6 +158,16 @@
     </div>
 
 </div>
+
+@if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 @include('components.footer')
 
