@@ -7,10 +7,10 @@ use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 
-Route::prefix('site')->group(function(){
+Route::get('/', [SiteController::class,'home'])
+    ->name('home');
 
-    Route::get('/home', [SiteController::class,'home'])
-        ->name('site.home');
+Route::prefix('site')->group(function(){
 
     Route::get('/sobre', [SiteController::class,'sobre'])
         ->name('site.sobre');
