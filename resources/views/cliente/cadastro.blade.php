@@ -99,7 +99,7 @@
 
                 <div class="form-row">
 
-                <label for="endereco">Endereço</label>
+                <!-- <label for="endereco">Endereço</label>
                     <input
                         type="text"
                         id="endereco"
@@ -119,7 +119,7 @@
                         required
                         value="{{ old('cep') }}"
                         autocomplete="off"     
-                    >
+                    > -->
 
                     <label for="data_nascimento">Data de Nascimento</label>
                     <input

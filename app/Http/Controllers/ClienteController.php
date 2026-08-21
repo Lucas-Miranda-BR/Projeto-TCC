@@ -31,14 +31,11 @@ class ClienteController extends Controller
             'telefone' => ['required_without:email','string','unique:cliente','min:11','max:11','nullable'],
 
             'email' => ['required_without:telefone','email','max:255','nullable','unique:cliente',],
-            
-            'endereco' => ['string','required'],
-            
+                        
             'data_nascimento' => ['date','required'],
             
             'senha' => ['required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             
-            'cep' => ['required','string','max:8','min:8']
         ],
         [
             'nome.required' => 'O campo nome é necessário.',
@@ -60,17 +57,11 @@ class ClienteController extends Controller
             'email.required_without' => 'Informe o e-mail ou o telefone para contato.',
             'email.email' => 'Digite um endereço de e-mail válido.',
             'email.unique' => 'Este e-mail já está cadastrado.',
-            
-            'endereco.required' => 'O endereço é necessário.',
-            
+                        
             'data_nascimento.required' => 'A data de nascimento é necessária.',
             'data_nascimento.date' => 'Insira uma data de nascimento válida.',
             
             'senha.required' => 'A senha é necessária.',
-            
-            'cep.required' => 'O CEP é necessário.',
-            'cep.max' => 'O CEP deve ter 8 caracteres.',
-            'cep.min' => 'O CEP deve ter 8 caracteres.'
         ]);
 
         if ($validator->fails()) {

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('telefone')->nullable()->unique();
             $table->string('email')->nullable()->unique();
-            $table->string('cep');
-            $table->string('endereco');
+            $table->string('cep')->default(null);
+            $table->string('endereco')->default(null);
             $table->date('data_nascimento');
             $table->date('foto')->default('default.png');
             $table->string('senha');
