@@ -1,173 +1,1513 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meu perfil | Salão Sandra Nerys</title>
-<meta name="description" content="Gerencie seu perfil no Salão Sandra Nerys: foto, nome, contato e descrição do seu estilo de beleza.">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
 
-<style>
-:root {
-  --brand: #b3432b;
-  --brand-dark: #7a2c1c;
-  --brand-light: #f7ece8;
-}
-html, body { height: 100%; margin: 0; }
-body {
-  font-family: 'Inter', sans-serif;
-  color: #2b2320;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-}
-.brand-font { font-family: 'Playfair Display', serif; }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-.header-brand {
-  flex-shrink: 0;
-  background: rgba(247, 236, 232, 0.9);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-.navbar-brand, .text-brand { color: var(--brand) !important; }
-.nav-link.active { color: var(--brand) !important; font-weight: 500; }
+  <title>Meu perfil | Salão Sandra Nerys</title>
 
-.page-main {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
-  padding: clamp(.5rem, 2vh, 1.5rem) 1rem;
-}
+  <meta
+    name="description"
+    content="Gerencie seu perfil no Salão Sandra Nerys: foto, nome, contato e dados para pagamento."
+  >
 
-.btn-brand {
-  background: radial-gradient(120% 150% at 30% 30%, #e0392a, #8a1f14);
-  border: none;
-  color: #fff;
-}
-.btn-brand:hover { color: #fff; opacity: .9; }
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
 
-.btn-outline-brand {
-  border: 1px solid var(--brand);
-  color: var(--brand);
-}
-.btn-outline-brand:hover { background: var(--brand-light); color: var(--brand); }
+  <!-- Fontes -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
 
-.cover-brand {
-  height: clamp(70px, 14vh, 130px);
-  background: linear-gradient(100deg, var(--brand-dark), var(--brand));
-}
+  <style>
 
-.avatar {
-  width: clamp(80px, 15vh, 128px);
-  height: clamp(80px, 15vh, 128px);
-  border: 4px solid #fff;
-  background: var(--brand-light);
-  color: var(--brand);
-  font-size: clamp(1.2rem, 3vh, 1.8rem);
-  font-weight: 600;
-  margin-top: clamp(-40px, -7.5vh, -64px);
-}
+    /* =====================================================
+       VARIÁVEIS
+    ===================================================== */
 
-.info-box {
-  background: var(--brand-light);
-  border-radius: 1rem;
-}
+    :root {
 
-.label-eyebrow {
-  font-size: .72rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: #8a7f79;
-}
+      --radius: 18px;
 
-.icon-svg { width: 16px; height: 16px; vertical-align: -3px; }
+      --background: oklch(99% .008 20);
 
-.card-profile {
-  border: 1px solid rgba(0, 0, 0, .08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
-}
-</style>
+      --foreground: oklch(22% .03 20);
+
+      --card: oklch(100% 0 0);
+
+      --card-foreground: oklch(22% .03 20);
+
+      --primary: oklch(45% .19 25);
+
+      --primary-foreground: oklch(98% .01 20);
+
+      --secondary: oklch(95% .02 20);
+
+      --muted: oklch(96% .012 20);
+
+      --muted-foreground: oklch(52% .03 20);
+
+      --border: oklch(90% .02 20);
+
+      --gradient-brand:
+        linear-gradient(
+          100deg,
+          oklch(32% .14 25),
+          oklch(52% .22 27)
+        );
+
+      --shadow-card:
+        0 1px 2px oklch(45% .19 25 / .06),
+        0 12px 30px -14px oklch(45% .19 25 / .25);
+
+      --font-display:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+      --font-body:
+        "Jost",
+        system-ui,
+        sans-serif;
+
+    }
+
+
+    /* =====================================================
+       BASE
+    ===================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+
+      margin: 0;
+
+      font-family: var(--font-body);
+
+      color: var(--foreground);
+
+      background:
+        linear-gradient(
+          180deg,
+          oklch(99% .012 20),
+          var(--background)
+        );
+
+      display: flex;
+
+      flex-direction: column;
+
+      min-height: 100vh;
+
+    }
+
+    .brand-font {
+      font-family: var(--font-display);
+    }
+
+    .text-brand {
+      color: var(--primary) !important;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+
+    .header-brand {
+
+      flex-shrink: 0;
+
+      background:
+        color-mix(
+          in oklch,
+          var(--secondary) 85%,
+          transparent
+        );
+
+      backdrop-filter: blur(6px);
+
+      border-bottom:
+        1px solid var(--border);
+
+    }
+
+    .navbar-brand {
+
+      color: var(--primary) !important;
+
+    }
+
+    .nav-link {
+
+      color: var(--foreground);
+
+      transition: color .2s ease;
+
+    }
+
+    .nav-link:hover {
+
+      color: var(--primary);
+
+    }
+
+    .nav-link.active {
+
+      color: var(--primary) !important;
+
+      font-weight: 500;
+
+    }
+
+
+    /* =====================================================
+       ÍCONE IA
+    ===================================================== */
+
+    .link-ia {
+
+      color: var(--primary);
+
+      transition: color .2s ease;
+
+    }
+
+    .link-ia:hover {
+
+      color: var(--primary);
+
+    }
+
+    .icon-circle {
+
+      width: 28px;
+
+      height: 28px;
+
+      border-radius: 50%;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background:
+        color-mix(
+          in oklch,
+          var(--primary) 12%,
+          transparent
+        );
+
+      color: var(--primary);
+
+    }
+
+    .agendar-icone {
+
+      width: 28px;
+
+      height: 28px;
+
+    }
+
+    .icon-svg {
+
+      width: 16px;
+
+      height: 16px;
+
+      vertical-align: middle;
+
+    }
+
+
+    /* =====================================================
+       BOTÕES DA NAVBAR
+    ===================================================== */
+
+    .btn-icone-nav {
+
+      width: 34px;
+
+      height: 34px;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 50%;
+
+      background: transparent;
+
+      color: var(--foreground);
+
+      cursor: pointer;
+
+      transition: .2s ease;
+
+    }
+
+    .btn-icone-nav:hover {
+
+      background: var(--secondary);
+
+      color: var(--primary);
+
+      border-color: var(--primary);
+
+    }
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    .login-avatar {
+
+      width: 24px;
+
+      height: 24px;
+
+      border-radius: 50%;
+
+      background: #f0d9b5;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      color: var(--primary);
+
+    }
+
+    .btn-login {
+
+      background: var(--gradient-brand);
+
+      color: #fff;
+
+      border: none;
+
+      font-size: .85rem;
+
+      padding: .45rem 1rem;
+
+      transition: .2s ease;
+
+    }
+
+    .btn-login:hover {
+
+      color: #fff;
+
+      opacity: .92;
+
+    }
+
+
+    /* =====================================================
+       PÁGINA
+    ===================================================== */
+
+    .page-main {
+
+      flex: 1;
+
+      min-height: 0;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      overflow: auto;
+
+      padding:
+        clamp(.8rem, 2vh, 1.5rem)
+        1rem;
+
+    }
+
+
+    /* =====================================================
+       PERFIL
+    ===================================================== */
+
+    .card-profile {
+
+      background: var(--card);
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        var(--shadow-card);
+
+    }
+
+    .cover-brand {
+
+      height:
+        clamp(60px, 10vh, 110px);
+
+      background:
+        var(--gradient-brand);
+
+    }
+
+    .avatar {
+
+      width:
+        clamp(70px, 11vh, 105px);
+
+      height:
+        clamp(70px, 11vh, 105px);
+
+      border:
+        4px solid #fff;
+
+      background:
+        var(--secondary);
+
+      color:
+        var(--primary);
+
+      font-size:
+        clamp(1.2rem, 2.5vh, 1.6rem);
+
+      font-weight: 600;
+
+      margin-top:
+        clamp(-35px, -5.5vh, -52px);
+
+      flex-shrink: 0;
+
+      text-transform: uppercase;
+
+    }
+
+
+    /* =====================================================
+       CAIXAS DE INFORMAÇÃO
+    ===================================================== */
+
+    .info-box {
+
+      background:
+        var(--secondary);
+
+      border-radius:
+        1rem;
+
+    }
+
+    .label-eyebrow {
+
+      font-size:
+        .72rem;
+
+      letter-spacing:
+        .12em;
+
+      text-transform:
+        uppercase;
+
+      color:
+        var(--muted-foreground);
+
+    }
+
+    .badge-opcional {
+
+      font-size:
+        .62rem;
+
+      font-weight:
+        500;
+
+      color:
+        var(--primary);
+
+      background:
+        #fff;
+
+      border:
+        1px solid var(--primary);
+
+      padding:
+        .05rem .4rem;
+
+      border-radius:
+        999px;
+
+      margin-left:
+        .35rem;
+
+      text-transform:
+        none;
+
+      letter-spacing:
+        normal;
+
+    }
+
+
+    /* =====================================================
+       BOTÕES DO PERFIL
+    ===================================================== */
+
+    .btn-brand {
+
+      background:
+        var(--gradient-brand);
+
+      border: none;
+
+      color: #fff;
+
+    }
+
+    .btn-brand:hover {
+
+      color: #fff;
+
+      opacity: .92;
+
+    }
+
+    .btn-outline-brand {
+
+      border:
+        1px solid var(--primary);
+
+      color:
+        var(--primary);
+
+      background:
+        transparent;
+
+    }
+
+    .btn-outline-brand:hover {
+
+      background:
+        var(--secondary);
+
+      color:
+        var(--primary);
+
+    }
+
+
+    /* =====================================================
+       RESPONSIVIDADE
+    ===================================================== */
+
+    @media (max-width: 991px) {
+
+      .navbar-nav {
+
+        padding-top: 1rem;
+
+        padding-bottom: 1rem;
+
+      }
+
+    }
+
+
+    @media (max-width: 576px) {
+
+      .page-main {
+
+        align-items: flex-start;
+
+      }
+
+      .avatar {
+
+        margin-top: -38px;
+
+      }
+
+    }
+
+  </style>
+
 </head>
+
+
 <body>
 
-<!-- Header -->
-<header class="navbar navbar-expand-lg py-2 header-brand">
-  <div class="container">
-    <a class="navbar-brand brand-font fs-4" href="index.html">Sandra Nerys</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4">
-        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-        <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
-        <li class="nav-item"><a class="nav-link" href="#produtos">Produtos</a></li>
-        <li class="nav-item mt-2 mt-lg-0">
-          <a class="btn btn-brand rounded-pill px-4" href="#ia">
-            <svg class="icon-svg me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></svg>IA
-          </a>
-        </li>
-        <li class="nav-item"><a class="nav-link active" href="#">Perfil</a></li>
-        <li class="nav-item"><a class="nav-link" href="#agendamento">Agendar</a></li>
-      </ul>
-    </div>
-  </div>
-</header>
 
-<main class="page-main">
-  <div style="max-width: 800px; width: 100%;">
-  <h1 class="brand-font text-brand text-center mb-2" style="font-size: clamp(1.8rem, 5vh, 2.8rem);">Meu perfil</h1>
-  <p class="text-muted text-center mb-3">Mantenha seus dados atualizados para que a equipe conheça suas preferências antes do atendimento.</p>
+  <!-- =====================================================
+       NAVBAR
+  ====================================================== -->
 
-  <section class="card rounded-4 overflow-hidden card-profile">
-    <div class="cover-brand"></div>
-    <div class="card-body px-4 px-md-5 pb-4 pt-0">
+  <header class="navbar navbar-expand-lg sticky-top py-2 header-brand">
 
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
-        <div class="d-flex align-items-end gap-3">
-          <div class="avatar rounded-circle d-flex align-items-center justify-content-center">SC</div>
-          <div>
-            <h2 class="brand-font text-brand mb-0 fs-3">Sua cliente</h2>
-            <p class="label-eyebrow mb-0 mt-1">Cliente Sandra Nerys</p>
-          </div>
-        </div>
-        <button class="btn btn-outline-brand rounded-pill px-4 align-self-start mt-4">
-          <svg class="icon-svg me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>Editar perfil
-        </button>
+    <div class="container">
+
+      <!-- Logo -->
+
+      <a
+        class="navbar-brand brand-font fs-5"
+        href="index.html"
+      >
+        Sandra Nerys
+      </a>
+
+
+      <!-- Botão Mobile -->
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#nav"
+      >
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+
+      <!-- Menu -->
+
+      <div
+        class="collapse navbar-collapse"
+        id="nav"
+      >
+
+        <ul
+          class="navbar-nav ms-auto align-items-lg-center gap-lg-4 small"
+        >
+
+
+          <!-- Início -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="index.html"
+            >
+              Início
+            </a>
+
+          </li>
+
+
+          <!-- Serviços -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="servicos.html"
+            >
+              Serviços
+            </a>
+
+          </li>
+
+
+          <!-- Produtos -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="produtos.html"
+            >
+              Produtos
+            </a>
+
+          </li>
+
+
+          <!-- IA -->
+
+          <li class="nav-item mt-2 mt-lg-0">
+
+            <a
+              class="link-ia d-inline-flex align-items-center gap-2 text-decoration-none"
+              href="ia.html"
+            >
+
+              <span
+                class="icon-circle agendar-icone"
+              >
+
+                <svg
+                  class="icon-svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+
+                  <path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/>
+
+                  <path d="M20 2v4"/>
+
+                  <path d="M22 4h-4"/>
+
+                  <circle
+                    cx="4"
+                    cy="20"
+                    r="2"
+                  />
+
+                </svg>
+
+              </span>
+
+              <span>
+                IA
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Agendamentos -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="agendamentos.html"
+            >
+              Agendamentos
+            </a>
+
+          </li>
+
+
+          <!-- Perfil -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link active"
+              href="perfil.html"
+            >
+              Perfil
+            </a>
+
+          </li>
+
+
+          <!-- Sobre -->
+
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="sobre.html"
+            >
+              Sobre mim
+            </a>
+
+          </li>
+
+
+          <!-- Notificações -->
+
+          <li class="nav-item">
+
+            <button
+              type="button"
+              class="btn-icone-nav"
+              aria-label="Notificações"
+            >
+
+              <svg
+                class="icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+
+              </svg>
+
+            </button>
+
+          </li>
+
+
+          <!-- Login -->
+
+          <li class="nav-item mt-2 mt-lg-0">
+
+            <button
+              class="btn btn-login rounded-pill d-flex align-items-center gap-2 px-3"
+              type="button"
+            >
+
+              <span class="login-avatar">
+
+                <svg
+                  class="icon-svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+
+                  <circle
+                    cx="12"
+                    cy="7"
+                    r="4"
+                  />
+
+                </svg>
+
+              </span>
+
+              Login
+
+            </button>
+
+          </li>
+
+
+          <!-- Configurações -->
+
+          <li class="nav-item">
+
+            <button
+              type="button"
+              class="btn-icone-nav"
+              aria-label="Configurações"
+            >
+
+              <svg
+                class="icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                />
+
+              </svg>
+
+            </button>
+
+          </li>
+
+        </ul>
+
       </div>
 
-      <div class="row g-3 mt-4">
-        <div class="col-md-6">
-          <div class="info-box p-3">
-            <div class="label-eyebrow d-flex align-items-center gap-2">
-              <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>E-mail
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       CONTEÚDO PRINCIPAL
+  ====================================================== -->
+
+  <main class="page-main">
+
+    <div style="max-width: 800px; width: 100%;">
+
+      <h1
+        class="brand-font text-brand text-center mb-1"
+        style="font-size: clamp(1.4rem, 3.5vh, 2.2rem);"
+      >
+        Meu perfil
+      </h1>
+
+
+      <p class="text-muted text-center small mb-2">
+
+        Mantenha seus dados atualizados para que a equipe conheça
+        suas preferências antes do atendimento.
+
+      </p>
+
+
+      <!-- Card do perfil -->
+
+      <section
+        class="card rounded-4 overflow-hidden card-profile"
+      >
+
+
+        <!-- Capa -->
+
+        <div class="cover-brand"></div>
+
+
+        <div
+          class="card-body px-4 px-md-5 pb-3 pt-0"
+        >
+
+
+          <!-- Cabeçalho do perfil -->
+
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2"
+          >
+
+
+            <div
+              class="d-flex align-items-end gap-3"
+            >
+
+
+              <!-- Avatar com iniciais -->
+
+              <div
+                id="avatar-iniciais"
+                class="avatar rounded-circle d-flex align-items-center justify-content-center"
+              >
+              </div>
+
+
+              <div>
+
+                <h2
+                  class="brand-font text-brand mb-0 fs-5"
+                  id="view-nome"
+                >
+                  Sua cliente
+                </h2>
+
+
+                <input
+                  id="edit-nome"
+                  class="form-control form-control-sm brand-font text-brand fw-bold d-none mt-1"
+                  value="Sua cliente"
+                  style="font-size: 1rem;"
+                >
+
+
+                <p
+                  class="label-eyebrow mb-0 mt-1"
+                >
+                  Cliente Sandra Nerys
+                </p>
+
+              </div>
+
             </div>
-            <p class="mb-0 mt-2">cliente@email.com</p>
+
+
+            <!-- Editar -->
+
+            <button
+              id="btn-editar"
+              onclick="toggleEdit()"
+              class="btn btn-outline-brand btn-sm rounded-pill px-3 align-self-start mt-3"
+            >
+
+              <svg
+                class="icon-svg me-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+
+                <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
+
+                <path d="m15 5 4 4"/>
+
+              </svg>
+
+              Editar perfil
+
+            </button>
+
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="info-box p-3">
-            <div class="label-eyebrow d-flex align-items-center gap-2">
-              <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>Telefone
+
+
+          <!-- E-mail e telefone -->
+
+          <div class="row g-2 mt-2">
+
+
+            <!-- E-mail -->
+
+            <div class="col-md-6">
+
+              <div class="info-box p-2 px-3">
+
+                <div
+                  class="label-eyebrow d-flex align-items-center gap-2"
+                >
+
+                  <svg
+                    class="icon-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+
+                    <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+
+                    <rect
+                      x="2"
+                      y="4"
+                      width="20"
+                      height="16"
+                      rx="2"
+                    />
+
+                  </svg>
+
+                  E-mail
+
+                </div>
+
+
+                <p
+                  class="mb-0 mt-1 small"
+                  id="view-email"
+                >
+                  cliente@email.com
+                </p>
+
+
+                <input
+                  id="edit-email"
+                  class="form-control form-control-sm d-none mt-1"
+                  value="cliente@email.com"
+                >
+
+              </div>
+
             </div>
-            <p class="mb-0 mt-2">(00) 00000-0000</p>
+
+
+            <!-- Telefone -->
+
+            <div class="col-md-6">
+
+              <div class="info-box p-2 px-3">
+
+                <div
+                  class="label-eyebrow d-flex align-items-center gap-2"
+                >
+
+                  <svg
+                    class="icon-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+
+                    <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>
+
+                  </svg>
+
+                  Telefone
+
+                </div>
+
+
+                <p
+                  class="mb-0 mt-1 small"
+                  id="view-telefone"
+                >
+                  (00) 00000-0000
+                </p>
+
+
+                <input
+                  id="edit-telefone"
+                  class="form-control form-control-sm d-none mt-1"
+                  value="(00) 00000-0000"
+                >
+
+              </div>
+
+            </div>
+
           </div>
+
+
+          <!-- Dados para pagamento -->
+
+          <div class="mt-3">
+
+            <p
+              class="label-eyebrow mb-1 d-flex align-items-center"
+            >
+
+              Dados para pagamento
+
+              <span class="badge-opcional">
+                opcional
+              </span>
+
+            </p>
+
+
+            <div class="row g-2">
+
+
+              <!-- CEP -->
+
+              <div class="col-md-6">
+
+                <div class="info-box p-2 px-3">
+
+                  <div
+                    class="label-eyebrow d-flex align-items-center gap-2"
+                  >
+
+                    <svg
+                      class="icon-svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0"/>
+
+                      <circle
+                        cx="12"
+                        cy="10"
+                        r="3"
+                      />
+
+                    </svg>
+
+                    CEP
+
+                  </div>
+
+
+                  <p
+                    class="mb-0 mt-1 small"
+                    id="view-cep"
+                  >
+                    Não informado
+                  </p>
+
+
+                  <input
+                    id="edit-cep"
+                    class="form-control form-control-sm d-none mt-1"
+                    placeholder="00000-000"
+                    value=""
+                  >
+
+                </div>
+
+              </div>
+
+
+              <!-- CPF -->
+
+              <div class="col-md-6">
+
+                <div class="info-box p-2 px-3">
+
+                  <div
+                    class="label-eyebrow d-flex align-items-center gap-2"
+                  >
+
+                    <svg
+                      class="icon-svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+
+                      <rect
+                        x="2"
+                        y="5"
+                        width="20"
+                        height="14"
+                        rx="2"
+                      />
+
+                      <path d="M2 10h20"/>
+
+                    </svg>
+
+                    CPF
+
+                  </div>
+
+
+                  <p
+                    class="mb-0 mt-1 small"
+                    id="view-cpf"
+                  >
+                    Não informado
+                  </p>
+
+
+                  <input
+                    id="edit-cpf"
+                    class="form-control form-control-sm d-none mt-1"
+                    placeholder="000.000.000-00"
+                    value=""
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <p
+              class="text-muted mt-2 mb-0"
+              style="font-size: .78rem;"
+            >
+
+              CEP e CPF não são obrigatórios para criar o perfil,
+              mas podem ser solicitados quando necessários para o
+              processamento de pagamentos.
+
+            </p>
+
+          </div>
+
+
+          <!-- Botões de salvar -->
+
+          <div
+            class="d-flex flex-wrap gap-3 border-top pt-3 mt-3 d-none"
+            id="acoes-edit"
+          >
+
+            <button
+              onclick="salvarEdicao()"
+              class="btn btn-brand btn-sm rounded-pill px-3"
+            >
+              Salvar alterações
+            </button>
+
+
+            <button
+              onclick="toggleEdit()"
+              class="btn btn-outline-secondary btn-sm rounded-pill px-3"
+            >
+              Cancelar
+            </button>
+
+          </div>
+
         </div>
-      </div>
+
+      </section>
 
     </div>
-  </section>
-  </div>
-</main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </main>
+
+
+  <!-- Bootstrap -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script>
+
+    /* =====================================================
+       GERAR INICIAIS DO NOME
+    ===================================================== */
+
+    function gerarIniciais(nome) {
+
+      if (!nome || nome.trim() === '') {
+
+        return '?';
+
+      }
+
+
+      const partes = nome
+        .trim()
+        .split(/\s+/);
+
+
+      /* Nome simples */
+
+      if (partes.length === 1) {
+
+        return partes[0]
+          .charAt(0)
+          .toUpperCase();
+
+      }
+
+
+      /*
+        Nome composto
+
+        Alberto Gil
+        AG
+
+        Alberto Gil Oliveira Nerys
+        AN
+      */
+
+      const primeiraLetra =
+        partes[0].charAt(0);
+
+
+      const ultimaLetra =
+        partes[partes.length - 1]
+          .charAt(0);
+
+
+      return (
+        primeiraLetra +
+        ultimaLetra
+      ).toUpperCase();
+
+    }
+
+
+    /* =====================================================
+       ATUALIZAR AVATAR
+    ===================================================== */
+
+    function atualizarAvatar(nome) {
+
+      const avatar =
+        document.getElementById(
+          'avatar-iniciais'
+        );
+
+
+      avatar.textContent =
+        gerarIniciais(nome);
+
+    }
+
+
+    /* =====================================================
+       GERAR INICIAIS AO ABRIR A PÁGINA
+    ===================================================== */
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      function () {
+
+        const nomeInicial =
+          document
+            .getElementById('view-nome')
+            .textContent
+            .trim();
+
+
+        atualizarAvatar(nomeInicial);
+
+      }
+    );
+
+
+    /* =====================================================
+       ATIVAR / DESATIVAR EDIÇÃO
+    ===================================================== */
+
+    function toggleEdit() {
+
+      const campos = [
+
+        'nome',
+
+        'email',
+
+        'telefone',
+
+        'cep',
+
+        'cpf'
+
+      ];
+
+
+      campos.forEach(function (campo) {
+
+        document
+          .getElementById(
+            'view-' + campo
+          )
+          .classList
+          .toggle('d-none');
+
+
+        document
+          .getElementById(
+            'edit-' + campo
+          )
+          .classList
+          .toggle('d-none');
+
+      });
+
+
+      document
+        .getElementById('acoes-edit')
+        .classList
+        .toggle('d-none');
+
+
+      document
+        .getElementById('btn-editar')
+        .classList
+        .toggle('d-none');
+
+    }
+
+
+    /* =====================================================
+       SALVAR EDIÇÃO
+    ===================================================== */
+
+    function salvarEdicao() {
+
+      const nome =
+        document
+          .getElementById('edit-nome')
+          .value
+          .trim();
+
+
+      /* Nome */
+
+      document
+        .getElementById('view-nome')
+        .textContent =
+          nome || 'Sua cliente';
+
+
+      /* E-mail */
+
+      document
+        .getElementById('view-email')
+        .textContent =
+          document
+            .getElementById('edit-email')
+            .value;
+
+
+      /* Telefone */
+
+      document
+        .getElementById('view-telefone')
+        .textContent =
+          document
+            .getElementById('edit-telefone')
+            .value;
+
+
+      /* CEP */
+
+      document
+        .getElementById('view-cep')
+        .textContent =
+          document
+            .getElementById('edit-cep')
+            .value
+            .trim()
+          ||
+          'Não informado';
+
+
+      /* CPF */
+
+      document
+        .getElementById('view-cpf')
+        .textContent =
+          document
+            .getElementById('edit-cpf')
+            .value
+            .trim()
+          ||
+          'Não informado';
+
+
+      /* Atualizar avatar */
+
+      atualizarAvatar(
+        nome || 'Sua cliente'
+      );
+
+
+      /* Fechar edição */
+
+      toggleEdit();
+
+    }
+
+  </script>
+
 </body>
+
 </html>

@@ -1,526 +1,1773 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Salão Sempre Diva — Catálogo de produtos profissionais para cabelo.">
-<title>Salão Sempre Diva | Produtos</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+<title>Serviços | Salão Sandra Nerys</title>
 
-<!-- Bootstrap 5 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+>
+
+<!-- Fontes -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
 
 <style>
-  :root{
-    --wine-900:#4a0712;
-    --wine-800:#650a19;
-    --wine-700:#7d0e21;
-    --wine-600:#9c1329;
-    --rose-500:#c62f45;
-    --rose-100:#f7d9de;
-    --cream:#fdf3f1;
-    --ink:#2b1b1d;
-    --muted:#8a7375;
-    --line:#ecdcda;
-    --navbar-h:56px;
-    --badge-grad:linear-gradient(135deg,#5e0908 0%,#c41311 100%);
-    --badge-grad-new:linear-gradient(135deg,#7a1030 0%,#c62f45 100%);
+
+/* ===== Variáveis ===== */
+
+:root {
+  --radius: 18px;
+
+  --background: oklch(99% .008 20);
+  --foreground: oklch(22% .03 20);
+
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(22% .03 20);
+
+  --primary: oklch(45% .19 25);
+  --primary-foreground: oklch(98% .01 20);
+
+  --secondary: oklch(95% .02 20);
+
+  --muted: oklch(96% .012 20);
+  --muted-foreground: oklch(52% .03 20);
+
+  --border: oklch(90% .02 20);
+
+  --gradient-brand: linear-gradient(
+    100deg,
+    oklch(32% .14 25),
+    oklch(52% .22 27)
+  );
+
+  --shadow-card:
+    0 1px 2px oklch(45% .19 25 / .06),
+    0 12px 30px -14px oklch(45% .19 25 / .25);
+
+  --shadow-hover:
+    0 18px 40px -16px oklch(45% .19 25 / .4);
+
+  --font-display: "Playfair Display", Georgia, serif;
+
+  --font-body: "Jost", system-ui, sans-serif;
+}
+
+
+/* ===== Base ===== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--foreground);
+  background: var(--background);
+}
+
+.brand-font {
+  font-family: var(--font-display);
+}
+
+.text-brand {
+  color: var(--primary) !important;
+}
+
+
+/* ===== Navbar ===== */
+
+.header-brand {
+  background: color-mix(
+    in oklch,
+    var(--secondary) 85%,
+    transparent
+  );
+
+  backdrop-filter: blur(6px);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+  color: var(--primary) !important;
+}
+
+.nav-link {
+  color: var(--foreground);
+  transition: color .2s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link.active {
+  color: var(--primary) !important;
+  font-weight: 500;
+}
+
+
+/* ===== IA NAVBAR ===== */
+
+.nav-ia {
+  color: var(--primary) !important;
+  font-size: inherit;
+  transition: opacity .2s ease;
+}
+
+.nav-ia:hover {
+  color: var(--primary) !important;
+  opacity: .8;
+}
+
+.nav-ia .icon-circle {
+  width: 26px;
+  height: 26px;
+
+  flex-shrink: 0;
+
+  background: color-mix(
+    in oklch,
+    var(--primary) 12%,
+    transparent
+  );
+
+  color: var(--primary);
+}
+
+.nav-ia .icon-svg {
+  width: 15px;
+  height: 15px;
+
+  color: var(--primary);
+}
+
+
+/* ===== Marca, ícones e botões ===== */
+
+.brand-gradient {
+  background: var(--gradient-brand);
+  color: var(--primary-foreground);
+}
+
+.brand-gradient:hover {
+  color: #fff;
+}
+
+.icon-circle {
+  background: color-mix(
+    in oklch,
+    var(--primary-foreground) 20%,
+    transparent
+  );
+}
+
+.agendar-icone {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-ghost-brand {
+  border: 1px solid
+    color-mix(
+      in oklch,
+      var(--primary) 40%,
+      transparent
+    );
+
+  color: var(--primary);
+  background: transparent;
+
+  font-size: .75rem;
+
+  transition: .2s ease;
+}
+
+.btn-ghost-brand:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-icone-nav {
+  width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--foreground);
+
+  cursor: pointer;
+
+  transition: .2s ease;
+}
+
+.btn-icone-nav:hover {
+  background: var(--secondary);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+
+/* ===== LOGIN ===== */
+
+.login-avatar {
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  background: #f0d9b5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary);
+}
+
+.btn-login {
+  background: var(--gradient-brand);
+
+  color: #fff;
+
+  border: none;
+
+  font-size: .85rem;
+
+  padding: .45rem 1rem;
+
+  transition: .2s ease;
+}
+
+.btn-login:hover {
+  color: #fff;
+  opacity: .92;
+}
+
+
+/* ===== Banner ===== */
+
+.banner-servicos {
+  background: var(--gradient-brand);
+  color: var(--primary-foreground);
+  overflow: hidden;
+}
+
+.banner-conteudo {
+  min-height: clamp(120px, 18vh, 200px);
+}
+
+.banner-imagem {
+  width: clamp(120px, 15vh, 180px);
+  height: clamp(100px, 12vh, 150px);
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  border-radius: var(--radius);
+
+  margin-left: clamp(-70px, -6vw, -24px);
+}
+
+.banner-imagem img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.banner-texto {
+  border-left: 1px solid rgba(255, 255, 255, .25);
+
+  padding-left: 25px;
+}
+
+.banner-descricao {
+  max-width: 320px;
+}
+
+
+/* ===== Título da seção ===== */
+
+.titulo-servicos {
+  font-family: var(--font-display);
+
+  font-size: clamp(28px, 4.5vh, 42px);
+
+  font-weight: 500;
+
+  margin-bottom: clamp(14px, 2.5vh, 24px);
+}
+
+
+/* ===== Área de serviços ===== */
+
+.servicos-section {
+  padding: clamp(16px, 3vh, 32px) 0 70px;
+}
+
+.linha-servicos {
+  align-items: flex-start;
+}
+
+.linha-servicos > div {
+  display: flex;
+}
+
+
+/* ===== Card ===== */
+
+.servico-card {
+  width: 100%;
+
+  height: clamp(280px, 38vh, 340px);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--card);
+  color: var(--card-foreground);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow-card);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.servico-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.servico-card.expansivel.aberto {
+  height: auto;
+
+  min-height: clamp(280px, 38vh, 340px);
+}
+
+.imagem-container {
+  width: 100%;
+
+  height: clamp(90px, 14vh, 135px);
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  background: var(--muted);
+}
+
+.imagem-servico {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.card-conteudo {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 14px;
+}
+
+.categoria {
+  color: var(--primary);
+
+  font-size: .75rem;
+
+  margin: 0 0 4px;
+}
+
+.nome-servico {
+  font-family: var(--font-display);
+
+  font-size: clamp(17px, 2.4vh, 21px);
+
+  font-weight: 500;
+
+  margin: 0 0 6px;
+}
+
+.descricao {
+  color: var(--muted-foreground);
+
+  font-size: .76rem;
+
+  line-height: 1.45;
+
+  margin: 0;
+}
+
+.rodape-card {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: auto;
+
+  padding-top: 10px;
+}
+
+.preco-principal {
+  color: var(--primary);
+
+  font-size: .95rem;
+
+  font-weight: 600;
+
+  margin: 0;
+}
+
+.tempo-principal {
+  color: var(--muted-foreground);
+
+  font-size: .68rem;
+
+  margin: 2px 0 0;
+}
+
+.btn-quero-principal {
+  padding: 7px 18px;
+
+  border: 1px solid
+    color-mix(
+      in oklch,
+      var(--primary) 40%,
+      transparent
+    );
+
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: var(--primary);
+
+  font-size: .75rem;
+
+  cursor: pointer;
+
+  transition: .2s ease;
+}
+
+.btn-quero-principal:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-ver-opcoes {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: auto;
+
+  padding: 10px 15px;
+
+  border: 1px solid
+    color-mix(
+      in oklch,
+      var(--primary) 40%,
+      transparent
+    );
+
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: var(--primary);
+
+  font-family: var(--font-body);
+
+  font-size: .78rem;
+
+  cursor: pointer;
+
+  transition: .2s ease;
+}
+
+.btn-ver-opcoes:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.chevron {
+  transition: transform .2s ease;
+}
+
+[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+
+/* ===== Opções de depilação ===== */
+
+.area-opcoes {
+  padding-top: 16px;
+}
+
+.linha-opcoes {
+  width: 100%;
+  height: 1px;
+
+  margin: 0 0 16px;
+
+  background: var(--border);
+}
+
+.opcao-depilacao {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  min-height: 58px;
+
+  padding: 10px 12px;
+
+  margin-bottom: 10px;
+
+  border-radius: 14px;
+
+  background: var(--secondary);
+}
+
+.opcao-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.opcao-nome {
+  font-size: .75rem;
+}
+
+.opcao-tempo {
+  color: var(--muted-foreground);
+
+  font-size: .68rem;
+}
+
+.opcao-direita {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.opcao-preco {
+  color: var(--primary);
+
+  font-size: .75rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.btn-quero-opcao {
+  padding: 6px 12px;
+
+  border: 1px solid
+    color-mix(
+      in oklch,
+      var(--primary) 40%,
+      transparent
+    );
+
+  border-radius: 999px;
+
+  background: #fff;
+
+  color: var(--primary);
+
+  font-size: .68rem;
+
+  cursor: pointer;
+
+  transition: .2s ease;
+}
+
+.btn-quero-opcao:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+/* ===== CTA final ===== */
+
+.cta-final {
+  background: var(--secondary);
+
+  border-radius: var(--radius);
+
+  padding: 50px 25px;
+
+  margin-top: 70px;
+}
+
+.cta-final h2 {
+  font-family: var(--font-display);
+
+  font-size: 30px;
+}
+
+.cta-descricao {
+  max-width: 380px;
+}
+
+
+/* ===== Responsividade ===== */
+
+@media (max-width: 991px) {
+
+  .banner-conteudo {
+    min-height: auto;
   }
 
-  body{
-    font-family:'Poppins',sans-serif;
-    background:var(--cream);
-    color:var(--ink);
-    padding-top:var(--navbar-h);
-  }
-  h1,h2,.brand-name{font-family:'Playfair Display',serif;}
+  .banner-imagem {
+    width: 100%;
 
-  /* ---------- Cores da marca reaproveitando utilitários do Bootstrap ---------- */
-  .bg-wine{background-color:var(--rose-100)!important;}
-  .bg-wine-gradient{
-    background:linear-gradient(115deg,var(--wine-900) 0%,var(--wine-700) 45%,var(--wine-600) 100%)!important;
-  }
-  .text-wine{color:var(--wine-700)!important;}
-  .text-wine-dark{color:var(--wine-800)!important;}
+    max-width: 420px;
 
-  .btn-wine{
-    background:linear-gradient(135deg,var(--wine-700),var(--wine-900));
-    color:#fff;border:none;
-  }
-  .btn-wine:hover{color:#fff;opacity:.92;}
-  .btn-outline-wine{
-    color:#fff;border:1px solid rgba(255,255,255,.6);background:transparent;
-  }
-  .btn-outline-wine:hover{background:rgba(255,255,255,.15);color:#fff;}
-  .btn-white-wine{
-    background:#fff;color:var(--wine-800);font-weight:600;
-    box-shadow:0 8px 24px rgba(0,0,0,.18);
-  }
-  .btn-white-wine:hover{color:var(--wine-800);opacity:.92;}
-  .btn-link-wine{
-    font-size:.72rem;font-weight:600;color:var(--wine-700);
-    border:1px solid var(--wine-700);border-radius:20px;
-    padding:.35rem .9rem;background:transparent;white-space:nowrap;
-  }
-  .btn-link-wine:hover{background:var(--wine-700);color:#fff;}
-
-  /* ---------- Ícones ---------- */
-  .icon{
-    width:18px;height:18px;
-    stroke:currentColor;fill:none;stroke-width:1.8;
-    stroke-linecap:round;stroke-linejoin:round;
-    flex-shrink:0;vertical-align:-3px;
-  }
-  .icon-sm{width:14px;height:14px;}
-  .icon-lg{width:20px;height:20px;}
-
-  /* ---------- Navbar ---------- */
-  .navbar{min-height:var(--navbar-h);}
-  .navbar .nav-link{color:#3a2c2d;font-weight:500;font-size:.92rem;padding-top:.25rem;padding-bottom:.25rem;display:flex;align-items:center;gap:.35rem;}
-  .navbar .nav-link:hover, .navbar .nav-link.active{color:var(--wine-700)!important;font-weight:600;}
-  .navbar .nav-link.active{border-bottom:2px solid var(--wine-700);}
-  .navbar .btn{font-size:.85rem;padding-top:.35rem;padding-bottom:.35rem;}
-  .navbar .btn.rounded-circle{width:34px;height:34px;padding:0;display:flex;align-items:center;justify-content:center;}
-  .btn-icon-transparent{
-    background:transparent;border:none;color:#3a2c2d;
-  }
-  .btn-icon-transparent:hover{color:var(--wine-700);}
-  .badge-dot{
-    position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;
-    background:var(--wine-700);border:1.5px solid var(--rose-100);
-  }
-  .login-avatar{
-    width:24px;height:24px;border-radius:50%;
-    background:#f0d9b5;display:flex;align-items:center;justify-content:center;
-    color:var(--wine-800);
+    height: 200px;
   }
 
-  /* ---------- Hero ---------- */
-  .hero{
-    position:relative;overflow:hidden;
-  }
-  .hero::before{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(ellipse at 15% 120%, rgba(0,0,0,.35), transparent 60%);
-    pointer-events:none;
-  }
-  .hero-logo{
-    width:150px;height:auto;object-fit:contain;
-  }
-  .hero-title{font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.3px;}
-  .hero-sub{color:#e8d2d6;max-width:320px;}
-
-  /* ---------- Filtros ---------- */
-  .filters-aside{
-    position:sticky;
-    top:calc(var(--navbar-h) + 20px);
-    align-self:flex-start;
-  }
-  .filters{border-color:var(--line)!important;}
-  .filters .form-check-input:checked{background-color:var(--wine-700);border-color:var(--wine-700);}
-  .filters .form-check-label{font-size:.85rem;color:#4d3c3d;}
-
-  /* ---------- Cards de produto ---------- */
-  .product-card{
-    border:1px solid var(--line);
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .product-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 16px 30px rgba(74,7,18,.10);
-  }
-  .product-media{
-    position:relative;
-    aspect-ratio:1/0.92;
-    overflow:hidden;
-  }
-  .product-media img{
-    width:100%;height:100%;object-fit:cover;
-  }
-  .product-badge{
-    position:absolute;top:12px;left:12px;z-index:2;
-    background:var(--badge-grad);color:#fff;
-    font-size:.62rem;font-weight:600;letter-spacing:.3px;
-  }
-  .product-badge.new{background:var(--badge-grad-new);}
-  .product-cat{
-    font-size:.7rem;font-weight:600;color:var(--rose-500);
-    text-transform:uppercase;letter-spacing:.3px;
-  }
-  .product-name{font-family:'Inria Serif',serif;font-size:1.02rem;font-weight:700;color:var(--ink);}
-  .product-desc{font-size:.72rem;color:var(--muted);}
-  .product-price{font-size:.9rem;font-weight:700;color:var(--ink);}
-  .product-price.has-discount{color:var(--wine-700);}
-  .product-oldprice{
-    font-size:.74rem;color:var(--muted);
-    text-decoration:line-through;margin-right:.4rem;
-  }
-  .discount-badge{
-    display:inline-block;
-    background:var(--badge-grad);color:#fff;
-    font-size:.62rem;font-weight:700;
-    padding:.1rem .4rem;border-radius:20px;
-    margin-left:.4rem;vertical-align:middle;
+  .banner-texto {
+    width: 100%;
   }
 
-  .container-catalog{max-width:1280px;}
+}
 
-  footer{color:var(--muted);font-size:.75rem;}
+
+@media (max-width: 576px) {
+
+  .banner-imagem {
+    width: 100%;
+    height: 180px;
+  }
+
+  .banner-texto {
+    border-left: none;
+
+    padding-left: 0;
+  }
+
+  .titulo-servicos {
+    font-size: 38px;
+  }
+
+  .servico-card {
+    height: auto;
+
+    min-height: 385px;
+  }
+
+  .imagem-container {
+    height: 160px;
+  }
+
+  .opcao-depilacao {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .opcao-direita {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+
+}
+
 </style>
+
 </head>
+
+
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg bg-wine px-3 px-lg-5 fixed-top shadow-sm align-items-center">
-    <div class="container-fluid px-0 justify-content-end">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-label="Abrir menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
 
-      <div class="collapse navbar-collapse flex-grow-0" id="navMenu">
-        <ul class="navbar-nav align-items-lg-center gap-lg-4 me-lg-4">
-          <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Sobre mim</a></li>
-          <li class="nav-item"><a class="nav-link active" href="#" aria-current="page">Produtos</a></li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              IA
-              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
-                <path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4z"/>
-              </svg>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Notificações
-              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 01-3.46 0"/>
-              </svg>
-            </a>
-          </li>
-        </ul>
+<!-- Navbar -->
 
-        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
-          <button class="btn btn-wine rounded-pill d-flex align-items-center gap-2 px-3" type="button">
-            <span class="login-avatar">
-              <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
+<header class="navbar navbar-expand-lg sticky-top py-2 header-brand">
+
+  <div class="container">
+
+    <a class="navbar-brand brand-font fs-5" href="index.html">
+      Sandra Nerys
+    </a>
+
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#nav"
+    >
+
+      <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="nav">
+
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4 small">
+
+
+        <!-- Início -->
+
+        <li class="nav-item">
+
+          <a class="nav-link" href="index.html">
+            Início
+          </a>
+
+        </li>
+
+
+        <!-- Serviços -->
+
+        <li class="nav-item">
+
+          <a
+            class="nav-link active"
+            href="servicos.html"
+          >
+            Serviços
+          </a>
+
+        </li>
+
+
+        <!-- Produtos -->
+
+        <li class="nav-item">
+
+          <a
+            class="nav-link"
+            href="produtos.html"
+          >
+            Produtos
+          </a>
+
+        </li>
+
+
+        <!-- IA -->
+
+        <li class="nav-item mt-2 mt-lg-0">
+
+          <a
+            class="nav-ia d-inline-flex align-items-center gap-2 text-decoration-none"
+            href="agendamentos.html"
+          >
+
+            <span
+              class="icon-circle rounded-circle d-inline-flex align-items-center justify-content-center"
+            >
+
+              <svg
+                class="icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+
+                <path
+                  d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+                />
+
+                <path d="M20 2v4"/>
+
+                <path d="M22 4h-4"/>
+
+                <circle
+                  cx="4"
+                  cy="20"
+                  r="2"
+                />
+
               </svg>
+
             </span>
+
+            <span>IA</span>
+
+          </a>
+
+        </li>
+
+
+        <!-- Agendamentos -->
+
+        <li class="nav-item">
+
+          <a
+            class="nav-link"
+            href="perfil.html"
+          >
+            Agendamentos
+          </a>
+
+        </li>
+
+
+        <!-- Perfil -->
+
+        <li class="nav-item">
+
+          <a
+            class="nav-link"
+            href="perfil.html"
+          >
+            Perfil
+          </a>
+
+        </li>
+
+
+        <!-- Sobre -->
+
+        <li class="nav-item">
+
+          <a
+            class="nav-link"
+            href="sobre.html"
+          >
+            Sobre mim
+          </a>
+
+        </li>
+
+
+        <!-- NOTIFICAÇÕES -->
+
+        <li class="nav-item">
+
+          <button
+            type="button"
+            class="btn-icone-nav"
+            aria-label="Notificações"
+          >
+
+            <svg
+              class="icon-svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+
+              <path
+                d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
+              />
+
+              <path
+                d="M10.3 21a1.94 1.94 0 0 0 3.4 0"
+              />
+
+            </svg>
+
+          </button>
+
+        </li>
+
+
+        <!-- LOGIN -->
+
+        <li class="nav-item mt-2 mt-lg-0">
+
+          <button
+            class="btn btn-login rounded-pill d-flex align-items-center gap-2 px-3"
+            type="button"
+          >
+
+            <span class="login-avatar">
+
+              <svg
+                class="icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+
+                <path
+                  d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                />
+
+                <circle
+                  cx="12"
+                  cy="7"
+                  r="4"
+                />
+
+              </svg>
+
+            </span>
+
             Login
+
           </button>
-          <button class="btn btn-icon-transparent rounded-circle" type="button" aria-label="Configurações">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+
+        </li>
+
+
+        <!-- CONFIGURAÇÕES -->
+
+        <li class="nav-item">
+
+          <button
+            type="button"
+            class="btn-icone-nav"
+            aria-label="Configurações"
+          >
+
+            <svg
+              class="icon-svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="3"
+              />
+
             </svg>
+
           </button>
-        </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- HERO -->
-  <section class="hero bg-wine-gradient text-white py-5 px-3 px-lg-5">
-    <div class="container-fluid position-relative">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-8 d-flex align-items-center gap-4">
-          <img class="hero-logo d-none d-sm-block" src="../../../public/images/ChatGPT Image 20 de ago. de 2026, 01_13_21.png" alt="Salão Sempre Diva - Sandra Nerys">
-          <div>
-            <div class="small opacity-75 mb-1">Salão Sempre Diva</div>
-            <h1 class="hero-title fs-2 mb-2">BELEZA QUE<br>REALÇA SUA ESSÊNCIA.</h1>
-            <p class="hero-sub small mb-3">Serviços de beleza com excelência, cuidado e autoestima.</p>
-            <button class="btn btn-outline-wine btn-sm rounded-pill d-inline-flex align-items-center gap-2" type="button">
-              <svg class="icon icon-sm" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-              CONFIRA NOSSOS SERVIÇOS
-            </button>
-          </div>
-        </div>
-        <div class="col-lg-4 text-lg-end">
-          <button class="btn btn-white-wine rounded-3 px-4 py-3 d-inline-flex align-items-center gap-2" type="button">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 2l1.5 4h9L18 2"/>
-              <path d="M3 8h18l-1.5 12a2 2 0 01-2 2H6.5a2 2 0 01-2-2L3 8z"/>
-              <path d="M9 12a3 3 0 006 0"/>
-            </svg>
-            Confira nossos produtos
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
+        </li>
 
-  <!-- TITLE -->
-  <h2 class="text-center fw-bold my-5">Produtos do Salão</h2>
-
-  <div class="container-fluid container-catalog px-3 px-lg-5 pb-5">
-    <div class="row g-4">
-
-      <!-- FILTERS -->
-      <aside class="col-lg-3 filters-aside">
-        <div class="filters bg-white border rounded-3 p-4">
-          <h2 class="fs-5 fw-semibold mb-2">Filtros</h2>
-          <hr>
-
-          <div class="mb-4">
-            <h3 class="fs-6 fw-semibold mb-3">Categorias</h3>
-            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat1"><label class="form-check-label" for="cat1">Todos</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat2"><label class="form-check-label" for="cat2">Shampoos</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat3"><label class="form-check-label" for="cat3">Condicionadores</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat4"><label class="form-check-label" for="cat4">Máscaras de Tratamento</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="cat5"><label class="form-check-label" for="cat5">Finalizadores</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" id="cat6"><label class="form-check-label" for="cat6">Kits</label></div>
-          </div>
-
-          <div>
-            <h3 class="fs-6 fw-semibold mb-3">Preço</h3>
-            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p1"><label class="form-check-label" for="p1">Até 50 R$</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p2"><label class="form-check-label" for="p2">50 R$ - 100 R$</label></div>
-            <div class="form-check mb-2"><input class="form-check-input" type="radio" name="preco" id="p3"><label class="form-check-label" for="p3">100 R$ - 200 R$</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="preco" id="p4"><label class="form-check-label" for="p4">Acima de 200 R$</label></div>
-          </div>
-        </div>
-      </aside>
-
-      <!-- PRODUCT GRID -->
-      <div class="col-lg-9">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill ">Mais vendido</span>
-              <img src="../../../public/images/prod-1-BPQ7Wc6b.jpg" alt="Shampoo Reconstrução Intensa" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Shampoo Reconstrução Intensa</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 109,90</span><span class="discount-badge">-18%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill new">Novo</span>
-              <img src="../../../public/images/prod-2-DD_EaWGG.jpg" alt="Máscara Hair Conditioner" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Máscara Hair Conditioner</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-3-DirrTLqy.jpg" alt="Sérum Reconstrutor Capilar" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Sérum Reconstrutor Capilar</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-4-BMtT688m.jpg" alt="Leave-in Reparador Total" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Leave-in Reparador Total</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 119,90</span><span class="discount-badge">-25%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill ">Mais vendido</span>
-              <img src="../../../public/images/prod-5-DJHLsHAq.jpg" alt="Coloração Coculiiré 7.150" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Coloração Coculiiré 7.150</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 129,90</span><span class="discount-badge">-31%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-6-Bs4GUQg3.jpg" alt="Creme Ativador de Cachos" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Creme Ativador de Cachos</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill ">Mais vendido</span>
-              <img src="../../../public/images/prod-1-BPQ7Wc6b.jpg" alt="Shampoo Reconstrução Intensa" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Shampoo Reconstrução Intensa</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 109,90</span><span class="discount-badge">-18%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill new">Novo</span>
-              <img src="../../../public/images/prod-2-DD_EaWGG.jpg" alt="Máscara Hair Conditioner" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Máscara Hair Conditioner</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-3-DirrTLqy.jpg" alt="Sérum Reconstrutor Capilar" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Sérum Reconstrutor Capilar</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-4-BMtT688m.jpg" alt="Leave-in Reparador Total" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Leave-in Reparador Total</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 119,90</span><span class="discount-badge">-25%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              <span class="product-badge badge rounded-pill ">Mais vendido</span>
-              <img src="../../../public/images/prod-5-DJHLsHAq.jpg" alt="Coloração Coculiiré 7.150" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Coloração Coculiiré 7.150</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <div>
-                <div><span class="product-oldprice">R$ 129,90</span><span class="discount-badge">-31%</span></div>
-                <span class="product-price has-discount">R$ 89,90</span>
-              </div>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="product-card card h-100 rounded-3 overflow-hidden">
-            <div class="product-media">
-              
-              <img src="../../../public/images/prod-6-Bs4GUQg3.jpg" alt="Creme Ativador de Cachos" loading="lazy">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <div class="product-cat">Limpeza</div>
-              <div class="product-name mb-1">Creme Ativador de Cachos</div>
-              <p class="product-desc mb-3">Repõe massa capilar e devolve resistência aos fios danificados.</p>
-              <div class="mt-auto d-flex align-items-center justify-content-between">
-                <span class="product-price">R$ 89,90</span>
-                <button class="btn-link-wine" type="button">Saiba mais</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
+      </ul>
 
     </div>
+
   </div>
 
-  <footer class="text-center py-4">© 2026 Salão Sempre Diva — Todos os direitos reservados.</footer>
+</header>
 
-  <!-- Bootstrap JS (necessário para o menu recolhível no mobile) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Banner -->
+
+<section class="banner-servicos">
+
+  <div class="container">
+
+    <div
+      class="banner-conteudo d-flex flex-column flex-lg-row align-items-center gap-4 py-3"
+    >
+
+      <div class="banner-imagem">
+
+        <img
+          src="../../../public/images/ChatGPT Image 20 de ago. de 2026, 01_13_21.png"
+          alt="Serviços de beleza do Salão Sandra Nerys"
+        >
+
+      </div>
+
+
+      <div class="banner-texto flex-grow-1">
+
+        <h1 class="brand-font display-6 mb-0">
+
+          Beleza que<br>
+          realça sua essência.
+
+        </h1>
+
+
+        <p class="banner-descricao mt-3 mb-0 small opacity-75">
+
+          Serviços de beleza com excelência, cuidado e autoestima.
+
+        </p>
+
+      </div>
+
+
+      <div
+        class="d-flex flex-column flex-sm-row flex-lg-column gap-3 flex-shrink-0"
+      >
+
+        <a
+          href="produtos.html"
+          class="btn btn-light rounded-pill px-4 py-2 small fw-medium"
+        >
+          Confira nossos produtos
+        </a>
+
+
+        <a
+          href="agendamentos.html"
+          class="btn btn-outline-light rounded-pill px-4 py-2 small fw-medium"
+        >
+          Agendar agora
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- Serviços -->
+
+<main class="container servicos-section">
+
+
+  <h2 class="brand-font text-center titulo-servicos">
+    Serviços
+  </h2>
+
+
+  <div class="row g-4 linha-servicos">
+
+
+    <!-- Depilação -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article
+        class="servico-card expansivel"
+        id="card-depilacao"
+      >
+
+        <div class="imagem-container">
+
+          <img
+            src="../../../public/images/images.jfif"
+            alt="Depilação"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Depilação
+          </p>
+
+
+          <h3 class="nome-servico">
+            Depilação
+          </h3>
+
+
+          <p class="descricao">
+
+            Depilação com cera quente ou roll-on para pele lisa por mais tempo.
+
+          </p>
+
+
+          <button
+            type="button"
+            class="btn-ver-opcoes"
+            id="btn-depilacao"
+            data-bs-toggle="collapse"
+            data-bs-target="#opcoes-depilacao"
+            aria-expanded="false"
+          >
+
+            <span class="texto-botao">
+              Ver opções
+            </span>
+
+
+            <svg
+              class="icon-svg chevron"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+
+              <path d="m6 9 6 6 6-6"/>
+
+            </svg>
+
+          </button>
+
+
+          <div
+            class="collapse"
+            id="opcoes-depilacao"
+          >
+
+            <div class="area-opcoes">
+
+              <div class="linha-opcoes"></div>
+
+              <div id="lista-opcoes-depilacao"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- Mãos e pés -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article class="servico-card normal">
+
+        <div class="imagem-container">
+
+          <img
+            src="https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia7109/reproducao-manicure-cursos-artigos-cpt.jpg"
+            alt="Mãos e pés completos"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Manicure & Pedicure
+          </p>
+
+
+          <h3 class="nome-servico">
+            Mãos e pés completos
+          </h3>
+
+
+          <p class="descricao">
+
+            Cutilagem cuidadosa, esmaltação em gel ou tradicional.
+
+          </p>
+
+
+          <div class="rodape-card">
+
+            <div>
+
+              <p class="preco-principal">
+                R$ 65,00
+              </p>
+
+              <p class="tempo-principal">
+                75 min
+              </p>
+
+            </div>
+
+
+            <button
+              class="btn-quero-principal"
+              type="button"
+            >
+              Quero esse
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- Unhas decoradas -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article class="servico-card normal">
+
+        <div class="imagem-container">
+
+          <img
+            src="https://conteudo.imguol.com.br/c/entretenimento/cb/2021/12/10/unhas-decoradas-1639156618478_v2_1080x1194.jpg"
+            alt="Unhas decoradas"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Nail Art & Adesivos
+          </p>
+
+
+          <h3 class="nome-servico">
+            Unhas decoradas
+          </h3>
+
+
+          <p class="descricao">
+
+            Desenhos, francesinhas, encapsuladas e películas.
+
+          </p>
+
+
+          <div class="rodape-card">
+
+            <div>
+
+              <p class="preco-principal">
+                R$ 45,00
+              </p>
+
+              <p class="tempo-principal">
+                45 min
+              </p>
+
+            </div>
+
+
+            <button
+              class="btn-quero-principal"
+              type="button"
+            >
+              Quero esse
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- Corte -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article class="servico-card normal">
+
+        <div class="imagem-container">
+
+          <img
+            src="../../../public/images/mulher-cortando-o-cabelo-no-salao-de-beleza_23-2149167396.jpg"
+            alt="Corte de cabelo"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Corte de cabelo
+          </p>
+
+
+          <h3 class="nome-servico">
+            Corte & Modelagem
+          </h3>
+
+
+          <p class="descricao">
+
+            Corte personalizado para valorizar seu estilo.
+
+          </p>
+
+
+          <div class="rodape-card">
+
+            <div>
+
+              <p class="preco-principal">
+                R$ 90,00
+              </p>
+
+              <p class="tempo-principal">
+                60 min
+              </p>
+
+            </div>
+
+
+            <button
+              class="btn-quero-principal"
+              type="button"
+            >
+              Quero esse
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- Coloração -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article class="servico-card normal">
+
+        <div class="imagem-container">
+
+          <img
+            src="https://claudia.abril.com.br/wp-content/uploads/2025/04/loiros-mais-pedidos.jpg?quality=70&strip=info&w=414&h=280&crop=1"
+            alt="Coloração"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Coloração
+          </p>
+
+
+          <h3 class="nome-servico">
+            Coloração completa
+          </h3>
+
+
+          <p class="descricao">
+
+            Cor uniforme, brilho e cobertura.
+
+          </p>
+
+
+          <div class="rodape-card">
+
+            <div>
+
+              <p class="preco-principal">
+                R$ 220,00
+              </p>
+
+              <p class="tempo-principal">
+                2h
+              </p>
+
+            </div>
+
+
+            <button
+              class="btn-quero-principal"
+              type="button"
+            >
+              Quero esse
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- Mechas -->
+
+    <div class="col-sm-6 col-lg-4">
+
+      <article class="servico-card normal">
+
+        <div class="imagem-container">
+
+          <img
+            src="https://s3.us-east-1.amazonaws.com/vnda-cockpit/www-keune-com-br/2023/01/23/63ce83a14ab73Du-Nunes-dourado.png"
+            alt="Mechas iluminadas"
+            class="imagem-servico"
+          >
+
+        </div>
+
+
+        <div class="card-conteudo">
+
+          <p class="categoria">
+            Luzes & Balayage
+          </p>
+
+
+          <h3 class="nome-servico">
+            Mechas iluminadas
+          </h3>
+
+
+          <p class="descricao">
+
+            Mechas personalizadas para iluminar o cabelo.
+
+          </p>
+
+
+          <div class="rodape-card">
+
+            <div>
+
+              <p class="preco-principal">
+                R$ 320,00
+              </p>
+
+              <p class="tempo-principal">
+                2h30
+              </p>
+
+            </div>
+
+
+            <button
+              class="btn-quero-principal"
+              type="button"
+            >
+              Quero esse
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+
+  <!-- CTA final -->
+
+  <section class="cta-final text-center">
+
+    <h2>
+      Em dúvida sobre o visual?
+    </h2>
+
+
+    <p class="cta-descricao text-muted small mx-auto mt-3">
+
+      Simule seu corte, cor ou unha com nossa IA e depois marque seu horário.
+
+    </p>
+
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+
+      <a
+        href="#ia"
+        class="btn btn-ghost-brand rounded-pill px-4 py-2"
+      >
+        Simular meu look
+      </a>
+
+
+      <a
+        href="agendamentos.html"
+        class="brand-gradient btn rounded-pill px-4 py-2"
+      >
+        Agendar agora
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- Bootstrap -->
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<script>
+
+const cardDepilacao =
+  document.getElementById('card-depilacao');
+
+const opcoesDepilacao =
+  document.getElementById('opcoes-depilacao');
+
+const btnDepilacao =
+  document.getElementById('btn-depilacao');
+
+const textoBotao =
+  btnDepilacao.querySelector('.texto-botao');
+
+const listaOpcoes =
+  document.getElementById('lista-opcoes-depilacao');
+
+
+const servicosDepilacao = [
+
+  {
+    nome: 'Depilação — Rosto',
+    tempo: '20 min',
+    preco: 'R$ 35,00'
+  },
+
+  {
+    nome: 'Depilação — Axilas',
+    tempo: '20 min',
+    preco: 'R$ 40,00'
+  },
+
+  {
+    nome: 'Depilação — Virilha simples',
+    tempo: '30 min',
+    preco: 'R$ 55,00'
+  },
+
+  {
+    nome: 'Depilação — Virilha completa',
+    tempo: '40 min',
+    preco: 'R$ 75,00'
+  },
+
+  {
+    nome: 'Depilação — Perna meia',
+    tempo: '30 min',
+    preco: 'R$ 60,00'
+  },
+
+  {
+    nome: 'Depilação — Perna inteira',
+    tempo: '50 min',
+    preco: 'R$ 95,00'
+  }
+
+];
+
+
+function criarOpcoesDepilacao() {
+
+  if (listaOpcoes.children.length > 0) return;
+
+
+  servicosDepilacao.forEach(function(servico) {
+
+    const opcao =
+      document.createElement('div');
+
+    opcao.className =
+      'opcao-depilacao';
+
+
+    opcao.innerHTML = `
+
+      <div class="opcao-info">
+
+        <span class="opcao-nome">
+          ${servico.nome}
+        </span>
+
+        <span class="opcao-tempo">
+          ${servico.tempo}
+        </span>
+
+      </div>
+
+
+      <div class="opcao-direita">
+
+        <span class="opcao-preco">
+          ${servico.preco}
+        </span>
+
+
+        <button
+          type="button"
+          class="btn-quero-opcao"
+        >
+          Quero
+        </button>
+
+      </div>
+
+    `;
+
+
+    listaOpcoes.appendChild(opcao);
+
+  });
+
+}
+
+
+opcoesDepilacao.addEventListener(
+  'show.bs.collapse',
+  function() {
+
+    criarOpcoesDepilacao();
+
+    cardDepilacao.classList.add('aberto');
+
+    textoBotao.textContent =
+      'Ocultar opções';
+
+  }
+);
+
+
+opcoesDepilacao.addEventListener(
+  'hidden.bs.collapse',
+  function() {
+
+    cardDepilacao.classList.remove('aberto');
+
+    textoBotao.textContent =
+      'Ver opções';
+
+  }
+);
+
+
+listaOpcoes.addEventListener(
+  'click',
+  function(event) {
+
+    if (
+      !event.target.classList.contains(
+        'btn-quero-opcao'
+      )
+    ) return;
+
+
+    const opcao =
+      event.target.closest(
+        '.opcao-depilacao'
+      );
+
+
+    const nome =
+      opcao
+        .querySelector('.opcao-nome')
+        .textContent
+        .trim();
+
+
+    const preco =
+      opcao
+        .querySelector('.opcao-preco')
+        .textContent
+        .trim();
+
+
+    localStorage.setItem(
+      'servicoEscolhido',
+      nome
+    );
+
+
+    localStorage.setItem(
+      'precoServico',
+      preco
+    );
+
+
+    console.log(
+      'Serviço escolhido:',
+      nome
+    );
+
+  }
+);
+
+</script>
 
 </body>
 </html>
