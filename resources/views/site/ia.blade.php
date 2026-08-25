@@ -293,7 +293,11 @@
 
 <script>
 
+console.log("JavaScript da IA carregado");
+
 const imagemInput = document.getElementById('imagem');
+
+console.log(imagemInput);
 
 const previewContainer =
     document.getElementById('previewContainer');
