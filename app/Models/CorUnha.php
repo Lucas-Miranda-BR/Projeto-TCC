@@ -17,7 +17,7 @@ class CorUnha extends Model
         'disponivel'
     ];
 
-    public function cores(): HasMany {
+    public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'cor_unha_id', 'cor_unha_id');
     }
 }

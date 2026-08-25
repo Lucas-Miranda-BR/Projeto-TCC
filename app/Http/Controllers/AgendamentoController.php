@@ -4,28 +4,69 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Agendamento;
+use App\Models\Tipo;
+use App\Models\Cliente;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AgendamentoController extends Controller
 {
-    public function index()
+    public function createAgendamento(Request $request)
     {
-        return view('cliente.agendamentos');
+        $tipos = \App\Models\Tipo::All();
+
+        $clienteSession = session('cliente');
+
+        if(!$clienteSession){
+            return redirect()->route('cliente.cadastro')
+            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
+        }
+        
+        $cliente = \App\Models\Cliente::find($clienteSession->cliente_id);
+
+        $agendamentos = Agendamento::with('servicos')->get();
+
+        $tipo_selecionado = $request->query('tipo_selecionado');
+
+        return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos', 'tipo_selecionado'));
     }
 
-    public function salvar(Request $request)
+    public function storeAgendamento(Request $dados)
     {
-        Agendamento::create([
+        $validator = Validator::make($dados->all(), [
+            'hora' => [
+                'required',
+                'date_format:H:i'
+            ],
 
-            'nome' => $request->nome,
-            'servico' => $request->servico,
-            'data' => $request->data,
-            'hora' => $request->hora,
-            'valor' => $request->valor,
+            'data' => [
+                'required',
+                'date'
+            ],
 
+            'cliente_id' => [
+                'required'
+            ]
+        ],
+        [
+            'hora.required' => 'Selecione uma hora disponível.',
+            'hora.date_format' => 'Formato de hora incorreto.',
+
+            'data.required' => 'Selecione uma data disponível.',
+            'data.date' => 'Formato de data incorreto.',
         ]);
 
-        return redirect()
-            ->back()
-            ->with('success','Agendamento realizado!');
+        if ($validator->fails()) {
+            return redirect()
+                ->route('agendamento.agendar')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        Agendamento::create($validated);
+
+        return redirect()->route('site.sobre');
     }
 }

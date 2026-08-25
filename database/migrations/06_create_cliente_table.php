@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('telefone')->nullable()->unique();
             $table->string('email')->nullable()->unique();
-            $table->string('cep');
-            $table->string('endereco');
+            $table->string('cep')->nullable();
+            $table->string('endereco')->nullable();
             $table->date('data_nascimento');
+            $table->string('foto')->default('default.png');
             $table->string('senha');
             $table->boolean('admin')->default(false);
             $table->timestamp('criado')->useCurrent();

@@ -77,50 +77,16 @@
                     <input
                         type="tel"
                         pattern='[0-9]{11}'
+                        maxlength="11"
+                        minlength="11"
                         id="telefone"
                         name="telefone"
                         value="{{ old('telefone') }}"
                         autocomplete="off"  
                     >
-
-                    <label for="cpf">CPF</label>
-                    <input
-                        type="number"
-                        minlenght="11"
-                        maxlenght="11"
-                        id="cpf"
-                        name="cpf"
-                        required
-                        value="{{ old('cpf') }}"
-                        autocomplete="off"     
-                    >
-
                 </div>
 
                 <div class="form-row">
-
-                <label for="endereco">Endereço</label>
-                    <input
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        required
-                        value="{{ old('endereco') }}"
-                        autocomplete="off"                    
-                        >
-
-                        <label for="cep">CEP</label>
-                    <input
-                        type="number"
-                        minlenght="8"
-                        maxlenght="8"
-                        id="cep"
-                        name="cep"
-                        required
-                        value="{{ old('cep') }}"
-                        autocomplete="off"     
-                    >
-
                     <label for="data_nascimento">Data de Nascimento</label>
                     <input
                     placeholder="Data Nascimento"
@@ -131,7 +97,19 @@
                         value="{{ old('data_nascimento') }}"
                         autocomplete="off"
                     >
-
+                    <label for="cpf">CPF</label>
+                    <input
+                        type="text"
+                        minlength="11"
+                        maxlength="11"
+                        pattern='[0-9]{11}'
+                        inputmode="numeric"
+                        id="cpf"
+                        name="cpf"
+                        required
+                        value="{{ old('cpf') }}"
+                        autocomplete="off"     
+                    >
                 </div>
 
                 <div class="form-row">

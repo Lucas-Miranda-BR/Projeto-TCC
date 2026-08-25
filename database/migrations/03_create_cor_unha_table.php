@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cor_cabelo', function (Blueprint $table) {
-            $table->id('cor_cabelo_id');
+        Schema::create('cor_unha', function (Blueprint $table) {
+            $table->id('cor_unha_id');
             $table->string('nome');
             $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estado');
+        Schema::dropIfExists('cor_unha');
     }
 };

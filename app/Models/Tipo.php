@@ -16,7 +16,7 @@ class Tipo extends Model
         'nome'
     ];
 
-    public function tipos(): HasMany {
+    public function servicos(): HasMany {
         return $this->hasMany(Servico::class, 'tipo_id', 'tipo_id');
     }
 }

@@ -3,20 +3,26 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SiteController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgendamentoController;
+
+
+Route::get('/', [SiteController::class,'home'])
+    ->name('home');
 
 Route::prefix('site')->group(function(){
 
-    Route::get('/home', [SiteController::class,'home'])
-        ->name('site.home');
-
-    Route::get('/sobre', [SiteController::class,'sobre'])
+    Route::get('/sobre', [SiteController::class, 'sobre'])
         ->name('site.sobre');
+
+        // Separar "servicos" em um Prefix
 
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
+
+        // Criar "produtos" em um Prefix
 
     Route::get('/produtos', [SiteController::class,'produtos'])
         ->name('site.produtos'); 
@@ -37,31 +43,38 @@ Route::prefix('cliente')->group(function(){
         Route::post('/auth', [ClienteController::class,'authCliente'])
         ->name('cliente.auth');
 
-    Route::get('/perfil', [ClienteController::class,'perfil'])
+    Route::get('/perfil', [ClienteController::class, 'perfil'])
         ->name('cliente.perfil');
-
-    Route::get('/agendamentos', [ClienteController::class,'agendamentos'])
-        ->name('cliente.agendamentos');
-
-    Route::post('/agendamento/salvar',[AgendamentoController::class,'salvar']
-    )->name('cliente.salvar');
 
 });
 
-Route::prefix('admin')->group(function(){
+Route::prefix('agendamento')->group(function(){
 
-    Route::get('/dashboard', [AdminController::class,'dashboard'])
+    Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])->name('agendamento.agendar');
+
+    Route::post('/create', [AgendamentoController::class,'storeAgendamento'])
+    ->name('agendamento.create');
+
+});
+
+
+
+
+Route::prefix('admin')->group(function () {
+
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
 
-    Route::get('/clientes', [AdminController::class,'clientes'])
+    Route::get('/clientes', [AdminController::class, 'clientes'])
         ->name('admin.clientes');
 
-    Route::get('/agendamentos', [AdminController::class,'agendamentos'])
+    Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
         ->name('admin.agendamentos');
 
-    Route::get('/calendario', [AdminController::class,'calendario'])
+    Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
     Route::get('/dashboard/produtos', [AdminController::class,'produtos'])
         ->name('admin.produtos');
+
 });

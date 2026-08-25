@@ -17,7 +17,7 @@ class CorCabelo extends Model
         'disponivel'
     ];
 
-    public function cores(): HasMany {
+    public function prompts_ia(): HasMany {
         return $this->hasMany(Prompt_ia::class, 'cor_cabelo_id', 'cor_cabelo_id');
     }
 }

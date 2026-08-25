@@ -22,58 +22,20 @@ class ClienteController extends Controller
 
     function storeCliente(Request $dados){
         $validator = Validator::make($dados->all(), [
-            'nome' => [
-                'required',
-                'string',
-                'min:2'
-            ],
+            'nome' => ['required','string','min:2'],
 
-            'sobrenome' => [
-                'required',
-                'string',
-                'min:2'
-            ],
-            'cpf' => [
-                'required',
-                'string',
-                'unique:cliente',
-                'max:11',
-                'min:11'
-            ],
-            'telefone' => [
-            'required_without:email',
-            'string',
-            'unique:cliente',
-            'min:11',
-            'max:11',
-            'nullable'
-        ],
+            'sobrenome' => ['required','string','min:2'],
+            
+            'cpf' => ['required','digits:11','unique:cliente','max:11','min:11'],
+            
+            'telefone' => ['required_without:email','digits:11','unique:cliente','min:11','max:11','nullable'],
 
-            'email' => [
-                'required_without:telefone',
-                'email',
-                'max:255',
-                'nullable',
-                'unique:cliente',
-        ],
-            'endereco' => [
-                'string',
-                'required'
-        ],
-            'data_nascimento' => [
-                'date',
-                'required'
-        ],
-        'senha' => [
-            'required',
-            Password::min(8)->letters()->mixedCase()->numbers()->symbols()
-        ],
-        'cep' => [
-                'required',
-                'string',
-                'max:8',
-                'min:8'
-        ]
+            'email' => ['required_without:telefone','email','max:255','nullable','unique:cliente',],
+                        
+            'data_nascimento' => ['date','required'],
+            
+            'senha' => ['required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+            
         ]);
 
         if ($validator->fails()) {
@@ -85,7 +47,9 @@ class ClienteController extends Controller
 
         $validated = $validator->validated();
 
-        Cliente::create($validated);
+        $cliente = Cliente::create($validated);
+
+        session(['cliente' => $cliente]);
 
         return redirect()->route('site.sobre');
     }
@@ -100,64 +64,20 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
 
         $validator = Validator::make($dados->all(), [
-            'nome' => [
-                'required',
-                'string',
-                'min:2'
-            ],
+            'nome' => ['required', 'string', 'min:2'],
 
-            'sobrenome' => [
-                'required',
-                'string',
-                'min:2'
-            ],
-            'cpf' => [
-                'required',
-                'string',
-                'unique:cliente',
-                'max:11',
-                'min:11',
-                Rule::unique('cliente', 'cpf')->ignore($cliente->id)
+            'sobrenome' => ['required','string','min:2'],
 
-            ],
-            'telefone' => [
-            'required_without:email',
-            'string',
-            'unique:cliente',
-            'max:11',
-            'min:11',
-            'nullable',
-            Rule::unique('cliente', 'telefone')->ignore($cliente->id)
+            'cpf' => ['required','digits:11','unique:cliente','max:11','min:11',Rule::unique('cliente', 'cpf')->ignore($cliente->id)],
+            
+            'telefone' => ['required_without:email','digits:11','unique:cliente','max:11','min:11','nullable',Rule::unique('cliente', 'telefone')->ignore($cliente->id)],
+            
+            'email' => ['required_without:telefone','unique:cliente','email','nullable',Rule::unique('cliente', 'email')->ignore($cliente->id)],
 
-            ],
+            'data_nascimento' => ['date','required'],
 
-            'email' => [
-                'required_without:telefone',
-                'unique:cliente',
-                'email',
-                'max:255',
-                'nullable',
-                Rule::unique('cliente', 'email')->ignore($cliente->id)
+            'senha' => ['nullable',Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
 
-            ],
-            'endereco' => [
-                'string',
-                'required'
-            ],
-            'data_nascimento' => [
-                'date',
-                'required'
-            ],
-            'senha' => [
-                'nullable',
-                Password::min(8)->letters()->mixedCase()->numbers()->symbols()
-            ],
-            'cep' => [
-                'required',
-                'string',
-                'max:8',
-                'min:8'
-            ]
         ]);
 
         if ($validator->fails()) {
@@ -167,6 +87,8 @@ class ClienteController extends Controller
                 ->withInput();
         }
 
+        $validated = $validator->validated();
+
         if (!empty($validated['senha'])) {
             $validated['senha'] = Hash::make($validated['senha']);
         } else {
@@ -174,6 +96,12 @@ class ClienteController extends Controller
         }
 
         $validated = $validator->validated();
+
+        $cliente->update($validated);
+
+        if (session()->has('cliente') && session('cliente')->cliente_id == $cliente->cliente_id) {
+            session(['cliente' => $cliente]);
+        }
 
         return redirect()->route('site.home');
     }
@@ -205,8 +133,7 @@ class ClienteController extends Controller
             }
 
             session([
-                'cliente_id' => $cliente->cliente_id,
-                'admin' => $cliente->admin,
+                'cliente' => $cliente
             ]);
             
             return redirect()->route('site.sobre');

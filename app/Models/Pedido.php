@@ -15,9 +15,7 @@ class Pedido extends Model
     protected $primaryKey = 'pedido_id';
     protected $fillable = [
         'cliente_id', // FK
-        'valor_total',
-        'pedido_data',
-        'forma_pagamento'
+        'valor_total'
     ];
 
     protected $casts = [
@@ -30,9 +28,5 @@ class Pedido extends Model
 
     public function carrinhos_itens(): HasMany{
         return $this->hasMany(CarrinhoItem::class, 'carrinho_item_id', 'carrinho_item_id');
-    }
-
-    public function carrinhos_servicos(): HasMany{
-        return $this->hasMany(CarrinhoServico::class, 'carrinho_sevico_id', 'carrinho_sevico_id');
     }
 }
