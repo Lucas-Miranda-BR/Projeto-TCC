@@ -23,4 +23,9 @@ class SiteController extends Controller
     {
         return view('site.ia');
     }
+
+    public function produtos()
+    {
+        return view('site.produtos');
+    }
 }

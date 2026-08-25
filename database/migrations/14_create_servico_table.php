@@ -16,10 +16,8 @@ return new class extends Migration
             $table->decimal('total', total: 8, places: 2);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('tipo_id')->default(0);
             $table->unsignedBigInteger('agendamento_id')->default(0);
 
-            $table->foreign('tipo_id')->references('tipo_id')->on('tipo')->restrictOnDelete();
             $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
         });
     }

@@ -13,7 +13,7 @@ class AgendamentoController extends Controller
 {
     public function createAgendamento(Request $request)
     {
-        $tipos = \App\Models\Tipo::All();
+        $procedimentos = \App\Models\Procedimento::All();
 
         $clienteSession = session('cliente');
 
@@ -26,9 +26,7 @@ class AgendamentoController extends Controller
 
         $agendamentos = Agendamento::with('servicos')->get();
 
-        $tipo_selecionado = $request->query('tipo_selecionado');
-
-        return view('agendamento.agendar', compact('tipos', 'cliente', 'agendamentos', 'tipo_selecionado'));
+        return view('agendamento.agendar', compact('procedimentos', 'cliente', 'agendamentos'));
     }
 
     public function storeAgendamento(Request $dados)
@@ -46,14 +44,11 @@ class AgendamentoController extends Controller
 
             'cliente_id' => [
                 'required'
+            ],
+            'procedimento_id' => [
+                'required',
+                'exists:procedimento,procedimento_id'
             ]
-        ],
-        [
-            'hora.required' => 'Selecione uma hora disponível.',
-            'hora.date_format' => 'Formato de hora incorreto.',
-
-            'data.required' => 'Selecione uma data disponível.',
-            'data.date' => 'Formato de data incorreto.',
         ]);
 
         if ($validator->fails()) {

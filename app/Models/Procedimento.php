@@ -15,7 +15,7 @@ class Procedimento extends Model
     protected $primary_key = "procedimento_id";
     protected $fillable = [
         'tipo_id', // FK
-        "titulo",
+        "nome",
         'descricao',
         'preco'
     ];
