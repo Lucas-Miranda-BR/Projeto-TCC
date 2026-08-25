@@ -40,15 +40,22 @@
                     @endforeach
                                     
                 </select>
+
+                <p id="exibe-tipo">
+                    <strong>Tipo de Serviço:</strong> <span></span>
+                </p>
             </div>
 
             <div class="resumo">
-
                 <h3>Resumo do Agendamento</h3>
-
-                <p><strong>Serviço: Selecione um serviço</strong></p>
-                <p><strong>Valor:</strong> R$0,00</p>
-
+                
+                <p id="resumo-nome"><strong>Serviço:</strong> Selecione um serviço ao lado</p>
+                
+                <p id="resumo-descricao">
+                    <strong>Descrição:</strong> <span></span>
+                </p>
+                
+                <p id="resumo-preco"><strong>Valor:</strong> R$ 0,00</p>
             </div>
 
         </div>
@@ -174,5 +181,11 @@
 </div>
 
 @include('components.footer')
+
+<script>
+    window.dadosProcedimentos = @json($procedimentos);
+</script>
+
+<script src="{{ asset('js/agendamento.js') }}"></script>
 
 @endsection

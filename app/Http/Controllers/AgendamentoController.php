@@ -13,8 +13,8 @@ class AgendamentoController extends Controller
 {
     public function createAgendamento(Request $request)
     {
-        $procedimentos = \App\Models\Procedimento::All();
-
+        $procedimentos = \App\Models\Procedimento::with('tipos')->get();
+        
         $clienteSession = session('cliente');
 
         if(!$clienteSession){
