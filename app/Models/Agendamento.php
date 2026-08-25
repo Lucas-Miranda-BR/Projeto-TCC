@@ -16,6 +16,7 @@ class Agendamento extends Model
     protected $fillable = [
         'cliente_id', // FK
         'procedimento_id', // FK
+        'imagem_gerada_id', // FK
         'hora',
         'data'
     ];
@@ -28,12 +29,16 @@ class Agendamento extends Model
         return $this->hasMany(Servico::class, 'agendamento_id', 'agendamento_id');
     }
 
-    public function procedimentos(): HasMany {
-        return $this->hasMany(Procedimento::class, 'procedimento_id', 'procedimento_id');
+    public function procedimentos(): BelongsTo {
+        return $this->belongsTo(Procedimento::class, 'procedimento_id', 'procedimento_id');
     }
 
     public function clientes(): BelongsTo {
         return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
+    }
+
+    public function imagens_geradas(): BelongsTo {
+        return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
     }
 
 }

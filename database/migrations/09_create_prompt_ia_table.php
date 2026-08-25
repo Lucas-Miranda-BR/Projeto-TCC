@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('imagem_prompt');
             $table->unsignedBigInteger('cliente_id')->default(0);
             $table->unsignedBigInteger('cor_unha_id')->default(0);
-            $table->unsignedBigInteger('agendamento_id')->default(0);
+            $table->unsignedBigInteger('procedimento_id')->default(0);
             $table->unsignedBigInteger('cor_cabelo_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
             $table->foreign('cor_unha_id')->references('cor_unha_id')->on('cor_unha')->restrictOnDelete();
-            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
+            $table->foreign('procedimento_id')->references('procedimento_id')->on('procedimento')->restrictOnDelete();
             $table->foreign('cor_cabelo_id')->references('cor_cabelo_id')->on('cor_cabelo')->restrictOnDelete();
         });
     }

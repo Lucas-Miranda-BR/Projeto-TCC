@@ -20,21 +20,18 @@
         <img src="{{ asset('images/depilacao.png') }}">
         <h3>Depilação</h3>
         <p>A partir de R$20</p>
-        <a href="{{ route('agendamento.agendar', ['tipo_selecionado' => 1]) }}">Agendar</a>
     </div>
 
     <div class="card">
         <img src="{{ asset('images/manicure.png') }}">
         <h3>Manicure</h3>
         <p>A partir de R$45</p>
-        <a href="{{ route('agendamento.agendar', ['tipo_selecionado' => 2]) }}">Agendar</a>
     </div>
 
     <div class="card">
         <img src="{{ asset('images/trabalho1.png') }}">
         <h3>Corte</h3>
         <p>A partir de R$150</p>
-        <a href="{{ route('agendamento.agendar', ['tipo_selecionado' => 3]) }}">Agendar</a>
     </div>
 
 </section>
