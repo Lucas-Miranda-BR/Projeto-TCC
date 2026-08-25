@@ -23,7 +23,9 @@ class Procedimento extends Model
     public function agendamentos(): HasMany{
         return $this->hasMany(Agendamento::class, 'agendamento_id', 'agendamento_id');
     }
-
+    public function prompts_ia(): HasMany{
+        return $this->hasMany(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
+    }
     public function tipos(): BelongsTo {
         return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
     }

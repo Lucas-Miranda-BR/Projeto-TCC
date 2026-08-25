@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     let procedimentos = window.dadosProcedimentos || [];
     
     let selectProcedimento = document.getElementById('procedimento_id');
@@ -16,13 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (procedimento) {
                 if (procedimento.tipos) {
-                    exibeTipo.style.display = 'block';
                     exibeTipo.innerHTML = `<strong>Tipo de Serviço:</strong> ${procedimento.tipos.nome}`;
                 }
 
                 resumoNome.innerHTML = `<strong>Serviço:</strong> ${procedimento.nome}`;
                 
-                resumoDescricao.style.display = 'block';
                 resumoDescricao.innerHTML = `<strong>Descrição:</strong> ${procedimento.descricao}`;
                 
                 let precoFormatado = parseFloat(procedimento.preco).toLocaleString('pt-BR', {

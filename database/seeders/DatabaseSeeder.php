@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             
             ClienteDummySeeder::class,
-            CorUnhaSeeder::class,
-            CorCabeloSeeder::class,
+            CorSeeder::class,
             TipoSeeder::class,
             ProcedimentoSeeder::class
 

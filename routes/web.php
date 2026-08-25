@@ -18,25 +18,32 @@ Route::prefix('site')->group(function(){
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
 
-    Route::get('/produtos', [SiteController::class,'produtos'])
+    Route::get('/produtos', [SiteController::class, 'produtos'])
         ->name('site.produtos'); 
 
         Route::get('/ia', [SiteController::class, 'ia'])
         ->name('site.ia');   
 });
 
+Route::prefix('ia')->group(function(){
+    Route::post('/gerar', [AiFotoController::class, 'storeAiFoto'])->name('ia.gerar');
+});
+
 Route::prefix('cliente')->group(function(){
 
-    Route::get('/cadastro', [ClienteController::class,'createCliente'])
+    Route::get('/cadastro', [ClienteController::class, 'createCliente'])
         ->name('cliente.cadastro');
 
-    Route::post('/create', [ClienteController::class,'storeCliente'])
+    Route::post('/create', [ClienteController::class, 'storeCliente'])
         ->name('cliente.create');
 
-        Route::get('/login', [ClienteController::class,'loginCliente'])
+        Route::get('/login', [ClienteController::class, 'loginCliente'])
         ->name('cliente.login');
 
-        Route::post('/auth', [ClienteController::class,'authCliente'])
+        Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+        ->name('cliente.logout');
+
+        Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
@@ -48,7 +55,7 @@ Route::prefix('agendamento')->group(function(){
 
     Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])->name('agendamento.agendar');
 
-    Route::post('/create', [AgendamentoController::class,'storeAgendamento'])
+    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
     ->name('agendamento.create');
 
 });
@@ -57,7 +64,7 @@ Route::prefix('produto')->group(function(){
 
     Route::get('/index', [ProdutoController::class, 'createProduto'])->name('produto.index');
 
-    Route::post('/create', [ProdutoController::class,'storeProduto'])
+    Route::post('/create', [ProdutoController::class, 'storeProduto'])
     ->name('produto.create');
 
 });
@@ -78,7 +85,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/dashboard/produtos', [AdminController::class,'produtos'])
+    Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
         ->name('admin.produtos');
 
 });
