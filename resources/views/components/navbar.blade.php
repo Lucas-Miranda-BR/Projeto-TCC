@@ -9,10 +9,9 @@
         <a href="{{ route('site.sobre') }}">Sobre Mim</a>
 
         <a href="{{ route('site.servicos') }}">Serviços</a>
+        <a href="{{ route('site.ia') }}">IA</a>
 
         <a href="{{ route('site.produtos') }}">Produtos</a>
-
-        <a href="#">IA</a>
 
         <a href="#">Notificações</a>
 

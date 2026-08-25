@@ -17,12 +17,14 @@
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
 
     @stack('css')
+    
 
 </head>
 
 <body>
 
     @yield('content')
+    @stack('scripts')
 
 </body>
 

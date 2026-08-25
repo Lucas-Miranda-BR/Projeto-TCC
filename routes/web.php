@@ -25,7 +25,8 @@ Route::prefix('site')->group(function(){
         // Criar "produtos" em um Prefix
 
     Route::get('/produtos', [SiteController::class,'produtos'])
-        ->name('site.produtos');    
+        ->name('site.produtos'); 
+        Route::get('/ia', [SiteController::class, 'ia'])->name('site.ia');   
 });
 
 Route::prefix('cliente')->group(function(){
