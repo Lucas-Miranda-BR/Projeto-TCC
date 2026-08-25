@@ -16,11 +16,13 @@ return new class extends Migration
             $table->time('hora');
             $table->date('data');
             $table->unsignedBigInteger('cliente_id')->default(0);
-            $table->unsignedBigInteger('imagem_gerada_id')->default(0);
+            $table->unsignedBigInteger('imagem_gerada_id')->nullable();
+            $table->unsignedBigInteger('procedimento_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada')->restrictOnDelete();
+            $table->foreign('procedimento_id')->references('procedimento_id')->on('procedimento')->restrictOnDelete();
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
 
         });

@@ -13,10 +13,10 @@ class Tipo extends Model
     protected $table = 'tipo';
     protected $primaryKey = 'tipo_id';
     protected $fillable = [
-        'nome'
+        'nome',
     ];
 
-    public function servicos(): HasMany {
-        return $this->hasMany(Servico::class, 'tipo_id', 'tipo_id');
+    public function tipos(): HasMany {
+        return $this->hasMany(Procedimento::class, 'tipo_id', 'tipo_id');
     }
 }

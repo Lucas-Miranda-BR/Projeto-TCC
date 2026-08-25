@@ -17,16 +17,14 @@ Route::prefix('site')->group(function(){
     Route::get('/sobre', [SiteController::class, 'sobre'])
         ->name('site.sobre');
 
-        // Separar "servicos" em um Prefix
-
     Route::get('/servicos', [SiteController::class,'servicos'])
         ->name('site.servicos');
 
-        // Criar "produtos" em um Prefix
-
     Route::get('/produtos', [SiteController::class,'produtos'])
         ->name('site.produtos'); 
-        Route::get('/ia', [SiteController::class, 'ia'])->name('site.ia');   
+
+        Route::get('/ia', [SiteController::class, 'ia'])
+        ->name('site.ia');   
 });
 
 Route::prefix('cliente')->group(function(){
@@ -57,6 +55,14 @@ Route::prefix('agendamento')->group(function(){
 
 });
 
+Route::prefix('produto')->group(function(){
+
+    Route::get('/index', [ProdutoController::class, 'createProduto'])->name('produto.index');
+
+    Route::post('/create', [ProdutoController::class,'storeProduto'])
+    ->name('produto.create');
+
+});
 
 
 

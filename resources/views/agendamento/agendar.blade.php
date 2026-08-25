@@ -28,20 +28,15 @@
         <div class="topo">
 
             <div class="servico">
-                <label for="servico_id">Selecione o Serviço</label>
+                <label for="procedimento_id">Selecione o Serviço</label>
                 
-                <select name="tipo_id" id="tipo_id" required>
-                    <option value="" disabled {{ empty($tipo_selecionado) ? 'selected' : '' }}>
+                <select name="procedimento_id" id="procedimento_id" required>
+                    <option value="" disabled selected>
                         Escolha um serviço...
                     </option>
                                     
-                    @foreach($tipos as $tipo)
-                        <option 
-                            value="{{ $tipo->tipo_id }}" 
-                            {{ (isset($tipo_selecionado) && $tipo_selecionado == $tipo->tipo_id) ? 'selected' : '' }}
-                            >
-                            {{ $tipo->nome }}
-                        </option>
+                    @foreach($procedimentos as $procedimento)
+                        <option value="{{ $procedimento->procedimento_id }}"> {{ $procedimento->nome }} </option>
                     @endforeach
                                     
                 </select>
@@ -158,7 +153,7 @@
 
                     <td>{{ $agendamento->cliente_id }}</td>
 
-                    <td>{{ $agendamento->servico_id }}</td>
+                    <td>{{ $agendamento->procedimento_id }}</td>
 
                     <td>{{ date('d/m/Y', strtotime($agendamento->data)) }}</td>
 

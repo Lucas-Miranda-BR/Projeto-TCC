@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('procedimento', function (Blueprint $table) {
-            $table->id('procedimento_id');
+        Schema::create('tipo', function (Blueprint $table) {
+            $table->id('tipo_id');
             $table->string('nome');
-            $table->string('descricao');
-            $table->decimal('preco', total: 8, places: 2);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('procedimento');
+        Schema::dropIfExists('tipo');
     }
 };
