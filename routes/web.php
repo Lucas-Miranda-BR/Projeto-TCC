@@ -6,7 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AgendamentoController;
+
 
 
 Route::get('/', [SiteController::class,'home'])
