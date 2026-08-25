@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servico', function (Blueprint $table) {
-            $table->id('servico_id');
-            $table->decimal('total', total: 8, places: 2);
+        Schema::create('agendamento', function (Blueprint $table) {
+            $table->id('agendamento_id');
+            $table->time('hora');
+            $table->date('data');
+            $table->unsignedBigInteger('cliente_id')->default(0);
+            $table->unsignedBigInteger('imagem_gerada_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('imagem_gerada_id')->default(0);
-            $table->unsignedBigInteger('tipo_id')->default(0);
-            $table->unsignedBigInteger('agendamento_id')->default(0);
 
-            $table->foreign('tipo_id')->references('tipo_id')->on('tipo')->restrictOnDelete();
             $table->foreign('imagem_gerada_id')->references('imagem_gerada_id')->on('imagem_gerada')->restrictOnDelete();
-            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
+            $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
+
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servico');
+        Schema::dropIfExists('agendamento');
     }
 };
