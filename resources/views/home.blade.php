@@ -1,32 +1,32 @@
-@extends('layouts.app')
+    @extends('layouts.app')
 
-@push('css')
-<link rel="stylesheet" href="{{ asset('css/home.css') }}">
-@endpush
+    @push('css')
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    @endpush
 
-@section('content')
+    @section('content')
 
-@include('components.navbar')
-<section class="hero">
+    @include('components.navbar')
+    <section class="hero">
 
-    <div class="overlay"></div>
+        <div class="overlay"></div>
 
-    
+        
 
-    <div class="hero-content">
+        <div class="hero-content">
 
-        <h1>Salão Sempre Diva</h1>
+            <h1>Salão Sempre Diva</h1>
 
-        <p>Salão de beleza de Sandra Nerys</p>
+            <p>Salão de beleza de Sandra Nerys</p>
 
-        <a href="{{ route('cliente.login') }}" class="btn-main">
-            Ver mais
-        </a>
+            <a href="{{ route('cliente.login') }}" class="btn-main">
+                Ver mais
+            </a>
 
-    </div>
+        </div>
 
-</section>
+    </section>
 
-@include('components.footer')
+    @include('components.footer')
 
-@endsection
+    @endsection

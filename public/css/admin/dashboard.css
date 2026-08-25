@@ -1,0 +1,1235 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    color: #171717;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =====================================================
+   ESTRUTURA PRINCIPAL
+===================================================== */
+
+.admin-layout {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #ffffff;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.admin-sidebar {
+    width: 245px;
+    min-width: 245px;
+
+    height: 100vh;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+
+    border-right: 1px solid #a9a9a9;
+
+    z-index: 1000;
+}
+
+
+/* CABEÇALHO DA SIDEBAR */
+
+.sidebar-header {
+    padding: 25px 23px 15px;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: #252525;
+}
+
+.sidebar-header span {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 8px;
+
+    color: #838383;
+}
+
+
+/* MENU */
+
+.sidebar-menu {
+    flex: 1;
+
+    padding: 0 16px;
+}
+
+.menu-title {
+    margin:
+
+        17px
+        8px
+        8px;
+
+    font-size: 9px;
+    font-weight: 400;
+
+    color: #8e8e8e;
+}
+
+.menu-item {
+    width: 100%;
+    height: 35px;
+
+    margin-bottom: 3px;
+
+    padding: 0 9px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    border-radius: 18px;
+
+    font-size: 11px;
+    font-weight: 400;
+
+    color: #222222;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.menu-item i {
+    width: 18px;
+
+    display: flex;
+    justify-content: center;
+
+    font-size: 14px;
+}
+
+.menu-item:hover {
+    background: #f8eeee;
+}
+
+.menu-item.active {
+    color: #c06d6d;
+
+    background: #f8dfdf;
+}
+
+
+/* =====================================================
+   CRÉDITOS IA
+===================================================== */
+
+.sidebar-ai {
+    margin:
+
+        auto
+        16px
+        32px;
+
+    padding: 14px 16px;
+
+    background: #f4e5e5;
+
+    border-radius: 16px;
+}
+
+.sidebar-ai > span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 10px;
+}
+
+.sidebar-ai strong {
+    display: block;
+
+    margin-bottom: 13px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ai-progress {
+    width: 100%;
+    height: 12px;
+
+    margin-bottom: 7px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border-radius: 20px;
+}
+
+.ai-progress-bar {
+    height: 100%;
+
+    background: #7e4bd2;
+
+    border-radius: 20px;
+}
+
+.sidebar-ai small {
+    display: block;
+
+    font-size: 7px;
+    color: #555555;
+}
+
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+===================================================== */
+
+.admin-main {
+    width: calc(100% - 245px);
+
+    min-height: 100vh;
+
+    margin-left: 245px;
+
+    background: #ffffff;
+}
+
+
+/* =====================================================
+   NAVBAR SUPERIOR
+===================================================== */
+
+.admin-navbar {
+    width: 100%;
+    height: 68px;
+
+    padding: 0 18px;
+
+    position: sticky;
+
+    top: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #a9a9a9;
+
+    z-index: 900;
+}
+
+
+/* PESQUISA */
+
+.admin-search {
+    width: 290px;
+    height: 34px;
+
+    padding: 0 11px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    border: 1px solid #aaaaaa;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+}
+
+.admin-search i {
+    font-size: 12px;
+
+    color: #6a6a6a;
+}
+
+.admin-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 8px;
+
+    color: #222222;
+}
+
+.admin-search input::placeholder {
+    color: #858585;
+}
+
+
+/* LINKS NAVBAR */
+
+.admin-top-menu {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+}
+
+.admin-top-menu a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    white-space: nowrap;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    color: #141414;
+
+    transition: color 0.2s ease;
+}
+
+.admin-top-menu a:hover {
+    color: #c40000;
+}
+
+
+/* NOTIFICAÇÃO */
+
+.notifications-link {
+    display: flex;
+    align-items: center;
+}
+
+.notification-wrapper {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+}
+
+.notification-wrapper > i {
+    font-size: 16px;
+}
+
+.notification-count {
+    width: 11px;
+    height: 11px;
+
+    position: absolute;
+
+    top: -8px;
+    right: -7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #c40000;
+
+    color: #ffffff;
+
+    font-size: 5px;
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   PERFIL ADMIN
+===================================================== */
+
+.admin-profile {
+    min-width: 105px;
+
+    height: 39px;
+
+    padding: 4px 10px 4px 6px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    border: 1px solid #b7b7b7;
+
+    border-radius: 22px;
+}
+
+.admin-avatar {
+    width: 29px;
+    height: 29px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #f4d1b8;
+}
+
+.admin-profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-profile-info strong {
+    white-space: nowrap;
+
+    font-size: 7px;
+    font-weight: 600;
+}
+
+.admin-profile-info span {
+    margin-top: 1px;
+
+    font-size: 6px;
+
+    color: #8c8c8c;
+}
+
+
+/* CONFIGURAÇÃO */
+
+.admin-settings {
+    width: 33px;
+    height: 33px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+
+    color: #000000;
+}
+
+
+/* =====================================================
+   DASHBOARD CONTENT
+===================================================== */
+
+.dashboard-content {
+    width: 100%;
+
+    padding:
+
+        17px
+        62px
+        70px;
+}
+
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.dashboard-header {
+    margin-bottom: 32px;
+}
+
+.breadcrumb-admin {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 7px;
+
+    color: #8a8a8a;
+}
+
+.breadcrumb-admin strong {
+    color: #2b2b2b;
+
+    font-weight: 500;
+}
+
+.dashboard-header h2 {
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.dashboard-header h1 {
+    margin-top: 5px;
+
+    font-size: 19px;
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+
+/* =====================================================
+   CARDS SUPERIORES
+===================================================== */
+
+.dashboard-cards {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(160px, 1fr));
+
+    column-gap: 34px;
+    row-gap: 31px;
+
+    margin-bottom: 32px;
+}
+
+.dashboard-card {
+    min-width: 0;
+
+    height: 82px;
+
+    padding: 11px 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #777777;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+}
+
+.dashboard-card-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    font-size: 8px;
+}
+
+.dashboard-card-header > span:first-child {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.dashboard-card-header select {
+    min-width: 28px;
+    height: 12px;
+
+    padding: 0 2px;
+
+    border: 1px solid #777777;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 5px;
+}
+
+.dashboard-card-value {
+    display: block;
+
+    margin-top: 12px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    color: #171717;
+}
+
+.dashboard-card small {
+    margin-top: auto;
+
+    display: block;
+
+    font-size: 5px;
+}
+
+.dashboard-card small span {
+    margin-left: 3px;
+
+    color: #8b8b8b;
+}
+
+
+/* CRESCIMENTO */
+
+.positive {
+    color: #5ba952;
+}
+
+.negative {
+    color: #e25454;
+}
+
+
+/* ESTOQUE BAIXO */
+
+.stock-badge {
+    padding: 1px 4px;
+
+    border: 1px solid #f06445;
+
+    border-radius: 3px;
+
+    color: #ec5f42;
+
+    font-size: 6px;
+}
+
+
+/* =====================================================
+   POSICIONAMENTO DA SEGUNDA LINHA
+===================================================== */
+
+.dashboard-card:nth-child(5) {
+    grid-column: 1;
+}
+
+.dashboard-card:nth-child(6) {
+    grid-column: 2;
+}
+
+
+/* =====================================================
+   ÁREA DOS GRÁFICOS
+===================================================== */
+
+.dashboard-charts {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        195px;
+
+    gap: 35px;
+
+    margin-top: 32px;
+    margin-bottom: 65px;
+}
+
+.chart-card {
+    border: 1px solid #777777;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+}
+
+.revenue-chart {
+    min-width: 0;
+
+    height: 274px;
+
+    padding: 12px 16px;
+}
+
+.services-chart {
+    height: 274px;
+
+    padding: 14px;
+}
+
+
+/* CABEÇALHO GRÁFICO */
+
+.chart-header {
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.chart-header h3 {
+    margin: 0;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.chart-header p {
+    margin-top: 4px;
+
+    font-size: 8px;
+
+    color: #777777;
+}
+
+.chart-header > span {
+    font-size: 6px;
+}
+
+.chart-header select {
+    height: 12px;
+
+    border: 1px solid #777777;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    background: white;
+
+    font-size: 5px;
+}
+
+.chart-title-row {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+/* GRÁFICO */
+
+.chart-area {
+    width: 100%;
+    height: 215px;
+
+    margin-top: 6px;
+}
+
+
+/* =====================================================
+   SERVIÇOS MAIS VENDIDOS
+===================================================== */
+
+.service-bars {
+    margin-top: 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.service-item {
+    display: grid;
+
+    grid-template-columns: 58px 1fr;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.service-item > span {
+    font-size: 6px;
+}
+
+.service-item .bar {
+    width: 100%;
+    height: 10px;
+
+    border-radius: 20px;
+
+    background: transparent;
+}
+
+.service-item .bar div {
+    height: 100%;
+
+    border-radius: 20px;
+
+    background: #ec6848;
+}
+
+
+/* =====================================================
+   PARTE INFERIOR
+===================================================== */
+
+.dashboard-bottom {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(300px, 1fr);
+
+    gap: 30px;
+}
+
+
+/* =====================================================
+   AGENDA
+===================================================== */
+
+.agenda-card {
+    min-height: 373px;
+
+    padding: 19px 20px;
+
+    border: 1px solid #777777;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+}
+
+.agenda-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.agenda-title {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.agenda-title h2 {
+    margin: 0;
+
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.agenda-title > span {
+    font-size: 6px;
+}
+
+.agenda-button {
+    height: 25px;
+
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #777777;
+
+    border-radius: 6px;
+
+    font-size: 8px;
+
+    color: #262626;
+}
+
+.agenda-header p {
+    margin-top: 9px;
+
+    font-size: 10px;
+
+    color: #777777;
+}
+
+
+/* =====================================================
+   TABELA DA AGENDA
+===================================================== */
+
+.table-responsive {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.agenda-table {
+    width: 100%;
+
+    margin-top: 32px;
+
+    border-collapse: collapse;
+}
+
+.agenda-table th {
+    padding-bottom: 6px;
+
+    text-align: left;
+
+    font-size: 8px;
+    font-weight: 400;
+
+    color: #777777;
+}
+
+.agenda-table td {
+    padding: 5px 0;
+
+    border-top: 1px solid #dadada;
+
+    font-size: 8px;
+}
+
+.agenda-table td:last-child,
+.agenda-table th:last-child {
+    text-align: right;
+}
+
+
+/* STATUS */
+
+.agenda-status {
+    min-width: 48px;
+
+    padding: 1px 7px;
+
+    display: inline-flex;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    font-size: 5px;
+}
+
+.agenda-status.confirmado {
+    background: #d8f2d0;
+
+    color: #478840;
+}
+
+.agenda-status.realizado {
+    background: #c9ddf8;
+
+    color: #4b77a5;
+}
+
+.agenda-status.pendente {
+    background: #ffd9be;
+
+    color: #d87839;
+}
+
+
+/* =====================================================
+   USO DA IA
+===================================================== */
+
+.ai-usage-card {
+    min-height: 373px;
+
+    padding: 19px 28px;
+
+    border: 1px solid #777777;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+}
+
+.ai-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.ai-header h2 {
+    margin: 0;
+
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.ai-header p {
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    color: #777777;
+}
+
+.ai-header select {
+    height: 12px;
+
+    border: 1px solid #777777;
+
+    border-radius: 5px;
+
+    background: #ffffff;
+
+    font-size: 5px;
+}
+
+
+/* =====================================================
+   BARRAS DA IA
+===================================================== */
+
+.ai-chart {
+    height: 205px;
+
+    padding-top: 28px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    gap: 27px;
+}
+
+.ai-bar-item {
+    height: 170px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 5px;
+}
+
+.ai-bar-item span {
+    font-size: 8px;
+}
+
+.ai-bar-item strong {
+    font-size: 8px;
+    font-weight: 400;
+}
+
+.vertical-bar {
+    width: 29px;
+
+    background: #7c4ccc;
+
+    border-radius: 9px 9px 4px 4px;
+}
+
+
+/* =====================================================
+   CRÉDITOS CONSUMIDOS
+===================================================== */
+
+.credits-section {
+    margin-top: 8px;
+}
+
+.credits-title {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+
+    font-size: 8px;
+}
+
+.credits-title strong {
+    font-weight: 500;
+}
+
+.credits-progress {
+    width: 100%;
+    height: 18px;
+
+    overflow: hidden;
+
+    background: #e4e4e4;
+
+    border-radius: 20px;
+}
+
+.credits-progress div {
+    height: 100%;
+
+    background: #7c4ccc;
+
+    border-radius: 20px;
+}
+
+.credits-section p {
+    margin-top: 11px;
+
+    font-size: 7px;
+
+    color: #777777;
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 1250px) {
+
+    .dashboard-content {
+        padding-left: 35px;
+        padding-right: 35px;
+    }
+
+    .dashboard-cards {
+        gap: 20px;
+    }
+
+    .admin-top-menu {
+        gap: 13px;
+    }
+
+    .admin-top-menu a {
+        font-size: 12px;
+    }
+
+}
+
+
+@media (max-width: 1050px) {
+
+    .dashboard-cards {
+        grid-template-columns:
+            repeat(2, minmax(180px, 1fr));
+    }
+
+    .dashboard-card:nth-child(5),
+    .dashboard-card:nth-child(6) {
+        grid-column: auto;
+    }
+
+    .dashboard-charts {
+        grid-template-columns: 1fr;
+    }
+
+    .services-chart {
+        width: 100%;
+    }
+
+    .dashboard-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-search {
+        width: 230px;
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .admin-sidebar {
+        display: none;
+    }
+
+    .admin-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .dashboard-content {
+        padding:
+            20px
+            20px
+            50px;
+    }
+
+    .admin-top-menu {
+        display: none;
+    }
+
+    .admin-search {
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .admin-navbar {
+        gap: 10px;
+
+        padding:
+            0
+            12px;
+    }
+
+    .admin-profile {
+        display: none;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card {
+        height: 95px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 25px;
+    }
+
+    .agenda-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ai-usage-card,
+    .agenda-card {
+        padding: 16px;
+    }
+
+}
