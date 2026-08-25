@@ -19,8 +19,8 @@ class SiteController extends Controller
         return view('site.servicos');
     }
 
-    public function produtos()
+    public function ia()
     {
-        return view('site.produtos');
+        return view('site.ia');
     }
 }
