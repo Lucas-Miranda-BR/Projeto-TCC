@@ -13,7 +13,6 @@ class Servico extends Model
     protected $table = 'servico';
     protected $primaryKey = 'servico_id';
     protected $fillable = [
-        'tipo_id', // FK
         'agendamento_id', // FK
         'total'
         ];
@@ -24,10 +23,6 @@ class Servico extends Model
 
     public function imagens_geradas(): BelongsTo{
         return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
-    }
-
-    public function tipos(): BelongsTo{
-        return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
     }
 
     public function agendamentos(): BelongsTo{

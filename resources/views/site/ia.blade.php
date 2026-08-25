@@ -263,7 +263,7 @@
             </p>
 
             <a
-               href="{{ route('cliente.agendamentos') }}"
+               href="{{ route('agendamento.agendar') }}"
                 class="btn-agendar"
             >
                 Agendar meu horário

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servico', function (Blueprint $table) {
-            $table->id('servico_id');
-            $table->decimal('total', total: 8, places: 2);
+        Schema::create('procedimento', function (Blueprint $table) {
+            $table->id('procedimento_id');
+            $table->string('nome');
+            $table->string('descricao');
+            $table->decimal('preco', total: 8, places: 2);
+            $table->unsignedBigInteger('tipo_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('tipo_id')->default(0);
-            $table->unsignedBigInteger('agendamento_id')->default(0);
 
             $table->foreign('tipo_id')->references('tipo_id')->on('tipo')->restrictOnDelete();
-            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servico');
+        Schema::dropIfExists('procedimento');
     }
 };

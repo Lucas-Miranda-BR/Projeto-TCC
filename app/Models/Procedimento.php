@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Procedimento extends Model
 {
@@ -13,9 +13,9 @@ class Procedimento extends Model
     public $timestamps = false;
     protected $table = "procedimento";
     protected $primary_key = "procedimento_id";
-    protected $filable = [
-        'imagem_gerada_id', // FK
-        "titulo",
+    protected $fillable = [
+        'tipo_id', // FK
+        "nome",
         'descricao',
         'preco'
     ];
@@ -24,7 +24,7 @@ class Procedimento extends Model
         return $this->hasMany(Agendamento::class, 'agendamento_id', 'agendamento_id');
     }
 
-    public function imagens_geradas(): BelongsTo{
-        return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
+    public function tipos(): BelongsTo {
+        return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
     }
 }
