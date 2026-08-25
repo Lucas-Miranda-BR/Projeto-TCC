@@ -26,51 +26,16 @@ class ClienteController extends Controller
 
             'sobrenome' => ['required','string','min:2'],
             
-            'cpf' => ['required','string','unique:cliente','max:11','min:11'],
+            'cpf' => ['required','digits:11','unique:cliente','max:11','min:11'],
             
-            'telefone' => ['required_without:email','string','unique:cliente','min:11','max:11','nullable'],
+            'telefone' => ['required_without:email','digits:11','unique:cliente','min:11','max:11','nullable'],
 
             'email' => ['required_without:telefone','email','max:255','nullable','unique:cliente',],
-            
-            'endereco' => ['string','required'],
-            
+                        
             'data_nascimento' => ['date','required'],
             
             'senha' => ['required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             
-            'cep' => ['required','string','max:8','min:8']
-        ],
-        [
-            'nome.required' => 'O campo nome é necessário.',
-            'nome.min' => 'O nome precisa ter pelo menos 2 caracteres.',
-            
-            'sobrenome.required' => 'O campo sobrenome é necessário.',
-            'sobrenome.min' => 'O sobrenome precisa ter pelo menos 2 caracteres.',
-            
-            'cpf.required' => 'O CPF é necessário.',
-            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
-            'cpf.max' => 'O CPF deve conter exatamente 11 números.',
-            'cpf.min' => 'O CPF deve conter exatamente 11 números.',
-            
-            'telefone.required_without' => 'Informe o telefone ou o e-mail para contato.',
-            'telefone.unique' => 'Este número de telefone já está cadastrado.',
-            'telefone.min' => 'O telefone deve ter 11 caracteres (com DDD).',
-            'telefone.max' => 'O telefone deve ter 11 caracteres (com DDD).',
-            
-            'email.required_without' => 'Informe o e-mail ou o telefone para contato.',
-            'email.email' => 'Digite um endereço de e-mail válido.',
-            'email.unique' => 'Este e-mail já está cadastrado.',
-            
-            'endereco.required' => 'O endereço é necessário.',
-            
-            'data_nascimento.required' => 'A data de nascimento é necessária.',
-            'data_nascimento.date' => 'Insira uma data de nascimento válida.',
-            
-            'senha.required' => 'A senha é necessária.',
-            
-            'cep.required' => 'O CEP é necessário.',
-            'cep.max' => 'O CEP deve ter 8 caracteres.',
-            'cep.min' => 'O CEP deve ter 8 caracteres.'
         ]);
 
         if ($validator->fails()) {
@@ -103,51 +68,16 @@ class ClienteController extends Controller
 
             'sobrenome' => ['required','string','min:2'],
 
-            'cpf' => ['required','string','unique:cliente','max:11','min:11',Rule::unique('cliente', 'cpf')->ignore($cliente->id)],
+            'cpf' => ['required','digits:11','unique:cliente','max:11','min:11',Rule::unique('cliente', 'cpf')->ignore($cliente->id)],
             
-            'telefone' => ['required_without:email','string','unique:cliente','max:11','min:11','nullable',Rule::unique('cliente', 'telefone')->ignore($cliente->id)],
+            'telefone' => ['required_without:email','digits:11','unique:cliente','max:11','min:11','nullable',Rule::unique('cliente', 'telefone')->ignore($cliente->id)],
             
-            'email' => ['required_without:telefone','unique:cliente','email','max:255','nullable',Rule::unique('cliente', 'email')->ignore($cliente->id)],
-
-            'endereco' => ['string','required'],
+            'email' => ['required_without:telefone','unique:cliente','email','nullable',Rule::unique('cliente', 'email')->ignore($cliente->id)],
 
             'data_nascimento' => ['date','required'],
 
             'senha' => ['nullable',Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
 
-            'cep' => ['required','string','max:8','min:8']
-        ],
-        [
-            'nome.required' => 'O campo nome é necessário.',
-            'nome.min' => 'O nome precisa ter pelo menos 2 caracteres.',
-
-            'sobrenome.required' => 'O campo sobrenome é necessário.',
-            'sobrenome.min' => 'O sobrenome precisa ter pelo menos 2 caracteres.',
-
-            'cpf.required' => 'O CPF é necessário.',
-            'cpf.unique' => 'Este CPF já está cadastrado no sistema.',
-            'cpf.max' => 'O CPF deve conter exatamente 11 números.',
-            'cpf.min' => 'O CPF deve conter exatamente 11 números.',
-            
-            'telefone.required_without' => 'Informe o telefone ou o e-mail para contato.',
-            'telefone.unique' => 'Este número de telefone já está cadastrado.',
-            'telefone.min' => 'O telefone deve ter 11 caracteres (com DDD).',
-            'telefone.max' => 'O telefone deve ter 11 caracteres (com DDD).',
-            
-            'email.required_without' => 'Informe o e-mail ou o telefone para contato.',
-            'email.email' => 'Digite um endereço de e-mail válido.',
-            'email.unique' => 'Este e-mail já está cadastrado.',
-            
-            'endereco.required' => 'O endereço é necessário.',
-            
-            'data_nascimento.required' => 'A data de nascimento é necessária.',
-            'data_nascimento.date' => 'Insira uma data de nascimento válida.',
-            
-            'senha.required' => 'A senha é necessária.',
-            
-            'cep.required' => 'O CEP é necessário.',
-            'cep.max' => 'O CEP deve ter 8 caracteres.',
-            'cep.min' => 'O CEP deve ter 8 caracteres.'
         ]);
 
         if ($validator->fails()) {
@@ -156,6 +86,8 @@ class ClienteController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        $validated = $validator->validated();
 
         if (!empty($validated['senha'])) {
             $validated['senha'] = Hash::make($validated['senha']);

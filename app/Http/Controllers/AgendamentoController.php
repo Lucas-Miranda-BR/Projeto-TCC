@@ -15,14 +15,14 @@ class AgendamentoController extends Controller
     {
         $tipos = \App\Models\Tipo::All();
 
-        $cliente_id = session('cliente_id');
+        $clienteSession = session('cliente');
 
-        $cliente = \App\Models\Cliente::find($cliente_id);
-
-        if(!$cliente){
+        if(!$clienteSession){
             return redirect()->route('cliente.cadastro')
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
         }
+        
+        $cliente = \App\Models\Cliente::find($clienteSession->cliente_id);
 
         $agendamentos = Agendamento::with('servicos')->get();
 

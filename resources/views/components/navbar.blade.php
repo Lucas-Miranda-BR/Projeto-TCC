@@ -4,7 +4,7 @@
 
     <nav>
 
-        <a href="{{ route('site.home') }}">Início</a>
+        <a href="{{ route('home') }}">Início</a>
 
         <a href="{{ route('site.sobre') }}">Sobre Mim</a>
 

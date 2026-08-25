@@ -43,7 +43,7 @@
 
                 @csrf
 
-                <label for="auth">E-mail/Telefone</label>
+                <label for="auth">E-mail ou Telefone</label>
                 <input
                     type="text"
                     name="auth"

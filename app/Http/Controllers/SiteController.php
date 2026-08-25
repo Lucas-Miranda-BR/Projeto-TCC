@@ -6,7 +6,7 @@ class SiteController extends Controller
 {
     public function home()
     {
-        return view('site.home');
+        return view('home');
     }
 
     public function sobre()
