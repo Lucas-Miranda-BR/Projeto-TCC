@@ -16,18 +16,14 @@ return new class extends Migration
             $table->string('imagem_prompt');
             $table->unsignedBigInteger('cliente_id')->default(0);
             $table->unsignedBigInteger('cor_unha_id')->default(0);
-            $table->unsignedBigInteger('formato_id')->default(0);
-            $table->unsignedBigInteger('extra_id')->default(0);
-            $table->unsignedBigInteger('corte_id')->default(0);
+            $table->unsignedBigInteger('agendamento_id')->default(0);
             $table->unsignedBigInteger('cor_cabelo_id')->default(0);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
             $table->foreign('cor_unha_id')->references('cor_unha_id')->on('cor_unha')->restrictOnDelete();
-            $table->foreign('formato_id')->references('formato_id')->on('formato')->restrictOnDelete();
-            $table->foreign('extra_id')->references('extra_id')->on('extra')->restrictOnDelete();
-            $table->foreign('corte_id')->references('corte_id')->on('corte')->restrictOnDelete();
+            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
             $table->foreign('cor_cabelo_id')->references('cor_cabelo_id')->on('cor_cabelo')->restrictOnDelete();
         });
     }

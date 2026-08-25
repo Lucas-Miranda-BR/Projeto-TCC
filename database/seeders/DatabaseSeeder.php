@@ -15,13 +15,8 @@ class DatabaseSeeder extends Seeder
         
         $this->call([
             
-
-            TipoSeeder::class,
             CorUnhaSeeder::class,
             CorCabeloSeeder::class,
-            ExtraSeeder::class,
-            FormatoSeeder::class,
-            CorteSeeder::class,
             ClienteDummySeeder::class
 
         ]);

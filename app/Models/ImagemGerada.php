@@ -22,7 +22,7 @@ class ImagemGerada extends Model
         return $this->belongsTo(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
     }
 
-    public function servicos(): HasOne {
-        return $this->hasOne(Servico::class, 'imagem_gerada_id', 'imagem_gerada_id');
+    public function agendamentos(): HasMany{
+        return $this->hasMany(Agendamento::class, 'agendamento_id', 'agendamento_id');
     }
 }

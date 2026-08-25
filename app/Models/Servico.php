@@ -13,7 +13,6 @@ class Servico extends Model
     protected $table = 'servico';
     protected $primaryKey = 'servico_id';
     protected $fillable = [
-        'imagem_gerada_id', // FK
         'tipo_id', // FK
         'agendamento_id', // FK
         'total'
