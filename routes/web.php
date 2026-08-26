@@ -6,6 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AiFotoController;
 
 Route::get('/', [SiteController::class,'home'])
     ->name('home');
@@ -26,7 +27,7 @@ Route::prefix('site')->group(function(){
 });
 
 Route::prefix('ia')->group(function(){
-    Route::post('/gerar', [AiFotoController::class, 'storeAiFoto'])->name('ia.gerar');
+    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])->name('ia.gerar');
 });
 
 Route::prefix('cliente')->group(function(){

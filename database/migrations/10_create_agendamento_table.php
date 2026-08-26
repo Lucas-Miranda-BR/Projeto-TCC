@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('agendamento_id');
             $table->time('hora');
             $table->date('data');
-            $table->unsignedBigInteger('cliente_id')->default(0);
+            $table->unsignedBigInteger('cliente_id')->nullable();
             $table->unsignedBigInteger('imagem_gerada_id')->nullable();
-            $table->unsignedBigInteger('procedimento_id')->default(0);
+            $table->unsignedBigInteger('procedimento_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('imagem_gerada', function (Blueprint $table) {
             $table->id('imagem_gerada_id');
             $table->string('caminho_imagem_gerada');
-            $table->unsignedBigInteger('prompt_ia_id')->default(0);
+            $table->unsignedBigInteger('prompt_ia_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

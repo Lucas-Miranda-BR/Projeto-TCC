@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let procedimentos = window.dadosProcedimentos || [];
 
-    let imagemInput = document.getElementById('imagem');
+    let imagemInput = document.getElementById('imagem_prompt');
     let previewContainer = document.getElementById('previewContainer');
     let previewImagem = document.getElementById('previewImagem');
     let removerImagem = document.getElementById('removerImagem');
@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (selectProcedimento) {
         selectProcedimento.addEventListener('change', function () {
-            const idSelecionado = this.value;
+            let idSelecionado = this.value;
             
-            const procedimento = procedimentos.find(p => p.procedimento_id == idSelecionado);
+            let procedimento = procedimentos.find(p => p.procedimento_id == idSelecionado);
 
             if (procedimento && procedimento.tipos && procedimento.tipos.colorivel) {
                 grupoCor.style.display = 'block'; 
@@ -33,10 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (imagemInput) {
         imagemInput.addEventListener('change', function () {
-            const arquivo = this.files[0];
+            let arquivo = this.files[0];
             if (!arquivo) return;
 
-            const reader = new FileReader();
+            let reader = new FileReader();
             reader.onload = function (e) {
                 previewImagem.src = e.target.result;
                 imagemAntes.src = e.target.result;
@@ -56,10 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (btnGerar) {
-        btnGerar.addEventListener('click', function () {
-            const arquivo = imagemInput.files[0];
-            const procedimentoVal = selectProcedimento.value;
-            const corVal = selectCor.value;
+        btnGerar.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            let arquivo = imagemInput.files[0];
+            let procedimentoVal = selectProcedimento.value;
+            let corVal = selectCor.value;
 
             if (!arquivo) {
                 alert('Por favor, escolha uma foto.');
@@ -79,11 +81,32 @@ document.addEventListener('DOMContentLoaded', function () {
             resultado.classList.add('active');
             loading.style.display = 'flex';
             imagemDepois.style.display = 'none';
+            resultado.scrollIntoView({ behavior: 'smooth' });
+
+            let form = document.querySelector('form');
+            let formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Sucesso! Dados salvos no backend:', data);
+            })
+            .catch(error => {
+                console.error('Erro ao enviar form:', error);
+            });
 
             setTimeout(function () {
                 imagemDepois.src = imagemAntes.src;
                 loading.style.display = 'none';
                 imagemDepois.style.display = 'block';
+
             }, 2000);
 
             resultado.scrollIntoView({ behavior: 'smooth' });

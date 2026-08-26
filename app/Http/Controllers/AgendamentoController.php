@@ -17,7 +17,6 @@ class AgendamentoController extends Controller
 
         $clienteSession = session('cliente');
         
-
         if(!$clienteSession){
             return redirect()->route('cliente.cadastro')
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);

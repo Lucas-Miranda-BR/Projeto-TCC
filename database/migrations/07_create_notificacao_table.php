@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('conteudo');
             $table->timestamp('data_recebida')->useCurrent();
             $table->boolean('visualizada')->default(false);
-            $table->unsignedBigInteger('cliente_id')->default(0);
+            $table->unsignedBigInteger('cliente_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

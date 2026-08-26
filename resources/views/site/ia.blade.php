@@ -25,6 +25,8 @@
 
     <form action="{{ route('ia.gerar') }}" method="POST" enctype="multipart/form-data">
 
+        <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $cliente->cliente_id }}">
+
         @csrf
 
         <section class="ia-container">
@@ -49,14 +51,14 @@
                         JPG, JPEG ou PNG
                     </p>
     
-                    <label for="imagem" class="btn-upload">
+                    <label for="imagem_prompt" class="btn-upload">
                         Escolher foto
                     </label>
     
                     <input
                         type="file"
-                        id="imagem"
-                        name="imagem"
+                        id="imagem_prompt"
+                        name="imagem_prompt"
                         accept="image/png,image/jpeg"
                         hidden
                     >
@@ -113,12 +115,17 @@
             </div>
     
     
-            <div class="option-group" id="grupo-cor">
+            <div class="option-group" id="grupo-cor" style="display: none;">
                 <label>Cor</label>
                 <select id="cor_id" name="cor_id">
-                    @foreach ($tipos as $tipo)
-                        <option value="{{ $tipo->tipo_id }}"> 
-                            {{ $tipo->nome }} 
+
+                    <option value="" disabled selected>
+                        Selecione uma cor
+                    </option>
+
+                    @foreach ($cores as $cor)
+                        <option value="{{ $cor->cor_id }}"> 
+                            {{ $cor->nome }} 
                         </option>
                     @endforeach
                 </select>

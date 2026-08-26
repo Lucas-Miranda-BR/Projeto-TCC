@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('prompt_ia', function (Blueprint $table) {
             $table->id('prompt_ia_id');
             $table->string('imagem_prompt');
-            $table->unsignedBigInteger('cliente_id')->default(0);
-            $table->unsignedBigInteger('cor_id')->default(0);
-            $table->unsignedBigInteger('procedimento_id')->default(0);
+            $table->unsignedBigInteger('cliente_id')->nullable();
+            $table->unsignedBigInteger('cor_id')->nullable();
+            $table->unsignedBigInteger('procedimento_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
