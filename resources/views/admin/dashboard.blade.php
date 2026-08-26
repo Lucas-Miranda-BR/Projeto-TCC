@@ -37,11 +37,11 @@
                 </span>
 
                 <h2 id="dashboard-date">
-                    Quinta-feira, 13 de agosto
+                 
                 </h2>
 
                 <h1 id="dashboard-time">
-                    13:45
+                    
                 </h1>
 
             </div>

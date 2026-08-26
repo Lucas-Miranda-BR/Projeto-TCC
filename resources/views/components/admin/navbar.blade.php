@@ -1,15 +1,6 @@
 <header class="admin-navbar">
 
-    <div class="admin-search">
-
-        <i class="bi bi-search"></i>
-
-        <input
-            type="text"
-            placeholder="Buscar cliente, serviço, produto..."
-        >
-
-    </div>
+  
 
 
     <nav class="admin-top-menu">
