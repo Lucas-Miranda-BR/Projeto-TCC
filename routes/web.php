@@ -6,7 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\ProcedimentoController;
 
 
 /*
@@ -17,7 +17,6 @@ use App\Http\Controllers\ProdutoController;
 
 Route::get('/', [SiteController::class, 'home'])
     ->name('home');
-
 
 Route::prefix('site')->group(function () {
 
@@ -81,23 +80,6 @@ Route::prefix('agendamento')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| PRODUTOS
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('produto')->group(function () {
-
-    Route::get('/index', [ProdutoController::class, 'createProduto'])
-        ->name('produto.index');
-
-    Route::post('/create', [ProdutoController::class, 'storeProduto'])
-        ->name('produto.create');
-
-});
-
-
-/*
-|--------------------------------------------------------------------------
 | ADMIN
 |--------------------------------------------------------------------------
 */
@@ -106,19 +88,66 @@ Route::prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])
-            ->name('dashboard');
+        Route::get(
+            '/dashboard',
+            [AdminController::class, 'dashboard']
+        )->name('dashboard');
 
-        Route::get('/clientes', [AdminController::class, 'clientes'])
-            ->name('clientes');
+        Route::get(
+            '/dashboard/dados',
+            [AdminController::class, 'dadosDashboard']
+        )->name('dashboard.dados');
 
-        Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
-            ->name('agendamentos');
+        Route::get(
+            '/clientes',
+            [AdminController::class, 'clientes']
+        )->name('clientes');
 
-        Route::get('/calendario', [AdminController::class, 'calendario'])
-            ->name('calendario');
+        Route::get(
+            '/agendamentos',
+            [AdminController::class, 'agendamentos']
+        )->name('agendamentos');
 
-        Route::get('/produtos', [AdminController::class, 'produtos'])
-            ->name('produtos');
+        Route::get(
+            '/calendario',
+            [AdminController::class, 'calendario']
+        )->name('calendario');
+
+        Route::get(
+            '/produtos',
+            [AdminController::class, 'produtos']
+        )->name('produtos');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PROCEDIMENTOS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/procedimentos',
+            [ProcedimentoController::class, 'index']
+        )->name('procedimentos.index');
+
+        Route::post(
+            '/procedimentos',
+            [ProcedimentoController::class, 'store']
+        )->name('procedimentos.store');
+
+        Route::get(
+            '/procedimentos/{id}/editar',
+            [ProcedimentoController::class, 'edit']
+        )->name('procedimentos.edit');
+
+        Route::put(
+            '/procedimentos/{id}',
+            [ProcedimentoController::class, 'update']
+        )->name('procedimentos.update');
+
+        Route::delete(
+            '/procedimentos/{id}',
+            [ProcedimentoController::class, 'destroy']
+        )->name('procedimentos.destroy');
 
     });

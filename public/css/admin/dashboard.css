@@ -1379,3 +1379,27 @@ a {
         gap: 20px;
     }
 }
+.calendar-button {
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: inherit;
+    font-family: inherit;
+}
+
+.calendar-button i {
+    cursor: pointer;
+}
+
+.dashboard-calendar {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.chart-date {
+    position: relative;
+}

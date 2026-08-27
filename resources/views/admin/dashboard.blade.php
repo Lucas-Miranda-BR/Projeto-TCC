@@ -2,7 +2,6 @@
 
 @push('css')
 
-
 <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -14,7 +13,6 @@
 >
 
 @endpush
-
 
 
 @section('content')
@@ -36,15 +34,12 @@
                     <strong>Dashboard</strong>
                 </span>
 
-                <h2 id="dashboard-date">
-                 
-                </h2>
+                <h2 id="dashboard-date"></h2>
 
-                <h1 id="dashboard-time">
-                    
-                </h1>
+                <h1 id="dashboard-time"></h1>
 
             </div>
+
 
             <section class="dashboard-cards">
 
@@ -53,74 +48,146 @@
                     <div class="dashboard-card-header">
 
                         <span>
-                            Faturamento de hoje
+                            Faturamento
                         </span>
 
-                        <select>
-                            <option>hoje</option>
+                        <select class="dashboard-filter">
+
+                            <option value="hoje">
+                                Hoje
+                            </option>
+
+                            <option value="semana">
+                                Semana
+                            </option>
+
+                            <option value="mes">
+                                Mês
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        R$ 3.840
+                    <strong
+                        class="dashboard-card-value"
+                        id="faturamento"
+                    >
+                        R$ {{ number_format(
+                            $dashboard['faturamento'],
+                            2,
+                            ',',
+                            '.'
+                        ) }}
                     </strong>
 
                     <small class="positive">
-                        ↑ 4,9%
+
+                        ↑
+
+                        <span id="porcentagem-faturamento">
+                            {{ $dashboard['porcentagemFaturamento'] }}%
+                        </span>
+
                         <span>
                             em comparação com o período anterior
                         </span>
+
                     </small>
 
                 </div>
+
 
                 <div class="dashboard-card">
 
                     <div class="dashboard-card-header">
 
                         <span>
-                            Lucro de hoje
+                            Lucro
                         </span>
 
-                        <select>
-                            <option>hoje</option>
+                        <select class="dashboard-filter">
+
+                            <option value="hoje">
+                                Hoje
+                            </option>
+
+                            <option value="semana">
+                                Semana
+                            </option>
+
+                            <option value="mes">
+                                Mês
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        R$ 3.840
+                    <strong
+                        class="dashboard-card-value"
+                        id="lucro"
+                    >
+                        R$ {{ number_format(
+                            $dashboard['lucro'],
+                            2,
+                            ',',
+                            '.'
+                        ) }}
                     </strong>
 
                     <small class="positive">
-                        ↑ 4,9%
+
+                        ↑
+
+                        <span id="porcentagem-lucro">
+                            {{ $dashboard['porcentagemLucro'] }}%
+                        </span>
+
                         <span>
                             em comparação com o período anterior
                         </span>
+
                     </small>
 
                 </div>
+
 
                 <div class="dashboard-card">
 
                     <div class="dashboard-card-header">
 
                         <span>
-                            Atendimentos a realizar hoje
+                            Atendimentos
                         </span>
 
-                        <select>
-                            <option>hoje</option>
+                        <select class="dashboard-filter">
+
+                            <option value="hoje">
+                                Hoje
+                            </option>
+
+                            <option value="semana">
+                                Semana
+                            </option>
+
+                            <option value="mes">
+                                Mês
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        3
+                    <strong
+                        class="dashboard-card-value"
+                        id="atendimentos"
+                    >
+                        {{ $dashboard['atendimentos'] }}
                     </strong>
 
                 </div>
+
 
                 <div class="dashboard-card">
 
@@ -130,197 +197,240 @@
                             Estoque
                         </span>
 
-                        <span class="stock-badge">
-                            Baixo
+                        <span
+                            class="stock-badge"
+                            id="estoque-status"
+                        >
+                            @if($dashboard['estoque'] <= 15)
+                                Baixo
+                            @else
+                                Normal
+                            @endif
                         </span>
 
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        12
+                    <strong
+                        class="dashboard-card-value"
+                        id="estoque"
+                    >
+                        {{ $dashboard['estoque'] }}
                     </strong>
 
-                    <small class="negative">
-                        ↓ 14,1%
-                        <span>
-                            em comparação com o período anterior
-                        </span>
-                    </small>
-
                 </div>
+
 
                 <div class="dashboard-card">
 
                     <div class="dashboard-card-header">
+
                         <span>
                             Agendamentos a confirmar
                         </span>
+
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        2
+                    <strong
+                        class="dashboard-card-value"
+                        id="agendamentos-confirmar"
+                    >
+                        {{ $dashboard['agendamentosConfirmar'] }}
                     </strong>
 
                 </div>
+
 
                 <div class="dashboard-card">
 
                     <div class="dashboard-card-header">
 
                         <span>
-                            Produtos vendidos esta semana
+                            Produtos vendidos
                         </span>
 
-                        <select>
-                            <option>semana</option>
+                        <select class="dashboard-filter">
+
+                            <option value="hoje">
+                                Hoje
+                            </option>
+
+                            <option value="semana">
+                                Semana
+                            </option>
+
+                            <option value="mes">
+                                Mês
+                            </option>
+
                         </select>
 
                     </div>
 
-                    <strong class="dashboard-card-value">
-                        37
+                    <strong
+                        class="dashboard-card-value"
+                        id="produtos-vendidos"
+                    >
+                        {{ $dashboard['produtosVendidos'] }}
                     </strong>
 
                     <small class="positive">
-                        ↑ 4,9%
+
+                        ↑
+
+                        <span id="porcentagem-produtos">
+                            {{ $dashboard['porcentagemProdutos'] }}%
+                        </span>
+
                         <span>
                             em comparação com o período anterior
                         </span>
+
                     </small>
 
                 </div>
 
             </section>
 
+
             <section class="dashboard-charts">
 
-    <div class="chart-card revenue-chart">
+                <div class="chart-card revenue-chart">
 
-        <div class="chart-header">
+                    <div class="chart-header">
 
-            <div>
+                        <div>
 
-                <div class="chart-title-row">
+                            <div class="chart-title-row">
 
-                    <h3>
-                        Faturamento
-                    </h3>
+                                <h3>
+                                    Faturamento
+                                </h3>
 
-                    <select>
-                        <option>Faturamento</option>
-                    </select>
+                                <select id="grafico-periodo">
+
+                                    <option value="hoje">
+                                        Hoje
+                                    </option>
+
+                                    <option value="semana">
+                                        Últimos 7 dias
+                                    </option>
+
+                                    <option value="mes">
+                                        Mês
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <p id="grafico-descricao">
+                                Hoje
+                            </p>
+
+                        </div>
+
+
+                        <div class="chart-date">
+
+                            <button
+                                type="button"
+                                id="calendar-button"
+                                class="calendar-button"
+                            >
+
+                                <span id="selected-date"></span>
+
+                                <i class="bi bi-calendar3"></i>
+
+                            </button>
+
+                            <input
+                                type="date"
+                                id="dashboard-calendar"
+                                class="dashboard-calendar"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <canvas id="faturamentoChart"></canvas>
+
+                    </div>
 
                 </div>
 
-                <p>
-                    Últimos 7 dias
-                </p>
 
-            </div>
+                <div class="chart-card services-chart">
 
-            <span>
+                    <div class="chart-header">
 
-                18/08/2026
+                        <div>
 
-                <i class="bi bi-calendar3"></i>
+                            <h3>
+                                Serviços mais vendidos
+                            </h3>
 
-            </span>
+                            <p id="servicos-periodo-texto">
+                                Hoje
+                            </p>
 
-        </div>
-
-        <div class="chart-area">
-
-            <canvas id="faturamentoChart"></canvas>
-
-        </div>
-
-    </div>
+                        </div>
 
 
-    <div class="chart-card services-chart">
+                        <select id="servicos-periodo">
 
-        <div class="chart-header">
+                            <option value="hoje">
+                                Hoje
+                            </option>
 
-            <div>
+                            <option value="semana">
+                                Semana
+                            </option>
 
-                <h3>
-                    Serviços mais vendidos
-                </h3>
+                            <option value="mes">
+                                Mês
+                            </option>
 
-                <p>
-                    No mês
-                </p>
+                        </select>
 
-            </div>
-
-            <select>
-                <option>mês</option>
-            </select>
-
-        </div>
+                    </div>
 
 
-        <div class="service-bars">
+                    <div
+                        class="service-bars"
+                        id="service-bars"
+                    >
 
-            <div class="service-item">
+                        @foreach($dashboard['servicos'] as $servico)
 
-                <span>Coloração</span>
+                            <div class="service-item">
 
-                <div class="bar">
-                    <div style="width: 94%"></div>
+                                <span>
+                                    {{ $servico['nome'] }}
+                                </span>
+
+                                <div class="bar">
+
+                                    <div
+                                        style="width: {{ $servico['quantidade'] }}%"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
+                    </div>
+
                 </div>
 
-            </div>
-
-
-            <div class="service-item">
-
-                <span>Corte feminino</span>
-
-                <div class="bar">
-                    <div style="width: 82%"></div>
-                </div>
-
-            </div>
-
-
-            <div class="service-item">
-
-                <span>Mechas</span>
-
-                <div class="bar">
-                    <div style="width: 49%"></div>
-                </div>
-
-            </div>
-
-
-            <div class="service-item">
-
-                <span>Manicure</span>
-
-                <div class="bar">
-                    <div style="width: 86%"></div>
-                </div>
-
-            </div>
-
-
-            <div class="service-item">
-
-                <span>Maquiagem</span>
-
-                <div class="bar">
-                    <div style="width: 35%"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+            </section>
 
         </main>
 
@@ -328,13 +438,22 @@
 
 </div>
 
-
 @endsection
 
 
 @push('scripts')
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    window.dashboardUrl =
+        "{{ route('admin.dashboard.dados') }}";
+
+    window.dashboardGrafico =
+        @json($dashboard['grafico']);
+
+</script>
 
 <script src="{{ asset('js/admin/dashboard.js') }}"></script>
 
