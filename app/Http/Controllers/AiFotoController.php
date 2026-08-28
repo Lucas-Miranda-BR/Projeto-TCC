@@ -18,6 +18,8 @@ class AiFotoController extends Controller
             'cliente_id' => ['required'],
 
             'procedimento_id' => ['required'],
+
+            'cor_id' => ['nullable'],
             
             'imagem_prompt'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:5120']
 
@@ -25,15 +27,22 @@ class AiFotoController extends Controller
         
     if ($validator->fails()) {
         return response()->json(['errors' => $validator->errors()], 422);
-    }
+        }
 
-    $validated = $validator->validated();
+        $validated = $validator->validated();
 
-    $caminhoImagem = $request->file('imagem_prompt')->store('prompts', 'public');
+        $caminhoImagem = $request->file('imagem_prompt')->store('prompts', 'public');
 
-    $validated['imagem_prompt'] = $caminhoImagem;
+        $validated['imagem_prompt'] = $caminhoImagem;
 
-    $imagem_prompt = PromptIa::create($validated);
+        $imagemGerada = PromptIa::create($validated);
 
+        return response()->json([
+            'success' => true,
+            'message' => 'Salvo com sucesso!',
+            'data' => $imagemGerada,
+            'imagem_gerada_id' => $imagemGerada->prompt_ia_id,
+            'redirect_url' => route('agendamento.agendar', ['imagem_gerada_id' => $imagemGerada->prompt_ia_id])
+        ], 201);
     }
 }

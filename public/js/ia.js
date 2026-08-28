@@ -97,6 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 console.log('Sucesso! Dados salvos no backend:', data);
+                
+                if (data.redirect_url) {
+                    let btnAgendar = document.querySelector('.btn-agendar');
+                    if (btnAgendar) {
+                        btnAgendar.href = data.redirect_url;
+                    }
+                }
             })
             .catch(error => {
                 console.error('Erro ao enviar form:', error);
@@ -106,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 imagemDepois.src = imagemAntes.src;
                 loading.style.display = 'none';
                 imagemDepois.style.display = 'block';
-
             }, 2000);
 
             resultado.scrollIntoView({ behavior: 'smooth' });

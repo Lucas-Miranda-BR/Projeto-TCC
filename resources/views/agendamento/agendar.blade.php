@@ -22,6 +22,7 @@
 
         <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $cliente->cliente_id }}">
 
+        <input type="hidden" name="imagem_gerada_id" id='imagem_gerada_id' value="{{ $imagemGeradaId ?? '' }}">
 
         @csrf
 
@@ -31,16 +32,20 @@
                 <label for="procedimento_id">Selecione o Serviço</label>
                 
                 <select name="procedimento_id" id="procedimento_id" required>
-                    <option value="" disabled selected>
+                    <option value="" disabled {{ empty($procedimentoSelecionado) ? 'selected' : '' }}>
                         Escolha um serviço...
                     </option>
-                                    
+                    
                     @foreach($procedimentos as $procedimento)
-                        <option value="{{ $procedimento->procedimento_id }}"> {{ $procedimento->nome }} </option>
+                        <option 
+                            value="{{ $procedimento->procedimento_id }}" 
+                            {{ (isset($procedimentoSelecionado) && $procedimentoSelecionado == $procedimento->procedimento_id) ? 'selected' : '' }}
+                        > 
+                            {{ $procedimento->nome }} 
+                        </option>
                     @endforeach
-                                    
                 </select>
-
+    
                 <p id="exibe-tipo">
                     <strong>Tipo de Serviço:</strong> <span></span>
                 </p>
