@@ -14,6 +14,7 @@ class Tipo extends Model
     protected $primaryKey = 'tipo_id';
     protected $fillable = [
         'nome',
+        'colorivel'
     ];
 
     public function tipos(): HasMany {

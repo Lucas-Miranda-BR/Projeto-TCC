@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedido', function (Blueprint $table) {
-            $table->id('pedido_id');
-            $table->decimal('valor_total', total: 8, places: 2);
-            $table->timestamp('pedido_data')->useCurrent();
-            $table->unsignedBigInteger('cliente_id')->default(0);
+        Schema::create('notificacao', function (Blueprint $table) {
+            $table->id('notificacao_id');
+            $table->string('titulo');
+            $table->string('conteudo');
+            $table->timestamp('data_recebida')->useCurrent();
+            $table->boolean('visualizada')->default(false);
+            $table->unsignedBigInteger('cliente_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedido');
+        Schema::dropIfExists('notificacao');
     }
 };

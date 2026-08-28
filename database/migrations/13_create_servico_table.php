@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cor_unha', function (Blueprint $table) {
-            $table->id('cor_unha_id');
-            $table->string('nome');
-            $table->boolean('disponivel')->default(false);
+        Schema::create('servico', function (Blueprint $table) {
+            $table->id('servico_id');
+            $table->decimal('total', total: 8, places: 2);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
+            $table->unsignedBigInteger('agendamento_id')->nullable();
+
+            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cor_unha');
+        Schema::dropIfExists('servico');
     }
 };

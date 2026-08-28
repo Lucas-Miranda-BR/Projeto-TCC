@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('carrinho_item_id');
             $table->decimal('subtotal', total: 8, places: 2);
             $table->integer('quantidade');
-            $table->unsignedBigInteger('pedido_id')->default(0);
-            $table->unsignedBigInteger('item_id')->default(0);
+            $table->unsignedBigInteger('pedido_id')->nullable();
+            $table->unsignedBigInteger('item_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

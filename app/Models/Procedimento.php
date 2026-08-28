@@ -18,8 +18,9 @@ class Procedimento extends Model
     protected $primaryKey = 'procedimento_id';
 
     protected $fillable = [
-        'tipo_id',
-        'nome',
+        'tipo_id', // FK
+        "nome",
+        "imagem",
         'descricao',
         'preco'
     ];
@@ -32,13 +33,10 @@ class Procedimento extends Model
             'procedimento_id'
         );
     }
-
-    public function tipo(): BelongsTo
-    {
-        return $this->belongsTo(
-            Tipo::class,
-            'tipo_id',
-            'tipo_id'
-        );
+    public function prompts_ia(): HasMany{
+        return $this->hasMany(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
+    }
+    public function tipos(): BelongsTo {
+        return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
     }
 }

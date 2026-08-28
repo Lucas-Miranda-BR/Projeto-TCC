@@ -9,16 +9,24 @@
         <a href="{{ route('site.sobre') }}">Sobre Mim</a>
 
         <a href="{{ route('site.servicos') }}">Serviços</a>
+
         <a href="{{ route('site.ia') }}">IA</a>
 
         <a href="{{ route('site.produtos') }}">Produtos</a>
 
         <a href="#">Notificações</a>
 
+        @if (session('cliente'))
+                    <a href="{{ route('cliente.logout') }}" class="btn-login">
+                        Logout
+                    </a>
+        
+        @else
+
         <a href="{{ route('cliente.login') }}" class="btn-login">
             Login
         </a>
-
+        @endif
     </nav>
 
 </header>

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servico', function (Blueprint $table) {
-            $table->id('servico_id');
-            $table->decimal('total', total: 8, places: 2);
+        Schema::create('imagem_gerada', function (Blueprint $table) {
+            $table->id('imagem_gerada_id');
+            $table->string('caminho_imagem_gerada');
+            $table->unsignedBigInteger('prompt_ia_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('agendamento_id')->default(0);
 
-            $table->foreign('agendamento_id')->references('agendamento_id')->on('agendamento')->restrictOnDelete();
+            $table->foreign('prompt_ia_id')->references('prompt_ia_id')->on('prompt_ia')->restrictOnDelete();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servico');
+        Schema::dropIfExists('imagem_gerada');
     }
 };

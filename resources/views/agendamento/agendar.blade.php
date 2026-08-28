@@ -22,6 +22,7 @@
 
         <input type="hidden" name="cliente_id" id="cliente_id" value="{{ $cliente->cliente_id }}">
 
+        <input type="hidden" name="imagem_gerada_id" id='imagem_gerada_id' value="{{ $imagemGeradaId ?? '' }}">
 
         @csrf
 
@@ -31,24 +32,35 @@
                 <label for="procedimento_id">Selecione o Serviço</label>
                 
                 <select name="procedimento_id" id="procedimento_id" required>
-                    <option value="" disabled selected>
+                    <option value="" disabled {{ empty($procedimentoSelecionado) ? 'selected' : '' }}>
                         Escolha um serviço...
                     </option>
-                                    
+                    
                     @foreach($procedimentos as $procedimento)
-                        <option value="{{ $procedimento->procedimento_id }}"> {{ $procedimento->nome }} </option>
+                        <option 
+                            value="{{ $procedimento->procedimento_id }}" 
+                            {{ (isset($procedimentoSelecionado) && $procedimentoSelecionado == $procedimento->procedimento_id) ? 'selected' : '' }}
+                        > 
+                            {{ $procedimento->nome }} 
+                        </option>
                     @endforeach
-                                    
                 </select>
+    
+                <p id="exibe-tipo">
+                    <strong>Tipo de Serviço:</strong> <span></span>
+                </p>
             </div>
 
             <div class="resumo">
-
                 <h3>Resumo do Agendamento</h3>
-
-                <p><strong>Serviço: Selecione um serviço</strong></p>
-                <p><strong>Valor:</strong> R$0,00</p>
-
+                
+                <p id="resumo-nome"><strong>Serviço:</strong> Selecione um serviço ao lado</p>
+                
+                <p id="resumo-descricao">
+                    <strong>Descrição:</strong> <span></span>
+                </p>
+                
+                <p id="resumo-preco"><strong>Valor:</strong> R$ 0,00</p>
             </div>
 
         </div>
@@ -174,5 +186,11 @@
 </div>
 
 @include('components.footer')
+
+<script>
+    window.dadosProcedimentos = @json($procedimentos);
+</script>
+
+<script src="{{ asset('js/agendamento.js') }}"></script>
 
 @endsection

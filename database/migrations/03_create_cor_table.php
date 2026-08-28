@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipo', function (Blueprint $table) {
-            $table->id('tipo_id');
+        Schema::create('cor', function (Blueprint $table) {
+            $table->id('cor_id');
             $table->string('nome');
+            $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipo');
+        Schema::dropIfExists('cor');
     }
 };

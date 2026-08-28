@@ -20,8 +20,8 @@ class ClienteController extends Controller
         return view('cliente.cadastro');
     }
 
-    function storeCliente(Request $dados){
-        $validator = Validator::make($dados->all(), [
+    function storeCliente(Request $request){
+        $validator = Validator::make($request->all(), [
             'nome' => ['required','string','min:2'],
 
             'sobrenome' => ['required','string','min:2'],
@@ -60,10 +60,10 @@ class ClienteController extends Controller
         return view('cliente.update', compact('cliente'));
     }
 
-    function updateCliente(Request $dados, $id) {
+    function updateCliente(Request $request, $id) {
         $cliente = Cliente::findOrFail($id);
 
-        $validator = Validator::make($dados->all(), [
+        $validator = Validator::make($request->all(), [
             'nome' => ['required', 'string', 'min:2'],
 
             'sobrenome' => ['required','string','min:2'],

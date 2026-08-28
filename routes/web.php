@@ -6,6 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 
 
@@ -27,21 +28,18 @@ Route::prefix('site')->group(function () {
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class, 'produtos'])
-        ->name('site.produtos');
+        ->name('site.produtos'); 
 
     Route::get('/ia', [SiteController::class, 'ia'])
         ->name('site.ia');
 
 });
 
+Route::prefix('ia')->group(function(){
+    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])->name('ia.gerar');
+});
 
-/*
-|--------------------------------------------------------------------------
-| CLIENTE
-|--------------------------------------------------------------------------
-*/
-
-Route::prefix('cliente')->group(function () {
+Route::prefix('cliente')->group(function(){
 
     Route::get('/cadastro', [ClienteController::class, 'createCliente'])
         ->name('cliente.cadastro');
@@ -49,10 +47,13 @@ Route::prefix('cliente')->group(function () {
     Route::post('/create', [ClienteController::class, 'storeCliente'])
         ->name('cliente.create');
 
-    Route::get('/login', [ClienteController::class, 'loginCliente'])
+        Route::get('/login', [ClienteController::class, 'loginCliente'])
         ->name('cliente.login');
 
-    Route::post('/auth', [ClienteController::class, 'authCliente'])
+        Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+        ->name('cliente.logout');
+
+        Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
@@ -61,93 +62,38 @@ Route::prefix('cliente')->group(function () {
 });
 
 
-/*
-|--------------------------------------------------------------------------
-| AGENDAMENTO
-|--------------------------------------------------------------------------
-*/
+    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
+    ->name('agendamento.create');
+
+});
 
 Route::prefix('agendamento')->group(function () {
 
     Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])
         ->name('agendamento.agendar');
 
-    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
-        ->name('agendamento.create');
+    Route::post('/create', [ProdutoController::class, 'storeProduto'])
+    ->name('produto.create');
 
 });
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN
-|--------------------------------------------------------------------------
-*/
 
-Route::prefix('admin')
-    ->name('admin.')
-    ->group(function () {
+Route::prefix('admin')->group(function () {
 
-        Route::get(
-            '/dashboard',
-            [AdminController::class, 'dashboard']
-        )->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])
+        ->name('admin.dashboard');
 
-        Route::get(
-            '/dashboard/dados',
-            [AdminController::class, 'dadosDashboard']
-        )->name('dashboard.dados');
+    Route::get('/clientes', [AdminController::class, 'clientes'])
+        ->name('admin.clientes');
 
-        Route::get(
-            '/clientes',
-            [AdminController::class, 'clientes']
-        )->name('clientes');
+    Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
+        ->name('admin.agendamentos');
 
-        Route::get(
-            '/agendamentos',
-            [AdminController::class, 'agendamentos']
-        )->name('agendamentos');
+    Route::get('/calendario', [AdminController::class, 'calendario'])
+        ->name('admin.calendario');
 
-        Route::get(
-            '/calendario',
-            [AdminController::class, 'calendario']
-        )->name('calendario');
+    Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
+        ->name('admin.produtos');
 
-        Route::get(
-            '/produtos',
-            [AdminController::class, 'produtos']
-        )->name('produtos');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PROCEDIMENTOS
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get(
-            '/procedimentos',
-            [ProcedimentoController::class, 'index']
-        )->name('procedimentos.index');
-
-        Route::post(
-            '/procedimentos',
-            [ProcedimentoController::class, 'store']
-        )->name('procedimentos.store');
-
-        Route::get(
-            '/procedimentos/{id}/editar',
-            [ProcedimentoController::class, 'edit']
-        )->name('procedimentos.edit');
-
-        Route::put(
-            '/procedimentos/{id}',
-            [ProcedimentoController::class, 'update']
-        )->name('procedimentos.update');
-
-        Route::delete(
-            '/procedimentos/{id}',
-            [ProcedimentoController::class, 'destroy']
-        )->name('procedimentos.destroy');
-
-    });
+});
