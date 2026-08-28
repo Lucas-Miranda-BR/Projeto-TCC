@@ -10,9 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Procedimento extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
-    protected $table = "procedimento";
-    protected $primary_key = "procedimento_id";
+
+    protected $table = 'procedimento';
+
+    protected $primaryKey = 'procedimento_id';
+
     protected $fillable = [
         'tipo_id', // FK
         "nome",
@@ -21,8 +25,13 @@ class Procedimento extends Model
         'preco'
     ];
 
-    public function agendamentos(): HasMany{
-        return $this->hasMany(Agendamento::class, 'agendamento_id', 'agendamento_id');
+    public function agendamentos(): HasMany
+    {
+        return $this->hasMany(
+            Agendamento::class,
+            'procedimento_id',
+            'procedimento_id'
+        );
     }
     public function prompts_ia(): HasMany{
         return $this->hasMany(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');

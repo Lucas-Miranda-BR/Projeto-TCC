@@ -7,23 +7,32 @@ use App\Http\Controllers\AgendamentoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
+use App\Http\Controllers\ProcedimentoController;
 
-Route::get('/', [SiteController::class,'home'])
+
+/*
+|--------------------------------------------------------------------------
+| SITE
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', [SiteController::class, 'home'])
     ->name('home');
 
-Route::prefix('site')->group(function(){
+Route::prefix('site')->group(function () {
 
     Route::get('/sobre', [SiteController::class, 'sobre'])
         ->name('site.sobre');
 
-    Route::get('/servicos', [SiteController::class,'servicos'])
+    Route::get('/servicos', [SiteController::class, 'servicos'])
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class, 'produtos'])
         ->name('site.produtos'); 
 
-        Route::get('/ia', [SiteController::class, 'ia'])
-        ->name('site.ia');   
+    Route::get('/ia', [SiteController::class, 'ia'])
+        ->name('site.ia');
+
 });
 
 Route::prefix('ia')->group(function(){
@@ -52,18 +61,16 @@ Route::prefix('cliente')->group(function(){
 
 });
 
-Route::prefix('agendamento')->group(function(){
-
-    Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])->name('agendamento.agendar');
 
     Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
     ->name('agendamento.create');
 
 });
 
-Route::prefix('produto')->group(function(){
+Route::prefix('agendamento')->group(function () {
 
-    Route::get('/index', [ProdutoController::class, 'createProduto'])->name('produto.index');
+    Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])
+        ->name('agendamento.agendar');
 
     Route::post('/create', [ProdutoController::class, 'storeProduto'])
     ->name('produto.create');

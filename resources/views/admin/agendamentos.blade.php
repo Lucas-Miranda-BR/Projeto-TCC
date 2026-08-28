@@ -1,64 +1,162 @@
 @extends('layouts.app')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/agendamento.css') }}">
+<link rel="stylesheet" href="/css/agendamento.css">
 @endpush
+
 
 @section('content')
 
+<div class="admin-layout">
 
+    @include('components.admin.sidebar')
 
-<div class="agendamento">
+    <div class="admin-main">
 
-    <h1>Agende seu horário</h1>
+        @include('components.admin.navbar')
 
-    <div class="conteudo">
+        <main class="agendamentos-content">
 
-        <div class="servico">
+            <div class="agendamentos-header">
 
-            <h3>Serviço Selecionado</h3>
+                <span class="breadcrumb-admin">
+                    Painel >
+                    <strong>Agendamentos</strong>
+                </span>
 
-            <div class="item">
+                <h1>
+                    Agendamentos
+                </h1>
 
-                <img src="{{ asset('images/corte.jpg') }}">
-
-                <span>Corte</span>
-
-                <strong>R$150,00</strong>
+                <p>
+                    Gerencie os horários e atendimentos dos clientes.
+                </p>
 
             </div>
 
-        </div>
 
-        <div class="calendario">
+            <div class="agendamentos-acoes">
 
-            <h3>Data</h3>
+                <a
+                    href="{{ route('admin.procedimentos.index') }}"
+                    class="btn-procedimentos"
+                >
 
-            <input type="date">
+                    Gerenciar Serviços
 
-            <h3>Horário</h3>
+                </a>
 
-            <select>
-                <option>09:00</option>
-                <option>10:00</option>
-                <option>11:00</option>
-            </select>
+            </div>
 
-        </div>
 
-        <div class="resumo">
+            <section class="lista-agendamentos">
 
-            <h3>Resumo</h3>
+                <h2>
+                    Agendamentos
+                </h2>
 
-            <p>Serviço: Corte</p>
 
-            <p>Total: R$150</p>
+                @isset($agendamentos)
 
-            <button>
-                Confirmar
-            </button>
+                    @if($agendamentos->count() > 0)
 
-        </div>
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Cliente
+                                    </th>
+
+                                    <th>
+                                        Serviço
+                                    </th>
+
+                                    <th>
+                                        Data
+                                    </th>
+
+                                    <th>
+                                        Hora
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach($agendamentos as $agendamento)
+
+                                    <tr>
+
+                                        <td>
+
+                                            {{ $agendamento->cliente_id }}
+
+                                        </td>
+
+                                        <td>
+
+                                            {{ $agendamento->procedimento_id }}
+
+                                        </td>
+
+                                        <td>
+
+                                            {{ date(
+                                                'd/m/Y',
+                                                strtotime($agendamento->data)
+                                            ) }}
+
+                                        </td>
+
+                                        <td>
+
+                                            {{ $agendamento->hora }}
+
+                                        </td>
+
+                                        <td>
+
+                                            {{ $agendamento->status ?? 'Pendente' }}
+
+                                        </td>
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>
+
+                    @else
+
+                        <p>
+                            Nenhum agendamento encontrado.
+                        </p>
+
+                    @endif
+
+                @else
+
+                    <p>
+                        Nenhum agendamento encontrado.
+                    </p>
+
+                @endisset
+
+            </section>
+
+        </main>
 
     </div>
 
