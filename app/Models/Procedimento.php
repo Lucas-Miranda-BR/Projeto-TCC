@@ -16,6 +16,7 @@ class Procedimento extends Model
     protected $fillable = [
         'tipo_id', // FK
         "nome",
+        "imagem",
         'descricao',
         'preco'
     ];

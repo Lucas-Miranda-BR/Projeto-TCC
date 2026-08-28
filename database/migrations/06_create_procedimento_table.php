@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('procedimento_id');
             $table->string('nome');
             $table->string('descricao');
+            $table->string('imagem')->nullable();
             $table->decimal('preco', total: 8, places: 2);
             $table->unsignedBigInteger('tipo_id')->nullabe();
             $table->timestamp('criado')->useCurrent();

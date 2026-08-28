@@ -13,15 +13,15 @@ class AgendamentoController extends Controller
 {
     public function createAgendamento(Request $request)
     {
-        // $imagemGeradaId = $request->query('imagem_gerada_id');
-        // $procedimentoSelecionado = null;
+        $imagemGeradaId = $request->query('imagem_gerada_id');
+        $procedimentoSelecionado = null;
 
-        // if ($imagemGeradaId) {
-        //     $promptIa = \App\Models\PromptIa::find($imagemGeradaId);
-        //     if ($promptIa) {
-        //         $procedimentoSelecionado = $promptIa->procedimento_id;
-        //     }
-        // }
+        if ($imagemGeradaId) {
+            $promptIa = \App\Models\PromptIa::find($imagemGeradaId);
+            if ($promptIa) {
+                $procedimentoSelecionado = $promptIa->procedimento_id;
+            }
+        }
 
         // DESATIVADO - TESTE IA - API
 
