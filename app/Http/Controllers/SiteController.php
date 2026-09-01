@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\ProcedimentoModel;
+use App\Models\CorModel;
+use App\Models\ClienteModel;
+
 
 class SiteController extends Controller
 {
@@ -22,18 +26,18 @@ class SiteController extends Controller
     public function ia()
     {
 
-        $procedimentos = \App\Models\Procedimento::with('tipos')->get();
+        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
         
         $clienteSession = session('cliente');
 
-        $cores = \App\Models\Cor::all();
+        $cores = \App\Models\CorModel::all();
 
         if(!$clienteSession){
             return redirect()->route('cliente.cadastro')
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para utilizar nossos recursos de IA.']);
         }
         
-        $cliente = \App\Models\Cliente::find($clienteSession->cliente_id);
+        $cliente = \App\Models\ClienteModel::find($clienteSession->cliente_id);
 
         return view('site.ia', compact('procedimentos', 'cliente', 'cores'));
     }

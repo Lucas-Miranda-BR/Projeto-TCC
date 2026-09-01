@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Agendamento;
-use App\Models\Tipo;
-use App\Models\Cliente;
+use App\Models\AgendamentoModel;
+use App\Models\TipoModel;
+use App\Models\ClienteModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +17,7 @@ class AgendamentoController extends Controller
         $procedimentoSelecionado = null;
 
         if ($imagemGeradaId) {
-            $promptIa = \App\Models\PromptIa::find($imagemGeradaId);
+            $promptIa = \App\Models\PromptIaModel::find($imagemGeradaId);
             if ($promptIa) {
                 $procedimentoSelecionado = $promptIa->procedimento_id;
             }
@@ -25,7 +25,7 @@ class AgendamentoController extends Controller
 
         // DESATIVADO - TESTE IA - API
 
-        $procedimentos = \App\Models\Procedimento::with('tipos')->get();
+        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
 
         $clienteSession = session('cliente');
         
@@ -34,9 +34,9 @@ class AgendamentoController extends Controller
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
         }
         
-        $cliente = \App\Models\Cliente::find($clienteSession->cliente_id);
+        $cliente = \App\Models\ClienteModel::find($clienteSession->cliente_id);
 
-        $agendamentos = Agendamento::with('servicos')->get();
+        $agendamentos = AgendamentoModel::with('servicos')->get();
 
 
         return view('agendamento.agendar', compact('procedimentos', 'cliente', 'agendamentos', 'imagemGeradaId', 'procedimentoSelecionado'));
@@ -76,7 +76,7 @@ class AgendamentoController extends Controller
 
         $validated = $validator->validated();
 
-        Agendamento::create($validated);
+        AgendamentoModel::create($validated);
 
         return redirect()->route('site.sobre');
     }

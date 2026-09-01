@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CarrinhoItem extends Model
+class CarrinhoItemModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -20,9 +20,9 @@ class CarrinhoItem extends Model
     ];
 
     public function itens(): BelongsTo{
-        return $this->belongsTo(Item::class, 'item_id', 'item_id');
+        return $this->belongsTo(ItemModel::class, 'item_id', 'item_id');
     }
     public function pedidos(): BelongsTo{
-        return $this->belongsTo(Pedido::class, 'pedido_id', 'pedido_id');
+        return $this->belongsTo(PedidoModel::class, 'pedido_id', 'pedido_id');
     }
 }

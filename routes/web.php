@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
+use App\Http\Controllers\ProdutoController;
 
 
 /*
@@ -62,18 +63,21 @@ Route::prefix('cliente')->group(function(){
 });
 
 
-    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
-    ->name('agendamento.create');
-
-});
 
 Route::prefix('agendamento')->group(function () {
 
     Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])
         ->name('agendamento.agendar');
+        
+    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
+        ->name('agendamento.create');
+
+});
+
+Route::prefix('produto')->group(function () {
 
     Route::post('/create', [ProdutoController::class, 'storeProduto'])
-    ->name('produto.create');
+        ->name('produto.create');
 
 });
 

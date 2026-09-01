@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ImagemGerada extends Model
+class ImagemGeradaModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -19,10 +19,10 @@ class ImagemGerada extends Model
     ];
 
     public function prompts_ia(): BelongsTo{
-        return $this->belongsTo(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
+        return $this->belongsTo(PromptIaModel::class, 'prompt_ia_id', 'prompt_ia_id');
     }
 
     public function agendamentos(): HasMany{
-        return $this->hasMany(Agendamento::class, 'agendamento_id', 'agendamento_id');
+        return $this->hasMany(AgendamentoModel::class, 'agendamento_id', 'agendamento_id');
     }
 }

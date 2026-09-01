@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Procedimento;
+use App\Models\ProcedimentoModel;
 use Illuminate\Http\Request;
 
 class ProcedimentoController extends Controller
 {
     public function index()
     {
-        $procedimentos = Procedimento::orderBy('nome')->get();
+        $procedimentos = ProcedimentoModel::orderBy('nome')->get();
 
         return view(
             'admin.procedimentos.index',
@@ -43,7 +43,7 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        Procedimento::create($dados);
+        ProcedimentoModel::create($dados);
 
         return redirect()
             ->route('admin.procedimentos.index')
@@ -55,7 +55,7 @@ class ProcedimentoController extends Controller
 
     public function edit($id)
     {
-        $procedimento = Procedimento::findOrFail($id);
+        $procedimento = ProcedimentoModel::findOrFail($id);
 
         return view(
             'admin.procedimentos.edit',
@@ -65,7 +65,7 @@ class ProcedimentoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $procedimento = Procedimento::findOrFail($id);
+        $procedimento = ProcedimentoModel::findOrFail($id);
 
         $dados = $request->validate([
             'tipo_id' => [
@@ -103,7 +103,7 @@ class ProcedimentoController extends Controller
 
     public function destroy($id)
     {
-        $procedimento = Procedimento::findOrFail($id);
+        $procedimento = ProcedimentoModel::findOrFail($id);
 
         $procedimento->delete();
 

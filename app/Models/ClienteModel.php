@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Cliente extends Model
+class ClienteModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -37,15 +37,15 @@ class Cliente extends Model
     ];
 
     public function notificacoes(): HasMany {
-        return $this->hasMany(Notificacao::class, 'cliente_id', 'cliente_id');
+        return $this->hasMany(NotificacaoModel::class, 'cliente_id', 'cliente_id');
     }
     public function pedidos(): HasMany {
-        return $this->hasMany(Pedido::class, 'cliente_id', 'cliente_id');
+        return $this->hasMany(PedidoModel::class, 'cliente_id', 'cliente_id');
     }
     public function prompts_ia(): HasMany {
-        return $this->hasMany(Prompt_ia::class, 'cliente_id', 'cliente_id');
+        return $this->hasMany(PromptIaModel::class, 'cliente_id', 'cliente_id');
     }
     public function agendamentos(): HasMany {
-        return $this->hasMany(Agendamento::class, 'cliente_id', 'cliente_id');
+        return $this->hasMany(AgendamentoModel::class, 'cliente_id', 'cliente_id');
     }
 }

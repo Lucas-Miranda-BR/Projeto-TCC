@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Models\ClienteModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProcedimentoController;
@@ -218,7 +218,7 @@ class AdminController extends Controller
     public function indexCliente()
     {
         return view('cliente.read', [
-            'clientes' => Cliente::all()
+            'clientes' => ClienteModel::all()
         ]);
     }
 

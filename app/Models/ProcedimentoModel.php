@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Procedimento extends Model
+class ProcedimentoModel extends Model
 {
     use HasFactory;
 
@@ -27,16 +27,12 @@ class Procedimento extends Model
 
     public function agendamentos(): HasMany
     {
-        return $this->hasMany(
-            Agendamento::class,
-            'procedimento_id',
-            'procedimento_id'
-        );
+        return $this->hasMany(AgendamentoModel::class, 'procedimento_id', 'procedimento_id');
     }
     public function prompts_ia(): HasMany{
-        return $this->hasMany(PromptIa::class, 'prompt_ia_id', 'prompt_ia_id');
+        return $this->hasMany(PromptIaModel::class, 'prompt_ia_id', 'prompt_ia_id');
     }
     public function tipos(): BelongsTo {
-        return $this->belongsTo(Tipo::class, 'tipo_id', 'tipo_id');
+        return $this->belongsTo(TipoModel::class, 'tipo_id', 'tipo_id');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Agendamento extends Model
+class AgendamentoModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -26,19 +26,19 @@ class Agendamento extends Model
     ];
 
     public function servicos(): HasMany {
-        return $this->hasMany(Servico::class, 'agendamento_id', 'agendamento_id');
+        return $this->hasMany(ServicoModel::class, 'agendamento_id', 'agendamento_id');
     }
 
     public function procedimentos(): BelongsTo {
-        return $this->belongsTo(Procedimento::class, 'procedimento_id', 'procedimento_id');
+        return $this->belongsTo(ProcedimentoModel::class, 'procedimento_id', 'procedimento_id');
     }
 
     public function clientes(): BelongsTo {
-        return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
+        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'cliente_id');
     }
 
     public function imagens_geradas(): BelongsTo {
-        return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
+        return $this->belongsTo(ImagemGeradaModel::class, 'imagem_gerada_id', 'imagem_gerada_id');
     }
 
 }

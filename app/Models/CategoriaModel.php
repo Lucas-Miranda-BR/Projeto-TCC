@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Cor extends Model
+class CategoriaModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'cor';
-    protected $primaryKey = 'cor_id';
+    protected $table = 'categoria';
+    protected $primaryKey = 'categoria_id';
     protected $fillable = [
-        'nome',
-        'disponivel'
+        'nome'
     ];
 
-    public function prompts_ia(): HasMany {
-        return $this->hasMany(Prompt_ia::class, 'cor_id', 'cor_id');
+    public function itens(): HasMany {
+        return $this->hasMany(ItemModel::class, 'categoria_id', 'categoria_id');
     }
 }

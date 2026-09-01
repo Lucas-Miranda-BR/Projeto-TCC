@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\PromptIa;
+use App\Models\PromptIaModel;
 use Illuminate\Validation\ValidationException;
 
 
@@ -35,7 +35,7 @@ class AiFotoController extends Controller
 
         $validated['imagem_prompt'] = $caminhoImagem;
 
-        $imagemGerada = PromptIa::create($validated);
+        $imagemGerada = PromptIaModel::create($validated);
 
         return response()->json([
             'success' => true,
