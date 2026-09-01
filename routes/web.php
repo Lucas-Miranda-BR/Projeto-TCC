@@ -48,13 +48,13 @@ Route::prefix('cliente')->group(function(){
     Route::post('/create', [ClienteController::class, 'storeCliente'])
         ->name('cliente.create');
 
-        Route::get('/login', [ClienteController::class, 'loginCliente'])
+    Route::get('/login', [ClienteController::class, 'loginCliente'])
         ->name('cliente.login');
 
-        Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+    Route::get('/logout', [ClienteController::class, 'logoutCliente'])
         ->name('cliente.logout');
 
-        Route::post('/auth', [ClienteController::class, 'authCliente'])
+    Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
@@ -97,7 +97,32 @@ Route::prefix('admin')->group(function () {
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
+    Route::get('/produtos', [AdminController::class, 'produtos'])
         ->name('admin.produtos');
+
+    // ---------------------------------------------------
+    // PROCEDIMENTOS (SERVIÇOS)
+    // ---------------------------------------------------
+    
+    // Rota que exibe tudo dentro do Dashboard
+    Route::get('/procedimentos', [ProcedimentoController::class, 'index'])
+        ->name('admin.procedimentos.index');
+
+    // Rotas exclusivas para gerenciar as ações
+    Route::prefix('procedimentos')->group(function () {
+        
+        Route::post('/store', [ProcedimentoController::class, 'store'])
+            ->name('admin.procedimentos.store');
+
+        Route::get('/{id}/edit', [ProcedimentoController::class, 'edit'])
+            ->name('admin.procedimentos.edit');
+
+        Route::put('/{id}', [ProcedimentoController::class, 'update'])
+            ->name('admin.procedimentos.update');
+
+        Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])
+            ->name('admin.procedimentos.destroy');
+
+    });
 
 });

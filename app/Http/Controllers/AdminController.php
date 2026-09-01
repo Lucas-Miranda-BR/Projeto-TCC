@@ -42,14 +42,9 @@ class AdminController extends Controller
             return [
                 'faturamento' => 18450,
                 'lucro' => 14200,
-                'atendimentos' => 21,
-                'estoque' => 12,
-                'agendamentosConfirmar' => 5,
-                'produtosVendidos' => 37,
 
                 'porcentagemFaturamento' => 8.4,
                 'porcentagemLucro' => 6.7,
-                'porcentagemProdutos' => 4.9,
 
                 'grafico' => [
                     'labels' => [
@@ -71,29 +66,6 @@ class AdminController extends Controller
                         4200,
                         2550
                     ]
-                ],
-
-                'servicos' => [
-                    [
-                        'nome' => 'Coloração',
-                        'quantidade' => 94
-                    ],
-                    [
-                        'nome' => 'Corte feminino',
-                        'quantidade' => 82
-                    ],
-                    [
-                        'nome' => 'Mechas',
-                        'quantidade' => 49
-                    ],
-                    [
-                        'nome' => 'Manicure',
-                        'quantidade' => 86
-                    ],
-                    [
-                        'nome' => 'Maquiagem',
-                        'quantidade' => 35
-                    ]
                 ]
             ];
         }
@@ -103,14 +75,9 @@ class AdminController extends Controller
             return [
                 'faturamento' => 68320,
                 'lucro' => 52140,
-                'atendimentos' => 87,
-                'estoque' => 12,
-                'agendamentosConfirmar' => 8,
-                'produtosVendidos' => 142,
 
                 'porcentagemFaturamento' => 12.3,
                 'porcentagemLucro' => 9.5,
-                'porcentagemProdutos' => 7.2,
 
                 'grafico' => [
                     'labels' => [
@@ -126,29 +93,6 @@ class AdminController extends Controller
                         18100,
                         19220
                     ]
-                ],
-
-                'servicos' => [
-                    [
-                        'nome' => 'Coloração',
-                        'quantidade' => 88
-                    ],
-                    [
-                        'nome' => 'Corte feminino',
-                        'quantidade' => 95
-                    ],
-                    [
-                        'nome' => 'Mechas',
-                        'quantidade' => 62
-                    ],
-                    [
-                        'nome' => 'Manicure',
-                        'quantidade' => 78
-                    ],
-                    [
-                        'nome' => 'Maquiagem',
-                        'quantidade' => 44
-                    ]
                 ]
             ];
         }
@@ -156,14 +100,9 @@ class AdminController extends Controller
         return [
             'faturamento' => 3840,
             'lucro' => 2840,
-            'atendimentos' => 3,
-            'estoque' => 12,
-            'agendamentosConfirmar' => 2,
-            'produtosVendidos' => 7,
 
             'porcentagemFaturamento' => 4.9,
             'porcentagemLucro' => 3.8,
-            'porcentagemProdutos' => 2.7,
 
             'grafico' => [
                 'labels' => [
@@ -182,29 +121,6 @@ class AdminController extends Controller
                     1350,
                     2480,
                     3840
-                ]
-            ],
-
-            'servicos' => [
-                [
-                    'nome' => 'Coloração',
-                    'quantidade' => 94
-                ],
-                [
-                    'nome' => 'Corte feminino',
-                    'quantidade' => 82
-                ],
-                [
-                    'nome' => 'Mechas',
-                    'quantidade' => 49
-                ],
-                [
-                    'nome' => 'Manicure',
-                    'quantidade' => 86
-                ],
-                [
-                    'nome' => 'Maquiagem',
-                    'quantidade' => 35
                 ]
             ]
         ];
@@ -235,5 +151,10 @@ class AdminController extends Controller
     public function produtos()
     {
         return view('admin.produtos');
+    }
+
+    public function procedimentos()
+    {
+        return view('admin.procedimentos.index');
     }
 }

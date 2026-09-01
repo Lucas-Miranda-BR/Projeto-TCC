@@ -404,28 +404,6 @@ function configurarFiltros() {
 
     }
 
-
-    const servicosPeriodo =
-        document.getElementById(
-            'servicos-periodo'
-        );
-
-
-    if (servicosPeriodo) {
-
-        servicosPeriodo.addEventListener(
-            'change',
-            function () {
-
-                atualizarDashboard(
-                    this.value
-                );
-
-            }
-        );
-
-    }
-
 }
 
 
@@ -479,11 +457,6 @@ async function atualizarDashboard(periodo) {
         );
 
 
-        atualizarServicos(
-            dados.servicos
-        );
-
-
         sincronizarFiltros(
             periodo
         );
@@ -520,30 +493,6 @@ function atualizarCards(dados) {
 
 
     alterarTexto(
-        'atendimentos',
-        dados.atendimentos
-    );
-
-
-    alterarTexto(
-        'estoque',
-        dados.estoque
-    );
-
-
-    alterarTexto(
-        'agendamentos-confirmar',
-        dados.agendamentosConfirmar
-    );
-
-
-    alterarTexto(
-        'produtos-vendidos',
-        dados.produtosVendidos
-    );
-
-
-    alterarTexto(
         'porcentagem-faturamento',
         dados.porcentagemFaturamento + '%'
     );
@@ -553,46 +502,6 @@ function atualizarCards(dados) {
         'porcentagem-lucro',
         dados.porcentagemLucro + '%'
     );
-
-
-    alterarTexto(
-        'porcentagem-produtos',
-        dados.porcentagemProdutos + '%'
-    );
-
-
-    atualizarStatusEstoque(
-        dados.estoque
-    );
-
-}
-
-
-function atualizarStatusEstoque(quantidade) {
-
-    const status =
-        document.getElementById(
-            'estoque-status'
-        );
-
-
-    if (!status) {
-        return;
-    }
-
-
-    if (quantidade <= 15) {
-
-        status.textContent =
-            'Baixo';
-
-        return;
-
-    }
-
-
-    status.textContent =
-        'Normal';
 
 }
 
@@ -621,98 +530,6 @@ function atualizarGrafico(dados) {
 
 
     faturamentoChart.update();
-
-}
-
-
-function atualizarServicos(servicos) {
-
-    const area =
-        document.getElementById(
-            'service-bars'
-        );
-
-
-    if (!area) {
-        return;
-    }
-
-
-    if (!servicos) {
-        return;
-    }
-
-
-    area.innerHTML =
-        '';
-
-
-    servicos.forEach(
-        function (servico) {
-
-            const item =
-                document.createElement(
-                    'div'
-                );
-
-
-            item.classList.add(
-                'service-item'
-            );
-
-
-            const nome =
-                document.createElement(
-                    'span'
-                );
-
-
-            nome.textContent =
-                servico.nome;
-
-
-            const barra =
-                document.createElement(
-                    'div'
-                );
-
-
-            barra.classList.add(
-                'bar'
-            );
-
-
-            const progresso =
-                document.createElement(
-                    'div'
-                );
-
-
-            progresso.style.width =
-                servico.quantidade + '%';
-
-
-            barra.appendChild(
-                progresso
-            );
-
-
-            item.appendChild(
-                nome
-            );
-
-
-            item.appendChild(
-                barra
-            );
-
-
-            area.appendChild(
-                item
-            );
-
-        }
-    );
 
 }
 
@@ -749,28 +566,8 @@ function sincronizarFiltros(periodo) {
     }
 
 
-    const servicosPeriodo =
-        document.getElementById(
-            'servicos-periodo'
-        );
-
-
-    if (servicosPeriodo) {
-
-        servicosPeriodo.value =
-            periodo;
-
-    }
-
-
     alterarTexto(
         'grafico-descricao',
-        textoPeriodo(periodo)
-    );
-
-
-    alterarTexto(
-        'servicos-periodo-texto',
         textoPeriodo(periodo)
     );
 

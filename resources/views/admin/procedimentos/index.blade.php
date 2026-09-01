@@ -4,7 +4,7 @@
 
 <link
     rel="stylesheet"
-    href="{{ asset('public/css/admin/procedimentos.css') }}"
+    href="{{ asset('css/admin/procedimentos.css') }}"
 >
 
 @endpush
@@ -86,6 +86,23 @@
 
                     @csrf
 
+
+                    <div class="form-group">
+
+                        <label for="tipo_id">
+                            Tipo
+                        </label>
+
+                        <select name="tipo_id" id="tipo_id" required>
+                            <option value="" selected disabled>Selecione o tipo</option>
+                            @foreach($tipos as $tipo)
+                                <option value="{{ $tipo->tipo_id }}" data-colorivel="{{ $tipo->colorivel ? '1' : '0' }}" {{ old('tipo_id') == $tipo->tipo_id ? 'selected' : '' }}>
+                                    {{ $tipo->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
 
                     <div class="form-group">
 
@@ -180,23 +197,12 @@
                             <thead>
 
                                 <tr>
-
-                                    <th>
-                                        Nome
-                                    </th>
-
-                                    <th>
-                                        Descrição
-                                    </th>
-
-                                    <th>
-                                        Preço
-                                    </th>
-
-                                    <th>
-                                        Ações
-                                    </th>
-
+                                    <th>Tipo</th>
+                                    <th>Cor</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                    <th>Ações</th>
                                 </tr>
 
                             </thead>
@@ -209,23 +215,26 @@
                                     <tr>
 
                                         <td>
+                                            {{ $procedimento->tipo ? $procedimento->tipo->nome : '-' }}
+                                        </td>
 
+                                        <td>
+                                            {{ $procedimento->cor ? $procedimento->cor->nome : 'incolorivel' }}
+                                        </td>
+
+                                        <td>
                                             <strong>
                                                 {{ $procedimento->nome }}
                                             </strong>
-
                                         </td>
 
 
                                         <td>
-
                                             {{ $procedimento->descricao }}
-
                                         </td>
 
 
                                         <td>
-
                                             R$
                                             {{ number_format(
                                                 $procedimento->preco,
@@ -233,7 +242,6 @@
                                                 ',',
                                                 '.'
                                             ) }}
-
                                         </td>
 
 
@@ -314,3 +322,7 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin/procedimentos.js') }}"></script>
+@endpush

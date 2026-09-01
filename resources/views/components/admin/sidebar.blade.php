@@ -87,14 +87,14 @@
 
 
         <a
-            href="{{ route('site.servicos') }}"
-            class="menu-item"
+            href="{{ route('admin.procedimentos.index') }}"
+            class="menu-item {{ request()->routeIs('admin.procedimentos.index') ? 'active' : '' }}"
         >
 
             <i class="bi bi-scissors"></i>
 
             <span>
-                Serviços
+                Procedimentos
             </span>
 
         </a>
@@ -149,49 +149,6 @@
 
         </a>
 
-
-        <a
-            href="#"
-            class="menu-item"
-        >
-
-            <i class="bi bi-gear"></i>
-
-            <span>
-                Configurações
-            </span>
-
-        </a>
-
     </nav>
-
-
-    {{-- CRÉDITOS DA IA --}}
-
-    <div class="sidebar-ai">
-
-        <span>
-            Créditos de IA
-        </span>
-
-        <strong>
-            2.140 restantes
-        </strong>
-
-        <div class="ai-progress">
-
-            <div
-                class="ai-progress-bar"
-                style="width: 75%"
-            >
-            </div>
-
-        </div>
-
-        <small>
-            75% consumido este mês
-        </small>
-
-    </div>
 
 </aside>

@@ -17,7 +17,7 @@ class TipoModel extends Model
         'colorivel'
     ];
 
-    public function tipos(): HasMany {
+    public function procedimentos(): HasMany {
         return $this->hasMany(ProcedimentoModel::class, 'tipo_id', 'tipo_id');
     }
 }

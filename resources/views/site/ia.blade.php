@@ -123,6 +123,10 @@
                         Selecione uma cor
                     </option>
 
+                    <option value="Não altere">
+                        Não altere
+                    </option>
+
                     @foreach ($cores as $cor)
                         <option value="{{ $cor->cor_id }}"> 
                             {{ $cor->nome }} 
