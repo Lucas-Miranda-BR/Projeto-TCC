@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Procedimento;
+use App\Models\Tipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProcedimentoController extends Controller
 {
     public function index()
     {
-        $procedimentos = Procedimento::orderBy('nome')->get();
+        $procedimentos = Procedimento::with('tipo')
+            ->orderBy('nome')
+            ->get();
+
+        $tipos = Tipo::orderBy('nome')
+            ->get();
 
         return view(
             'admin.procedimentos.index',
-            compact('procedimentos')
+            compact(
+                'procedimentos',
+                'tipos'
+            )
         );
     }
 
@@ -21,8 +31,9 @@ class ProcedimentoController extends Controller
     {
         $dados = $request->validate([
             'tipo_id' => [
-                'nullable',
-                'integer'
+                'required',
+                'integer',
+                'exists:tipo,tipo_id'
             ],
 
             'nome' => [
@@ -40,8 +51,24 @@ class ProcedimentoController extends Controller
                 'required',
                 'numeric',
                 'min:0'
+            ],
+
+            'imagem' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096'
             ]
         ]);
+
+        if ($request->hasFile('imagem')) {
+            $dados['imagem'] = $request
+                ->file('imagem')
+                ->store(
+                    'procedimentos',
+                    'public'
+                );
+        }
 
         Procedimento::create($dados);
 
@@ -57,9 +84,15 @@ class ProcedimentoController extends Controller
     {
         $procedimento = Procedimento::findOrFail($id);
 
+        $tipos = Tipo::orderBy('nome')
+            ->get();
+
         return view(
             'admin.procedimentos.edit',
-            compact('procedimento')
+            compact(
+                'procedimento',
+                'tipos'
+            )
         );
     }
 
@@ -69,8 +102,9 @@ class ProcedimentoController extends Controller
 
         $dados = $request->validate([
             'tipo_id' => [
-                'nullable',
-                'integer'
+                'required',
+                'integer',
+                'exists:tipo,tipo_id'
             ],
 
             'nome' => [
@@ -88,8 +122,35 @@ class ProcedimentoController extends Controller
                 'required',
                 'numeric',
                 'min:0'
+            ],
+
+            'imagem' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096'
             ]
         ]);
+
+        if ($request->hasFile('imagem')) {
+
+            if (
+                $procedimento->imagem &&
+                Storage::disk('public')->exists(
+                    $procedimento->imagem
+                )
+            ) {
+                Storage::disk('public')
+                    ->delete($procedimento->imagem);
+            }
+
+            $dados['imagem'] = $request
+                ->file('imagem')
+                ->store(
+                    'procedimentos',
+                    'public'
+                );
+        }
 
         $procedimento->update($dados);
 
@@ -104,6 +165,16 @@ class ProcedimentoController extends Controller
     public function destroy($id)
     {
         $procedimento = Procedimento::findOrFail($id);
+
+        if (
+            $procedimento->imagem &&
+            Storage::disk('public')->exists(
+                $procedimento->imagem
+            )
+        ) {
+            Storage::disk('public')
+                ->delete($procedimento->imagem);
+        }
 
         $procedimento->delete();
 

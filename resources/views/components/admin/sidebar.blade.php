@@ -87,18 +87,16 @@
 
 
         <a
-            href="{{ route('site.servicos') }}"
-            class="menu-item"
-        >
+            href="{{ route('admin.procedimentos.index') }}"class="menu-item {{ request()->routeIs('admin.procedimentos.*') ? 'active' : '' }}"
+>
 
-            <i class="bi bi-scissors"></i>
+             <i class="bi bi-scissors"></i>
 
-            <span>
-                Serviços
-            </span>
+                 <span>
+                      Serviços
+                </span>
 
         </a>
-
 
         <a
             href="#"

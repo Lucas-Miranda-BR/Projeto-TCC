@@ -9,15 +9,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Tipo extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+
     protected $table = 'tipo';
+
     protected $primaryKey = 'tipo_id';
+
+    public $timestamps = false;
+
     protected $fillable = [
         'nome',
         'colorivel'
     ];
 
-    public function tipos(): HasMany {
-        return $this->hasMany(Procedimento::class, 'tipo_id', 'tipo_id');
+    public function procedimentos(): HasMany
+    {
+        return $this->hasMany(
+            Procedimento::class,
+            'tipo_id',
+            'tipo_id'
+        );
     }
 }

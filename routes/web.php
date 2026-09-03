@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
+use App\Http\Controllers\TipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,18 +96,33 @@ Route::prefix('agendamento')->group(function () {
 
 Route::prefix('admin')->group(function () {
 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])
-        ->name('admin.dashboard');
-
-    Route::get('/clientes', [AdminController::class, 'clientes'])
-        ->name('admin.clientes');
-
-    Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
-        ->name('admin.agendamentos');
-
-    Route::get('/calendario', [AdminController::class, 'calendario'])
-        ->name('admin.calendario');
-
-    Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
-        ->name('admin.produtos');
+    Route::get(
+        '/procedimentos',
+        [ProcedimentoController::class, 'index']
+    )->name('admin.procedimentos.index');
+    
+    Route::post(
+        '/procedimentos',
+        [ProcedimentoController::class, 'store']
+    )->name('admin.procedimentos.store');
+    
+    Route::get(
+        '/procedimentos/{id}/editar',
+        [ProcedimentoController::class, 'edit']
+    )->name('admin.procedimentos.edit');
+    
+    Route::put(
+        '/procedimentos/{id}',
+        [ProcedimentoController::class, 'update']
+    )->name('admin.procedimentos.update');
+    
+    Route::delete(
+        '/procedimentos/{id}',
+        [ProcedimentoController::class, 'destroy']
+    )->name('admin.procedimentos.destroy');
+    
+    Route::post(
+        '/tipos',
+        [TipoController::class, 'store']
+    )->name('admin.tipos.store');
 });

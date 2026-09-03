@@ -5,18 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agendamento extends Model
 {
     use HasFactory;
-    public $timestamps = false;
+
     protected $table = 'agendamento';
+
     protected $primaryKey = 'agendamento_id';
+
+    public $timestamps = false;
+
     protected $fillable = [
-        'cliente_id', // FK
-        'procedimento_id', // FK
-        'imagem_gerada_id', // FK
+        'cliente_id',
+        'procedimento_id',
+        'imagem_gerada_id',
         'hora',
         'data'
     ];
@@ -25,20 +28,30 @@ class Agendamento extends Model
         'data' => 'date'
     ];
 
-    public function servicos(): HasMany {
-        return $this->hasMany(Servico::class, 'agendamento_id', 'agendamento_id');
+    public function procedimento(): BelongsTo
+    {
+        return $this->belongsTo(
+            Procedimento::class,
+            'procedimento_id',
+            'procedimento_id'
+        );
     }
 
-    public function procedimentos(): BelongsTo {
-        return $this->belongsTo(Procedimento::class, 'procedimento_id', 'procedimento_id');
+    public function cliente(): BelongsTo
+    {
+        return $this->belongsTo(
+            Cliente::class,
+            'cliente_id',
+            'cliente_id'
+        );
     }
 
-    public function clientes(): BelongsTo {
-        return $this->belongsTo(Cliente::class, 'cliente_id', 'cliente_id');
+    public function imagemGerada(): BelongsTo
+    {
+        return $this->belongsTo(
+            ImagemGerada::class,
+            'imagem_gerada_id',
+            'imagem_gerada_id'
+        );
     }
-
-    public function imagens_geradas(): BelongsTo {
-        return $this->belongsTo(ImagemGerada::class, 'imagem_gerada_id', 'imagem_gerada_id');
-    }
-
 }
