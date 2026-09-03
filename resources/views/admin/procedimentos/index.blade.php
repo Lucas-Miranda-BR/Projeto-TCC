@@ -254,7 +254,7 @@
 
                                         <td>
 
-                                            <div class="acoes">
+                                            <div class="acoes-procedimento">
 
                                                 <a
                                                     href="{{ route(

@@ -1,3 +1,7 @@
+<link
+    rel="stylesheet"
+    href="{{ asset('css/admin/dashboard.css') }}"
+>
 <aside class="admin-sidebar">
 
     <div class="sidebar-header">
