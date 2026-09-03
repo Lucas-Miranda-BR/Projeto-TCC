@@ -10,7 +10,6 @@ use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 use App\Http\Controllers\ProdutoController;
 
-
 /*
 |--------------------------------------------------------------------------
 | SITE
@@ -29,18 +28,31 @@ Route::prefix('site')->group(function () {
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class, 'produtos'])
-        ->name('site.produtos'); 
+        ->name('site.produtos');
 
     Route::get('/ia', [SiteController::class, 'ia'])
         ->name('site.ia');
-
 });
 
-Route::prefix('ia')->group(function(){
-    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])->name('ia.gerar');
+/*
+|--------------------------------------------------------------------------
+| IA
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('ia')->group(function () {
+
+    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])
+        ->name('ia.gerar');
 });
 
-Route::prefix('cliente')->group(function(){
+/*
+|--------------------------------------------------------------------------
+| CLIENTE
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('cliente')->group(function () {
 
     Route::get('/cadastro', [ClienteController::class, 'createCliente'])
         ->name('cliente.cadastro');
@@ -57,9 +69,11 @@ Route::prefix('cliente')->group(function(){
     Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
 
+    Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+        ->name('cliente.logout');
+
     Route::get('/perfil', [ClienteController::class, 'perfil'])
         ->name('cliente.perfil');
-
 });
 
 
@@ -81,7 +95,11 @@ Route::prefix('produto')->group(function () {
 
 });
 
-
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix('admin')->group(function () {
 
