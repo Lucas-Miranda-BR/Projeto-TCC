@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Item extends Model
+class ItemModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
@@ -23,12 +23,12 @@ class Item extends Model
     ];
 
     public function marcas(): BelongsTo{
-        return $this->belongsTo(Marca::class, 'marca_id', 'marca_id');
+        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
     }
     public function categorias(): BelongsTo{
-        return $this->belongsTo(Categoria::class, 'categoria_id', 'categoria_id');
+        return $this->belongsTo(CategoriaModel::class, 'categoria_id', 'categoria_id');
     }
     public function carrinhos_itens(): HasMany {
-        return $this->hasMany(CarrinhoItem::class, 'item_id', 'item_id');
+        return $this->hasMany(CarrinhoItemModel::class, 'item_id', 'item_id');
     }
 }

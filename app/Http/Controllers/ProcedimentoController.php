@@ -2,40 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Procedimento;
+use App\Models\ProcedimentoModel;
+use App\Models\CorModel;
+use App\Models\TipoModel;
 use Illuminate\Http\Request;
 
 class ProcedimentoController extends Controller
 {
     public function index()
     {
-        $procedimentos = Procedimento::orderBy('nome')->get();
+        $procedimentos = ProcedimentoModel::with('tipos')->orderBy('nome')->get();
+        
+        $tipos = TipoModel::all();
 
-        return view(
-            'admin.procedimentos.index',
-            compact('procedimentos')
-        );
+        return view('admin.procedimentos.index', compact('procedimentos', 'tipos'));
     }
 
     public function store(Request $request)
     {
         $dados = $request->validate([
             'tipo_id' => [
-                'nullable',
+                'required',
                 'integer'
             ],
-
             'nome' => [
                 'required',
                 'string',
                 'max:255'
             ],
-
             'descricao' => [
                 'required',
                 'string'
             ],
-
             'preco' => [
                 'required',
                 'numeric',
@@ -43,47 +41,39 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        Procedimento::create($dados);
+        ProcedimentoModel::create($dados);
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with(
-                'success',
-                'Serviço cadastrado com sucesso!'
-            );
+            ->with('success', 'Serviço cadastrado com sucesso!');
     }
 
     public function edit($id)
     {
-        $procedimento = Procedimento::findOrFail($id);
+        $procedimento = ProcedimentoModel::findOrFail($id);
+        $tipos = TipoModel::all();
 
-        return view(
-            'admin.procedimentos.edit',
-            compact('procedimento')
-        );
+        return view('admin.procedimentos.edit', compact('procedimento', 'tipos'));
     }
 
     public function update(Request $request, $id)
     {
-        $procedimento = Procedimento::findOrFail($id);
+        $procedimento = ProcedimentoModel::findOrFail($id);
 
         $dados = $request->validate([
             'tipo_id' => [
-                'nullable',
+                'required',
                 'integer'
             ],
-
             'nome' => [
                 'required',
                 'string',
                 'max:255'
             ],
-
             'descricao' => [
                 'required',
                 'string'
             ],
-
             'preco' => [
                 'required',
                 'numeric',
@@ -103,8 +93,7 @@ class ProcedimentoController extends Controller
 
     public function destroy($id)
     {
-        $procedimento = Procedimento::findOrFail($id);
-
+        $procedimento = ProcedimentoModel::findOrFail($id);
         $procedimento->delete();
 
         return redirect()

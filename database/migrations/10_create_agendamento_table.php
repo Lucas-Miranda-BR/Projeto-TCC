@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('cliente_id')->nullable();
             $table->unsignedBigInteger('imagem_gerada_id')->nullable();
             $table->unsignedBigInteger('procedimento_id')->nullable();
+            $table->boolean('isConcluido')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 

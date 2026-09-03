@@ -6,17 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Categoria extends Model
+class TipoModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'categoria';
-    protected $primaryKey = 'categoria_id';
+    protected $table = 'tipo';
+    protected $primaryKey = 'tipo_id';
     protected $fillable = [
-        'nome'
+        'nome',
+        'colorivel'
     ];
 
-    public function itens(): HasMany {
-        return $this->hasMany(Item::class, 'categoria_id', 'categoria_id');
+    public function procedimentos(): HasMany {
+        return $this->hasMany(ProcedimentoModel::class, 'tipo_id', 'tipo_id');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
-use App\Models\Cliente;
+use App\Models\ClienteModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -47,7 +47,7 @@ class ClienteController extends Controller
 
         $validated = $validator->validated();
 
-        $cliente = Cliente::create($validated);
+        $cliente = ClienteModel::create($validated);
 
         session(['cliente' => $cliente]);
 
@@ -55,13 +55,13 @@ class ClienteController extends Controller
     }
 
     function editCliente(string $id){
-        $cliente = Cliente::findOrFail($id);
+        $cliente = ClienteModel::findOrFail($id);
 
         return view('cliente.update', compact('cliente'));
     }
 
     function updateCliente(Request $request, $id) {
-        $cliente = Cliente::findOrFail($id);
+        $cliente = ClienteModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'nome' => ['required', 'string', 'min:2'],
@@ -76,7 +76,7 @@ class ClienteController extends Controller
 
             'data_nascimento' => ['date','required'],
 
-            'senha' => ['nullable',Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
+            'senha' => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
 
         ]);
 
@@ -107,7 +107,7 @@ class ClienteController extends Controller
     }
 
     function destroyCliente(string $id) {
-            Cliente::destroy($id);
+            ClienteModel::destroy($id);
             return redirect()->route('cliente.cadastro');
         }
 
@@ -120,7 +120,7 @@ class ClienteController extends Controller
 
             $auth = $request->auth;
 
-            $cliente = Cliente::where('email', $auth)
+            $cliente = ClienteModel::where('email', $auth)
                 ->orWhere('telefone', $auth)
                 ->first();
     

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->decimal('preco', total: 8, places: 2);
             $table->integer('estoque');
-            $table->integer('foto');
+            $table->string('foto');
             $table->unsignedBigInteger('marca_id')->nullable();
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->timestamp('criado')->useCurrent();

@@ -8,6 +8,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
+use App\Http\Controllers\ProdutoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,9 @@ Route::prefix('cliente')->group(function () {
     Route::get('/login', [ClienteController::class, 'loginCliente'])
         ->name('cliente.login');
 
+    Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+        ->name('cliente.logout');
+
     Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
 
@@ -72,19 +76,23 @@ Route::prefix('cliente')->group(function () {
         ->name('cliente.perfil');
 });
 
-/*
-|--------------------------------------------------------------------------
-| AGENDAMENTO
-|--------------------------------------------------------------------------
-*/
+
 
 Route::prefix('agendamento')->group(function () {
 
     Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])
         ->name('agendamento.agendar');
-
+        
     Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
         ->name('agendamento.create');
+
+});
+
+Route::prefix('produto')->group(function () {
+
+    Route::post('/create', [ProdutoController::class, 'storeProduto'])
+        ->name('produto.create');
+
 });
 
 /*
@@ -101,12 +109,44 @@ Route::prefix('admin')->group(function () {
     Route::get('/clientes', [AdminController::class, 'clientes'])
         ->name('admin.clientes');
 
-    Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
-        ->name('admin.agendamentos');
-
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
+    Route::get('/produtos', [AdminController::class, 'produtos'])
         ->name('admin.produtos');
+
+    // ---------------------------------------------------
+    // PROCEDIMENTOS (SERVIÇOS)
+    // ---------------------------------------------------
+    
+    // Rota que exibe tudo dentro do Dashboard
+    Route::get('/procedimentos', [ProcedimentoController::class, 'index'])
+        ->name('admin.procedimentos.index');
+
+    // Rotas exclusivas para gerenciar as ações
+    Route::prefix('procedimentos')->group(function () {
+        
+        Route::post('/store', [ProcedimentoController::class, 'store'])
+            ->name('admin.procedimentos.store');
+
+        Route::get('/{id}/edit', [ProcedimentoController::class, 'edit'])
+            ->name('admin.procedimentos.edit');
+
+        Route::put('/{id}', [ProcedimentoController::class, 'update'])
+            ->name('admin.procedimentos.update');
+
+        Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])
+            ->name('admin.procedimentos.destroy');
+
+    });
+
+    Route::prefix('agendamentos')->group(function(){
+        
+    Route::get('/', [AdminController::class, 'agendamentos'])
+    ->name('admin.agendamentos');
+
+    Route::patch('/{id}/concluir', [AgendamentoController::class, 'concluirAgendamento'])
+            ->name('admin.agendamentos.concluir');
+    });
+
 });

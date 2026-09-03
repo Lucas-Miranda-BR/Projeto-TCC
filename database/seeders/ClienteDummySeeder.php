@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Cliente;
+use App\Models\ClienteModel;
 
 class ClienteDummySeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class ClienteDummySeeder extends Seeder
     public function run(): void
     {
 
-        Cliente::create(['nome' => 'Administrador',
+        ClienteModel::create(['nome' => 'Administrador',
             'sobrenome' => 'Sistema',
             'cpf' => '00000000000',
             'cep' => '00000000',

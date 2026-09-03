@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Cor;
+use App\Models\CorModel;
 
 class CorSeeder extends Seeder
 {
@@ -12,20 +12,20 @@ class CorSeeder extends Seeder
     public function run(): void
     {
 
-        Cor::create(['nome' => 'Vermelho', 'disponivel' => true]);
-        Cor::create(['nome' => 'Vinho', 'disponivel' => true]);
-        Cor::create(['nome' => 'Nude', 'disponivel' => true]);
-        Cor::create(['nome' => 'Branco (Renda)', 'disponivel' => true]);
-        Cor::create(['nome' => 'Branco Puríssimo', 'disponivel' => true]);
-        Cor::create(['nome' => 'Preto', 'disponivel' => true]);
-        Cor::create(['nome' => 'Rosa Pastel', 'disponivel' => true]);
-        Cor::create(['nome' => 'Pink', 'disponivel' => true]);
-        Cor::create(['nome' => 'Lilás', 'disponivel' => true]);
-        Cor::create(['nome' => 'Azul Marinho', 'disponivel' => true]);
-        Cor::create(['nome' => 'Verde Esmeralda', 'disponivel' => true]);
-        Cor::create(['nome' => 'Dourado Metálico', 'disponivel' => false]);
-        Cor::create(['nome' => 'Prata Metálico', 'disponivel' => false]);
-        Cor::create(['nome' => 'Amarelo Neon', 'disponivel' => false]);
+        CorModel::create(['nome' => 'Vermelho', 'estoque' => 25, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Vinho', 'estoque' => 31, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Nude', 'estoque' => 11, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Branco (Renda)', 'estoque' => 9, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Branco Puríssimo', 'estoque' => 7, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Preto', 'estoque' => 3, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Rosa Pastel', 'estoque' => 75, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Pink', 'estoque' => 2, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Lilás', 'estoque' => 1, 'disponivel' => false]);
+        CorModel::create(['nome' => 'Azul Marinho', 'estoque' => 0, 'disponivel' => false]);
+        CorModel::create(['nome' => 'Verde Esmeralda', 'estoque' => 1, 'disponivel' => false]);
+        CorModel::create(['nome' => 'Dourado Metálico', 'estoque' => 2, 'disponivel' => true]);
+        CorModel::create(['nome' => 'Prata Metálico', 'estoque' => 0, 'disponivel' => false]);
+        CorModel::create(['nome' => 'Amarelo Neon', 'estoque' => 1, 'disponivel' => false]);
 
     }
 }

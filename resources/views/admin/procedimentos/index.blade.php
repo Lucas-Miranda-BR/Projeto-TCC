@@ -4,7 +4,7 @@
 
 <link
     rel="stylesheet"
-    href="{{ asset('public/css/admin/procedimentos.css') }}"
+    href="{{ asset('css/admin/procedimentos.css') }}"
 >
 
 @endpush
@@ -30,11 +30,11 @@
                 </span>
 
                 <h1>
-                    Gerenciar Serviços
+                    Gerenciar procedimentos
                 </h1>
 
                 <p>
-                    Cadastre, edite ou remova os serviços disponíveis.
+                    Cadastre, edite ou remova os procedimentos disponíveis.
                 </p>
 
             </div>
@@ -75,7 +75,7 @@
             <section class="novo-procedimento">
 
                 <h2>
-                    Novo Serviço
+                    Novo procedimento
                 </h2>
 
 
@@ -89,8 +89,25 @@
 
                     <div class="form-group">
 
+                        <label for="tipo_id">
+                            Tipo
+                        </label>
+
+                        <select name="tipo_id" id="tipo_id" required>
+                            <option value="" selected disabled>Selecione o tipo</option>
+                            @foreach($tipos as $tipo)
+                                <option value="{{ $tipo->tipo_id }}" data-colorivel="{{ $tipo->colorivel ? '1' : '0' }}" {{ old('tipo_id') == $tipo->tipo_id ? 'selected' : '' }}>
+                                    {{ $tipo->nome }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
                         <label for="nome">
-                            Nome do Serviço
+                            Nome do procedimento
                         </label>
 
                         <input
@@ -160,12 +177,12 @@
                 <div class="lista-header">
 
                     <h2>
-                        Serviços Cadastrados
+                        Procedimentos Cadastrados
                     </h2>
 
                     <span>
                         {{ $procedimentos->count() }}
-                        serviço(s)
+                        Procedimento(s)
                     </span>
 
                 </div>
@@ -180,23 +197,12 @@
                             <thead>
 
                                 <tr>
-
-                                    <th>
-                                        Nome
-                                    </th>
-
-                                    <th>
-                                        Descrição
-                                    </th>
-
-                                    <th>
-                                        Preço
-                                    </th>
-
-                                    <th>
-                                        Ações
-                                    </th>
-
+                                    <th>Tipo</th>
+                                    <th>colorivel</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                    <th>Ações</th>
                                 </tr>
 
                             </thead>
@@ -209,23 +215,33 @@
                                     <tr>
 
                                         <td>
+                                            {{ $procedimento->tipos->nome}}
+                                        </td>
 
+                                        @if ($procedimento->tipos->colorivel == 1)     
+                                        <td>
+                                            Sim
+                                        </td>
+
+                                        @else
+                                        <td>
+                                            Não
+                                        </td>
+                                        @endif
+
+                                        <td>
                                             <strong>
                                                 {{ $procedimento->nome }}
                                             </strong>
-
                                         </td>
 
 
                                         <td>
-
                                             {{ $procedimento->descricao }}
-
                                         </td>
 
 
                                         <td>
-
                                             R$
                                             {{ number_format(
                                                 $procedimento->preco,
@@ -233,7 +249,6 @@
                                                 ',',
                                                 '.'
                                             ) }}
-
                                         </td>
 
 
@@ -270,7 +285,7 @@
                                                     <button
                                                         type="submit"
                                                         class="btn-excluir"
-                                                        onclick="return confirm('Deseja realmente excluir este serviço?')"
+                                                        onclick="return confirm('Deseja realmente excluir este procedimento?')"
                                                     >
 
                                                         Excluir
@@ -298,7 +313,7 @@
                     <div class="nenhum-procedimento">
 
                         <p>
-                            Nenhum serviço cadastrado ainda.
+                            Nenhum procedimento cadastrado ainda.
                         </p>
 
                     </div>
@@ -314,3 +329,7 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin/procedimentos.js') }}"></script>
+@endpush
