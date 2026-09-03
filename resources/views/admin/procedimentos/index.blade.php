@@ -30,11 +30,11 @@
                 </span>
 
                 <h1>
-                    Gerenciar Serviços
+                    Gerenciar procedimentos
                 </h1>
 
                 <p>
-                    Cadastre, edite ou remova os serviços disponíveis.
+                    Cadastre, edite ou remova os procedimentos disponíveis.
                 </p>
 
             </div>
@@ -75,7 +75,7 @@
             <section class="novo-procedimento">
 
                 <h2>
-                    Novo Serviço
+                    Novo procedimento
                 </h2>
 
 
@@ -107,7 +107,7 @@
                     <div class="form-group">
 
                         <label for="nome">
-                            Nome do Serviço
+                            Nome do procedimento
                         </label>
 
                         <input
@@ -177,12 +177,12 @@
                 <div class="lista-header">
 
                     <h2>
-                        Serviços Cadastrados
+                        Procedimentos Cadastrados
                     </h2>
 
                     <span>
                         {{ $procedimentos->count() }}
-                        serviço(s)
+                        Procedimento(s)
                     </span>
 
                 </div>
@@ -198,7 +198,7 @@
 
                                 <tr>
                                     <th>Tipo</th>
-                                    <th>Cor</th>
+                                    <th>colorivel</th>
                                     <th>Nome</th>
                                     <th>Descrição</th>
                                     <th>Preço</th>
@@ -215,12 +215,19 @@
                                     <tr>
 
                                         <td>
-                                            {{ $procedimento->tipo ? $procedimento->tipo->nome : '-' }}
+                                            {{ $procedimento->tipos->nome}}
                                         </td>
 
+                                        @if ($procedimento->tipos->colorivel == 1)     
                                         <td>
-                                            {{ $procedimento->cor ? $procedimento->cor->nome : 'incolorivel' }}
+                                            Sim
                                         </td>
+
+                                        @else
+                                        <td>
+                                            Não
+                                        </td>
+                                        @endif
 
                                         <td>
                                             <strong>
@@ -278,7 +285,7 @@
                                                     <button
                                                         type="submit"
                                                         class="btn-excluir"
-                                                        onclick="return confirm('Deseja realmente excluir este serviço?')"
+                                                        onclick="return confirm('Deseja realmente excluir este procedimento?')"
                                                     >
 
                                                         Excluir
@@ -306,7 +313,7 @@
                     <div class="nenhum-procedimento">
 
                         <p>
-                            Nenhum serviço cadastrado ainda.
+                            Nenhum procedimento cadastrado ainda.
                         </p>
 
                     </div>

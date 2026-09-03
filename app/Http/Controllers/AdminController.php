@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClienteModel;
+use App\Models\AgendamentoModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProcedimentoController;
 
 class AdminController extends Controller
 {
@@ -140,7 +140,12 @@ class AdminController extends Controller
 
     public function agendamentos()
     {
-        return view('admin.agendamentos');
+        $agendamentos = AgendamentoModel::with(['clientes', 'procedimentos', 'imagens_geradas'])
+        ->orderBy('isConcluido', 'asc')
+        ->orderBy('data', 'asc')
+        ->orderBy('hora', 'asc')
+        ->get();
+        return view('admin.agendamentos.index', ['agendamentos'=>$agendamentos]);
     }
 
     public function calendario()

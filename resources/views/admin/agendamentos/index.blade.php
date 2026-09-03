@@ -42,7 +42,7 @@
                     class="btn-procedimentos"
                 >
 
-                    Gerenciar Serviços
+                    Gerenciar Procedimentos
 
                 </a>
 
@@ -71,7 +71,7 @@
                                     </th>
 
                                     <th>
-                                        Serviço
+                                        Procedimento
                                     </th>
 
                                     <th>
@@ -84,6 +84,10 @@
 
                                     <th>
                                         Status
+                                    </th>
+
+                                    <th>
+                                        Ações
                                     </th>
 
                                 </tr>
@@ -99,13 +103,13 @@
 
                                         <td>
 
-                                            {{ $agendamento->cliente_id }}
+                                            {{ $agendamento->clientes->nome}}
 
                                         </td>
 
                                         <td>
 
-                                            {{ $agendamento->procedimento_id }}
+                                            {{ $agendamento->procedimentos->nome}}
 
                                         </td>
 
@@ -123,13 +127,35 @@
                                             {{ $agendamento->hora }}
 
                                         </td>
-
+                                        @if ($agendamento->isConcluido == 1)
                                         <td>
-
-                                            {{ $agendamento->status ?? 'Pendente' }}
-
+                                            Concluido
                                         </td>
 
+                                        @else
+                                        <td>
+                                            Pendente
+                                        </td>
+                                        @endif
+
+                                        @if ($agendamento->isConcluido == 0)
+                                            <td>
+                                                <form action="{{ route('admin.agendamentos.concluir', $agendamento->agendamento_id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" >
+                                                        ✓ Concluir
+                                                    </button>
+                                                </form>
+                                            </td>
+
+                                        @else
+                                            <td>
+                                                <button disabled>
+                                                    Finalizado
+                                                </button>
+                                            </td>
+                                        @endif
                                     </tr>
 
                                 @endforeach

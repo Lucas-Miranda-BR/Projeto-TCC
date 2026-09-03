@@ -19,7 +19,6 @@ class ProcedimentoModel extends Model
 
     protected $fillable = [
         'tipo_id', // FK
-        'cor_id', // FK
         "nome",
         "imagem",
         'descricao',
@@ -33,7 +32,7 @@ class ProcedimentoModel extends Model
     public function prompts_ia(): HasMany{
         return $this->hasMany(PromptIaModel::class, 'prompt_ia_id', 'prompt_ia_id');
     }
-    public function tipo(): BelongsTo {
+    public function tipos(): BelongsTo {
         return $this->belongsTo(TipoModel::class, 'tipo_id', 'tipo_id');
     }
 }

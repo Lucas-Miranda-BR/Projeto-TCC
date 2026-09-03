@@ -91,9 +91,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/clientes', [AdminController::class, 'clientes'])
         ->name('admin.clientes');
 
-    Route::get('/agendamentos', [AdminController::class, 'agendamentos'])
-        ->name('admin.agendamentos');
-
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
@@ -123,6 +120,15 @@ Route::prefix('admin')->group(function () {
         Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])
             ->name('admin.procedimentos.destroy');
 
+    });
+
+    Route::prefix('agendamentos')->group(function(){
+        
+    Route::get('/', [AdminController::class, 'agendamentos'])
+    ->name('admin.agendamentos');
+
+    Route::patch('/{id}/concluir', [AgendamentoController::class, 'concluirAgendamento'])
+            ->name('admin.agendamentos.concluir');
     });
 
 });

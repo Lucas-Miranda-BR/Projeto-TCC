@@ -17,12 +17,14 @@ class AgendamentoModel extends Model
         'cliente_id', // FK
         'procedimento_id', // FK
         'imagem_gerada_id', // FK
+        'isConcluido',
         'hora',
         'data'
     ];
 
     protected $casts = [
-        'data' => 'date'
+        'data' => 'date',
+        'isConcluido' => 'boolean'
     ];
 
     public function servicos(): HasMany {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AgendamentoModel;
 use App\Models\TipoModel;
 use App\Models\ClienteModel;
+use App\Models\ProcedimentoModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,8 +23,6 @@ class AgendamentoController extends Controller
                 $procedimentoSelecionado = $promptIa->procedimento_id;
             }
         }
-
-        // DESATIVADO - TESTE IA - API
 
         $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
 
@@ -79,5 +78,16 @@ class AgendamentoController extends Controller
         AgendamentoModel::create($validated);
 
         return redirect()->route('site.sobre');
+    }
+
+    public function concluirAgendamento($id){
+
+        $agendamento = AgendamentoModel::find($id);
+        if ($agendamento) {
+            $agendamento->isConcluido = 1;
+            $agendamento->save();
+        }
+
+        return redirect()->back();
     }
 }

@@ -11,7 +11,7 @@ class ProcedimentoController extends Controller
 {
     public function index()
     {
-        $procedimentos = ProcedimentoModel::with('tipo')->orderBy('nome')->get();
+        $procedimentos = ProcedimentoModel::with('tipos')->orderBy('nome')->get();
         
         $tipos = TipoModel::all();
 

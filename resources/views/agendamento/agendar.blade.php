@@ -29,11 +29,11 @@
         <div class="topo">
 
             <div class="servico">
-                <label for="procedimento_id">Selecione o Serviço</label>
+                <label for="procedimento_id">Selecione o procedimento</label>
                 
                 <select name="procedimento_id" id="procedimento_id" required>
                     <option value="" disabled {{ empty($procedimentoSelecionado) ? 'selected' : '' }}>
-                        Escolha um serviço...
+                        Escolha um procedimento...
                     </option>
                     
                     @foreach($procedimentos as $procedimento)
@@ -46,15 +46,16 @@
                     @endforeach
                 </select>
     
-                <p id="exibe-tipo">
-                    <strong>Tipo de Serviço:</strong> <span></span>
-                </p>
             </div>
-
+            
             <div class="resumo">
                 <h3>Resumo do Agendamento</h3>
                 
-                <p id="resumo-nome"><strong>Serviço:</strong> Selecione um serviço ao lado</p>
+                <p id="exibe-tipo">
+                    <strong>Tipo de procedimento:</strong> <span>Selecione um procedimento</span>
+                </p>
+
+                <p id="resumo-nome"><strong>Serviço:</strong> </p>
                 
                 <p id="resumo-descricao">
                     <strong>Descrição:</strong> <span></span>
@@ -137,51 +138,6 @@
         </ul>
     </div>
 @endif
-
-    @isset($agendamentos)
-
-    <div class="lista-agendamentos">
-
-        <h2>Agendamentos Realizados</h2>
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Cliente</th>
-                    <th>Serviço</th>
-                    <th>Data</th>
-                    <th>Hora</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach($agendamentos as $agendamento)
-
-                <tr>
-
-                    <td>{{ $agendamento->cliente_id }}</td>
-
-                    <td>{{ $agendamento->procedimento_id }}</td>
-
-                    <td>{{ date('d/m/Y', strtotime($agendamento->data)) }}</td>
-
-                    <td>{{ $agendamento->hora }}</td>
-
-                </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-    @endisset
 
 </div>
 
