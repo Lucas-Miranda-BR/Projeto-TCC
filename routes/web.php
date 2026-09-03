@@ -9,7 +9,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 
-
 /*
 |--------------------------------------------------------------------------
 | SITE
@@ -28,18 +27,31 @@ Route::prefix('site')->group(function () {
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class, 'produtos'])
-        ->name('site.produtos'); 
+        ->name('site.produtos');
 
     Route::get('/ia', [SiteController::class, 'ia'])
         ->name('site.ia');
-
 });
 
-Route::prefix('ia')->group(function(){
-    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])->name('ia.gerar');
+/*
+|--------------------------------------------------------------------------
+| IA
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('ia')->group(function () {
+
+    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])
+        ->name('ia.gerar');
 });
 
-Route::prefix('cliente')->group(function(){
+/*
+|--------------------------------------------------------------------------
+| CLIENTE
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('cliente')->group(function () {
 
     Route::get('/cadastro', [ClienteController::class, 'createCliente'])
         ->name('cliente.cadastro');
@@ -47,37 +59,39 @@ Route::prefix('cliente')->group(function(){
     Route::post('/create', [ClienteController::class, 'storeCliente'])
         ->name('cliente.create');
 
-        Route::get('/login', [ClienteController::class, 'loginCliente'])
+    Route::get('/login', [ClienteController::class, 'loginCliente'])
         ->name('cliente.login');
 
-        Route::get('/logout', [ClienteController::class, 'logoutCliente'])
-        ->name('cliente.logout');
-
-        Route::post('/auth', [ClienteController::class, 'authCliente'])
+    Route::post('/auth', [ClienteController::class, 'authCliente'])
         ->name('cliente.auth');
+
+    Route::get('/logout', [ClienteController::class, 'logoutCliente'])
+        ->name('cliente.logout');
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
         ->name('cliente.perfil');
-
 });
 
-
-    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
-    ->name('agendamento.create');
-
-});
+/*
+|--------------------------------------------------------------------------
+| AGENDAMENTO
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix('agendamento')->group(function () {
 
     Route::get('/agendar', [AgendamentoController::class, 'createAgendamento'])
         ->name('agendamento.agendar');
 
-    Route::post('/create', [ProdutoController::class, 'storeProduto'])
-    ->name('produto.create');
-
+    Route::post('/create', [AgendamentoController::class, 'storeAgendamento'])
+        ->name('agendamento.create');
 });
 
-
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix('admin')->group(function () {
 
@@ -95,5 +109,4 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/dashboard/produtos', [AdminController::class, 'produtos'])
         ->name('admin.produtos');
-
 });
