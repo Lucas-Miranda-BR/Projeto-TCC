@@ -22,9 +22,6 @@ class ItemModel extends Model
         'estoque'
     ];
 
-    public function marcas(): BelongsTo{
-        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
-    }
     public function categorias(): BelongsTo{
         return $this->belongsTo(CategoriaModel::class, 'categoria_id', 'categoria_id');
     }

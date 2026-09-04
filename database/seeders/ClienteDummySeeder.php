@@ -15,10 +15,8 @@ class ClienteDummySeeder extends Seeder
         ClienteModel::create(['nome' => 'Administrador',
             'sobrenome' => 'Sistema',
             'cpf' => '00000000000',
-            'cep' => '00000000',
             'telefone' => '11999999999',
             'email' => 'admin@admin.com',
-            'endereco' => 'Rua Principal, 123 - Centro',
             'data_nascimento' => '1990-01-01',
             'admin' => true,
             'senha' => 'Admin@1234!']);
