@@ -97,19 +97,6 @@
                         value="{{ old('data_nascimento') }}"
                         autocomplete="off"
                     >
-                    <label for="cpf">CPF</label>
-                    <input
-                        type="text"
-                        minlength="11"
-                        maxlength="11"
-                        pattern='[0-9]{11}'
-                        inputmode="numeric"
-                        id="cpf"
-                        name="cpf"
-                        required
-                        value="{{ old('cpf') }}"
-                        autocomplete="off"     
-                    >
                 </div>
 
                 <div class="form-row">

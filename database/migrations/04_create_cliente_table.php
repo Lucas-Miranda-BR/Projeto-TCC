@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('cliente_id');
             $table->string('nome');
             $table->string('sobrenome');
-            $table->string('cpf')->unique();
+            $table->string('cpf')->nullable()->unique();
             $table->string('telefone')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->date('data_nascimento');
