@@ -1,0 +1,531 @@
+
+
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
+
+:root {
+
+  --radius: 18px;
+
+  --background: oklch(99% .008 20);
+
+  --foreground: oklch(22% .03 20);
+
+  --card: oklch(100% 0 0);
+
+  --card-foreground: oklch(22% .03 20);
+
+  --primary: oklch(45% .19 25);
+
+  --primary-foreground: oklch(98% .01 20);
+
+  --secondary: oklch(95% .02 20);
+
+  --muted: oklch(96% .012 20);
+
+  --muted-foreground: oklch(52% .03 20);
+
+  --border: oklch(90% .02 20);
+
+  --gradient-brand:
+    linear-gradient(
+      100deg,
+      oklch(32% .14 25),
+      oklch(52% .22 27)
+    );
+
+  --shadow-card:
+    0 1px 2px oklch(45% .19 25 / .06),
+    0 12px 30px -14px oklch(45% .19 25 / .25);
+
+  --font-display:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  --font-body:
+    "Jost",
+    system-ui,
+    sans-serif;
+
+}
+
+
+/* =====================================================
+   BASE
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+
+  margin: 0;
+
+  font-family: var(--font-body);
+
+  color: var(--foreground);
+
+  background:
+    linear-gradient(
+      180deg,
+      oklch(99% .012 20),
+      var(--background)
+    );
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-height: 100vh;
+
+}
+
+.brand-font {
+  font-family: var(--font-display);
+}
+
+.text-brand {
+  color: var(--primary) !important;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.header-brand {
+
+  flex-shrink: 0;
+
+  background:
+    color-mix(
+      in oklch,
+      var(--secondary) 85%,
+      transparent
+    );
+
+  backdrop-filter: blur(6px);
+
+  border-bottom:
+    1px solid var(--border);
+
+}
+
+.navbar-brand {
+
+  color: var(--primary) !important;
+
+}
+
+.nav-link {
+
+  color: var(--foreground);
+
+  transition: color .2s ease;
+
+}
+
+.nav-link:hover {
+
+  color: var(--primary);
+
+}
+
+.nav-link.active {
+
+  color: var(--primary) !important;
+
+  font-weight: 500;
+
+}
+
+
+/* =====================================================
+   ÍCONE IA
+===================================================== */
+
+.link-ia {
+
+  color: var(--primary);
+
+  transition: color .2s ease;
+
+}
+
+.link-ia:hover {
+
+  color: var(--primary);
+
+}
+
+.icon-circle {
+
+  width: 28px;
+
+  height: 28px;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    color-mix(
+      in oklch,
+      var(--primary) 12%,
+      transparent
+    );
+
+  color: var(--primary);
+
+}
+
+.agendar-icone {
+
+  width: 28px;
+
+  height: 28px;
+
+}
+
+.icon-svg {
+
+  width: 16px;
+
+  height: 16px;
+
+  vertical-align: middle;
+
+}
+
+
+/* =====================================================
+   BOTÕES DA NAVBAR
+===================================================== */
+
+.btn-icone-nav {
+
+  width: 34px;
+
+  height: 34px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--foreground);
+
+  cursor: pointer;
+
+  transition: .2s ease;
+
+}
+
+.btn-icone-nav:hover {
+
+  background: var(--secondary);
+
+  color: var(--primary);
+
+  border-color: var(--primary);
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+.login-avatar {
+
+  width: 24px;
+
+  height: 24px;
+
+  border-radius: 50%;
+
+  background: #f0d9b5;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: var(--primary);
+
+}
+
+.btn-login {
+
+  background: var(--gradient-brand);
+
+  color: #fff;
+
+  border: none;
+
+  font-size: .85rem;
+
+  padding: .45rem 1rem;
+
+  transition: .2s ease;
+
+}
+
+.btn-login:hover {
+
+  color: #fff;
+
+  opacity: .92;
+
+}
+
+
+/* =====================================================
+   PÁGINA
+===================================================== */
+
+.page-main {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  overflow: auto;
+
+  padding:
+    clamp(.8rem, 2vh, 1.5rem)
+    1rem;
+
+}
+
+
+/* =====================================================
+   PERFIL
+===================================================== */
+
+.card-profile {
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  box-shadow:
+    var(--shadow-card);
+
+}
+
+.cover-brand {
+
+  height:
+    clamp(60px, 10vh, 110px);
+
+  background:
+    var(--gradient-brand);
+
+}
+
+.avatar {
+
+  width:
+    clamp(70px, 11vh, 105px);
+
+  height:
+    clamp(70px, 11vh, 105px);
+
+  border:
+    4px solid #fff;
+
+  background:
+    var(--secondary);
+
+  color:
+    var(--primary);
+
+  font-size:
+    clamp(1.2rem, 2.5vh, 1.6rem);
+
+  font-weight: 600;
+
+  margin-top:
+    clamp(-35px, -5.5vh, -52px);
+
+  flex-shrink: 0;
+
+  text-transform: uppercase;
+
+}
+
+
+/* =====================================================
+   CAIXAS DE INFORMAÇÃO
+===================================================== */
+
+.info-box {
+
+  background:
+    var(--secondary);
+
+  border-radius:
+    1rem;
+
+}
+
+.label-eyebrow {
+
+  font-size:
+    .72rem;
+
+  letter-spacing:
+    .12em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    var(--muted-foreground);
+
+}
+
+.badge-opcional {
+
+  font-size:
+    .62rem;
+
+  font-weight:
+    500;
+
+  color:
+    var(--primary);
+
+  background:
+    #fff;
+
+  border:
+    1px solid var(--primary);
+
+  padding:
+    .05rem .4rem;
+
+  border-radius:
+    999px;
+
+  margin-left:
+    .35rem;
+
+  text-transform:
+    none;
+
+  letter-spacing:
+    normal;
+
+}
+
+
+/* =====================================================
+   BOTÕES DO PERFIL
+===================================================== */
+
+.btn-brand {
+
+  background:
+    var(--gradient-brand);
+
+  border: none;
+
+  color: #fff;
+
+}
+
+.btn-brand:hover {
+
+  color: #fff;
+
+  opacity: .92;
+
+}
+
+.btn-outline-brand {
+
+  border:
+    1px solid var(--primary);
+
+  color:
+    var(--primary);
+
+  background:
+    transparent;
+
+}
+
+.btn-outline-brand:hover {
+
+  background:
+    var(--secondary);
+
+  color:
+    var(--primary);
+
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 991px) {
+
+  .navbar-nav {
+
+    padding-top: 1rem;
+
+    padding-bottom: 1rem;
+
+  }
+
+}
+
+
+@media (max-width: 576px) {
+
+  .page-main {
+
+    align-items: flex-start;
+
+  }
+
+  .avatar {
+
+    margin-top: -38px;
+
+  }
+
+}
+
