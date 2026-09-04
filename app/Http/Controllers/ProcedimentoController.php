@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProcedimentoModel;
-use App\Models\CorModel;
 use App\Models\TipoModel;
 use Illuminate\Http\Request;
 
 class ProcedimentoController extends Controller
 {
-    public function index()
+    public function indexProcedimento()
     {
         $procedimentos = ProcedimentoModel::with('tipos')->orderBy('nome')->get();
         
@@ -18,7 +17,7 @@ class ProcedimentoController extends Controller
         return view('admin.procedimentos.index', compact('procedimentos', 'tipos'));
     }
 
-    public function store(Request $request)
+    public function storeProcedimento(Request $request)
     {
         $dados = $request->validate([
             'tipo_id' => [
@@ -48,7 +47,7 @@ class ProcedimentoController extends Controller
             ->with('success', 'Serviço cadastrado com sucesso!');
     }
 
-    public function edit($id)
+    public function editProcedimento($id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
         $tipos = TipoModel::all();
@@ -56,7 +55,7 @@ class ProcedimentoController extends Controller
         return view('admin.procedimentos.edit', compact('procedimento', 'tipos'));
     }
 
-    public function update(Request $request, $id)
+    public function updateProcedimento(Request $request, $id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
 
@@ -81,7 +80,7 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        $procedimento->update($dados);
+        $procedimento->updateProcedimento($dados);
 
         return redirect()
             ->route('admin.procedimentos.index')
@@ -91,7 +90,7 @@ class ProcedimentoController extends Controller
             );
     }
 
-    public function destroy($id)
+    public function destroyProcedimento($id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
         $procedimento->delete();

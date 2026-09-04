@@ -102,6 +102,8 @@
                             @endforeach
                         </select>
 
+                       <span id="status-colorivel" style="display: none; margin-top: 8px; font-weight: 500;">Selecione um tipo</span>
+
                     </div>
 
                     <div class="form-group">
@@ -170,6 +172,9 @@
                 </form>
 
             </section>
+
+            <h1>Gerenciar tipos</h1>
+            <button> <a href="{{ route('admin.procedimentos.index') }}"></a>Gerencie Aqui</button>
 
 
             <section class="lista-procedimentos">
@@ -331,5 +336,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/admin/procedimentos.js') }}"></script>
+<script src="{{ asset('js/admin/procedimento.js') }}"></script>
 @endpush

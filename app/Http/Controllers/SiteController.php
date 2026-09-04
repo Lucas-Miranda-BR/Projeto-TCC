@@ -8,22 +8,22 @@ use App\Models\ClienteModel;
 
 class SiteController extends Controller
 {
-    public function home()
+    public function viewHome()
     {
         return view('home');
     }
 
-    public function sobre()
+    public function viewSobre()
     {
         return view('site.sobre');
     }
 
-    public function servicos()
+    public function viewServicos()
     {
         return view('site.servicos');
     }
 
-    public function ia()
+    public function viewIa()
     {
 
         $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
@@ -42,7 +42,7 @@ class SiteController extends Controller
         return view('site.ia', compact('procedimentos', 'cliente', 'cores'));
     }
 
-    public function produtos()
+    public function viewProdutos()
     {
         return view('site.produtos');
     }

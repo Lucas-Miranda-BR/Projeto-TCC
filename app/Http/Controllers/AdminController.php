@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminController;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function viewDashboard()
     {
         $dashboard = $this->montarDashboard('hoje');
 
@@ -126,7 +126,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function clientes()
+    public function viewClientes()
     {
         return view('admin.clientes');
     }
@@ -138,7 +138,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function agendamentos()
+    public function viewAgendamentos()
     {
         $agendamentos = AgendamentoModel::with(['clientes', 'procedimentos', 'imagens_geradas'])
         ->orderBy('isConcluido', 'asc')
@@ -148,17 +148,17 @@ class AdminController extends Controller
         return view('admin.agendamentos.index', ['agendamentos'=>$agendamentos]);
     }
 
-    public function calendario()
+    public function viewCalendario()
     {
         return view('admin.calendario');
     }
 
-    public function produtos()
+    public function viewProdutos()
     {
         return view('admin.produtos');
     }
 
-    public function procedimentos()
+    public function viewProcedimentos()
     {
         return view('admin.procedimentos.index');
     }

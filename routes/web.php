@@ -16,21 +16,21 @@ use App\Http\Controllers\ProdutoController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [SiteController::class, 'home'])
+Route::get('/', [SiteController::class, 'viewHome'])
     ->name('home');
 
 Route::prefix('site')->group(function () {
 
-    Route::get('/sobre', [SiteController::class, 'sobre'])
+    Route::get('/sobre', [SiteController::class, 'viewSobre'])
         ->name('site.sobre');
 
-    Route::get('/servicos', [SiteController::class, 'servicos'])
+    Route::get('/servicos', [SiteController::class, 'viewServicos'])
         ->name('site.servicos');
 
-    Route::get('/produtos', [SiteController::class, 'produtos'])
+    Route::get('/produtos', [SiteController::class, 'viewProdutos'])
         ->name('site.produtos');
 
-    Route::get('/ia', [SiteController::class, 'ia'])
+    Route::get('/ia', [SiteController::class, 'viewIa'])
         ->name('site.ia');
 });
 
@@ -72,7 +72,7 @@ Route::prefix('cliente')->group(function () {
     Route::get('/logout', [ClienteController::class, 'logoutCliente'])
         ->name('cliente.logout');
 
-    Route::get('/perfil', [ClienteController::class, 'perfil'])
+    Route::get('/perfil', [ClienteController::class, 'viewPerfilCliente'])
         ->name('cliente.perfil');
 });
 
@@ -103,16 +103,16 @@ Route::prefix('produto')->group(function () {
 
 Route::prefix('admin')->group(function () {
 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])
+    Route::get('/dashboard', [AdminController::class, 'viewDashboard'])
         ->name('admin.dashboard');
 
-    Route::get('/clientes', [AdminController::class, 'clientes'])
+    Route::get('/clientes', [AdminController::class, 'viewClientes'])
         ->name('admin.clientes');
 
-    Route::get('/calendario', [AdminController::class, 'calendario'])
+    Route::get('/calendario', [AdminController::class, 'viewCalendario'])
         ->name('admin.calendario');
 
-    Route::get('/produtos', [AdminController::class, 'produtos'])
+    Route::get('/produtos', [AdminController::class, 'viewProdutos'])
         ->name('admin.produtos');
 
     // ---------------------------------------------------
@@ -120,33 +120,52 @@ Route::prefix('admin')->group(function () {
     // ---------------------------------------------------
     
     // Rota que exibe tudo dentro do Dashboard
-    Route::get('/procedimentos', [ProcedimentoController::class, 'index'])
+    Route::get('/procedimentos', [ProcedimentoController::class, 'indexProcedimento'])
         ->name('admin.procedimentos.index');
 
     // Rotas exclusivas para gerenciar as ações
     Route::prefix('procedimentos')->group(function () {
         
-        Route::post('/store', [ProcedimentoController::class, 'store'])
+        Route::post('/store', [ProcedimentoController::class, 'storeProcedimento'])
             ->name('admin.procedimentos.store');
 
-        Route::get('/{id}/edit', [ProcedimentoController::class, 'edit'])
+        Route::get('/{id}/edit', [ProcedimentoController::class, 'editProcedimento'])
             ->name('admin.procedimentos.edit');
 
-        Route::put('/{id}', [ProcedimentoController::class, 'update'])
+        Route::put('/{id}', [ProcedimentoController::class, 'updateProcedimento'])
             ->name('admin.procedimentos.update');
 
-        Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])
+        Route::delete('/{id}', [ProcedimentoController::class, 'destroyProcedimento'])
             ->name('admin.procedimentos.destroy');
 
     });
 
     Route::prefix('agendamentos')->group(function(){
         
-    Route::get('/', [AdminController::class, 'agendamentos'])
+    Route::get('/', [AdminController::class, 'viewAgendamentos'])
     ->name('admin.agendamentos');
 
     Route::patch('/{id}/concluir', [AgendamentoController::class, 'concluirAgendamento'])
             ->name('admin.agendamentos.concluir');
+    });
+
+    Route::get('/tipos', [TipoController::class, 'indexTipo'])
+    ->name('admin.tipos.index');
+
+    Route::prefix('tipos')->group(function () {
+        
+        Route::post('/store', [TipoController::class, 'storeTipo'])
+            ->name('admin.tipos.store');
+
+        Route::get('/{id}/edit', [TipoController::class, 'editTipo'])
+            ->name('admin.tipos.edit');
+
+        Route::put('/{id}', [TipoController::class, 'updateTipo'])
+            ->name('admin.tipos.update');
+
+        Route::delete('/{id}', [TipoController::class, 'destroyTipo'])
+            ->name('admin.tipos.destroy');
+
     });
 
 });

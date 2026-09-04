@@ -145,7 +145,10 @@ class ClienteController extends Controller
     
             return redirect()->route('cliente.login');
         }
-    
+        
+            public function viewPerfilCliente(){
+                return view('cliente.perfil');
+            }
 }
 
 
