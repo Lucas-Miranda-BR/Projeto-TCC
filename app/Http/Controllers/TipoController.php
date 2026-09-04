@@ -76,7 +76,7 @@ class TipoController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('admin.tipos.edit')
+                ->route('admin.tipos.edit', $id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -91,7 +91,7 @@ class TipoController extends Controller
             );
     }
 
-    public function destroy($id)
+    public function destroyTipo($id)
     {
         $tipo = TipoModel::findOrFail($id);
         $tipo->delete();

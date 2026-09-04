@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\TipoController;
 
 /*
 |--------------------------------------------------------------------------
