@@ -1,12 +1,15 @@
 <header class="client-navbar">
 
     <a href="{{ route('home') }}" class="client-brand">
+
         <img
             src="{{ asset('images/logo.png') }}"
             alt="Salão Sempre Diva"
             class="client-brand-image"
         >
+
     </a>
+
 
     <nav class="client-top-menu">
 
@@ -30,6 +33,15 @@
             IA
             <i class="bi bi-image"></i>
         </a>
+
+        @if(session('cliente'))
+
+            <a href="{{ route('agendamento.agendar') }}">
+                Agendamentos
+            </a>
+
+        @endif
+
 
         <a href="#" class="client-notifications-link">
 
@@ -57,11 +69,9 @@
             class="client-profile"
         >
 
-            <img
-                src="{{ asset('images/logo.png') }}"
-                class="client-avatar"
-                alt="Perfil"
-            >
+            <span class="client-avatar-icon">
+                <i class="bi bi-person-fill"></i>
+            </span>
 
             <div class="client-profile-info">
 
@@ -77,20 +87,26 @@
 
         </a>
 
+
         <a
-            href="{{ route('cliente.perfil') }}"
+            href="{{ route('cliente.perfil.editar') }}"
             class="client-settings"
-            title="Perfil"
+            title="Editar perfil"
         >
+
             <i class="bi bi-gear-fill"></i>
+
         </a>
+
 
         <a
             href="{{ route('cliente.logout') }}"
             class="client-logout"
             title="Sair"
         >
+
             <i class="bi bi-box-arrow-right"></i>
+
         </a>
 
     @else
@@ -104,4 +120,4 @@
 
     @endif
 
-</header>
+</header>   

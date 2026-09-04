@@ -9,7 +9,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 use App\Http\Controllers\ProdutoController;
-
 /*
 |--------------------------------------------------------------------------
 | SITE
@@ -28,7 +27,7 @@ Route::prefix('site')->group(function () {
         ->name('site.servicos');
 
     Route::get('/produtos', [SiteController::class, 'produtos'])
-        ->name('site.produtos');
+    ->name('site.produtos');
 
     Route::get('/ia', [SiteController::class, 'ia'])
         ->name('site.ia');
@@ -74,6 +73,13 @@ Route::prefix('cliente')->group(function () {
 
     Route::get('/perfil', [ClienteController::class, 'perfil'])
         ->name('cliente.perfil');
+       
+    Route::get('/perfil/editar',[ClienteController::class, 'editPerfil'])
+        ->name('cliente.perfil.editar');
+        
+        
+    Route::put('/perfil',[ClienteController::class, 'updatePerfil'])
+        ->name('cliente.perfil.update');
 });
 
 
@@ -112,7 +118,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/calendario', [AdminController::class, 'calendario'])
         ->name('admin.calendario');
 
-    Route::get('/produtos', [AdminController::class, 'produtos'])
+        Route::get('/produtos', [AdminController::class, 'produtos'])
         ->name('admin.produtos');
 
     // ---------------------------------------------------
