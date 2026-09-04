@@ -72,6 +72,7 @@
                         name="email"
                         value="{{ old('email') }}"
                         autocomplete="off"  
+                        placeholder="Opcional se preencher o telefone"
                     >
                     <label for="telefone">Telefone</label>
                     <input
@@ -83,6 +84,7 @@
                         name="telefone"
                         value="{{ old('telefone') }}"
                         autocomplete="off"  
+                        placeholder="Opcional se preencher o E-mail"
                     >
                 </div>
 

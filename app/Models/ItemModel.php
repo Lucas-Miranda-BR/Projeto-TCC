@@ -14,7 +14,6 @@ class ItemModel extends Model
     protected $table = 'item';
     protected $primaryKey = 'item_id';
     protected $fillable = [
-        'marca_id', // FK
         'categoria_id', // FK
         'nome',
         'preco',

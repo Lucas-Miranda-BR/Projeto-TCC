@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('network', function (Blueprint $table) {
-            $table->id('network_id');
+        Schema::create('networth', function (Blueprint $table) {
+            $table->id('networth_id');
             $table->decimal('ganho', total:8, places:2);
             $table->decimal('custo', total:8, places:2);
-            $table->decimal('network', total:8, places:2);
+            $table->decimal('networth', total:8, places:2);
             $table->date('dia');
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('network');
+        Schema::dropIfExists('networth');
     }
 };
