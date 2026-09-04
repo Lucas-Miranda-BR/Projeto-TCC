@@ -4,23 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\TipoModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TipoController extends Controller
 {
     public function indexTipo()
     {
-        $tipos = TipoModel::all()->orderBy('nome');
+        $tipos = TipoModel::all();
         
         return view('admin.tipos.index', compact('tipos'));
     }
 
     public function storeTipo(Request $request)
     {
-        $validator = $request->validate([
-            'tipo_id' => [
-                'required',
-                'integer'
-            ],
+        $validator = Validator::make($request->all(), [
             'nome' => [
                 'required',
                 'string',
@@ -39,8 +36,9 @@ class TipoController extends Controller
                 ->withInput();
         }
 
+        $validated = $validator->validated();
 
-        TipoModel::create($validator);
+        TipoModel::create($validated);
 
         return redirect()
             ->route('admin.tipos.index')
@@ -58,11 +56,7 @@ class TipoController extends Controller
     {
         $tipo = TipoModel::findOrFail($id);
 
-        $validator = $request->validate([
-            'tipo_id' => [
-                'required',
-                'integer'
-            ],
+        $validator = Validator::make($request->all(), [
             'nome' => [
                 'required',
                 'string',
@@ -81,7 +75,9 @@ class TipoController extends Controller
                 ->withInput();
         }
 
-        $tipo->update($validator);
+        $validated = $validator->validated();
+
+        $tipo->update($validated);
 
         return redirect()
             ->route('admin.tipos.index')

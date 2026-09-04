@@ -174,7 +174,7 @@
             </section>
 
             <h1>Gerenciar tipos</h1>
-            <button> <a href="{{ route('admin.tipos.index') }}"></a>Gerencie Aqui</button>
+            <button> <a href="{{ route('admin.tipos.index') }}">Gerencie Aqui</a></button>
 
 
             <section class="lista-procedimentos">

@@ -172,10 +172,10 @@
                                     <tr>
 
                                         <td>
-                                            {{ $tipo->tipos->nome}}
+                                            {{ $tipo->nome}}
                                         </td>
 
-                                        @if ($tipo->tipos->colorivel == 1)     
+                                        @if ($tipo->colorivel == 1)     
                                         <td>
                                             Sim
                                         </td>

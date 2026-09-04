@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProcedimentoModel;
 use App\Models\TipoModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProcedimentoController extends Controller
 {
@@ -19,7 +20,7 @@ class ProcedimentoController extends Controller
 
     public function storeProcedimento(Request $request)
     {
-        $dados = $request->validate([
+        $validator = Validator::make($request->all(), [
             'tipo_id' => [
                 'required',
                 'integer'
@@ -40,7 +41,16 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        ProcedimentoModel::create($dados);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.procedimentos.index')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        ProcedimentoModel::create($validated);
 
         return redirect()
             ->route('admin.procedimentos.index')
@@ -59,7 +69,7 @@ class ProcedimentoController extends Controller
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
 
-        $dados = $request->validate([
+        $validator = Validator::make($request->all(), [
             'tipo_id' => [
                 'required',
                 'integer'
@@ -80,7 +90,16 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        $procedimento->updateProcedimento($dados);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.procedimentos.index', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        $procedimento->updateProcedimento($validated);
 
         return redirect()
             ->route('admin.procedimentos.index')
