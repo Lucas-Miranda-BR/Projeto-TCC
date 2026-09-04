@@ -77,17 +77,17 @@
 
 
         <a
-            href="{{ route('admin.produtos') }}"
-            class="menu-item {{ request()->routeIs('admin.produtos') ? 'active' : '' }}"
-        >
+    href="{{ route('admin.produtos.index') }}"
+    class="menu-item {{ request()->routeIs('admin.produtos.*') ? 'active' : '' }}"
+>
 
-            <i class="bi bi-box-seam"></i>
+    <i class="bi bi-bag"></i>
 
-            <span>
-                Produtos e Estoque
-            </span>
+    <span>
+        Produtos
+    </span>
 
-        </a>
+</a>
 
 
         <a

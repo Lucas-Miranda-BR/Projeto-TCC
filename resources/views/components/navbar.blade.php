@@ -27,7 +27,36 @@
 
         <a href="{{ route('site.produtos') }}">
             Produtos
-        </a>
+        </a>]
+        @php
+    $quantidadeCarrinho = array_sum(
+        session('carrinho', [])
+    );
+@endphp
+
+
+<a
+    href="{{ route('carrinho.index') }}"
+    class="client-cart-link"
+>
+
+    Carrinho
+
+    <span class="client-cart-icon">
+
+        <i class="bi bi-bag-fill"></i>
+
+        @if($quantidadeCarrinho > 0)
+
+            <span class="client-cart-count">
+                {{ $quantidadeCarrinho }}
+            </span>
+
+        @endif
+
+    </span>
+
+</a>
 
         <a href="{{ route('site.ia') }}">
             IA

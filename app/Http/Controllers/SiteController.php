@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ProcedimentoModel;
 use App\Models\CorModel;
 use App\Models\ClienteModel;
+use App\Models\ItemModel;
 
 
 class SiteController extends Controller
@@ -43,7 +44,17 @@ class SiteController extends Controller
     }
 
     public function produtos()
-    {
-        return view('site.produtos');
-    }
+{
+    $produtos = ItemModel::with([
+        'marcas',
+        'categorias'
+    ])
+        ->orderBy('nome')
+        ->get();
+
+    return view(
+        'site.produtos',
+        compact('produtos')
+    );
+}
 }
