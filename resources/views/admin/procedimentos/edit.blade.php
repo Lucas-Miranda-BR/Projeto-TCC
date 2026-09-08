@@ -3,6 +3,10 @@
 @section('content')
 
 <div class="admin-procedimentos">
+<link
+    rel="stylesheet"
+    href="{{ asset('css/admin/dashboard.css') }}"
+>
 
     <h1>Editar Serviço</h1>
 

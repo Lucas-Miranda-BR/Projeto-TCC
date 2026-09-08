@@ -10,11 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class PedidoModel extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
+
     protected $table = 'pedido';
+
     protected $primaryKey = 'pedido_id';
+
     protected $fillable = [
-        'cliente_id', // FK
+        'cliente_id',
         'valor_total'
     ];
 
@@ -22,11 +26,21 @@ class PedidoModel extends Model
         'pedido_data' => 'datetime'
     ];
 
-    public function clientes(): BelongsTo{
-        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'cliente_id');
+    public function clientes(): BelongsTo
+    {
+        return $this->belongsTo(
+            ClienteModel::class,
+            'cliente_id',
+            'cliente_id'
+        );
     }
 
-    public function carrinhos_itens(): HasMany{
-        return $this->hasMany(CarrinhoItemModel::class, 'carrinho_item_id', 'carrinho_item_id');
+    public function carrinhos_itens(): HasMany
+    {
+        return $this->hasMany(
+            CarrinhoItemModel::class,
+            'pedido_id',
+            'pedido_id'
+        );
     }
 }
