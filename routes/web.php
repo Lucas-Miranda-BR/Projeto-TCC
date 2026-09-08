@@ -160,7 +160,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // PROCEDIMENTOS (SERVIÇOS)
     // ---------------------------------------------------
     
-    // Rota que exibe tudo dentro do Dashboard
     Route::get('/procedimentos', [ProcedimentoController::class, 'indexProcedimento'])
         ->name('admin.procedimentos.index');
 
@@ -181,16 +180,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     });
 
-    Route::prefix('agendamentos')->group(function(){
-        
-    Route::get('/', [AdminController::class, 'viewAgendamentos'])
-    ->name('admin.agendamentos');
-
     /*
     |--------------------------------------------------------------------------
     | AGENDAMENTOS
     |--------------------------------------------------------------------------
     */
+        
+    Route::get('/', [AdminController::class, 'viewAgendamentos'])
+    ->name('admin.agendamentos');
+
 
     Route::prefix('agendamentos')->group(function () {
 
