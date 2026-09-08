@@ -109,7 +109,7 @@
             <div class="client-profile-info">
 
                 <strong>
-                    {{ session('cliente')->nome }}
+                    {{ Auth::user()->nome }}
                 </strong>
 
                 <span>
