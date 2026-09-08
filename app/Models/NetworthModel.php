@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class NetworkModel extends Model
+class NetworthModel extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'network';
-    protected $primaryKey = 'network_id';
+    protected $table = 'networth';
+    protected $primaryKey = 'networth_id';
     protected $fillable = [
         'ganho',
         'custo',
-        'network',
+        'networth',
         'dia'
     ];
 }
