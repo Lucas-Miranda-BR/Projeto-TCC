@@ -15,13 +15,24 @@ class AiFotoController extends Controller
     public function storePrompt(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cliente_id' => ['required'],
+            'cliente_id' => [
+                'required'
+            ],
 
-            'procedimento_id' => ['required'],
+            'procedimento_id' => [
+                'required'
+            ],
 
-            'cor_id' => ['nullable'],
+            'cor_id' => [
+                'nullable'
+            ],
             
-            'imagem_prompt'   => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:5120']
+            'imagem_prompt' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg',
+                'max:5120'
+                ]
 
             ]);
         

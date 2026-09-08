@@ -54,7 +54,7 @@ class ProcedimentoController extends Controller
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with('success', 'Serviço cadastrado com sucesso!');
+            ->with('success', 'Procedimento cadastrado com sucesso!');
     }
 
     public function editProcedimento($id)
@@ -103,10 +103,7 @@ class ProcedimentoController extends Controller
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with(
-                'success',
-                'Serviço atualizado com sucesso!'
-            );
+            ->with('success', 'Procedimento atualizado com sucesso!');
     }
 
     public function destroyProcedimento($id)
@@ -116,9 +113,6 @@ class ProcedimentoController extends Controller
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with(
-                'success',
-                'Serviço excluído com sucesso!'
-            );
+            ->with('success', 'Procedimento excluído com sucesso!');
     }
 }

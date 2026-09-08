@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TipoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 class TipoController extends Controller
 {
@@ -81,22 +82,29 @@ class TipoController extends Controller
 
         return redirect()
             ->route('admin.tipos.index')
-            ->with(
-                'success',
-                'Tipo atualizado com sucesso!'
-            );
+            ->with('success', 'Tipo atualizado com sucesso!');
     }
 
     public function destroyTipo($id)
     {
-        $tipo = TipoModel::findOrFail($id);
-        $tipo->delete();
+        try {
+            $tipo = TipoModel::findOrFail($id);
+            $tipo->delete();
 
-        return redirect()
-            ->route('admin.tipos.index')
-            ->with(
-                'success',
-                'Tipo excluído com sucesso!'
-            );
-    }
+            return redirect()
+                ->route('admin.tipos.index')
+                ->with('success', 'Tipo excluído com sucesso!');
+        }
+        catch (QueryException $e) {
+            if ($e->getCode() == "23000"){
+                return redirect()
+                    ->back()
+                    ->with('error', 'Não é possível excluir este tipo, pois existem outros registros associados a ele.');
+            }
+
+            return redirect()
+                ->back()
+                ->with('error', 'Ocorreu um erro ao tentar excluir o registro.');
+        }
+    }    
 }

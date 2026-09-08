@@ -50,6 +50,11 @@
 
             @endif
 
+            @if(session('error'))
+                <div class="alert-errors">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             @if($errors->any())
 
