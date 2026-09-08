@@ -4,6 +4,11 @@
 
 <link
     rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+>
+
+<link
+    rel="stylesheet"
     href="{{ asset('css/admin/dashboard.css') }}"
 >
 
@@ -21,11 +26,9 @@
 
     @include('components.admin.sidebar')
 
-
     <div class="admin-main">
 
         @include('components.admin.navbar')
-
 
         <main class="produtos-content">
 
@@ -91,7 +94,6 @@
 
                         </span>
 
-
                         <div>
 
                             <h2>
@@ -105,7 +107,6 @@
                         </div>
 
                     </div>
-
 
 
                     <form
@@ -307,7 +308,6 @@
 
                             </span>
 
-
                             <div>
 
                                 <h2>
@@ -321,7 +321,6 @@
                             </div>
 
                         </div>
-
 
 
                         <form
@@ -360,7 +359,6 @@
 
                             </button>
 
-
                         </form>
 
 
@@ -373,15 +371,12 @@
                                     Marcas cadastradas
                                 </span>
 
-
                                 <div class="auxiliar-badges">
 
                                     @foreach($marcas as $marca)
 
                                         <span class="auxiliar-badge">
-
                                             {{ $marca->nome }}
-
                                         </span>
 
                                     @endforeach
@@ -407,7 +402,6 @@
                                 <i class="bi bi-grid"></i>
 
                             </span>
-
 
                             <div>
 
@@ -473,7 +467,6 @@
                                 <span>
                                     Categorias cadastradas
                                 </span>
-
 
                                 <div class="auxiliar-badges">
 
@@ -550,12 +543,14 @@
                     <strong>
 
                         {{
-                            $produtos->filter(function ($produto) {
+                            $produtos
+                                ->filter(function ($produto) {
 
-                                return $produto->estoque > 0
-                                    && $produto->estoque <= 5;
+                                    return $produto->estoque > 0
+                                        && $produto->estoque <= 5;
 
-                            })->count()
+                                })
+                                ->count()
                         }}
 
                     </strong>
@@ -576,7 +571,11 @@
 
                         {{
                             $produtos
-                                ->where('estoque', 0)
+                                ->filter(function ($produto) {
+
+                                    return $produto->estoque <= 0;
+
+                                })
                                 ->count()
                         }}
 
@@ -594,7 +593,8 @@
 
                 <div class="lista-produtos-header">
 
-                    <div>
+
+                    <div class="lista-produtos-titulo">
 
                         <h2>
                             Produtos cadastrados
@@ -605,6 +605,137 @@
                         </p>
 
                     </div>
+
+
+
+                    <div class="produtos-filtros">
+
+
+                        <div class="produtos-pesquisa">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                type="text"
+                                id="buscar-produto"
+                                placeholder="Buscar produto, marca ou categoria..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+
+
+                        <div class="filtros-estoque">
+
+
+                            <button
+                                type="button"
+                                class="filtro-produto ativo"
+                                data-filtro="todos"
+                            >
+
+                                <i class="bi bi-grid"></i>
+
+                                Todos
+
+                                <span>
+                                    {{ $produtos->count() }}
+                                </span>
+
+                            </button>
+
+
+
+                            <button
+                                type="button"
+                                class="filtro-produto"
+                                data-filtro="disponivel"
+                            >
+
+                                <i class="bi bi-check-circle"></i>
+
+                                Disponíveis
+
+                                <span>
+
+                                    {{
+                                        $produtos
+                                            ->filter(function ($produto) {
+
+                                                return $produto->estoque > 5;
+
+                                            })
+                                            ->count()
+                                    }}
+
+                                </span>
+
+                            </button>
+
+
+
+                            <button
+                                type="button"
+                                class="filtro-produto"
+                                data-filtro="baixo"
+                            >
+
+                                <i class="bi bi-exclamation-triangle"></i>
+
+                                Estoque baixo
+
+                                <span>
+
+                                    {{
+                                        $produtos
+                                            ->filter(function ($produto) {
+
+                                                return $produto->estoque > 0
+                                                    && $produto->estoque <= 5;
+
+                                            })
+                                            ->count()
+                                    }}
+
+                                </span>
+
+                            </button>
+
+
+
+                            <button
+                                type="button"
+                                class="filtro-produto"
+                                data-filtro="esgotado"
+                            >
+
+                                <i class="bi bi-x-circle"></i>
+
+                                Esgotados
+
+                                <span>
+
+                                    {{
+                                        $produtos
+                                            ->filter(function ($produto) {
+
+                                                return $produto->estoque <= 0;
+
+                                            })
+                                            ->count()
+                                    }}
+
+                                </span>
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
 
                 </div>
 
@@ -620,37 +751,21 @@
 
                             <tr>
 
-                                <th>
-                                    Foto
-                                </th>
+                                <th>Foto</th>
 
-                                <th>
-                                    Produto
-                                </th>
+                                <th>Produto</th>
 
-                                <th>
-                                    Marca
-                                </th>
+                                <th>Marca</th>
 
-                                <th>
-                                    Categoria
-                                </th>
+                                <th>Categoria</th>
 
-                                <th>
-                                    Preço
-                                </th>
+                                <th>Preço</th>
 
-                                <th>
-                                    Estoque
-                                </th>
+                                <th>Estoque</th>
 
-                                <th>
-                                    Status
-                                </th>
+                                <th>Status</th>
 
-                                <th>
-                                    Ações
-                                </th>
+                                <th>Ações</th>
 
                             </tr>
 
@@ -658,21 +773,64 @@
 
 
 
-                        <tbody>
+                        <tbody id="tabela-produtos-body">
 
 
                             @forelse($produtos as $produto)
 
 
-                                <tr>
+                                @php
+
+                                    if ($produto->estoque <= 0) {
+
+                                        $statusFiltro = 'esgotado';
+
+                                    } elseif ($produto->estoque <= 5) {
+
+                                        $statusFiltro = 'baixo';
+
+                                    } else {
+
+                                        $statusFiltro = 'disponivel';
+
+                                    }
+
+
+                                    $fotoProduto = null;
+
+
+                                    if ($produto->foto) {
+
+                                        $fotoProduto =
+                                            filter_var(
+                                                $produto->foto,
+                                                FILTER_VALIDATE_URL
+                                            )
+                                                ? $produto->foto
+                                                : asset(
+                                                    'storage/' .
+                                                    $produto->foto
+                                                );
+
+                                    }
+
+                                @endphp
+
+
+
+                                <tr
+                                    class="produto-linha"
+                                    data-status="{{ $statusFiltro }}"
+                                    data-busca="{{ $produto->nome }} {{ $produto->marcas->nome ?? '' }} {{ $produto->categorias->nome ?? '' }}"
+                                >
 
 
                                     <td>
 
-                                        @if($produto->foto)
+                                        @if($fotoProduto)
 
                                             <img
-                                                src="{{ asset('storage/' . $produto->foto) }}"
+                                                src="{{ $fotoProduto }}"
                                                 alt="{{ $produto->nome }}"
                                                 class="produto-imagem"
                                             >
@@ -760,6 +918,7 @@
 
                                     <td>
 
+
                                         @if($produto->estoque <= 0)
 
                                             <span class="status-produto sem-estoque">
@@ -768,6 +927,7 @@
 
                                             </span>
 
+
                                         @elseif($produto->estoque <= 5)
 
                                             <span class="status-produto estoque-baixo">
@@ -775,6 +935,7 @@
                                                 Estoque baixo
 
                                             </span>
+
 
                                         @else
 
@@ -786,11 +947,13 @@
 
                                         @endif
 
+
                                     </td>
 
 
 
                                     <td>
+
 
                                         <div class="acoes-produto">
 
@@ -801,7 +964,7 @@
                                                     $produto->item_id
                                                 ) }}"
                                                 class="btn-editar-produto"
-                                                title="Editar"
+                                                title="Editar produto"
                                             >
 
                                                 <i class="bi bi-pencil"></i>
@@ -819,13 +982,14 @@
                                             >
 
                                                 @csrf
+
                                                 @method('DELETE')
 
 
                                                 <button
                                                     type="submit"
                                                     class="btn-excluir-produto"
-                                                    title="Excluir"
+                                                    title="Excluir produto"
                                                     onclick="return confirm('Deseja excluir este produto?')"
                                                 >
 
@@ -833,10 +997,12 @@
 
                                                 </button>
 
+
                                             </form>
 
 
                                         </div>
+
 
                                     </td>
 
@@ -870,6 +1036,34 @@
                     </table>
 
 
+
+                    @if($produtos->count() > 0)
+
+                        <div
+                            id="nenhum-produto-filtro"
+                            class="nenhum-produto-filtro"
+                            style="display: none;"
+                        >
+
+                            <div class="nenhum-produto-filtro-icon">
+
+                                <i class="bi bi-search"></i>
+
+                            </div>
+
+                            <h3>
+                                Nenhum produto encontrado
+                            </h3>
+
+                            <p>
+                                Tente alterar a pesquisa ou selecionar outro filtro.
+                            </p>
+
+                        </div>
+
+                    @endif
+
+
                 </div>
 
 
@@ -885,3 +1079,140 @@
 </div>
 
 @endsection
+
+
+
+@push('scripts')
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const botoesFiltro =
+        document.querySelectorAll('.filtro-produto');
+
+    const linhas =
+        document.querySelectorAll('.produto-linha');
+
+    const campoBusca =
+        document.getElementById('buscar-produto');
+
+    const mensagemVazia =
+        document.getElementById('nenhum-produto-filtro');
+
+
+    let filtroAtual = 'todos';
+
+
+    function removerAcentos(texto) {
+
+        return texto
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+
+    }
+
+
+    function aplicarFiltros() {
+
+        const termoBusca =
+            campoBusca
+                ? removerAcentos(campoBusca.value.trim())
+                : '';
+
+
+        let encontrados = 0;
+
+
+        linhas.forEach(function (linha) {
+
+            const status =
+                linha.dataset.status;
+
+
+            const texto =
+                removerAcentos(
+                    linha.dataset.busca || ''
+                );
+
+
+            const correspondeStatus =
+                filtroAtual === 'todos'
+                || status === filtroAtual;
+
+
+            const correspondeBusca =
+                termoBusca === ''
+                || texto.includes(termoBusca);
+
+
+            if (
+                correspondeStatus
+                && correspondeBusca
+            ) {
+
+                linha.style.display = '';
+
+                encontrados++;
+
+            } else {
+
+                linha.style.display = 'none';
+
+            }
+
+        });
+
+
+        if (mensagemVazia) {
+
+            mensagemVazia.style.display =
+                encontrados === 0
+                    ? 'flex'
+                    : 'none';
+
+        }
+
+    }
+
+
+    botoesFiltro.forEach(function (botao) {
+
+        botao.addEventListener('click', function () {
+
+            botoesFiltro.forEach(function (item) {
+
+                item.classList.remove('ativo');
+
+            });
+
+
+            this.classList.add('ativo');
+
+
+            filtroAtual =
+                this.dataset.filtro;
+
+
+            aplicarFiltros();
+
+        });
+
+    });
+
+
+    if (campoBusca) {
+
+        campoBusca.addEventListener(
+            'input',
+            aplicarFiltros
+        );
+
+    }
+
+});
+
+</script>
+
+@endpush

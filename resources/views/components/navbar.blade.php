@@ -27,7 +27,7 @@
 
         <a href="{{ route('site.produtos') }}">
             Produtos
-        </a>]
+        </a>
         @php
     $quantidadeCarrinho = array_sum(
         session('carrinho', [])

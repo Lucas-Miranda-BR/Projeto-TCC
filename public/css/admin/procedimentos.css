@@ -1,248 +1,620 @@
 .procedimentos-content {
-    padding: 32px 40px 50px;
+    width: 100%;
+    min-height: calc(100vh - 68px);
+
+    padding: 32px 40px 60px;
+
+    box-sizing: border-box;
+
     background: #f8eeee;
-    min-height: calc(100vh - 70px);
+
     font-family: 'Poppins', sans-serif;
 }
 
 
-/* CABEÇALHO */
+/* ==================================================
+   HEADER
+   ================================================== */
 
 .procedimentos-header {
-    margin-bottom: 30px;
+    margin-bottom: 28px;
 }
 
 .breadcrumb-admin {
     display: block;
-    margin-bottom: 10px;
-    font-size: 13px;
-    color: #8a7a7a;
+
+    margin-bottom: 8px;
+
+    color: #968889;
+
+    font-size: 11px;
 }
 
 .breadcrumb-admin strong {
     color: #9d1228;
+
     font-weight: 600;
 }
 
 .procedimentos-header h1 {
     margin: 0;
+
     color: #2f2929;
+
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
+
+    font-size: 34px;
+
     font-weight: 600;
+
+    line-height: 1.2;
 }
 
 .procedimentos-header p {
     margin: 8px 0 0;
+
     color: #817575;
-    font-size: 14px;
+
+    font-size: 13px;
 }
 
 
-/* MENSAGENS */
+/* ==================================================
+   ALERTAS
+   ================================================== */
+
+.alert-success,
+.alert-errors {
+    width: 100%;
+
+    margin-bottom: 24px;
+
+    padding: 14px 18px;
+
+    box-sizing: border-box;
+
+    border-radius: 10px;
+
+    font-size: 12px;
+}
 
 .alert-success {
-    padding: 14px 18px;
-    margin-bottom: 22px;
-    background: #edf7ef;
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    background: #edf8ef;
+
     color: #397346;
+
     border: 1px solid #cce7d2;
-    border-radius: 8px;
-    font-size: 14px;
 }
 
-.alert-error {
-    padding: 14px 18px;
-    margin-bottom: 22px;
-    background: #fff0f0;
+.alert-success i {
+    font-size: 16px;
+}
+
+.alert-errors {
+    background: #fff1f2;
+
     color: #9d1228;
+
     border: 1px solid #efcccc;
-    border-radius: 8px;
-    font-size: 14px;
 }
 
-.alert-error ul {
+.alert-errors-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 7px;
+}
+
+.alert-errors ul {
     margin: 0;
-    padding-left: 20px;
+
+    padding-left: 22px;
 }
 
 
-/* GRID SUPERIOR */
+/* ==================================================
+   NOVO PROCEDIMENTO
+   ================================================== */
 
-.procedimentos-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 24px;
-    align-items: start;
+.novo-procedimento {
+    width: 100%;
+
     margin-bottom: 30px;
-}
 
+    padding: 26px 28px;
 
-/* CARDS */
+    box-sizing: border-box;
 
-.card-admin {
     background: #ffffff;
+
     border: 1px solid #eadada;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 3px 12px rgba(90, 40, 50, 0.05);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 18px rgba(90, 40, 50, 0.05);
 }
 
-.card-admin h2 {
-    margin: 0 0 6px;
-    color: #3b3030;
+
+/* ==================================================
+   CABEÇALHO DO FORM
+   ================================================== */
+
+.novo-procedimento-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #f0e4e5;
+}
+
+.novo-procedimento-icon {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #f7e6e9;
+
+    color: #9d1228;
+
+    font-size: 18px;
+}
+
+.novo-procedimento-header h2 {
+    margin: 0;
+
+    color: #332b2b;
+
     font-family: 'Playfair Display', serif;
+
     font-size: 22px;
+
     font-weight: 600;
 }
 
-.card-admin .card-descricao {
-    margin: 0 0 22px;
+.novo-procedimento-header p {
+    margin: 3px 0 0;
+
     color: #8b7d7d;
-    font-size: 13px;
-    line-height: 1.6;
+
+    font-size: 11px;
 }
 
 
-/* FORMULÁRIOS */
+/* ==================================================
+   FORM
+   ================================================== */
+
+.procedimento-form {
+    width: 100%;
+}
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 0.7fr)
+        minmax(0, 1.3fr);
+
+    gap: 18px;
+}
+
+.form-row-descricao {
+    grid-template-columns:
+        minmax(0, 1fr)
+        220px;
+
+    align-items: start;
+}
 
 .form-group {
+    min-width: 0;
+
     display: flex;
+
     flex-direction: column;
-    margin-bottom: 18px;
+
+    margin-bottom: 20px;
 }
 
 .form-group label {
-    margin-bottom: 7px;
+    margin-bottom: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
     color: #514646;
-    font-size: 13px;
+
+    font-size: 11px;
+
     font-weight: 500;
+}
+
+.form-group label i {
+    color: #9d1228;
+
+    font-size: 12px;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 11px 13px;
-    background: #ffffff;
-    color: #403737;
-    border: 1px solid #d9caca;
-    border-radius: 7px;
-    outline: none;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+
+    min-height: 44px;
+
+    padding: 10px 13px;
+
     box-sizing: border-box;
 
+    background: #ffffff;
+
+    color: #403737;
+
+    border: 1px solid #dacbcd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
 }
 
 .form-group textarea {
-    min-height: 110px;
+    min-height: 105px;
+
     resize: vertical;
+
+    line-height: 1.55;
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #ceb9bd;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: #9d1228;
-    box-shadow: 0 0 0 3px rgba(157, 18, 40, 0.08);
+
+    box-shadow:
+        0 0 0 3px rgba(157, 18, 40, .07);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: #b5a6a6;
+    color: #b8aaaa;
 }
 
 
-/* LINHA COM CAMPOS */
+/* ==================================================
+   PREÇO
+   ================================================== */
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+.preco-group {
+    width: 100%;
+}
+
+.preco-input {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dacbcd;
+
+    border-radius: 9px;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.preco-input:focus-within {
+    border-color: #9d1228;
+
+    box-shadow:
+        0 0 0 3px rgba(157, 18, 40, .07);
+}
+
+.preco-input span {
+    height: 44px;
+
+    padding: 0 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #faf3f4;
+
+    color: #9d1228;
+
+    border-right: 1px solid #eadada;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.preco-input input {
+    min-width: 0;
+
+    border: none;
+
+    border-radius: 0;
+
+    box-shadow: none !important;
 }
 
 
-/* UPLOAD DE IMAGEM */
+/* ==================================================
+   AÇÃO FORM
+   ================================================== */
 
-.form-group input[type="file"] {
-    padding: 9px;
-    background: #fbf6f6;
-    cursor: pointer;
+.form-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    padding-top: 2px;
 }
-
-.form-group input[type="file"]::file-selector-button {
-    margin-right: 12px;
-    padding: 8px 13px;
-    background: #ead9d9;
-    color: #7d1526;
-    border: 0;
-    border-radius: 5px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.form-group input[type="file"]::file-selector-button:hover {
-    background: #dfcccc;
-}
-
-
-/* BOTÃO SALVAR */
 
 .btn-salvar {
+    min-width: 180px;
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 8px;
-    padding: 11px 20px;
+
     background: #9d1228;
+
     color: #ffffff;
+
     border: none;
-    border-radius: 7px;
+
+    border-radius: 9px;
+
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+
+    font-size: 12px;
+
     font-weight: 500;
+
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+        background .2s ease,
+        transform .15s ease,
+        box-shadow .2s ease;
 }
 
 .btn-salvar:hover {
     background: #801020;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(157, 18, 40, .16);
 }
 
-.btn-salvar:active {
-    transform: translateY(0);
-}
 
-
-/* LISTA DE PROCEDIMENTOS */
+/* ==================================================
+   LISTA
+   ================================================== */
 
 .lista-procedimentos {
-    margin-top: 10px;
+    width: 100%;
+
     background: #ffffff;
-    border: 1px solid #d6c3c3;
-    border-radius: 12px;
+
+    border: 1px solid #eadada;
+
+    border-radius: 16px;
+
     overflow: hidden;
-    box-shadow: 0 3px 12px rgba(90, 40, 50, 0.05);
+
+    box-shadow:
+        0 6px 20px rgba(90, 40, 50, .055);
 }
 
+
+/* ==================================================
+   HEADER LISTA
+   ================================================== */
+
 .lista-header {
-    padding: 22px 24px;
-    border-bottom: 1px solid #d6c3c3;
+    padding: 22px 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    background: #fffdfd;
+
+    border-bottom: 1px solid #eee1e3;
+}
+
+.lista-header-title {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.lista-header-icon {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #f7e6e9;
+
+    color: #9d1228;
+
+    font-size: 17px;
 }
 
 .lista-header h2 {
     margin: 0;
-    color: #3b3030;
+
+    color: #332b2b;
+
     font-family: 'Playfair Display', serif;
+
     font-size: 22px;
+
+    font-weight: 600;
+}
+
+.lista-header p {
+    margin: 3px 0 0;
+
+    color: #8b7d7d;
+
+    font-size: 10px;
+}
+
+.lista-header p strong {
+    color: #9d1228;
+}
+
+
+/* ==================================================
+   BUSCA
+   ================================================== */
+
+.lista-header-search {
+    width: 270px;
+
+    min-height: 40px;
+
+    padding: 0 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 1px solid #dfd0d2;
+
+    border-radius: 20px;
+}
+
+.lista-header-search i {
+    color: #9d1228;
+
+    font-size: 12px;
+}
+
+.lista-header-search input {
+    width: 100%;
+
+    min-width: 0;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #4b4141;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 11px;
+}
+
+.lista-header-search input::placeholder {
+    color: #ad9f9f;
+}
+
+
+/* ==================================================
+   RESPONSIVE TABLE
+   ================================================== */
+
+.table-responsive {
+    width: 100%;
+
+    padding: 0 22px 22px;
+
+    box-sizing: border-box;
+
+    overflow-x: auto;
 }
 
 
@@ -250,194 +622,284 @@
    TABELA
    ================================================== */
 
-.tabela-container {
-    width: 100%;
-    overflow-x: auto;
-
-    padding: 20px;
-
-    box-sizing: border-box;
-}
-
-
-/* BORDA EXTERNA DA TABELA */
-
 .tabela-procedimentos {
     width: 100%;
-    min-width: 1000px;
 
-    border-collapse: separate !important;
+    min-width: 950px;
 
-    border-spacing: 10px 12px !important;
+    border-collapse: collapse;
 
-    border: 2px solid #d6c3c3;
+    table-layout: fixed;
 
-    border-radius: 10px;
-
-    padding: 8px;
-
-    background: #faf7f7;
-
-    box-sizing: border-box;
+    background: #ffffff;
 }
 
 
-/* CABEÇALHO */
+/* ==================================================
+   CABEÇALHO TABELA
+   ================================================== */
 
 .tabela-procedimentos thead {
-    background: transparent;
+    background: #faf4f5;
 }
 
 .tabela-procedimentos th {
-    padding: 14px 18px;
+    padding: 14px 16px;
 
-    background: #faf4f4;
-    color: #756565;
+    background: #faf4f5;
 
-    border: 1px solid #d6c3c3;
-    border-radius: 7px;
+    color: #78696b;
+
+    border-bottom: 1px solid #eadbdd;
 
     text-align: left;
 
-    font-size: 12px;
+    font-size: 9px;
+
     font-weight: 600;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.4px;
+    letter-spacing: .7px;
+}
+
+.tabela-procedimentos th:first-child {
+    border-top-left-radius: 9px;
+}
+
+.tabela-procedimentos th:last-child {
+    border-top-right-radius: 9px;
+}
+
+
+/* ==================================================
+   LARGURA DAS COLUNAS
+   ================================================== */
+
+.tabela-procedimentos th:nth-child(1) {
+    width: 120px;
+}
+
+.tabela-procedimentos th:nth-child(2) {
+    width: 210px;
+}
+
+.tabela-procedimentos th:nth-child(3) {
+    width: auto;
+}
+
+.tabela-procedimentos th:nth-child(4) {
+    width: 120px;
+
+    text-align: right;
+}
+
+.tabela-procedimentos th:nth-child(5) {
+    width: 170px;
+
+    text-align: center;
+}
+
+
+/* ==================================================
+   CÉLULAS
+   ================================================== */
+
+.tabela-procedimentos td {
+    padding: 17px 16px;
+
+    vertical-align: middle;
+
+    background: #ffffff;
+
+    color: #554949;
+
+    border-bottom: 1px solid #f1e6e7;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+.tabela-procedimentos tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabela-procedimentos tbody tr:nth-child(even) td {
+    background: #fffafa;
+}
+
+.tabela-procedimentos tbody tr td {
+    transition:
+        background .18s ease;
+}
+
+.tabela-procedimentos tbody tr:hover td {
+    background: #fcf3f4;
+}
+
+
+/* ==================================================
+   TIPO
+   ================================================== */
+
+.tipo-badge {
+    max-width: 110px;
+
+    padding: 6px 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background: #f6e7e9;
+
+    color: #9d1228;
+
+    border: 1px solid #ecd6da;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ==================================================
+   PROCEDIMENTO
+   ================================================== */
+
+.procedimento-info {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+}
+
+.procedimento-nome {
+    max-width: 190px;
+
+    overflow: hidden;
+
+    color: #332b2b;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.35;
+
+    text-overflow: ellipsis;
 
     white-space: nowrap;
 }
 
 
-/* CÉLULAS */
+/* ==================================================
+   STATUS COLORÍVEL
+   ================================================== */
 
-.tabela-procedimentos td {
-    padding: 16px 18px;
-
-    background: #ffffff;
-    color: #554949;
-
-    border: 1px solid #dfcccc;
-    border-radius: 7px;
-
-    font-size: 13px;
-
-    vertical-align: middle;
-}
-
-
-/* ESPAÇAMENTO DAS COLUNAS */
-
-.tabela-procedimentos th:nth-child(1),
-.tabela-procedimentos td:nth-child(1) {
-    min-width: 120px;
-}
-
-.tabela-procedimentos th:nth-child(2),
-.tabela-procedimentos td:nth-child(2) {
-    min-width: 90px;
-    text-align: center;
-}
-
-.tabela-procedimentos th:nth-child(3),
-.tabela-procedimentos td:nth-child(3) {
-    min-width: 190px;
-}
-
-.tabela-procedimentos th:nth-child(4),
-.tabela-procedimentos td:nth-child(4) {
-    min-width: 350px;
-}
-
-.tabela-procedimentos th:nth-child(5),
-.tabela-procedimentos td:nth-child(5) {
-    min-width: 110px;
-}
-
-.tabela-procedimentos th:nth-child(6),
-.tabela-procedimentos td:nth-child(6) {
-    min-width: 170px;
-}
-
-
-/* HOVER */
-
-.tabela-procedimentos tbody tr {
-    transition: 0.15s ease;
-}
-
-.tabela-procedimentos tbody td {
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-.tabela-procedimentos tbody tr:hover td {
-    box-shadow: 0 2px 6px rgba(90, 40, 50, 0.05);
-}
-
-
-/* IMAGEM */
-
-.procedimento-imagem {
-    width: 60px;
-    height: 60px;
-
-    object-fit: cover;
-
-    border-radius: 8px;
-
-    border: 1px solid #eadada;
-}
-
-.sem-imagem {
-    width: 60px;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: #f4e8e8;
-    color: #a38e8e;
-
-    border-radius: 8px;
-
-    font-size: 20px;
-}
-
-
-/* NOME */
-
-.procedimento-nome {
-    color: #332b2b;
-    font-weight: 600;
-}
-
-
-/* CATEGORIA */
-
-.categoria-badge {
+.status-colorivel {
     display: inline-flex;
+
     align-items: center;
 
-    padding: 5px 10px;
+    gap: 5px;
 
-    background: #f5e6e6;
-    color: #8c2435;
+    color: #827373;
 
-    border-radius: 20px;
+    font-size: 8px;
 
-    font-size: 12px;
     font-weight: 500;
 }
 
+.status-dot {
+    width: 6px;
 
-/* PREÇO */
+    height: 6px;
+
+    display: block;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+.status-colorivel.sim .status-dot {
+    background: #4c9b66;
+}
+
+.status-colorivel.sim {
+    color: #518162;
+}
+
+.status-colorivel.nao .status-dot {
+    background: #b8a7aa;
+}
+
+.status-colorivel.nao {
+    color: #98898b;
+}
+
+
+/* ==================================================
+   DESCRIÇÃO
+   ================================================== */
+
+.procedimento-descricao {
+    max-width: 100%;
+
+    margin: 0;
+
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    color: #726565;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+
+    -webkit-box-orient: vertical;
+
+    -webkit-line-clamp: 2;
+}
+
+
+/* ==================================================
+   PREÇO
+   ================================================== */
+
+.tabela-procedimentos td:nth-child(4) {
+    text-align: right;
+}
 
 .procedimento-preco {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
     color: #9d1228;
+
+    font-size: 12px;
+
     font-weight: 600;
 
     white-space: nowrap;
@@ -448,13 +910,18 @@
    AÇÕES
    ================================================== */
 
+.tabela-procedimentos td:nth-child(5) {
+    text-align: center;
+}
+
 .acoes-procedimento {
     display: flex;
+
     align-items: center;
 
-    gap: 10px;
+    justify-content: center;
 
-    white-space: nowrap;
+    gap: 7px;
 }
 
 .acoes-procedimento form {
@@ -462,168 +929,332 @@
 }
 
 
-/* EDITAR */
+/* ==================================================
+   BOTÕES
+   ================================================== */
 
-.btn-editar {
-    width: auto;
-    min-width: max-content;
+.btn-editar,
+.btn-excluir {
+    min-width: 70px;
+
+    height: 34px;
+
+    padding: 0 10px;
 
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
 
-    padding: 10px 16px;
+    gap: 5px;
 
-    background: #f5e6e6;
-    color: #9d1228;
+    box-sizing: border-box;
 
-    border: 1px solid #ead1d5;
-    border-radius: 6px;
+    border-radius: 8px;
 
     font-family: 'Poppins', sans-serif;
 
-    font-size: 13px;
+    font-size: 9px;
+
     font-weight: 500;
-
-    line-height: 1;
-
-    white-space: nowrap;
 
     text-decoration: none;
 
     cursor: pointer;
 
-    box-sizing: border-box;
-
     transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+        transform .15s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.btn-editar {
+    background: #f8e7ea;
+
+    color: #9d1228;
+
+    border: 1px solid #ead1d5;
 }
 
 .btn-editar:hover {
-    background: #ead4d8;
+    background: #efd8dc;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 3px 7px rgba(157, 18, 40, .08);
 }
 
-
-/* EXCLUIR */
-
 .btn-excluir {
-    width: auto;
-    min-width: max-content;
+    background: #fff3f4;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    color: #bc3043;
 
-    padding: 10px 16px;
-
-    background: #fff0f0;
-    color: #bb3548;
-
-    border: 1px solid #f1cccc;
-    border-radius: 6px;
-
-    font-family: 'Poppins', sans-serif;
-
-    font-size: 13px;
-    font-weight: 500;
-
-    line-height: 1;
-
-    white-space: nowrap;
-
-    cursor: pointer;
-
-    box-sizing: border-box;
-
-    transition:
-        background 0.2s ease,
-        transform 0.15s ease;
+    border: 1px solid #f0cfd3;
 }
 
 .btn-excluir:hover {
-    background: #f9dddd;
+    background: #ffe3e6;
+
     transform: translateY(-1px);
+
+    box-shadow:
+        0 3px 7px rgba(190, 45, 65, .08);
 }
 
 
-/* LISTA VAZIA */
+/* ==================================================
+   BUSCA VAZIA
+   ================================================== */
 
-.lista-vazia {
-    padding: 45px 20px;
+.busca-vazia {
+    min-height: 250px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
 
     text-align: center;
 
-    color: #958686;
+    color: #8b7d7d;
 }
 
-.lista-vazia i {
-    display: block;
+.busca-vazia-icon {
+    width: 52px;
 
-    margin-bottom: 10px;
+    height: 52px;
 
-    color: #c8b5b5;
+    margin-bottom: 13px;
 
-    font-size: 35px;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f7e6e9;
+
+    color: #9d1228;
+
+    font-size: 20px;
 }
 
-.lista-vazia p {
+.busca-vazia h3 {
     margin: 0;
 
-    font-size: 14px;
+    color: #443939;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 18px;
+}
+
+.busca-vazia p {
+    margin: 5px 0 0;
+
+    color: #978989;
+
+    font-size: 10px;
 }
 
 
-/* RESPONSIVIDADE */
+/* ==================================================
+   NENHUM PROCEDIMENTO
+   ================================================== */
 
-@media (max-width: 1100px) {
+.nenhum-procedimento {
+    padding: 65px 20px;
 
-    .procedimentos-grid {
-        grid-template-columns: 1fr;
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    color: #8b7d7d;
+}
+
+.nenhum-procedimento-icon {
+    width: 56px;
+
+    height: 56px;
+
+    margin-bottom: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f7e6e9;
+
+    color: #9d1228;
+
+    font-size: 21px;
+}
+
+.nenhum-procedimento h3 {
+    margin: 0;
+
+    color: #443939;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 19px;
+}
+
+.nenhum-procedimento p {
+    max-width: 380px;
+
+    margin: 6px 0 0;
+
+    color: #958787;
+
+    font-size: 11px;
+}
+
+
+/* ==================================================
+   SCROLL
+   ================================================== */
+
+.table-responsive::-webkit-scrollbar {
+    height: 7px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f7eeee;
+
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #d8bfc3;
+
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #c9aaaf;
+}
+
+
+/* ==================================================
+   RESPONSIVO
+   ================================================== */
+
+@media(max-width: 1200px) {
+
+    .procedimentos-content {
+        padding:
+            28px
+            25px
+            50px;
     }
 
 }
 
 
-@media (max-width: 768px) {
+@media(max-width: 900px) {
+
+    .lista-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .lista-header-search {
+        width: 100%;
+    }
+
+    .form-row,
+    .form-row-descricao {
+        grid-template-columns: 1fr;
+    }
+
+    .preco-group {
+        max-width: none;
+    }
+
+}
+
+
+@media(max-width: 768px) {
 
     .procedimentos-content {
-        padding: 24px 18px 40px;
+        padding:
+            24px
+            16px
+            40px;
     }
 
     .procedimentos-header h1 {
-        font-size: 27px;
+        font-size: 28px;
     }
 
-    .card-admin {
+    .novo-procedimento {
         padding: 20px;
     }
 
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
+    .lista-header {
+        padding: 20px;
     }
 
-    .tabela-container {
-        padding: 12px;
+    .table-responsive {
+        padding:
+            0
+            14px
+            18px;
     }
 
-}
-
-
-@media (max-width: 480px) {
-
-    .procedimentos-content {
-        padding: 20px 12px 30px;
+    .tabela-procedimentos {
+        min-width: 900px;
     }
 
-    .card-admin {
-        padding: 16px;
+    .form-actions {
+        justify-content: stretch;
     }
 
     .btn-salvar {
         width: 100%;
+    }
+
+}
+
+
+@media(max-width: 480px) {
+
+    .procedimentos-content {
+        padding:
+            20px
+            12px
+            30px;
+    }
+
+    .procedimentos-header h1 {
+        font-size: 25px;
+    }
+
+    .novo-procedimento {
+        padding: 17px;
+    }
+
+    .novo-procedimento-header {
+        align-items: flex-start;
     }
 
 }
