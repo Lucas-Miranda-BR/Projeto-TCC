@@ -35,7 +35,7 @@ class ClienteController extends Controller
             ],
             
             'cpf' => [
-                'required',
+                'nullable',
                 'digits:11',
                 'unique:cliente',
                 'max:11',
@@ -82,7 +82,7 @@ class ClienteController extends Controller
 
         $cliente = ClienteModel::create($validated);
 
-        session(['cliente' => $cliente]);
+        Auth::login($cliente);
 
         return redirect()->route('site.sobre');
     }
@@ -110,19 +110,15 @@ class ClienteController extends Controller
             ],
             
             'cpf' => [
-                'required',
+                'nullable',
                 'digits:11',
-                'unique:cliente',
-                'max:11',
-                'min:11'
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id'),
             ],
             
             'telefone' => [
                 'required_without:email',
                 'digits:11',
-                'unique:cliente',
-                'min:11',
-                'max:11',
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id'),
                 'nullable'
             ],
 
@@ -131,7 +127,7 @@ class ClienteController extends Controller
                 'email',
                 'max:255',
                 'nullable',
-                'unique:cliente'
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id')
             ],
                             
             'data_nascimento' => [
@@ -140,7 +136,7 @@ class ClienteController extends Controller
             ],
             
             'senha' => [
-                'required',
+                'nullable',
                 Password::min(8)->letters()->mixedCase()->numbers()->symbols()
             ],
 
@@ -148,7 +144,7 @@ class ClienteController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('cliente.cadastro')
+                ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -161,15 +157,9 @@ class ClienteController extends Controller
             unset($validated['senha']);
         }
 
-        $validated = $validator->validated();
-
         $cliente->update($validated);
 
-        if (session()->has('cliente') && session('cliente')->cliente_id == $cliente->cliente_id) {
-            session(['cliente' => $cliente]);
-        }
-
-        return redirect()->route('site.home');
+        return redirect()->route('site.home')->with('success', 'Perfil atualizado com sucesso!');
     }
 
     function destroyCliente(string $id) {
@@ -181,34 +171,36 @@ class ClienteController extends Controller
             return view('cliente.login');
         }
     
-            public function authCliente(Request $request)
+        public function authCliente(Request $request)
         {
-
             $auth = $request->auth;
-
+        
             $cliente = ClienteModel::where('email', $auth)
                 ->orWhere('telefone', $auth)
                 ->first();
-    
-            if (!$cliente) {
+        
+            if (!$cliente || !Hash::check($request->senha, $cliente->senha)) {
                 return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
             }
-    
-            if (!Hash::check($request->senha, $cliente->senha)) {
-                return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
+        
+            Auth::login($cliente);
+            
+            $request->session()->regenerate();
+        
+            if ($cliente->is_admin) {
+                return redirect()->route('admin.dashboard');
             }
-
-            session([
-                'cliente' => $cliente
-            ]);
             
             return redirect()->route('site.sobre');
         }
     
-            public function logoutCliente()
+        public function logoutCliente(Request $request)
         {
-            session()->flush();
-    
+            Auth::logout();
+        
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        
             return redirect()->route('cliente.login');
         }
         

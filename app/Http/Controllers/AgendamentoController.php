@@ -9,6 +9,7 @@ use App\Models\ClienteModel;
 use App\Models\ProcedimentoModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
@@ -26,19 +27,24 @@ class AgendamentoController extends Controller
 
         $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
 
-        $clienteSession = session('cliente');
+        if(!Auth::check()){
+            return redirect()->route('cliente.cadastro')
+            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
+        }
+    
+        $cliente = Auth::user();
         
-        if(!$clienteSession){
+        if(!$cliente){
             return redirect()->route('cliente.cadastro')
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
         }
         
-        $cliente = \App\Models\ClienteModel::find($clienteSession->cliente_id);
+        $clienteId = \App\Models\ClienteModel::find($cliente->cliente_id);
 
         $agendamentos = AgendamentoModel::with('servicos')->get();
 
 
-        return view('agendamento.agendar', compact('procedimentos', 'cliente', 'agendamentos', 'imagemGeradaId', 'procedimentoSelecionado'));
+        return view('agendamento.agendar', compact('procedimentos', 'clienteId', 'agendamentos', 'imagemGeradaId', 'procedimentoSelecionado'));
     }
 
     public function storeAgendamento(Request $dados)

@@ -102,7 +102,7 @@ Route::prefix('produto')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'viewDashboard'])
         ->name('admin.dashboard');

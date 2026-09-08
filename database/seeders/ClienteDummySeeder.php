@@ -18,7 +18,7 @@ class ClienteDummySeeder extends Seeder
             'telefone' => '11999999999',
             'email' => 'admin@admin.com',
             'data_nascimento' => '1990-01-01',
-            'admin' => true,
+            'is_admin' => true,
             'senha' => 'Admin@1234!']);
 
     }

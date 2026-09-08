@@ -14,19 +14,19 @@
 
         <a href="{{ route('site.produtos') }}">Produtos</a>
 
-        <a href="#">Notificações</a>
+        @auth
+            <a href="#">Notificações</a>
+        @endauth
 
-        @if (session('cliente'))
-                    <a href="{{ route('cliente.logout') }}" class="btn-login">
-                        Logout
-                    </a>
-        
+        @auth
+            <a href="{{ route('cliente.logout') }}" class="btn-login">
+                Logout
+            </a>
         @else
-
-        <a href="{{ route('cliente.login') }}" class="btn-login">
-            Login
-        </a>
-        @endif
+            <a href="{{ route('cliente.login') }}" class="btn-login">
+                Login
+            </a>
+        @endauth
     </nav>
 
 </header>

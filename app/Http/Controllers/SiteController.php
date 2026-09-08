@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ProcedimentoModel;
 use App\Models\CorModel;
 use App\Models\ClienteModel;
+use Illuminate\Support\Facades\Auth;
 
 
 class SiteController extends Controller
@@ -26,18 +27,15 @@ class SiteController extends Controller
     public function viewIa()
     {
 
-        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
-        
-        $clienteSession = session('cliente');
+        if(!Auth::check()){
+            return redirect()->route('cliente.cadastro')
+                ->withErrors(['Por favor realize um cadastro ou entre em uma conta para utilizar nossos recursos de IA.']);
+        }
 
+        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
         $cores = \App\Models\CorModel::all();
 
-        if(!$clienteSession){
-            return redirect()->route('cliente.cadastro')
-            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para utilizar nossos recursos de IA.']);
-        }
-        
-        $cliente = \App\Models\ClienteModel::find($clienteSession->cliente_id);
+        $cliente = Auth::user();
 
         return view('site.ia', compact('procedimentos', 'cliente', 'cores'));
     }

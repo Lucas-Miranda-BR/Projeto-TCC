@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('data_nascimento');
             $table->string('foto')->default('default.png');
             $table->string('senha');
-            $table->boolean('admin')->default(false);
+            $table->boolean('is_admin')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });
