@@ -24,6 +24,9 @@ class ItemModel extends Model
     public function categorias(): BelongsTo{
         return $this->belongsTo(CategoriaModel::class, 'categoria_id', 'categoria_id');
     }
+    public function marcas(): BelongsTo{
+        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
+    }
     public function carrinhos_itens(): HasMany {
         return $this->hasMany(CarrinhoItemModel::class, 'item_id', 'item_id');
     }
