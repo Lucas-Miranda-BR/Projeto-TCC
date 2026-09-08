@@ -14,7 +14,6 @@ class ItemModel extends Model
     protected $table = 'item';
     protected $primaryKey = 'item_id';
     protected $fillable = [
-        'marca_id', // FK
         'categoria_id', // FK
         'nome',
         'preco',
@@ -22,11 +21,11 @@ class ItemModel extends Model
         'estoque'
     ];
 
-    public function marcas(): BelongsTo{
-        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
-    }
     public function categorias(): BelongsTo{
         return $this->belongsTo(CategoriaModel::class, 'categoria_id', 'categoria_id');
+    }
+    public function marcas(): BelongsTo{
+        return $this->belongsTo(MarcaModel::class, 'marca_id', 'marca_id');
     }
     public function carrinhos_itens(): HasMany {
         return $this->hasMany(CarrinhoItemModel::class, 'item_id', 'item_id');

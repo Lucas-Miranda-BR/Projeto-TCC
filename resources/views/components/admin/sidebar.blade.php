@@ -104,20 +104,6 @@
         </a>
 
 
-        <a
-            href="#"
-            class="menu-item"
-        >
-
-            <i class="bi bi-star"></i>
-
-            <span>
-                Avaliações
-            </span>
-
-        </a>
-
-
 
         {{-- SISTEMA --}}
 
@@ -135,20 +121,6 @@
 
             <span>
                 Notificações
-            </span>
-
-        </a>
-
-
-        <a
-            href="#"
-            class="menu-item"
-        >
-
-            <i class="bi bi-shield-check"></i>
-
-            <span>
-                Segurança
             </span>
 
         </a>

@@ -21,6 +21,10 @@
             Sobre Mim
         </a>
 
+        @auth
+            <a href="#">Notificações</a>
+        @endauth
+        
         <a href="{{ route('site.servicos') }}">
             Serviços
         </a>
@@ -91,7 +95,7 @@
     </nav>
 
 
-    @if(session('cliente'))
+    @auth
 
         <a
             href="{{ route('cliente.perfil') }}"
@@ -147,6 +151,6 @@
             Login
         </a>
 
-    @endif
+    @endauth
 
 </header>   

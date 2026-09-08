@@ -27,68 +27,53 @@ class ClienteController extends Controller
     public function storeCliente(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
             'nome' => [
                 'required',
                 'string',
-                'min:2',
-                'max:100'
+                'min:2'
             ],
 
             'sobrenome' => [
                 'required',
                 'string',
-                'min:2',
-                'max:100'
+                'min:2'
             ],
-
+            
             'cpf' => [
-                'required',
-                'digits:11',
-                'unique:cliente,cpf'
-            ],
-
-            'telefone' => [
                 'nullable',
+                'digits:11',
+                'unique:cliente',
+                'max:11',
+                'min:11'
+            ],
+            
+            'telefone' => [
                 'required_without:email',
                 'digits:11',
-                'unique:cliente,telefone'
+                'unique:cliente',
+                'min:11',
+                'max:11',
+                'nullable'
             ],
 
             'email' => [
-                'nullable',
                 'required_without:telefone',
                 'email',
                 'max:255',
-                'unique:cliente,email'
-            ],
-
-            'cep' => [
                 'nullable',
-                'string',
-                'max:9'
+                'unique:cliente'
             ],
-
-            'endereco' => [
-                'nullable',
-                'string',
-                'max:255'
-            ],
-
+                        
             'data_nascimento' => [
-                'required',
-                'date'
+                'date',
+                'required'
             ],
-
+            
             'senha' => [
                 'required',
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-            ]
-
+                Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+            ],
+            
         ]);
 
 
@@ -118,7 +103,7 @@ class ClienteController extends Controller
         ]);
 
 
-        $request->session()->regenerate();
+        Auth::login($cliente);
 
 
         return redirect()
@@ -138,244 +123,49 @@ class ClienteController extends Controller
     }
 
 
-    public function authCliente(Request $request)
-    {
-        $request->validate([
-
-            'auth' => [
-                'required',
-                'string'
-            ],
-
-            'senha' => [
-                'required',
-                'string'
-            ]
-
-        ]);
-
-
-        $auth = $request->auth;
-
-
-        $cliente = ClienteModel::where('email', $auth)
-            ->orWhere('telefone', $auth)
-            ->first();
-
-
-        if (!$cliente) {
-
-            return back()
-                ->with('erro', 'E-mail/Telefone ou senha inválidos.')
-                ->withInput();
-
-        }
-
-
-        if (!Hash::check($request->senha, $cliente->senha)) {
-
-            return back()
-                ->with('erro', 'E-mail/Telefone ou senha inválidos.')
-                ->withInput();
-
-        }
-
-
-        $request->session()->regenerate();
-
-
-        session([
-            'cliente' => $cliente
-        ]);
-
-
-        return redirect()
-            ->route('site.sobre');
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | PERFIL
-    |--------------------------------------------------------------------------
-    */
-
-    public function perfil()
-    {
-        $clienteSession = session('cliente');
-
-
-        if (!$clienteSession) {
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Faça login para acessar seu perfil.');
-
-        }
-
-
-        $cliente = ClienteModel::find(
-            $clienteSession->cliente_id
-        );
-
-
-        if (!$cliente) {
-
-            session()->forget('cliente');
-
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Cliente não encontrado. Faça login novamente.');
-
-        }
-
-
-        return view(
-            'cliente.perfil',
-            compact('cliente')
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | EDITAR PERFIL
-    |--------------------------------------------------------------------------
-    */
-
-    public function editPerfil()
-    {
-        $clienteSession = session('cliente');
-
-
-        if (!$clienteSession) {
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Faça login para editar seu perfil.');
-
-        }
-
-
-        $cliente = ClienteModel::find(
-            $clienteSession->cliente_id
-        );
-
-
-        if (!$cliente) {
-
-            session()->forget('cliente');
-
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Cliente não encontrado. Faça login novamente.');
-
-        }
-
-
-        return view(
-            'cliente.editar-perfil',
-            compact('cliente')
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ATUALIZAR PERFIL
-    |--------------------------------------------------------------------------
-    */
-
-    public function updatePerfil(Request $request)
-    {
-        $clienteSession = session('cliente');
-
-
-        if (!$clienteSession) {
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Faça login para alterar seu perfil.');
-
-        }
-
-
-        $cliente = ClienteModel::find(
-            $clienteSession->cliente_id
-        );
-
-
-        if (!$cliente) {
-
-            session()->forget('cliente');
-
-
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Cliente não encontrado.');
-
-        }
-
-
         $validator = Validator::make($request->all(), [
-
             'nome' => [
                 'required',
                 'string',
-                'min:2',
-                'max:100'
+                'min:2'
             ],
 
             'sobrenome' => [
                 'required',
                 'string',
-                'min:2',
-                'max:100'
+                'min:2'
+            ],
+            
+            'cpf' => [
+                'nullable',
+                'digits:11',
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id'),
+            ],
+            
+            'telefone' => [
+                'required_without:email',
+                'digits:11',
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id'),
+                'nullable'
             ],
 
             'email' => [
-                'nullable',
                 'required_without:telefone',
                 'email',
                 'max:255',
-
-                Rule::unique('cliente', 'email')
-                    ->ignore(
-                        $cliente->cliente_id,
-                        'cliente_id'
-                    )
-            ],
-
-            'telefone' => [
                 'nullable',
-                'required_without:email',
-                'digits:11',
-
-                Rule::unique('cliente', 'telefone')
-                    ->ignore(
-                        $cliente->cliente_id,
-                        'cliente_id'
-                    )
+                Rule::unique('cliente')->ignore($cliente->cliente_id, 'cliente_id')
             ],
-
-            'cep' => [
-                'nullable',
-                'string',
-                'max:9'
-            ],
-
-            'endereco' => [
-                'nullable',
-                'string',
-                'max:255'
-            ],
-
+                            
             'data_nascimento' => [
-                'required',
-                'date'
-            ]
+                'date',
+                'required'
+            ],
+            
+            'senha' => [
+                'nullable',
+                Password::min(8)->letters()->mixedCase()->numbers()->symbols()
+            ],
 
         ]);
 
@@ -383,7 +173,7 @@ class ClienteController extends Controller
         if ($validator->fails()) {
 
             return redirect()
-                ->route('cliente.perfil.editar')
+                ->back()
                 ->withErrors($validator)
                 ->withInput();
 
@@ -392,24 +182,9 @@ class ClienteController extends Controller
 
         $dados = $validator->validated();
 
+        $cliente->update($validated);
 
-        $cliente->update($dados);
-
-
-        $cliente->refresh();
-
-
-        session([
-            'cliente' => $cliente
-        ]);
-
-
-        return redirect()
-            ->route('cliente.perfil')
-            ->with(
-                'success',
-                'Perfil atualizado com sucesso!'
-            );
+        return redirect()->route('site.home')->with('success', 'Perfil atualizado com sucesso!');
     }
 
 
@@ -468,51 +243,44 @@ class ClienteController extends Controller
                 ]);
 
         }
-
-
-        $cliente->senha = Hash::make(
-            $request->senha
-        );
-
-
-        $cliente->save();
-
-
-        return back()
-            ->with(
-                'success',
-                'Senha alterada com sucesso!'
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | EXCLUIR CONTA
-    |--------------------------------------------------------------------------
-    */
-
-    public function destroyCliente()
-    {
-        $clienteSession = session('cliente');
-
-
-        if (!$clienteSession) {
-
-            return redirect()
-                ->route('cliente.login');
-
+    
+        public function authCliente(Request $request)
+        {
+            $auth = $request->auth;
+        
+            $cliente = ClienteModel::where('email', $auth)
+                ->orWhere('telefone', $auth)
+                ->first();
+        
+            if (!$cliente || !Hash::check($request->senha, $cliente->senha)) {
+                return back()->with('erro', 'E-mail/Telefone ou senha inválidos.');
+            }
+        
+            Auth::login($cliente);
+            
+            $request->session()->regenerate();
+        
+            if ($cliente->is_admin) {
+                return redirect()->route('admin.dashboard');
+            }
+            
+            return redirect()->route('site.sobre');
         }
-
-
-        $cliente = ClienteModel::find(
-            $clienteSession->cliente_id
-        );
-
-
-        if ($cliente) {
-            $cliente->delete();
+    
+        public function logoutCliente(Request $request)
+        {
+            Auth::logout();
+        
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        
+            return redirect()->route('cliente.login');
         }
+        
+            public function viewPerfilCliente(){
+                return view('cliente.perfil');
+            }
+}
 
 
         session()->flush();

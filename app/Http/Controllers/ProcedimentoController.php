@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProcedimentoModel;
-use App\Models\CorModel;
 use App\Models\TipoModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProcedimentoController extends Controller
 {
-    public function index()
+    public function indexProcedimento()
     {
         $procedimentos = ProcedimentoModel::with('tipos')->orderBy('nome')->get();
         
@@ -18,9 +18,9 @@ class ProcedimentoController extends Controller
         return view('admin.procedimentos.index', compact('procedimentos', 'tipos'));
     }
 
-    public function store(Request $request)
+    public function storeProcedimento(Request $request)
     {
-        $dados = $request->validate([
+        $validator = Validator::make($request->all(), [
             'tipo_id' => [
                 'required',
                 'integer'
@@ -41,14 +41,23 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        ProcedimentoModel::create($dados);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.procedimentos.index')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        ProcedimentoModel::create($validated);
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with('success', 'Serviço cadastrado com sucesso!');
+            ->with('success', 'Procedimento cadastrado com sucesso!');
     }
 
-    public function edit($id)
+    public function editProcedimento($id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
         $tipos = TipoModel::all();
@@ -56,11 +65,11 @@ class ProcedimentoController extends Controller
         return view('admin.procedimentos.edit', compact('procedimento', 'tipos'));
     }
 
-    public function update(Request $request, $id)
+    public function updateProcedimento(Request $request, $id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
 
-        $dados = $request->validate([
+        $validator = Validator::make($request->all(), [
             'tipo_id' => [
                 'required',
                 'integer'
@@ -81,26 +90,29 @@ class ProcedimentoController extends Controller
             ]
         ]);
 
-        $procedimento->update($dados);
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.procedimentos.index', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
+        $procedimento->updateProcedimento($validated);
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with(
-                'success',
-                'Serviço atualizado com sucesso!'
-            );
+            ->with('success', 'Procedimento atualizado com sucesso!');
     }
 
-    public function destroy($id)
+    public function destroyProcedimento($id)
     {
         $procedimento = ProcedimentoModel::findOrFail($id);
         $procedimento->delete();
 
         return redirect()
             ->route('admin.procedimentos.index')
-            ->with(
-                'success',
-                'Serviço excluído com sucesso!'
-            );
+            ->with('success', 'Procedimento excluído com sucesso!');
     }
 }

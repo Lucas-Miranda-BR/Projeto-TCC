@@ -158,6 +158,9 @@
                                     Selecione o tipo
                                 </option>
 
+                       <span id="status-colorivel" style="display: none; margin-top: 8px; font-weight: 500;">Selecione um tipo</span>
+
+                    </div>
 
                                 @foreach($tipos as $tipo)
 
@@ -285,6 +288,9 @@
 
 
             </section>
+
+            <h1>Gerenciar tipos</h1>
+            <button> <a href="{{ route('admin.tipos.index') }}">Gerencie Aqui</a></button>
 
 
 
@@ -620,85 +626,5 @@
 
 
 @push('scripts')
-
-<script src="{{ asset('js/admin/procedimentos.js') }}"></script>
-
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const campoBusca =
-        document.getElementById('buscar-procedimento');
-
-    const linhas =
-        document.querySelectorAll('.procedimento-row');
-
-    const contador =
-        document.getElementById('contador-procedimentos');
-
-    const buscaVazia =
-        document.getElementById('busca-vazia');
-
-
-    if (!campoBusca) {
-        return;
-    }
-
-
-    campoBusca.addEventListener('input', function () {
-
-        const termo =
-            this.value
-                .toLowerCase()
-                .trim();
-
-        let encontrados = 0;
-
-
-        linhas.forEach(function (linha) {
-
-            const texto =
-                linha.textContent
-                    .toLowerCase();
-
-
-            if (texto.includes(termo)) {
-
-                linha.style.display = '';
-
-                encontrados++;
-
-            } else {
-
-                linha.style.display = 'none';
-
-            }
-
-        });
-
-
-        if (contador) {
-
-            contador.textContent =
-                encontrados;
-
-        }
-
-
-        if (buscaVazia) {
-
-            buscaVazia.style.display =
-                encontrados === 0
-                    ? 'flex'
-                    : 'none';
-
-        }
-
-    });
-
-});
-
-</script>
-
-@endpush 
+<script src="{{ asset('js/admin/procedimento.js') }}"></script>
+@endpush

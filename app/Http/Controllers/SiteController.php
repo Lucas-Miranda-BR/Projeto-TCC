@@ -4,57 +4,44 @@ namespace App\Http\Controllers;
 use App\Models\ProcedimentoModel;
 use App\Models\CorModel;
 use App\Models\ClienteModel;
-use App\Models\ItemModel;
+use Illuminate\Support\Facades\Auth;
 
 
 class SiteController extends Controller
 {
-    public function home()
+    public function viewHome()
     {
         return view('home');
     }
 
-    public function sobre()
+    public function viewSobre()
     {
         return view('site.sobre');
     }
 
-    public function servicos()
+    public function viewServicos()
     {
         return view('site.servicos');
     }
 
-    public function ia()
+    public function viewIa()
     {
 
-        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
-        
-        $clienteSession = session('cliente');
+        if(!Auth::check()){
+            return redirect()->route('cliente.cadastro')
+                ->withErrors(['Por favor realize um cadastro ou entre em uma conta para utilizar nossos recursos de IA.']);
+        }
 
+        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
         $cores = \App\Models\CorModel::all();
 
-        if(!$clienteSession){
-            return redirect()->route('cliente.cadastro')
-            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para utilizar nossos recursos de IA.']);
-        }
-        
-        $cliente = \App\Models\ClienteModel::find($clienteSession->cliente_id);
+        $cliente = Auth::user();
 
         return view('site.ia', compact('procedimentos', 'cliente', 'cores'));
     }
 
-    public function produtos()
-{
-    $produtos = ItemModel::with([
-        'marcas',
-        'categorias'
-    ])
-        ->orderBy('nome')
-        ->get();
-
-    return view(
-        'site.produtos',
-        compact('produtos')
-    );
-}
+    public function viewProdutos()
+    {
+        return view('site.produtos');
+    }
 }
