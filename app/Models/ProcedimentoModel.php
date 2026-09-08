@@ -21,7 +21,6 @@ class ProcedimentoModel extends Model
         'tipo_id', // FK
         "nome",
         "imagem",
-        "foto",
         'descricao',
         'preco'
     ];
