@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClienteModel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password;
+use App\Models\ClienteModel;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class ClienteController extends Controller
 {
-
-    /*
-    |--------------------------------------------------------------------------
-    | CADASTRO
-    |--------------------------------------------------------------------------
-    */
-
-    public function createCliente()
-    {
+    function createCliente(){
         return view('cliente.cadastro');
     }
 
-
-    public function storeCliente(Request $request)
-    {
+    function storeCliente(Request $request){
         $validator = Validator::make($request->all(), [
             'nome' => [
                 'required',
@@ -76,52 +71,30 @@ class ClienteController extends Controller
             
         ]);
 
-
         if ($validator->fails()) {
-
             return redirect()
                 ->route('cliente.cadastro')
                 ->withErrors($validator)
                 ->withInput();
-
         }
 
+        $validated = $validator->validated();
 
-        $dados = $validator->validated();
-
-
-        $dados['senha'] = Hash::make(
-            $dados['senha']
-        );
-
-
-        $cliente = ClienteModel::create($dados);
-
-
-        session([
-            'cliente' => $cliente
-        ]);
-
+        $cliente = ClienteModel::create($validated);
 
         Auth::login($cliente);
 
-
-        return redirect()
-            ->route('site.sobre');
+        return redirect()->route('site.sobre');
     }
 
+    function editCliente(string $id){
+        $cliente = ClienteModel::findOrFail($id);
 
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN
-    |--------------------------------------------------------------------------
-    */
-
-    public function loginCliente()
-    {
-        return view('cliente.login');
+        return view('cliente.update', compact('cliente'));
     }
 
+    function updateCliente(Request $request, $id) {
+        $cliente = ClienteModel::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             'nome' => [
@@ -169,79 +142,33 @@ class ClienteController extends Controller
 
         ]);
 
-
         if ($validator->fails()) {
-
             return redirect()
                 ->back()
                 ->withErrors($validator)
                 ->withInput();
-
         }
 
+        $validated = $validator->validated();
 
-        $dados = $validator->validated();
+        if (!empty($validated['senha'])) {
+            $validated['senha'] = Hash::make($validated['senha']);
+        } else {
+            unset($validated['senha']);
+        }
 
         $cliente->update($validated);
 
         return redirect()->route('site.home')->with('success', 'Perfil atualizado com sucesso!');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | ALTERAR SENHA
-    |--------------------------------------------------------------------------
-    */
-
-    public function updateSenha(Request $request)
-    {
-        $clienteSession = session('cliente');
-
-
-        if (!$clienteSession) {
-
-            return redirect()
-                ->route('cliente.login');
-
+    function destroyCliente(string $id) {
+            ClienteModel::destroy($id);
+            return redirect()->route('cliente.cadastro');
         }
 
-
-        $cliente = ClienteModel::findOrFail(
-            $clienteSession->cliente_id
-        );
-
-
-        $request->validate([
-
-            'senha_atual' => [
-                'required'
-            ],
-
-            'senha' => [
-                'required',
-                'confirmed',
-
-                Password::min(8)
-                    ->letters()
-                    ->mixedCase()
-                    ->numbers()
-                    ->symbols()
-            ]
-
-        ]);
-
-
-        if (!Hash::check(
-            $request->senha_atual,
-            $cliente->senha
-        )) {
-
-            return back()
-                ->withErrors([
-                    'senha_atual' => 'A senha atual está incorreta.'
-                ]);
-
+        function loginCliente(){
+            return view('cliente.login');
         }
     
         public function authCliente(Request $request)
@@ -280,34 +207,4 @@ class ClienteController extends Controller
             public function viewPerfilCliente(){
                 return view('cliente.perfil');
             }
-}
-
-
-        session()->flush();
-
-
-        return redirect()
-            ->route('home');
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGOUT
-    |--------------------------------------------------------------------------
-    */
-
-    public function logoutCliente(Request $request)
-    {
-        $request->session()->forget('cliente');
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-
-        return redirect()
-            ->route('cliente.login');
-    }
-
 }
