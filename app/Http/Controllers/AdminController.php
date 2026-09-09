@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ClienteModel;
 use App\Models\AgendamentoModel;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AdminController;
 
 class AdminController extends Controller
 {
@@ -38,7 +37,6 @@ class AdminController extends Controller
     private function montarDashboard($periodo)
     {
         if ($periodo === 'semana') {
-
             return [
                 'faturamento' => 18450,
                 'lucro' => 14200,
@@ -71,7 +69,6 @@ class AdminController extends Controller
         }
 
         if ($periodo === 'mes') {
-
             return [
                 'faturamento' => 68320,
                 'lucro' => 52140,
@@ -140,12 +137,19 @@ class AdminController extends Controller
 
     public function viewAgendamentos()
     {
-        $agendamentos = AgendamentoModel::with(['clientes', 'procedimentos', 'imagens_geradas'])
+        $agendamentos = AgendamentoModel::with([
+            'clientes',
+            'procedimentos',
+            'imagens_geradas'
+        ])
         ->orderBy('isConcluido', 'asc')
         ->orderBy('data', 'asc')
         ->orderBy('hora', 'asc')
         ->get();
-        return view('admin.agendamentos.index', ['agendamentos'=>$agendamentos]);
+
+        return view('admin.agendamentos.index', [
+            'agendamentos' => $agendamentos
+        ]);
     }
 
     public function viewCalendario()
@@ -155,7 +159,7 @@ class AdminController extends Controller
 
     public function viewProdutos()
     {
-        return view('admin.produtos');
+        return view('admin.produtos.index');
     }
 
     public function viewProcedimentos()

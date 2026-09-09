@@ -95,62 +95,62 @@
     </nav>
 
 
-    @auth
+   @auth
 
-        <a
-            href="{{ route('cliente.perfil') }}"
-            class="client-profile"
-        >
+    <a
+        href="{{ route('cliente.perfil') }}"
+        class="client-profile"
+    >
 
-            <span class="client-avatar-icon">
-                <i class="bi bi-person-fill"></i>
+        <span class="client-avatar-initials">
+            {{ auth()->user()->iniciais }}
+        </span>
+
+        <div class="client-profile-info">
+
+            <strong>
+                {{ auth()->user()->nome }}
+            </strong>
+
+            <span>
+                Cliente
             </span>
 
-            <div class="client-profile-info">
+        </div>
 
-                <strong>
-                    {{ Auth::user()->nome }}
-                </strong>
-
-                <span>
-                    Cliente
-                </span>
-
-            </div>
-
-        </a>
+    </a>
 
 
-        <a
-            href="{{ route('cliente.perfil.editar') }}"
-            class="client-settings"
-            title="Editar perfil"
-        >
+    <a
+        href="{{ route('cliente.perfil.editar') }}"
+        class="client-settings"
+        title="Editar perfil"
+    >
 
-            <i class="bi bi-gear-fill"></i>
+        <i class="bi bi-gear-fill"></i>
 
-        </a>
+    </a>
 
 
-        <a
-            href="{{ route('cliente.logout') }}"
-            class="client-logout"
-            title="Sair"
-        >
+    <a
+        href="{{ route('cliente.logout') }}"
+        class="client-logout"
+        title="Sair"
+    >
 
-            <i class="bi bi-box-arrow-right"></i>
+        <i class="bi bi-box-arrow-right"></i>
 
-        </a>
+    </a>
 
-    @else
+@else
 
-        <a
-            href="{{ route('cliente.login') }}"
-            class="client-login"
-        >
-            Login
-        </a>
+    <a
+        href="{{ route('cliente.login') }}"
+        class="client-login"
+    >
+        Login
+    </a>
 
-    @endauth
+@endauth
 
 </header>   
