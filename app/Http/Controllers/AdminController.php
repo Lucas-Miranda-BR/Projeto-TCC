@@ -125,7 +125,14 @@ class AdminController extends Controller
 
     public function viewClientes()
     {
-        return view('admin.clientes');
+        $clientes = ClienteModel::orderBy('nome')
+            ->orderBy('sobrenome')
+            ->get();
+    
+        return view(
+            'admin.clientes',
+            compact('clientes')
+        );
     }
 
     public function indexCliente()

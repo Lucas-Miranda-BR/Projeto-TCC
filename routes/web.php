@@ -13,6 +13,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\NotificacaoController;
 
 
 /*
@@ -27,17 +28,28 @@ Route::get('/', [SiteController::class, 'viewHome'])
 
 Route::prefix('site')->group(function () {
 
-    Route::get('/sobre', [SiteController::class, 'viewSobre'])
-        ->name('site.sobre');
+    Route::get(
+        '/sobre',
+        [SiteController::class, 'viewSobre']
+    )->name('site.sobre');
 
-    Route::get('/servicos', [SiteController::class, 'viewServicos'])
-        ->name('site.servicos');
 
-    Route::get('/produtos', [SiteController::class, 'viewProdutos'])
-        ->name('site.produtos');
+    Route::get(
+        '/servicos',
+        [SiteController::class, 'viewServicos']
+    )->name('site.servicos');
 
-    Route::get('/ia', [SiteController::class, 'viewIa'])
-        ->name('site.ia');
+
+    Route::get(
+        '/produtos',
+        [SiteController::class, 'viewProdutos']
+    )->name('site.produtos');
+
+
+    Route::get(
+        '/ia',
+        [SiteController::class, 'viewIa']
+    )->name('site.ia');
 
 });
 
@@ -50,8 +62,10 @@ Route::prefix('site')->group(function () {
 
 Route::prefix('ia')->group(function () {
 
-    Route::post('/gerar', [AiFotoController::class, 'storePrompt'])
-        ->name('ia.gerar');
+    Route::post(
+        '/gerar',
+        [AiFotoController::class, 'storePrompt']
+    )->name('ia.gerar');
 
 });
 
@@ -64,32 +78,92 @@ Route::prefix('ia')->group(function () {
 
 Route::prefix('cliente')->group(function () {
 
-    Route::get('/cadastro', [ClienteController::class, 'createCliente'])
-        ->name('cliente.cadastro');
-
-    Route::post('/create', [ClienteController::class, 'storeCliente'])
-        ->name('cliente.create');
-
-
-    Route::get('/login', [ClienteController::class, 'loginCliente'])
-        ->name('cliente.login');
-
-    Route::post('/auth', [ClienteController::class, 'authCliente'])
-        ->name('cliente.auth');
+    Route::get(
+        '/cadastro',
+        [ClienteController::class, 'createCliente']
+    )->name('cliente.cadastro');
 
 
-    Route::get('/logout', [ClienteController::class, 'logoutCliente'])
-        ->name('cliente.logout');
+    Route::post(
+        '/create',
+        [ClienteController::class, 'storeCliente']
+    )->name('cliente.create');
 
 
-    Route::get('/perfil', [ClienteController::class, 'viewPerfilCliente'])
-        ->name('cliente.perfil');
+    Route::get(
+        '/login',
+        [ClienteController::class, 'loginCliente']
+    )->name('cliente.login');
 
-    Route::get('/perfil/editar', [ClienteController::class, 'editPerfil'])
-        ->name('cliente.perfil.editar');
 
-    Route::put('/perfil', [ClienteController::class, 'updatePerfil'])
-        ->name('cliente.perfil.update');
+    Route::post(
+        '/auth',
+        [ClienteController::class, 'authCliente']
+    )->name('cliente.auth');
+
+
+    Route::get(
+        '/logout',
+        [ClienteController::class, 'logoutCliente']
+    )->name('cliente.logout');
+
+
+    Route::get(
+        '/perfil',
+        [ClienteController::class, 'viewPerfilCliente']
+    )->name('cliente.perfil');
+
+
+    Route::get(
+        '/perfil/editar',
+        [ClienteController::class, 'editPerfil']
+    )->name('cliente.perfil.editar');
+
+
+    Route::put(
+        '/perfil',
+        [ClienteController::class, 'updatePerfil']
+    )->name('cliente.perfil.update');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NOTIFICAÇÕES DO CLIENTE
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/notificacoes',
+        [NotificacaoController::class, 'index']
+    )
+        ->middleware('auth')
+        ->name('cliente.notificacoes');
+
+
+    Route::patch(
+        '/notificacoes/visualizar-todas',
+        [
+            NotificacaoController::class,
+            'marcarTodasComoVisualizadas'
+        ]
+    )
+        ->middleware('auth')
+        ->name(
+            'cliente.notificacoes.visualizar-todas'
+        );
+
+
+    Route::patch(
+        '/notificacoes/{id}/visualizar',
+        [
+            NotificacaoController::class,
+            'marcarComoVisualizada'
+        ]
+    )
+        ->middleware('auth')
+        ->name(
+            'cliente.notificacoes.visualizar'
+        );
 
 });
 
@@ -104,12 +178,19 @@ Route::prefix('agendamento')->group(function () {
 
     Route::get(
         '/agendar',
-        [AgendamentoController::class, 'createAgendamento']
+        [
+            AgendamentoController::class,
+            'createAgendamento'
+        ]
     )->name('agendamento.agendar');
+
 
     Route::post(
         '/create',
-        [AgendamentoController::class, 'storeAgendamento']
+        [
+            AgendamentoController::class,
+            'storeAgendamento'
+        ]
     )->name('agendamento.create');
 
 });
@@ -131,25 +212,37 @@ Route::prefix('carrinho')->group(function () {
 
     Route::post(
         '/adicionar/{id}',
-        [CarrinhoController::class, 'adicionar']
+        [
+            CarrinhoController::class,
+            'adicionar'
+        ]
     )->name('carrinho.adicionar');
 
 
     Route::patch(
         '/{id}',
-        [CarrinhoController::class, 'atualizar']
+        [
+            CarrinhoController::class,
+            'atualizar'
+        ]
     )->name('carrinho.atualizar');
 
 
     Route::delete(
         '/{id}',
-        [CarrinhoController::class, 'remover']
+        [
+            CarrinhoController::class,
+            'remover'
+        ]
     )->name('carrinho.remover');
 
 
     Route::post(
         '/finalizar',
-        [CarrinhoController::class, 'finalizar']
+        [
+            CarrinhoController::class,
+            'finalizar'
+        ]
     )->name('carrinho.finalizar');
 
 });
@@ -174,7 +267,8 @@ Route::prefix('admin')
 
         Route::get('/', function () {
 
-            return redirect()->route('admin.dashboard');
+            return redirect()
+                ->route('admin.dashboard');
 
         })->name('admin.index');
 
@@ -187,14 +281,22 @@ Route::prefix('admin')
 
         Route::get(
             '/dashboard',
-            [AdminController::class, 'viewDashboard']
+            [
+                AdminController::class,
+                'viewDashboard'
+            ]
         )->name('admin.dashboard');
 
 
         Route::get(
             '/dashboard/dados',
-            [AdminController::class, 'dadosDashboard']
-        )->name('admin.dashboard.dados');
+            [
+                AdminController::class,
+                'dadosDashboard'
+            ]
+        )->name(
+            'admin.dashboard.dados'
+        );
 
 
         /*
@@ -205,8 +307,24 @@ Route::prefix('admin')
 
         Route::get(
             '/clientes',
-            [AdminController::class, 'viewClientes']
-        )->name('admin.clientes');
+            [
+                AdminController::class,
+                'viewClientes'
+            ]
+        )->name(
+            'admin.clientes'
+        );
+
+
+        Route::post(
+            '/clientes/{id}/notificacao',
+            [
+                NotificacaoController::class,
+                'enviarParaCliente'
+            ]
+        )->name(
+            'admin.clientes.notificacao.enviar'
+        );
 
 
         /*
@@ -217,8 +335,13 @@ Route::prefix('admin')
 
         Route::get(
             '/calendario',
-            [AdminController::class, 'viewCalendario']
-        )->name('admin.calendario');
+            [
+                AdminController::class,
+                'viewCalendario'
+            ]
+        )->name(
+            'admin.calendario'
+        );
 
 
         /*
@@ -229,14 +352,35 @@ Route::prefix('admin')
 
         Route::get(
             '/agendamentos',
-            [AdminController::class, 'viewAgendamentos']
-        )->name('admin.agendamentos');
+            [
+                AdminController::class,
+                'viewAgendamentos'
+            ]
+        )->name(
+            'admin.agendamentos'
+        );
 
 
         Route::patch(
             '/agendamentos/{id}/concluir',
-            [AgendamentoController::class, 'concluirAgendamento']
-        )->name('admin.agendamentos.concluir');
+            [
+                AgendamentoController::class,
+                'concluirAgendamento'
+            ]
+        )->name(
+            'admin.agendamentos.concluir'
+        );
+
+
+        Route::patch(
+            '/agendamentos/{id}/cancelar',
+            [
+                AgendamentoController::class,
+                'cancelarAgendamento'
+            ]
+        )->name(
+            'admin.agendamentos.cancelar'
+        );
 
 
         /*
@@ -247,32 +391,57 @@ Route::prefix('admin')
 
         Route::get(
             '/procedimentos',
-            [ProcedimentoController::class, 'indexProcedimento']
-        )->name('admin.procedimentos.index');
+            [
+                ProcedimentoController::class,
+                'indexProcedimento'
+            ]
+        )->name(
+            'admin.procedimentos.index'
+        );
 
 
         Route::post(
             '/procedimentos/store',
-            [ProcedimentoController::class, 'storeProcedimento']
-        )->name('admin.procedimentos.store');
+            [
+                ProcedimentoController::class,
+                'storeProcedimento'
+            ]
+        )->name(
+            'admin.procedimentos.store'
+        );
 
 
         Route::get(
             '/procedimentos/{id}/edit',
-            [ProcedimentoController::class, 'editProcedimento']
-        )->name('admin.procedimentos.edit');
+            [
+                ProcedimentoController::class,
+                'editProcedimento'
+            ]
+        )->name(
+            'admin.procedimentos.edit'
+        );
 
 
         Route::put(
             '/procedimentos/{id}',
-            [ProcedimentoController::class, 'updateProcedimento']
-        )->name('admin.procedimentos.update');
+            [
+                ProcedimentoController::class,
+                'updateProcedimento'
+            ]
+        )->name(
+            'admin.procedimentos.update'
+        );
 
 
         Route::delete(
             '/procedimentos/{id}',
-            [ProcedimentoController::class, 'destroyProcedimento']
-        )->name('admin.procedimentos.destroy');
+            [
+                ProcedimentoController::class,
+                'destroyProcedimento'
+            ]
+        )->name(
+            'admin.procedimentos.destroy'
+        );
 
 
         /*
@@ -283,32 +452,57 @@ Route::prefix('admin')
 
         Route::get(
             '/tipos',
-            [TipoController::class, 'indexTipo']
-        )->name('admin.tipos.index');
+            [
+                TipoController::class,
+                'indexTipo'
+            ]
+        )->name(
+            'admin.tipos.index'
+        );
 
 
         Route::post(
             '/tipos/store',
-            [TipoController::class, 'storeTipo']
-        )->name('admin.tipos.store');
+            [
+                TipoController::class,
+                'storeTipo'
+            ]
+        )->name(
+            'admin.tipos.store'
+        );
 
 
         Route::get(
             '/tipos/{id}/edit',
-            [TipoController::class, 'editTipo']
-        )->name('admin.tipos.edit');
+            [
+                TipoController::class,
+                'editTipo'
+            ]
+        )->name(
+            'admin.tipos.edit'
+        );
 
 
         Route::put(
             '/tipos/{id}',
-            [TipoController::class, 'updateTipo']
-        )->name('admin.tipos.update');
+            [
+                TipoController::class,
+                'updateTipo'
+            ]
+        )->name(
+            'admin.tipos.update'
+        );
 
 
         Route::delete(
             '/tipos/{id}',
-            [TipoController::class, 'destroyTipo']
-        )->name('admin.tipos.destroy');
+            [
+                TipoController::class,
+                'destroyTipo'
+            ]
+        )->name(
+            'admin.tipos.destroy'
+        );
 
 
         /*
@@ -319,32 +513,57 @@ Route::prefix('admin')
 
         Route::get(
             '/produtos',
-            [ItemController::class, 'index']
-        )->name('admin.produtos.index');
+            [
+                ItemController::class,
+                'index'
+            ]
+        )->name(
+            'admin.produtos.index'
+        );
 
 
         Route::post(
             '/produtos',
-            [ItemController::class, 'store']
-        )->name('admin.produtos.store');
+            [
+                ItemController::class,
+                'store'
+            ]
+        )->name(
+            'admin.produtos.store'
+        );
 
 
         Route::get(
             '/produtos/{id}/editar',
-            [ItemController::class, 'edit']
-        )->name('admin.produtos.edit');
+            [
+                ItemController::class,
+                'edit'
+            ]
+        )->name(
+            'admin.produtos.edit'
+        );
 
 
         Route::put(
             '/produtos/{id}',
-            [ItemController::class, 'update']
-        )->name('admin.produtos.update');
+            [
+                ItemController::class,
+                'update'
+            ]
+        )->name(
+            'admin.produtos.update'
+        );
 
 
         Route::delete(
             '/produtos/{id}',
-            [ItemController::class, 'destroy']
-        )->name('admin.produtos.destroy');
+            [
+                ItemController::class,
+                'destroy'
+            ]
+        )->name(
+            'admin.produtos.destroy'
+        );
 
 
         /*
@@ -355,8 +574,13 @@ Route::prefix('admin')
 
         Route::post(
             '/marcas',
-            [MarcaController::class, 'store']
-        )->name('admin.marcas.store');
+            [
+                MarcaController::class,
+                'store'
+            ]
+        )->name(
+            'admin.marcas.store'
+        );
 
 
         /*
@@ -367,7 +591,12 @@ Route::prefix('admin')
 
         Route::post(
             '/categorias',
-            [CategoriaController::class, 'store']
-        )->name('admin.categorias.store');
+            [
+                CategoriaController::class,
+                'store'
+            ]
+        )->name(
+            'admin.categorias.store'
+        );
 
     });

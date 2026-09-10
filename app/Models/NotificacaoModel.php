@@ -9,11 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class NotificacaoModel extends Model
 {
     use HasFactory;
+
     public $timestamps = false;
+
     protected $table = 'notificacao';
+
     protected $primaryKey = 'notificacao_id';
+
     protected $fillable = [
-        'cliente_id', // FK
+        'cliente_id',
         'titulo',
         'conteudo',
         'data_recebida',
@@ -25,7 +29,12 @@ class NotificacaoModel extends Model
         'visualizada' => 'boolean'
     ];
 
-    public function clientes(): BelongsTo{
-        return $this->belongsTo(ClienteModel::class, 'cliente_id', 'cliente_id');
+    public function clientes(): BelongsTo
+    {
+        return $this->belongsTo(
+            ClienteModel::class,
+            'cliente_id',
+            'cliente_id'
+        );
     }
 }

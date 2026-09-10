@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @push('css')
-<link rel="stylesheet" href="/css/agendamento.css">
-@endpush
 
+<link
+    rel="stylesheet"
+    href="{{ asset('css/admin/agendamento.css') }}">
+
+@endpush
 
 @section('content')
 

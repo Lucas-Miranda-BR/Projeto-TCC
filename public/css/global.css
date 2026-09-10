@@ -558,3 +558,36 @@ body{
     font-size: 7px;
     font-weight: 600;
 }
+.navbar-notificacoes {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    text-decoration: none;
+}
+
+.navbar-notificacoes-badge {
+    min-width: 16px;
+    height: 16px;
+
+    padding: 0 4px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #9d1228;
+
+    color: #ffffff;
+
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+
+    font-size: 7px;
+    font-weight: 600;
+}
