@@ -313,15 +313,12 @@
 
                         <div class="produto-imagem">
 
-
                             @if (!empty($produto->foto))
-
-                                <img
-                                    src="{{ asset('storage/' . $produto->foto) }}"
-                                    alt="{{ $produto->nome }}"
-                                >
-
-                            @else
+                            <img
+                                src="{{ asset('images/produtos/' . $produto->foto) }}"
+                                alt="{{ $produto->nome }}"
+                            >
+                        @else
 
                                 <div class="produto-sem-imagem">
 
@@ -369,34 +366,28 @@
                             </h3>
 
 
-                            <div
-                                class="produto-estoque {{ $produto->estoque <= 0 ? 'produto-esgotado' : '' }}"
-                            >
+                            <div class="produto-estoque {{ $produto->estoque < 2 ? 'produto-esgotado' : '' }}">
 
-                                @if ($produto->estoque > 0)
-
+                                @if ($produto->estoque >= 2)
+                            
                                     <i class="bi bi-check-circle"></i>
-
+                            
                                     {{ $produto->estoque }}
-
+                            
                                     @if ($produto->estoque == 1)
-
                                         unidade disponível
-
                                     @else
-
                                         unidades disponíveis
-
                                     @endif
-
+                            
                                 @else
-
+                            
                                     <i class="bi bi-x-circle"></i>
-
+                            
                                     Produto esgotado
-
+                            
                                 @endif
-
+                            
                             </div>
 
 
@@ -426,7 +417,7 @@
                                 </div>
 
 
-                                @if ($produto->estoque > 0)
+                                @if ($produto->estoque >= 2)
 
                                     <form
                                         action="{{ route(

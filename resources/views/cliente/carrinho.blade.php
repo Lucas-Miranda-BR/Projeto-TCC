@@ -48,6 +48,17 @@
 
     @endif
 
+    @if(session('avisos'))
+        <div class="carrinho-alert error">
+            @foreach(session('avisos') as $aviso)
+                <p>
+                    <i class="bi bi-exclamation-triangle"></i>
+                    {{ $aviso }}
+                </p>
+            @endforeach
+        </div>
+    @endif
+
 
     @if($errors->any())
 
@@ -83,7 +94,7 @@
 
                         <img
                             src="{{ asset(
-                                'storage/' .
+                                'images/produtos/' .
                                 $linha['item']->foto
                             ) }}"
                             alt="{{ $linha['item']->nome }}"

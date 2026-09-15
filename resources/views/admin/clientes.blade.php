@@ -126,7 +126,6 @@
                         <strong>
                             {{
                                 $clientes
-                                    ->where('is_admin', false)
                                     ->count()
                             }}
                         </strong>
@@ -279,33 +278,16 @@
 
                                                 <div class="cliente-avatar">
 
-                                                    @if(!empty($cliente->foto))
-
-                                                        <img
-                                                            src="{{ asset(
-                                                                'storage/' .
-                                                                $cliente->foto
-                                                            ) }}"
-                                                            alt="Foto do cliente"
-                                                        >
-
-                                                    @else
-
+                                                    <div class="cliente-avatar">
                                                         <span>
-
-                                                            {{
+                                                            {{ 
                                                                 strtoupper(
-                                                                    substr(
-                                                                        $cliente->nome ?? 'C',
-                                                                        0,
-                                                                        1
-                                                                    )
-                                                                )
+                                                                    mb_substr($cliente->nome ?? '', 0, 1) . 
+                                                                    mb_substr($cliente->sobrenome ?? '', 0, 1)
+                                                                ) 
                                                             }}
-
                                                         </span>
-
-                                                    @endif
+                                                    </div>
 
                                                 </div>
 

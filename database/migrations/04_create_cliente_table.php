@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('telefone')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->date('data_nascimento');
-            $table->string('foto')->default('default.png');
             $table->string('senha');
             $table->boolean('is_admin')->default(false);
             $table->timestamp('criado')->useCurrent();

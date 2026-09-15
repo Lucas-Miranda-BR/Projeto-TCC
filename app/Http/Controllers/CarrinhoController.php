@@ -15,31 +15,36 @@ class CarrinhoController extends Controller
     public function index()
     {
         $carrinho = session()->get('carrinho', []);
-
         $linhas = [];
-
         $totalCentavos = 0;
+        $avisos = [];
+        $carrinhoAtualizou = false;
 
         foreach ($carrinho as $itemId => $quantidade) {
 
-            $item = ItemModel::with([
-                'marcas',
-                'categorias'
-            ])->find($itemId);
+            $item = ItemModel::with(['marcas', 'categorias'])->find($itemId);
 
-            if (!$item) {
-                continue;
+            if (!$item || $item->estoque < 2) {
+                $nomeProduto = $item ? $item->nome : 'Produto indisponível';
+                $avisos[] = "O produto '{$nomeProduto}' esgotou e foi removido do seu carrinho.";
+                
+                unset($carrinho[$itemId]);
+                $carrinhoAtualizou = true;
+                continue; 
             }
 
             $quantidade = (int) $quantidade;
 
-            $precoCentavos = (int) round(
-                ((float) $item->preco) * 100
-            );
+            if ($quantidade > $item->estoque) {
+                $avisos[] = "O estoque de '{$item->nome}' diminuiu. Ajustamos sua quantidade para {$item->estoque} unidade(s).";
+                
+                $quantidade = $item->estoque;
+                $carrinho[$itemId] = $quantidade;
+                $carrinhoAtualizou = true;
+            }
 
-            $subtotalCentavos =
-                $precoCentavos * $quantidade;
-
+            $precoCentavos = (int) round(((float) $item->preco) * 100);
+            $subtotalCentavos = $precoCentavos * $quantidade;
             $totalCentavos += $subtotalCentavos;
 
             $linhas[] = [
@@ -49,17 +54,15 @@ class CarrinhoController extends Controller
             ];
         }
 
+        if ($carrinhoAtualizou) {
+            session()->put('carrinho', $carrinho);
+            session()->flash('avisos', $avisos);
+        }
+
         $total = $totalCentavos / 100;
 
-        return view(
-            'cliente.carrinho',
-            compact(
-                'linhas',
-                'total'
-            )
-        );
+        return view('cliente.carrinho', compact('linhas', 'total'));
     }
-
     public function adicionar(Request $request, $id)
     {
         $item = ItemModel::findOrFail($id);
