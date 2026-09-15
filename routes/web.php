@@ -326,6 +326,23 @@ Route::prefix('admin')
             'admin.clientes.notificacao.enviar'
         );
 
+        Route::get(
+            '/notificacoes',
+            [
+                NotificacaoController::class,
+                'adminIndex'
+            ]
+        )->name('admin.notificacoes');
+        
+        
+        Route::delete(
+            '/notificacoes/{id}',
+            [
+                NotificacaoController::class,
+                'destruir'
+            ]
+        )->name('admin.notificacoes.destroy');
+
 
         /*
         |--------------------------------------------------------------------------

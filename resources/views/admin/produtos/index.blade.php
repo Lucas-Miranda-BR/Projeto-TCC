@@ -268,7 +268,7 @@
                                 name="foto"
                                 id="foto"
                                 accept="image/jpeg,image/png,image/webp"
-                                required
+                                require
                             >
 
                         </div>

@@ -4,173 +4,254 @@ namespace App\Http\Controllers;
 
 use App\Models\ClienteModel;
 use App\Models\AgendamentoModel;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     public function viewDashboard()
     {
-        $dashboard = $this->montarDashboard('hoje');
-
-        return view('admin.dashboard', compact('dashboard'));
+        return view('admin.dashboard');
     }
 
-    public function dadosDashboard(Request $request)
+
+    public function dadosDashboard()
     {
-        $periodo = $request->get('periodo', 'hoje');
+        $hoje = Carbon::today();
 
-        $periodosPermitidos = [
-            'hoje',
-            'semana',
-            'mes'
-        ];
 
-        if (!in_array($periodo, $periodosPermitidos)) {
-            $periodo = 'hoje';
+        $pedidosHoje = DB::table('pedido')
+            ->whereDate('pedido_data', $hoje)
+            ->get();
+
+
+        $faturamentoProdutos =
+            (float) $pedidosHoje->sum('valor_total');
+
+
+        $servicosConcluidos = DB::table('agendamento as a')
+            ->join(
+                'procedimento as p',
+                'p.procedimento_id',
+                '=',
+                'a.procedimento_id'
+            )
+            ->where(
+                'a.isConcluido',
+                1
+            )
+            ->select(
+                'a.agendamento_id',
+                'a.data',
+                'a.hora',
+                'a.procedimento_id',
+                'p.nome',
+                'p.preco'
+            )
+            ->get();
+
+
+        $faturamentoServicos =
+            (float) $servicosConcluidos->sum('preco');
+
+
+        $faturamentoTotal =
+            $faturamentoProdutos +
+            $faturamentoServicos;
+
+
+        $labels = [];
+
+        $dadosProdutos = [];
+
+        $dadosServicos = [];
+
+
+        for ($hora = 8; $hora <= 18; $hora++) {
+
+            $labels[] =
+                str_pad(
+                    $hora,
+                    2,
+                    '0',
+                    STR_PAD_LEFT
+                ) . 'h';
+
+
+            $totalProdutosHora =
+                $pedidosHoje
+                    ->filter(
+                        function ($pedido) use ($hora) {
+
+                            if (
+                                empty(
+                                    $pedido->pedido_data
+                                )
+                            ) {
+                                return false;
+                            }
+
+
+                            return Carbon::parse(
+                                $pedido->pedido_data
+                            )->hour === $hora;
+
+                        }
+                    )
+                    ->sum(
+                        'valor_total'
+                    );
+
+
+            $totalServicosHora =
+                $servicosConcluidos
+                    ->filter(
+                        function ($agendamento) use ($hora) {
+
+                            if (
+                                empty(
+                                    $agendamento->hora
+                                )
+                            ) {
+                                return false;
+                            }
+
+
+                            return Carbon::parse(
+                                $agendamento->hora
+                            )->hour === $hora;
+
+                        }
+                    )
+                    ->sum(
+                        'preco'
+                    );
+
+
+            $dadosProdutos[] =
+                (float) $totalProdutosHora;
+
+
+            $dadosServicos[] =
+                (float) $totalServicosHora;
         }
 
-        $dashboard = $this->montarDashboard($periodo);
 
-        return response()->json($dashboard);
+        return response()->json([
+
+            'labels' =>
+                $labels,
+
+            'produtos' =>
+                $dadosProdutos,
+
+            'servicos' =>
+                $dadosServicos,
+
+            'faturamento_produtos' =>
+                $faturamentoProdutos,
+
+            'faturamento_servicos' =>
+                $faturamentoServicos,
+
+            'faturamento_total' =>
+                $faturamentoTotal,
+
+            'pedidos_realizados' =>
+                $pedidosHoje->count(),
+
+            'servicos_concluidos' =>
+                $servicosConcluidos->count()
+
+        ]);
     }
 
-    private function montarDashboard($periodo)
-    {
-        if ($periodo === 'semana') {
-            return [
-                'faturamento' => 18450,
-                'lucro' => 14200,
-
-                'porcentagemFaturamento' => 8.4,
-                'porcentagemLucro' => 6.7,
-
-                'grafico' => [
-                    'labels' => [
-                        'Seg',
-                        'Ter',
-                        'Qua',
-                        'Qui',
-                        'Sex',
-                        'Sáb',
-                        'Dom'
-                    ],
-
-                    'valores' => [
-                        1400,
-                        2200,
-                        1900,
-                        3400,
-                        2800,
-                        4200,
-                        2550
-                    ]
-                ]
-            ];
-        }
-
-        if ($periodo === 'mes') {
-            return [
-                'faturamento' => 68320,
-                'lucro' => 52140,
-
-                'porcentagemFaturamento' => 12.3,
-                'porcentagemLucro' => 9.5,
-
-                'grafico' => [
-                    'labels' => [
-                        'Semana 1',
-                        'Semana 2',
-                        'Semana 3',
-                        'Semana 4'
-                    ],
-
-                    'valores' => [
-                        14200,
-                        16800,
-                        18100,
-                        19220
-                    ]
-                ]
-            ];
-        }
-
-        return [
-            'faturamento' => 3840,
-            'lucro' => 2840,
-
-            'porcentagemFaturamento' => 4.9,
-            'porcentagemLucro' => 3.8,
-
-            'grafico' => [
-                'labels' => [
-                    '08h',
-                    '10h',
-                    '12h',
-                    '14h',
-                    '16h',
-                    '18h'
-                ],
-
-                'valores' => [
-                    320,
-                    550,
-                    820,
-                    1350,
-                    2480,
-                    3840
-                ]
-            ]
-        ];
-    }
 
     public function viewClientes()
     {
-        $clientes = ClienteModel::orderBy('nome')
-            ->orderBy('sobrenome')
+        $clientes = ClienteModel::orderBy(
+            'nome'
+        )
+            ->orderBy(
+                'sobrenome'
+            )
             ->get();
-    
+
+
         return view(
             'admin.clientes',
-            compact('clientes')
+            compact(
+                'clientes'
+            )
         );
     }
 
+
     public function indexCliente()
     {
-        return view('cliente.read', [
-            'clientes' => ClienteModel::all()
-        ]);
+        return view(
+            'cliente.read',
+            [
+                'clientes' =>
+                    ClienteModel::all()
+            ]
+        );
     }
+
 
     public function viewAgendamentos()
     {
-        $agendamentos = AgendamentoModel::with([
-            'clientes',
-            'procedimentos',
-            'imagens_geradas'
-        ])
-        ->orderBy('isConcluido', 'asc')
-        ->orderBy('data', 'asc')
-        ->orderBy('hora', 'asc')
-        ->get();
+        $agendamentos =
+            AgendamentoModel::with([
+                'clientes',
+                'procedimentos',
+                'imagens_geradas'
+            ])
+                ->orderBy(
+                    'isConcluido',
+                    'asc'
+                )
+                ->orderBy(
+                    'data',
+                    'asc'
+                )
+                ->orderBy(
+                    'hora',
+                    'asc'
+                )
+                ->get();
 
-        return view('admin.agendamentos.index', [
-            'agendamentos' => $agendamentos
-        ]);
+
+        return view(
+            'admin.agendamentos.index',
+            [
+                'agendamentos' =>
+                    $agendamentos
+            ]
+        );
     }
+
 
     public function viewCalendario()
     {
-        return view('admin.calendario');
+        return view(
+            'admin.calendario'
+        );
     }
+
 
     public function viewProdutos()
     {
-        return view('admin.produtos.index');
+        return view(
+            'admin.produtos.index'
+        );
     }
+
 
     public function viewProcedimentos()
     {
-        return view('admin.procedimentos.index');
+        return view(
+            'admin.procedimentos.index'
+        );
     }
 }

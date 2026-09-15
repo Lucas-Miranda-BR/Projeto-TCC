@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @push('css')
 
 <link
@@ -21,27 +22,43 @@
 
     @include('components.admin.sidebar')
 
+
     <div class="admin-main">
 
         @include('components.admin.navbar')
 
+
         <main class="dashboard-content">
+
 
             <div class="dashboard-header">
 
                 <span class="breadcrumb-admin">
+
                     Painel >
-                    <strong>Dashboard</strong>
+
+                    <strong>
+                        Dashboard
+                    </strong>
+
                 </span>
 
-                <h2 id="dashboard-date"></h2>
 
-                <h1 id="dashboard-time"></h1>
+                <h2 id="dashboard-date">
+                    Carregando data...
+                </h2>
+
+
+                <h1 id="dashboard-time">
+                    --:--
+                </h1>
 
             </div>
 
 
+
             <section class="dashboard-cards">
+
 
                 <div class="dashboard-card">
 
@@ -51,51 +68,31 @@
                             Faturamento
                         </span>
 
-                        <select class="dashboard-filter">
+                        <select disabled>
 
-                            <option value="hoje">
+                            <option>
                                 Hoje
-                            </option>
-
-                            <option value="semana">
-                                Semana
-                            </option>
-
-                            <option value="mes">
-                                Mês
                             </option>
 
                         </select>
 
                     </div>
 
+
                     <strong
                         class="dashboard-card-value"
-                        id="faturamento"
+                        id="dashboard-faturamento"
                     >
-                        R$ {{ number_format(
-                            $dashboard['faturamento'],
-                            2,
-                            ',',
-                            '.'
-                        ) }}
+                        R$ 0,00
                     </strong>
 
-                    <small class="positive">
 
-                        ↑
-
-                        <span id="porcentagem-faturamento">
-                            {{ $dashboard['porcentagemFaturamento'] }}%
-                        </span>
-
-                        <span>
-                            em comparação com o período anterior
-                        </span>
-
+                    <small>
+                        Produtos vendidos + serviços concluídos
                     </small>
 
                 </div>
+
 
 
                 <div class="dashboard-card">
@@ -103,61 +100,44 @@
                     <div class="dashboard-card-header">
 
                         <span>
-                            Lucro
+                            Serviços concluídos
                         </span>
 
-                        <select class="dashboard-filter">
+                        <select disabled>
 
-                            <option value="hoje">
+                            <option>
                                 Hoje
-                            </option>
-
-                            <option value="semana">
-                                Semana
-                            </option>
-
-                            <option value="mes">
-                                Mês
                             </option>
 
                         </select>
 
                     </div>
 
+
                     <strong
                         class="dashboard-card-value"
-                        id="lucro"
+                        id="dashboard-servicos"
                     >
-                        R$ {{ number_format(
-                            $dashboard['lucro'],
-                            2,
-                            ',',
-                            '.'
-                        ) }}
+                        0
                     </strong>
 
-                    <small class="positive">
 
-                        ↑
-
-                        <span id="porcentagem-lucro">
-                            {{ $dashboard['porcentagemLucro'] }}%
-                        </span>
-
-                        <span>
-                            em comparação com o período anterior
-                        </span>
-
+                    <small>
+                        Atendimentos concluídos hoje
                     </small>
 
                 </div>
 
+
             </section>
+
 
 
             <section class="dashboard-charts">
 
+
                 <div class="chart-card revenue-chart">
+
 
                     <div class="chart-header">
 
@@ -169,65 +149,51 @@
                                     Faturamento
                                 </h3>
 
-                                <select id="grafico-periodo">
 
-                                    <option value="hoje">
+                                <select disabled>
+
+                                    <option>
                                         Hoje
-                                    </option>
-
-                                    <option value="semana">
-                                        Últimos 7 dias
-                                    </option>
-
-                                    <option value="mes">
-                                        Mês
                                     </option>
 
                                 </select>
 
                             </div>
 
-                            <p id="grafico-descricao">
-                                Hoje
+
+                            <p>
+                                Produtos vendidos e serviços concluídos
                             </p>
 
                         </div>
 
 
-                        <div class="chart-date">
+                        <span>
 
-                            <button
-                                type="button"
-                                id="calendar-button"
-                                class="calendar-button"
-                            >
+                            {{ now()->format('d/m/Y') }}
 
-                                <span id="selected-date"></span>
+                            <i class="bi bi-calendar3"></i>
 
-                                <i class="bi bi-calendar3"></i>
-
-                            </button>
-
-                            <input
-                                type="date"
-                                id="dashboard-calendar"
-                                class="dashboard-calendar"
-                            >
-
-                        </div>
+                        </span>
 
                     </div>
+
 
 
                     <div class="chart-area">
 
-                        <canvas id="faturamentoChart"></canvas>
+                        <canvas
+                            id="grafico-faturamento"
+                        ></canvas>
 
                     </div>
 
+
                 </div>
 
+
             </section>
+
 
         </main>
 
@@ -235,19 +201,16 @@
 
 </div>
 
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+></script>
+
+
+<script
+    src="{{ asset('js/admin/dashboard.js') }}"
+></script>
+
+
 @endsection
-
-
-@push('scripts')
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-    window.dashboardGrafico =
-        @json($dashboard['grafico']);
-
-</script>
-
-<script src="{{ asset('js/admin/dashboard.js') }}"></script>
-
-@endpush

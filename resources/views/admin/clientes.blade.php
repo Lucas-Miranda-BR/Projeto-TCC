@@ -277,37 +277,24 @@
                                             <div class="cliente-identidade">
 
 
-                                                <div class="cliente-avatar">
+                                            <div class="cliente-avatar">
 
-                                                    @if(!empty($cliente->foto))
+@if(!empty($cliente->foto) && $cliente->foto !== 'default.png')
 
-                                                        <img
-                                                            src="{{ asset(
-                                                                'storage/' .
-                                                                $cliente->foto
-                                                            ) }}"
-                                                            alt="Foto do cliente"
-                                                        >
+    <img
+        src="{{ asset('storage/' . $cliente->foto) }}"
+        alt="Foto do cliente"
+    >
 
-                                                    @else
+@else
 
-                                                        <span>
+    <span>
+        {{ $cliente->iniciais }}
+    </span>
 
-                                                            {{
-                                                                strtoupper(
-                                                                    substr(
-                                                                        $cliente->nome ?? 'C',
-                                                                        0,
-                                                                        1
-                                                                    )
-                                                                )
-                                                            }}
+@endif
 
-                                                        </span>
-
-                                                    @endif
-
-                                                </div>
+</div>
 
 
 

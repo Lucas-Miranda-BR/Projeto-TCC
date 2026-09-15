@@ -159,6 +159,37 @@ class NotificacaoController extends Controller
                 'Notificação enviada para ' .
                 $cliente->nome .
                 ' com sucesso!'
-            );
+            );      
     }
+
+
+public function adminIndex()
+{
+    $notificacoes = NotificacaoModel::with('clientes')
+        ->orderByDesc('data_recebida')
+        ->get();
+
+    return view(
+        'admin.notificacoes',
+        compact('notificacoes')
+    );
+}
+
+
+public function destruir($id)
+{
+    $notificacao = NotificacaoModel::where(
+        'notificacao_id',
+        $id
+    )->firstOrFail();
+
+    $notificacao->delete();
+
+    return redirect()
+        ->route('admin.notificacoes')
+        ->with(
+            'success',
+            'Notificação excluída com sucesso!'
+        );
+}
 }
