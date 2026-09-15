@@ -97,56 +97,6 @@ body {
 }
 
 
-/* =====================================================
-   NAVBAR
-===================================================== */
-
-.header-brand {
-
-  flex-shrink: 0;
-
-  background:
-    color-mix(
-      in oklch,
-      var(--secondary) 85%,
-      transparent
-    );
-
-  backdrop-filter: blur(6px);
-
-  border-bottom:
-    1px solid var(--border);
-
-}
-
-.navbar-brand {
-
-  color: var(--primary) !important;
-
-}
-
-.nav-link {
-
-  color: var(--foreground);
-
-  transition: color .2s ease;
-
-}
-
-.nav-link:hover {
-
-  color: var(--primary);
-
-}
-
-.nav-link.active {
-
-  color: var(--primary) !important;
-
-  font-weight: 500;
-
-}
-
 
 /* =====================================================
    ÍCONE IA

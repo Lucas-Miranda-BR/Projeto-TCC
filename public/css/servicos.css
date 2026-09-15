@@ -1,104 +1,706 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
-}
+/* ===== Variáveis ===== */
 
-h1,h2,h3{
-    font-family:'Playfair Display', serif;
-}
-
-body{
-    background:#f5e6e6;
-}
-
-
-.logo{
-    width:70px;
-}
-
-.navbar ul{
-    display:flex;
-    gap:25px;
-    list-style:none;
-}
-
-.navbar a{
-    text-decoration:none;
-    color:black;
-    font-size:14px;
-}
-
-/* BANNER */
-
-.banner img{
-    width:100%;
-    height:250px;
-    object-fit:cover;
-}
-
-/* SERVIÇOS */
-
-.servicos{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    padding:40px;
-}
-
-.card{
-    width:220px;
-    background:white;
-    border-radius:8px;
-    overflow:hidden;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-}
-
-.card img{
-    width:100%;
-    height:180px;
-    object-fit:cover;
-}
-
-.card h3{
-    text-align:center;
-    margin-top:10px;
-}
-
-.card p{
-    text-align:center;
-    margin:10px 0;
-}
-
-.card a{
-    display:block;
-    text-align:center;
-    background:#a8142c;
-    color:white;
-    text-decoration:none;
-    padding:10px;
-    margin:10px;
-    border-radius:5px;
-}
-
-/* AGENDAMENTO */
-
-.agendar{
-    background:white;
-    padding:40px;
-    text-align:center;
-}
-
-.agendar h2{
-    margin-bottom:20px;
-}
-
-.btn-agendar{
-    background:#a8142c;
-    color:white;
-    text-decoration:none;
-    padding:12px 60px;
-    border-radius:20px;
-}
+:root {
+    --radius: 18px;
+  
+    --background: oklch(99% .008 20);
+    --foreground: oklch(22% .03 20);
+  
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(22% .03 20);
+  
+    --primary: oklch(45% .19 25);
+    --primary-foreground: oklch(98% .01 20);
+  
+    --secondary: oklch(95% .02 20);
+  
+    --muted: oklch(96% .012 20);
+    --muted-foreground: oklch(52% .03 20);
+  
+    --border: oklch(90% .02 20);
+  
+    --gradient-brand: linear-gradient(
+      100deg,
+      oklch(32% .14 25),
+      oklch(52% .22 27)
+    );
+  
+    --shadow-card:
+      0 1px 2px oklch(45% .19 25 / .06),
+      0 12px 30px -14px oklch(45% .19 25 / .25);
+  
+    --shadow-hover:
+      0 18px 40px -16px oklch(45% .19 25 / .4);
+  
+    --font-display: "Playfair Display", Georgia, serif;
+  
+    --font-body: "Jost", system-ui, sans-serif;
+  }
+  
+  
+  /* ===== Base ===== */
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--foreground);
+    background: var(--background);
+  }
+  
+  .brand-font {
+    font-family: var(--font-display);
+  }
+  
+  .text-brand {
+    color: var(--primary) !important;
+  }
+  
+  
+  /* ===== Navbar ===== */
+  
+  .header-brand {
+    background: color-mix(
+      in oklch,
+      var(--secondary) 85%,
+      transparent
+    );
+  
+    backdrop-filter: blur(6px);
+  
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .navbar-brand {
+    color: var(--primary) !important;
+  }
+  
+  .nav-link {
+    color: var(--foreground);
+    transition: color .2s ease;
+  }
+  
+  .nav-link:hover {
+    color: var(--primary);
+  }
+  
+  .nav-link.active {
+    color: var(--primary) !important;
+    font-weight: 500;
+  }
+  
+  
+  /* ===== IA NAVBAR ===== */
+  
+  .nav-ia {
+    color: var(--primary) !important;
+    font-size: inherit;
+    transition: opacity .2s ease;
+  }
+  
+  .nav-ia:hover {
+    color: var(--primary) !important;
+    opacity: .8;
+  }
+  
+  .nav-ia .icon-circle {
+    width: 26px;
+    height: 26px;
+  
+    flex-shrink: 0;
+  
+    background: color-mix(
+      in oklch,
+      var(--primary) 12%,
+      transparent
+    );
+  
+    color: var(--primary);
+  }
+  
+  .nav-ia .icon-svg {
+    width: 15px;
+    height: 15px;
+  
+    color: var(--primary);
+  }
+  
+  
+  /* ===== Marca, ícones e botões ===== */
+  
+  .brand-gradient {
+    background: var(--gradient-brand);
+    color: var(--primary-foreground);
+  }
+  
+  .brand-gradient:hover {
+    color: #fff;
+  }
+  
+  .icon-circle {
+    background: color-mix(
+      in oklch,
+      var(--primary-foreground) 20%,
+      transparent
+    );
+  }
+  
+  .agendar-icone {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .icon-svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .btn-ghost-brand {
+    border: 1px solid
+      color-mix(
+        in oklch,
+        var(--primary) 40%,
+        transparent
+      );
+  
+    color: var(--primary);
+    background: transparent;
+  
+    font-size: .75rem;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-ghost-brand:hover {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  
+  .btn-icone-nav {
+    width: 34px;
+    height: 34px;
+  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  
+    border: 1px solid var(--border);
+    border-radius: 50%;
+  
+    background: transparent;
+  
+    color: var(--foreground);
+  
+    cursor: pointer;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-icone-nav:hover {
+    background: var(--secondary);
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  
+  /* ===== LOGIN ===== */
+  
+  .login-avatar {
+    width: 24px;
+    height: 24px;
+  
+    border-radius: 50%;
+  
+    background: #f0d9b5;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    color: var(--primary);
+  }
+  
+  .btn-login {
+    background: var(--gradient-brand);
+  
+    color: #fff;
+  
+    border: none;
+  
+    font-size: .85rem;
+  
+    padding: .45rem 1rem;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-login:hover {
+    color: #fff;
+    opacity: .92;
+  }
+  
+  
+  /* ===== Banner ===== */
+  
+  .banner-servicos {
+    background: var(--gradient-brand);
+    color: var(--primary-foreground);
+    overflow: hidden;
+  }
+  
+  .banner-conteudo {
+    min-height: clamp(120px, 18vh, 200px);
+  }
+  
+  .banner-imagem {
+    width: clamp(120px, 15vh, 180px);
+    height: clamp(100px, 12vh, 150px);
+  
+    flex-shrink: 0;
+  
+    overflow: hidden;
+  
+    border-radius: var(--radius);
+  
+    margin-left: clamp(-70px, -6vw, -24px);
+  }
+  
+  .banner-imagem img {
+    display: block;
+  
+    width: 100%;
+    height: 100%;
+  
+    object-fit: contain;
+  }
+  
+  .banner-texto {
+    border-left: 1px solid rgba(255, 255, 255, .25);
+  
+    padding-left: 25px;
+  }
+  
+  .banner-descricao {
+    max-width: 320px;
+  }
+  
+  
+  /* ===== Título da seção ===== */
+  
+  .titulo-servicos {
+    font-family: var(--font-display);
+  
+    font-size: clamp(28px, 4.5vh, 42px);
+  
+    font-weight: 500;
+  
+    margin-bottom: clamp(14px, 2.5vh, 24px);
+  }
+  
+  
+  /* ===== Área de serviços ===== */
+  
+  .servicos-section {
+    padding: clamp(16px, 3vh, 32px) 0 70px;
+  }
+  
+  .linha-servicos {
+    align-items: flex-start;
+  }
+  
+  .linha-servicos > div {
+    display: flex;
+  }
+  
+  
+  /* ===== Card ===== */
+  
+  .servico-card {
+    width: 100%;
+  
+    height: clamp(360px, 58vh, 460px);
+  
+    display: flex;
+    flex-direction: column;
+  
+    background: var(--card);
+    color: var(--card-foreground);
+  
+    border: 1px solid var(--border);
+  
+    border-radius: var(--radius);
+  
+    overflow: hidden;
+  
+    box-shadow: var(--shadow-card);
+  
+    transition:
+      transform .2s ease,
+      box-shadow .2s ease;
+  }
+  
+  .servico-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  .servico-card.expansivel.aberto {
+    height: auto;
+  
+    min-height: clamp(360px, 58vh, 460px);
+  }
+  
+  .imagem-container {
+    width: 100%;
+  
+    height: clamp(140px, 24vh, 200px);
+  
+    flex-shrink: 0;
+  
+    overflow: hidden;
+  
+    background: var(--muted);
+  }
+  
+  .imagem-servico {
+    display: block;
+  
+    width: 100%;
+    height: 100%;
+  
+    object-fit: cover;
+  }
+  
+  .card-conteudo {
+    flex: 1;
+  
+    display: flex;
+    flex-direction: column;
+  
+    padding: 14px;
+  }
+  
+  .categoria {
+    color: var(--primary);
+  
+    font-size: .75rem;
+  
+    margin: 0 0 4px;
+  }
+  
+  .nome-servico {
+    font-family: var(--font-display);
+  
+    font-size: clamp(17px, 2.4vh, 21px);
+  
+    font-weight: 500;
+  
+    margin: 0 0 6px;
+  }
+  
+  .descricao {
+    color: var(--muted-foreground);
+  
+    font-size: .76rem;
+  
+    line-height: 1.45;
+  
+    margin: 0;
+  }
+  
+  .rodape-card {
+    display: flex;
+  
+    justify-content: space-between;
+    align-items: center;
+  
+    margin-top: auto;
+  
+    padding-top: 10px;
+  }
+  
+  .preco-principal {
+    color: var(--primary);
+  
+    font-size: .95rem;
+  
+    font-weight: 600;
+  
+    margin: 0;
+  }
+  
+  .tempo-principal {
+    color: var(--muted-foreground);
+  
+    font-size: .68rem;
+  
+    margin: 2px 0 0;
+  }
+  
+  .btn-quero-principal {
+    padding: 7px 18px;
+  
+    border: 1px solid
+      color-mix(
+        in oklch,
+        var(--primary) 40%,
+        transparent
+      );
+  
+    border-radius: 999px;
+  
+    background: transparent;
+  
+    color: var(--primary);
+  
+    font-size: .75rem;
+  
+    cursor: pointer;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-quero-principal:hover {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  
+  .btn-ver-opcoes {
+    width: 100%;
+  
+    display: flex;
+  
+    align-items: center;
+    justify-content: center;
+  
+    gap: 8px;
+  
+    margin-top: auto;
+  
+    padding: 10px 15px;
+  
+    border: 1px solid
+      color-mix(
+        in oklch,
+        var(--primary) 40%,
+        transparent
+      );
+  
+    border-radius: 999px;
+  
+    background: transparent;
+  
+    color: var(--primary);
+  
+    font-family: var(--font-body);
+  
+    font-size: .78rem;
+  
+    cursor: pointer;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-ver-opcoes:hover {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  
+  .chevron {
+    transition: transform .2s ease;
+  }
+  
+  [aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
+  }
+  
+  
+  /* ===== Opções de depilação ===== */
+  
+  .area-opcoes {
+    padding-top: 16px;
+  }
+  
+  .linha-opcoes {
+    width: 100%;
+    height: 1px;
+  
+    margin: 0 0 16px;
+  
+    background: var(--border);
+  }
+  
+  .opcao-depilacao {
+    display: flex;
+  
+    align-items: center;
+    justify-content: space-between;
+  
+    gap: 10px;
+  
+    min-height: 58px;
+  
+    padding: 10px 12px;
+  
+    margin-bottom: 10px;
+  
+    border-radius: 14px;
+  
+    background: var(--secondary);
+  }
+  
+  .opcao-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .opcao-nome {
+    font-size: .75rem;
+  }
+  
+  .opcao-tempo {
+    color: var(--muted-foreground);
+  
+    font-size: .68rem;
+  }
+  
+  .opcao-direita {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 12px;
+  }
+  
+  .opcao-preco {
+    color: var(--primary);
+  
+    font-size: .75rem;
+  
+    font-weight: 600;
+  
+    white-space: nowrap;
+  }
+  
+  .btn-quero-opcao {
+    padding: 6px 12px;
+  
+    border: 1px solid
+      color-mix(
+        in oklch,
+        var(--primary) 40%,
+        transparent
+      );
+  
+    border-radius: 999px;
+  
+    background: #fff;
+  
+    color: var(--primary);
+  
+    font-size: .68rem;
+  
+    cursor: pointer;
+  
+    transition: .2s ease;
+  }
+  
+  .btn-quero-opcao:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+  
+  
+  /* ===== CTA final ===== */
+  
+  .cta-final {
+    background: var(--secondary);
+  
+    border-radius: var(--radius);
+  
+    padding: 50px 25px;
+  
+    margin-top: 70px;
+  }
+  
+  .cta-final h2 {
+    font-family: var(--font-display);
+  
+    font-size: 30px;
+  }
+  
+  .cta-descricao {
+    max-width: 380px;
+  }
+  
+  
+  /* ===== Responsividade ===== */
+  
+  @media (max-width: 991px) {
+  
+    .banner-conteudo {
+      min-height: auto;
+    }
+  
+    .banner-imagem {
+      width: 100%;
+  
+      max-width: 420px;
+  
+      height: 200px;
+    }
+  
+    .banner-texto {
+      width: 100%;
+    }
+  
+  }
+  
+  
+  @media (max-width: 576px) {
+  
+    .banner-imagem {
+      width: 100%;
+      height: 180px;
+    }
+  
+    .banner-texto {
+      border-left: none;
+  
+      padding-left: 0;
+    }
+  
+    .titulo-servicos {
+      font-size: 38px;
+    }
+  
+    .servico-card {
+      height: auto;
+  
+      min-height: 420px;
+    }
+  
+    .imagem-container {
+      height: 180px;
+    }
+  
+    .opcao-depilacao {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  
+    .opcao-direita {
+      width: 100%;
+  
+      justify-content: space-between;
+    }
+  
+  }
