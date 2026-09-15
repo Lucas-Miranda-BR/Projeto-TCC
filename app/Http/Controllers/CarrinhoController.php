@@ -6,6 +6,7 @@ use App\Models\ItemModel;
 use App\Models\PedidoModel;
 use App\Models\CarrinhoItemModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -13,7 +14,7 @@ class CarrinhoController extends Controller
 {
     public function index()
     {
-        $carrinho = session('carrinho', []);
+        $carrinho = session()->get('carrinho', []);
 
         $linhas = [];
 
@@ -29,6 +30,8 @@ class CarrinhoController extends Controller
             if (!$item) {
                 continue;
             }
+
+            $quantidade = (int) $quantidade;
 
             $precoCentavos = (int) round(
                 ((float) $item->preco) * 100
@@ -72,12 +75,27 @@ class CarrinhoController extends Controller
         $quantidade = (int) $dados['quantidade'];
 
         if ($item->estoque <= 0) {
-            return back()->withErrors([
-                'Esse produto está sem estoque.'
-            ]);
+
+            return back()->with(
+                'erro',
+                'O produto "' . $item->nome . '" está esgotado.'
+            );
         }
 
-        $carrinho = session('carrinho', []);
+        if ($quantidade > $item->estoque) {
+
+            return back()->with(
+                'erro',
+                'Quantidade indisponível. Estoque atual: ' .
+                $item->estoque .
+                '.'
+            );
+        }
+
+        $carrinho = session()->get(
+            'carrinho',
+            []
+        );
 
         $quantidadeAtual =
             $carrinho[$item->item_id] ?? 0;
@@ -86,23 +104,44 @@ class CarrinhoController extends Controller
             $quantidadeAtual + $quantidade;
 
         if ($novaQuantidade > $item->estoque) {
-            return back()->withErrors([
-                'Quantidade indisponível. Estoque atual: '
-                . $item->estoque
-                . '.'
-            ]);
+
+            $restante =
+                $item->estoque - $quantidadeAtual;
+
+            if ($restante <= 0) {
+
+                return back()->with(
+                    'erro',
+                    'Você já possui a quantidade máxima disponível de "' .
+                    $item->nome .
+                    '" no carrinho.'
+                );
+            }
+
+            return back()->with(
+                'erro',
+                'Você pode adicionar apenas mais ' .
+                $restante .
+                ' unidade(s) de "' .
+                $item->nome .
+                '".'
+            );
         }
 
         $carrinho[$item->item_id] =
             $novaQuantidade;
 
-        session([
-            'carrinho' => $carrinho
-        ]);
+        session()->put(
+            'carrinho',
+            $carrinho
+        );
 
         return back()->with(
             'success',
-            'Produto adicionado ao carrinho!'
+            $quantidade .
+            ' unidade(s) de "' .
+            $item->nome .
+            '" adicionada(s) ao carrinho!'
         );
     }
 
@@ -118,40 +157,75 @@ class CarrinhoController extends Controller
             ]
         ]);
 
-        $quantidade = (int) $dados['quantidade'];
+        $quantidade =
+            (int) $dados['quantidade'];
 
-        if ($quantidade > $item->estoque) {
-            return back()->withErrors([
-                'Quantidade indisponível. Estoque atual: '
-                . $item->estoque
-                . '.'
-            ]);
+        if ($item->estoque <= 0) {
+
+            $carrinho = session()->get(
+                'carrinho',
+                []
+            );
+
+            unset($carrinho[$item->item_id]);
+
+            session()->put(
+                'carrinho',
+                $carrinho
+            );
+
+            return back()->with(
+                'erro',
+                'O produto "' .
+                $item->nome .
+                '" ficou sem estoque e foi removido do carrinho.'
+            );
         }
 
-        $carrinho = session('carrinho', []);
+        if ($quantidade > $item->estoque) {
+
+            return back()->with(
+                'erro',
+                'Quantidade indisponível. Estoque atual: ' .
+                $item->estoque .
+                '.'
+            );
+        }
+
+        $carrinho = session()->get(
+            'carrinho',
+            []
+        );
 
         $carrinho[$item->item_id] =
             $quantidade;
 
-        session([
-            'carrinho' => $carrinho
-        ]);
+        session()->put(
+            'carrinho',
+            $carrinho
+        );
 
         return back()->with(
             'success',
-            'Carrinho atualizado!'
+            'Quantidade atualizada com sucesso!'
         );
     }
 
     public function remover($id)
     {
-        $carrinho = session('carrinho', []);
+        $carrinho = session()->get(
+            'carrinho',
+            []
+        );
 
-        unset($carrinho[$id]);
+        if (isset($carrinho[$id])) {
+            unset($carrinho[$id]);
+        }
 
-        session([
-            'carrinho' => $carrinho
-        ]);
+        session()->put(
+            'carrinho',
+            $carrinho
+        );
 
         return back()->with(
             'success',
@@ -161,9 +235,10 @@ class CarrinhoController extends Controller
 
     public function finalizar()
     {
-        $cliente = session('cliente');
+        $cliente = Auth::user();
 
         if (!$cliente) {
+
             return redirect()
                 ->route('cliente.login')
                 ->with(
@@ -172,111 +247,135 @@ class CarrinhoController extends Controller
                 );
         }
 
-        $carrinho = session('carrinho', []);
+        $carrinho = session()->get(
+            'carrinho',
+            []
+        );
 
         if (empty($carrinho)) {
+
             return redirect()
                 ->route('carrinho.index')
-                ->withErrors([
+                ->with(
+                    'erro',
                     'Seu carrinho está vazio.'
-                ]);
+                );
         }
 
-        $pedido = DB::transaction(function () use (
-            $carrinho,
-            $cliente
-        ) {
+        $pedido = DB::transaction(
+            function () use (
+                $carrinho,
+                $cliente
+            ) {
 
-            $produtosCompra = [];
+                $produtosCompra = [];
 
-            $totalCentavos = 0;
+                $totalCentavos = 0;
 
-            foreach ($carrinho as $itemId => $quantidade) {
+                foreach (
+                    $carrinho
+                    as $itemId => $quantidade
+                ) {
 
-                $item = ItemModel::where(
-                    'item_id',
-                    $itemId
-                )
+                    $item = ItemModel::where(
+                        'item_id',
+                        $itemId
+                    )
                     ->lockForUpdate()
                     ->first();
 
-                if (!$item) {
-                    throw ValidationException::withMessages([
-                        'carrinho' =>
-                            'Um produto do carrinho não existe mais.'
-                    ]);
+                    if (!$item) {
+
+                        throw ValidationException::withMessages([
+                            'carrinho' =>
+                                'Um produto do carrinho não existe mais.'
+                        ]);
+                    }
+
+                    $quantidade =
+                        (int) $quantidade;
+
+                    if ($quantidade <= 0) {
+
+                        throw ValidationException::withMessages([
+                            'carrinho' =>
+                                'Quantidade inválida no carrinho.'
+                        ]);
+                    }
+
+                    if (
+                        $item->estoque <
+                        $quantidade
+                    ) {
+
+                        throw ValidationException::withMessages([
+                            'carrinho' =>
+                                'Estoque insuficiente para ' .
+                                $item->nome .
+                                '. Disponível: ' .
+                                $item->estoque
+                        ]);
+                    }
+
+                    $precoCentavos =
+                        (int) round(
+                            ((float) $item->preco) * 100
+                        );
+
+                    $subtotalCentavos =
+                        $precoCentavos *
+                        $quantidade;
+
+                    $totalCentavos +=
+                        $subtotalCentavos;
+
+                    $produtosCompra[] = [
+                        'item' => $item,
+                        'quantidade' => $quantidade,
+                        'subtotal' =>
+                            $subtotalCentavos / 100
+                    ];
                 }
 
-                $quantidade = (int) $quantidade;
+                $pedido = PedidoModel::create([
+                    'cliente_id' =>
+                        $cliente->cliente_id,
 
-                if ($quantidade <= 0) {
-                    throw ValidationException::withMessages([
-                        'carrinho' =>
-                            'Quantidade inválida no carrinho.'
-                    ]);
-                }
-
-                if ($item->estoque < $quantidade) {
-                    throw ValidationException::withMessages([
-                        'carrinho' =>
-                            'Estoque insuficiente para '
-                            . $item->nome
-                            . '. Disponível: '
-                            . $item->estoque
-                    ]);
-                }
-
-                $precoCentavos = (int) round(
-                    ((float) $item->preco) * 100
-                );
-
-                $subtotalCentavos =
-                    $precoCentavos * $quantidade;
-
-                $totalCentavos +=
-                    $subtotalCentavos;
-
-                $produtosCompra[] = [
-                    'item' => $item,
-                    'quantidade' => $quantidade,
-                    'subtotal' => $subtotalCentavos / 100
-                ];
-            }
-
-            $pedido = PedidoModel::create([
-                'cliente_id' =>
-                    $cliente->cliente_id,
-
-                'valor_total' =>
-                    $totalCentavos / 100
-            ]);
-
-            foreach ($produtosCompra as $produtoCompra) {
-
-                $item = $produtoCompra['item'];
-
-                CarrinhoItemModel::create([
-                    'pedido_id' =>
-                        $pedido->pedido_id,
-
-                    'item_id' =>
-                        $item->item_id,
-
-                    'quantidade' =>
-                        $produtoCompra['quantidade'],
-
-                    'subtotal' =>
-                        $produtoCompra['subtotal']
+                    'valor_total' =>
+                        $totalCentavos / 100
                 ]);
 
-                $item->estoque -=
-                    $produtoCompra['quantidade'];
+                foreach (
+                    $produtosCompra
+                    as $produtoCompra
+                ) {
 
-                $item->save();
+                    $item =
+                        $produtoCompra['item'];
+
+                    CarrinhoItemModel::create([
+                        'pedido_id' =>
+                            $pedido->pedido_id,
+
+                        'item_id' =>
+                            $item->item_id,
+
+                        'quantidade' =>
+                            $produtoCompra['quantidade'],
+
+                        'subtotal' =>
+                            $produtoCompra['subtotal']
+                    ]);
+
+                    $item->estoque -=
+                        $produtoCompra['quantidade'];
+
+                    $item->save();
+                }
+
+                return $pedido;
             }
-
-            return $pedido;
-        });
+        );
 
         session()->forget('carrinho');
 
@@ -284,8 +383,8 @@ class CarrinhoController extends Controller
             ->route('site.produtos')
             ->with(
                 'success',
-                'Compra realizada com sucesso! Pedido #'
-                . $pedido->pedido_id
+                'Compra realizada com sucesso! Pedido #' .
+                $pedido->pedido_id
             );
     }
 }

@@ -17,6 +17,7 @@
 
 <main class="carrinho-page">
 
+
     <div class="carrinho-header">
 
         <h1>
@@ -67,13 +68,18 @@
 
     @if(count($linhas) > 0)
 
+
         <div class="carrinho-layout">
+
 
             <section class="carrinho-itens">
 
+
                 @foreach($linhas as $linha)
 
+
                     <article class="carrinho-item">
+
 
                         <img
                             src="{{ asset(
@@ -105,8 +111,11 @@
                             </span>
 
                             <small>
+
                                 Estoque disponível:
+
                                 {{ $linha['item']->estoque }}
+
                             </small>
 
                         </div>
@@ -118,24 +127,62 @@
                                 $linha['item']->item_id
                             ) }}"
                             method="POST"
-                            class="carrinho-quantidade"
+                            class="carrinho-quantidade-form"
                         >
 
                             @csrf
                             @method('PATCH')
 
-                            <input
-                                type="number"
-                                name="quantidade"
-                                min="1"
-                                max="{{ $linha['item']->estoque }}"
-                                value="{{ $linha['quantidade'] }}"
-                                required
+
+                            <div class="quantidade-box">
+
+
+                                <button
+                                    type="button"
+                                    class="quantidade-btn quantidade-menos"
+                                    title="Diminuir quantidade"
+                                >
+
+                                    <i class="bi bi-dash"></i>
+
+                                </button>
+
+
+                                <input
+                                    type="number"
+                                    name="quantidade"
+                                    class="quantidade-input"
+                                    min="1"
+                                    max="{{ $linha['item']->estoque }}"
+                                    value="{{ $linha['quantidade'] }}"
+                                    readonly
+                                    required
+                                >
+
+
+                                <button
+                                    type="button"
+                                    class="quantidade-btn quantidade-mais"
+                                    title="Aumentar quantidade"
+                                >
+
+                                    <i class="bi bi-plus"></i>
+
+                                </button>
+
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-atualizar"
                             >
 
-                            <button type="submit">
                                 Atualizar
+
                             </button>
+
 
                         </form>
 
@@ -166,6 +213,7 @@
                             @csrf
                             @method('DELETE')
 
+
                             <button
                                 type="submit"
                                 class="btn-remover"
@@ -176,20 +224,26 @@
 
                             </button>
 
+
                         </form>
+
 
                     </article>
 
+
                 @endforeach
+
 
             </section>
 
 
             <aside class="carrinho-resumo">
 
+
                 <h2>
                     Resumo do pedido
                 </h2>
+
 
                 <div class="resumo-linha">
 
@@ -214,7 +268,7 @@
                 </div>
 
 
-                @if(session('cliente'))
+                @auth
 
                     <form
                         action="{{ route('carrinho.finalizar') }}"
@@ -242,48 +296,199 @@
                         href="{{ route('cliente.login') }}"
                         class="btn-finalizar"
                     >
+
+                        <i class="bi bi-box-arrow-in-right"></i>
+
                         Entrar para comprar
+
                     </a>
 
-                @endif
+                @endauth
 
 
                 <a
                     href="{{ route('site.produtos') }}"
                     class="continuar-comprando"
                 >
+
                     Continuar comprando
+
                 </a>
+
 
             </aside>
 
+
         </div>
+
 
     @else
 
+
         <div class="carrinho-vazio">
 
+
             <i class="bi bi-bag"></i>
+
 
             <h2>
                 Seu carrinho está vazio
             </h2>
 
+
             <p>
                 Adicione produtos para continuar.
             </p>
+
 
             <a href="{{ route('site.produtos') }}">
                 Ver produtos
             </a>
 
+
         </div>
 
+
     @endif
+
 
 </main>
 
 
 @include('components.footer')
+
+
+<script>
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        document
+            .querySelectorAll(
+                '.carrinho-quantidade-form'
+            )
+            .forEach(function (form) {
+
+
+                const input =
+                    form.querySelector(
+                        '.quantidade-input'
+                    );
+
+
+                const botaoMenos =
+                    form.querySelector(
+                        '.quantidade-menos'
+                    );
+
+
+                const botaoMais =
+                    form.querySelector(
+                        '.quantidade-mais'
+                    );
+
+
+                if (
+                    !input ||
+                    !botaoMenos ||
+                    !botaoMais
+                ) {
+                    return;
+                }
+
+
+                function atualizarBotoes() {
+
+                    const quantidade =
+                        parseInt(input.value);
+
+                    const minimo =
+                        parseInt(input.min);
+
+                    const maximo =
+                        parseInt(input.max);
+
+
+                    botaoMenos.disabled =
+                        quantidade <= minimo;
+
+
+                    botaoMais.disabled =
+                        quantidade >= maximo;
+
+                }
+
+
+                botaoMenos.addEventListener(
+                    'click',
+                    function () {
+
+                        let quantidade =
+                            parseInt(input.value);
+
+                        const minimo =
+                            parseInt(input.min);
+
+
+                        if (
+                            quantidade >
+                            minimo
+                        ) {
+
+                            quantidade--;
+
+                            input.value =
+                                quantidade;
+
+                        }
+
+
+                        atualizarBotoes();
+
+                    }
+                );
+
+
+                botaoMais.addEventListener(
+                    'click',
+                    function () {
+
+                        let quantidade =
+                            parseInt(input.value);
+
+                        const maximo =
+                            parseInt(input.max);
+
+
+                        if (
+                            quantidade <
+                            maximo
+                        ) {
+
+                            quantidade++;
+
+                            input.value =
+                                quantidade;
+
+                        }
+
+
+                        atualizarBotoes();
+
+                    }
+                );
+
+
+                atualizarBotoes();
+
+
+            });
+
+    }
+);
+
+</script>
+
 
 @endsection
