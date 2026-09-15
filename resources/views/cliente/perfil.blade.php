@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
+<link
+    rel="stylesheet"
+    href="{{ asset('css/perfil.css') }}"
+>
 @endpush
 
 @section('content')
@@ -26,9 +29,11 @@
             </span>
 
             <h1>
-            Sua Jornada de Beleza e Poder
+                Sua Jornada de Beleza e Poder
 
-                <strong>Começa Aqui</strong>
+                <strong>
+                    Começa Aqui
+                </strong>
             </h1>
 
             <div class="brand-divider"></div>
@@ -67,10 +72,12 @@
             </header>
 
 
-            @if (session('success'))
+            @if(session('success'))
 
                 <div class="alert-success">
+
                     {{ session('success') }}
+
                 </div>
 
             @endif
@@ -80,7 +87,12 @@
 
                 <div class="avatar">
 
-                    {{ strtoupper(substr($cliente->nome, 0, 1)) }}
+                    {{
+                        strtoupper(
+                            substr($cliente->nome ?? '', 0, 1) .
+                            substr($cliente->sobrenome ?? '', 0, 1)
+                        )
+                    }}
 
                 </div>
 
@@ -92,7 +104,11 @@
                     </h3>
 
                     <p>
-                        {{ $cliente->email ?? $cliente->telefone }}
+                        {{
+                            $cliente->email
+                                ?? $cliente->telefone
+                                ?? 'Contato não informado'
+                        }}
                     </p>
 
                 </div>
@@ -104,6 +120,7 @@
 
 
             <div class="dados-grid">
+
 
                 <div class="dado">
 
@@ -137,9 +154,23 @@
                         CPF
                     </span>
 
-                    <strong>
-                        {{ $cliente->cpf ?? 'Não informado' }}
-                    </strong>
+                    @if(empty($cliente->cpf))
+
+                        <strong class="dado-pendente">
+                            Não informado
+                        </strong>
+
+                        <small class="dado-aviso">
+                            Informe seu CPF para finalizar compras.
+                        </small>
+
+                    @else
+
+                        <strong>
+                            {{ $cliente->cpf }}
+                        </strong>
+
+                    @endif
 
                 </div>
 
@@ -177,10 +208,16 @@
                     </span>
 
                     <strong>
-                        {{ $cliente->data_nascimento
-                            ? date('d/m/Y', strtotime($cliente->data_nascimento))
-                            : 'Não informado'
+
+                        {{
+                            $cliente->data_nascimento
+                                ? date(
+                                    'd/m/Y',
+                                    strtotime($cliente->data_nascimento)
+                                )
+                                : 'Não informado'
                         }}
+
                     </strong>
 
                 </div>

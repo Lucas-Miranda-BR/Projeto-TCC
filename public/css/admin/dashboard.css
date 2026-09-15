@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
-
-/* =====================================================
-   PALETA
-===================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 :root {
     --primary: #9d1228;
@@ -11,7 +7,7 @@
     --primary-soft: #fdf3f4;
 
     --text: #242424;
-    --text-light: #777777;
+    --text-light: #6f6f6f;
 
     --border: #e5d9dc;
     --background: #faf8f8;
@@ -26,15 +22,12 @@
 }
 
 
-/* =====================================================
-   RESET
-===================================================== */
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 
 html,
 body {
@@ -42,11 +35,14 @@ body {
     min-height: 100%;
 }
 
+
 body {
     font-family: 'Poppins', sans-serif;
     background: var(--background);
     color: var(--text);
+    font-size: 16px;
 }
+
 
 a {
     text-decoration: none;
@@ -54,9 +50,13 @@ a {
 }
 
 
-/* =====================================================
-   ESTRUTURA PRINCIPAL
-===================================================== */
+button,
+input,
+select,
+textarea {
+    font-family: 'Poppins', sans-serif;
+}
+
 
 .admin-layout {
     width: 100%;
@@ -68,18 +68,14 @@ a {
 }
 
 
-/* =====================================================
-   SIDEBAR
-===================================================== */
+/* SIDEBAR */
 
 .admin-sidebar {
-    width: 245px;
-    min-width: 245px;
-
+    width: 260px;
+    min-width: 260px;
     height: 100vh;
 
     position: fixed;
-
     top: 0;
     left: 0;
 
@@ -96,41 +92,35 @@ a {
 }
 
 
-/* =====================================================
-   CABEÇALHO SIDEBAR
-===================================================== */
-
 .sidebar-header {
-    padding: 27px 23px 18px;
+    padding: 28px 24px 20px;
 }
+
 
 .sidebar-header h2 {
     margin: 0;
 
     font-family: 'Playfair Display', serif;
 
-    font-size: 19px;
-    font-weight: 500;
+    font-size: 25px;
+    font-weight: 600;
 
     color: var(--primary);
 }
 
+
 .sidebar-header span {
     display: block;
 
-    margin-top: 3px;
+    margin-top: 5px;
 
-    font-size: 8px;
+    font-size: 12px;
 
-    color: #929292;
+    color: #777777;
 
-    letter-spacing: .3px;
+    letter-spacing: 0.2px;
 }
 
-
-/* =====================================================
-   MENU
-===================================================== */
 
 .sidebar-menu {
     flex: 1;
@@ -138,56 +128,62 @@ a {
     padding: 0 16px;
 }
 
+
 .menu-title {
-    margin: 18px 8px 9px;
+    margin: 24px 9px 11px;
 
-    font-size: 9px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
 
-    color: #999999;
+    color: #777777;
 
     text-transform: uppercase;
-    letter-spacing: .5px;
+
+    letter-spacing: 0.7px;
 }
+
 
 .menu-item {
     width: 100%;
-    height: 38px;
+    min-height: 46px;
 
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 
-    padding: 0 11px;
+    padding: 0 13px;
 
     display: flex;
     align-items: center;
 
-    gap: 12px;
+    gap: 13px;
 
-    border-radius: 10px;
-
-    font-size: 11px;
-    font-weight: 400;
-
-    color: #3a3a3a;
-
-    transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease;
-}
-
-.menu-item i {
-    width: 18px;
-
-    display: flex;
-    justify-content: center;
+    border-radius: 11px;
 
     font-size: 14px;
+    font-weight: 400;
 
-    color: #777777;
+    color: #333333;
 
-    transition: color .2s ease;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
 }
+
+
+.menu-item i {
+    width: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+
+    color: #666666;
+
+    transition: color 0.2s ease;
+}
+
 
 .menu-item:hover {
     background: var(--primary-soft);
@@ -197,33 +193,34 @@ a {
     transform: translateX(2px);
 }
 
+
 .menu-item:hover i {
     color: var(--primary);
 }
+
 
 .menu-item.active {
     color: var(--primary);
 
     background: var(--primary-light);
 
-    font-weight: 500;
+    font-weight: 600;
 
     box-shadow: inset 3px 0 0 var(--primary);
 }
+
 
 .menu-item.active i {
     color: var(--primary);
 }
 
 
-/* =====================================================
-   CRÉDITOS IA
-===================================================== */
+/* IA SIDEBAR */
 
 .sidebar-ai {
     margin: auto 16px 30px;
 
-    padding: 16px;
+    padding: 17px;
 
     background: linear-gradient(
         135deg,
@@ -232,38 +229,40 @@ a {
     );
 
     border: 1px solid #f0d5da;
-
     border-radius: 14px;
 
     box-shadow: var(--shadow);
 }
+
 
 .sidebar-ai > span {
     display: block;
 
     margin-bottom: 9px;
 
-    font-size: 9px;
+    font-size: 13px;
 
-    color: #6f6f6f;
+    color: #656565;
 }
+
 
 .sidebar-ai strong {
     display: block;
 
     margin-bottom: 12px;
 
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 600;
 
     color: var(--primary);
 }
 
+
 .ai-progress {
     width: 100%;
-    height: 9px;
+    height: 10px;
 
-    margin-bottom: 7px;
+    margin-bottom: 8px;
 
     overflow: hidden;
 
@@ -271,6 +270,7 @@ a {
 
     border-radius: 20px;
 }
+
 
 .ai-progress-bar {
     height: 100%;
@@ -280,62 +280,53 @@ a {
     border-radius: 20px;
 }
 
+
 .sidebar-ai small {
     display: block;
 
-    font-size: 7px;
+    font-size: 11px;
 
-    color: #777777;
+    color: #666666;
 }
 
 
-/* =====================================================
-   CONTEÚDO PRINCIPAL
-===================================================== */
+/* CONTEÚDO PRINCIPAL */
 
 .admin-main {
-    width: calc(100% - 245px);
-
+    width: calc(100% - 260px);
     min-height: 100vh;
 
-    margin-left: 245px;
+    margin-left: 260px;
 
     background: var(--background);
 }
 
 
-/* =====================================================
-   NAVBAR
-===================================================== */
+/* NAVBAR */
 
 .admin-navbar {
     width: 100%;
-    height: 68px;
+    min-height: 76px;
 
-    padding: 0 25px;
+    padding: 0 30px;
 
     position: sticky;
-
     top: 0;
 
     display: flex;
     align-items: center;
 
-    gap: 20px;
+    gap: 22px;
 
-    background: rgba(255, 255, 255, .97);
+    background: rgba(255, 255, 255, 0.98);
 
     border-bottom: 1px solid var(--border);
 
-    box-shadow: 0 2px 12px rgba(80, 20, 30, .035);
+    box-shadow: 0 2px 12px rgba(80, 20, 30, 0.035);
 
     z-index: 900;
 }
 
-
-/* =====================================================
-   LINKS NAVBAR
-===================================================== */
 
 .admin-top-menu {
     margin-left: auto;
@@ -343,8 +334,9 @@ a {
     display: flex;
     align-items: center;
 
-    gap: 22px;
+    gap: 25px;
 }
+
 
 .admin-top-menu a {
     position: relative;
@@ -352,104 +344,107 @@ a {
     display: flex;
     align-items: center;
 
-    gap: 5px;
+    gap: 6px;
 
     white-space: nowrap;
 
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 400;
 
-    color: #333333;
+    color: #2f2f2f;
 
-    transition: color .2s ease;
+    transition: color 0.2s ease;
 }
+
 
 .admin-top-menu a:hover {
     color: var(--primary);
 }
 
 
-/* =====================================================
-   NOTIFICAÇÃO
-===================================================== */
+/* NOTIFICAÇÃO */
 
 .notifications-link {
     display: flex;
     align-items: center;
 }
 
+
 .notification-wrapper {
     position: relative;
 
     display: inline-flex;
-
     align-items: center;
 }
 
+
 .notification-wrapper > i {
-    font-size: 16px;
+    font-size: 19px;
 
     color: #444444;
 }
 
+
 .notification-count {
-    width: 12px;
-    height: 12px;
+    min-width: 17px;
+    height: 17px;
+
+    padding: 0 4px;
 
     position: absolute;
 
-    top: -8px;
-    right: -7px;
+    top: -10px;
+    right: -9px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    border-radius: 10px;
 
     background: var(--primary);
 
     color: #ffffff;
 
-    font-size: 5px;
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
 
     border: 2px solid white;
 }
 
 
-/* =====================================================
-   PERFIL ADMIN
-===================================================== */
+/* PERFIL */
 
 .admin-profile {
-    min-width: 105px;
+    min-width: 145px;
+    min-height: 48px;
 
-    height: 40px;
-
-    padding: 4px 10px 4px 6px;
+    padding: 5px 13px 5px 7px;
 
     display: flex;
     align-items: center;
 
-    gap: 8px;
+    gap: 10px;
 
     border: 1px solid var(--border);
-
-    border-radius: 22px;
+    border-radius: 25px;
 
     background: #ffffff;
 
-    transition: box-shadow .2s ease;
+    transition: box-shadow 0.2s ease;
 }
+
 
 .admin-profile:hover {
     box-shadow: var(--shadow);
 }
 
+
 .admin-avatar {
-    width: 29px;
-    height: 29px;
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
 
     border-radius: 50%;
 
@@ -458,47 +453,80 @@ a {
     background: #f4d1b8;
 }
 
-.admin-profile-info {
-    display: flex;
-    flex-direction: column;
-}
 
-.admin-profile-info strong {
-    white-space: nowrap;
+.admin-avatar-initials {
+    width: 36px;
+    height: 36px;
 
-    font-size: 7px;
-    font-weight: 600;
-}
-
-.admin-profile-info span {
-    margin-top: 1px;
-
-    font-size: 6px;
-
-    color: #999999;
-}
-
-
-/* =====================================================
-   CONFIGURAÇÃO
-===================================================== */
-
-.admin-settings {
-    width: 33px;
-    height: 33px;
+    flex-shrink: 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 21px;
+    border-radius: 50%;
+
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.admin-profile-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.admin-profile-info strong {
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #333333;
+}
+
+
+.admin-profile-info span {
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color: #777777;
+}
+
+
+/* CONFIGURAÇÕES */
+
+.admin-settings {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
 
     color: #333333;
 
     transition:
-        color .2s ease,
-        transform .3s ease;
+        color 0.2s ease,
+        transform 0.3s ease;
 }
+
 
 .admin-settings:hover {
     color: var(--primary);
@@ -507,57 +535,55 @@ a {
 }
 
 
-/* =====================================================
-   DASHBOARD CONTENT
-===================================================== */
+/* DASHBOARD */
 
 .dashboard-content {
     width: 100%;
 
-    padding: 25px 62px 70px;
+    padding: 38px 55px 70px;
 }
 
-
-/* =====================================================
-   CABEÇALHO
-===================================================== */
 
 .dashboard-header {
-    margin-bottom: 32px;
+    margin-bottom: 34px;
 }
+
 
 .breadcrumb-admin {
     display: block;
 
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 
-    font-size: 7px;
+    font-size: 12px;
 
-    color: #999999;
+    color: #777777;
 }
+
 
 .breadcrumb-admin strong {
     color: var(--primary);
 
-    font-weight: 500;
+    font-weight: 600;
 }
+
 
 .dashboard-header h2 {
     margin: 0;
 
-    font-size: 14px;
+    font-size: 22px;
     font-weight: 400;
 
-    line-height: 1.2;
+    line-height: 1.4;
 
-    color: #555555;
+    color: #494949;
 }
 
-.dashboard-header h1 {
-    margin-top: 5px;
 
-    font-size: 21px;
-    font-weight: 500;
+.dashboard-header h1 {
+    margin-top: 7px;
+
+    font-size: 31px;
+    font-weight: 600;
 
     line-height: 1.2;
 
@@ -565,11 +591,7 @@ a {
 }
 
 
-
-
-/* =====================================================
-   CARDS SUPERIORES
-===================================================== */
+/* CARDS */
 
 .dashboard-cards {
     width: 100%;
@@ -577,37 +599,38 @@ a {
     display: grid;
 
     grid-template-columns:
-        repeat(4, minmax(160px, 1fr));
+        repeat(2, minmax(280px, 1fr));
 
-    column-gap: 25px;
-    row-gap: 25px;
+    gap: 28px;
 
-    margin-bottom: 32px;
+    margin-bottom: 34px;
+
+    max-width: 950px;
 }
+
 
 .dashboard-card {
     min-width: 0;
+    min-height: 145px;
 
-    height: 92px;
-
-    padding: 14px 16px;
+    padding: 22px 24px;
 
     display: flex;
     flex-direction: column;
 
     border: 1px solid var(--border);
-
-    border-radius: 13px;
+    border-radius: 16px;
 
     background: var(--white);
 
     box-shadow: var(--shadow);
 
     transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        border-color .2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
+
 
 .dashboard-card:hover {
     transform: translateY(-3px);
@@ -617,6 +640,7 @@ a {
     box-shadow: var(--shadow-hover);
 }
 
+
 .dashboard-card-header {
     width: 100%;
 
@@ -624,12 +648,14 @@ a {
     align-items: center;
     justify-content: space-between;
 
-    gap: 8px;
+    gap: 12px;
 
-    font-size: 8px;
+    font-size: 15px;
+    font-weight: 500;
 
-    color: #555555;
+    color: #444444;
 }
+
 
 .dashboard-card-header > span:first-child {
     overflow: hidden;
@@ -639,15 +665,15 @@ a {
     white-space: nowrap;
 }
 
-.dashboard-card-header select {
-    min-width: 28px;
-    height: 14px;
 
-    padding: 0 2px;
+.dashboard-card-header select {
+    min-width: 72px;
+    height: 34px;
+
+    padding: 0 9px;
 
     border: 1px solid var(--border);
-
-    border-radius: 5px;
+    border-radius: 8px;
 
     outline: none;
 
@@ -655,137 +681,126 @@ a {
 
     font-family: 'Poppins', sans-serif;
 
-    font-size: 5px;
+    font-size: 12px;
 
     color: var(--primary);
 }
+
 
 .dashboard-card-value {
     display: block;
 
-    margin-top: 11px;
+    margin-top: 17px;
 
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 29px;
+    font-weight: 700;
 
     color: var(--primary);
+
+    line-height: 1.2;
 }
+
 
 .dashboard-card small {
     margin-top: auto;
 
+    padding-top: 12px;
+
     display: block;
 
-    font-size: 5px;
+    font-size: 12px;
+
+    color: #626262;
+
+    line-height: 1.5;
+}
+
+
+.dashboard-card small span {
+    margin-left: 4px;
 
     color: #777777;
 }
 
-.dashboard-card small span {
-    margin-left: 3px;
-
-    color: #999999;
-}
-
-
-/* =====================================================
-   CRESCIMENTO
-===================================================== */
 
 .positive {
     color: var(--green);
 }
+
 
 .negative {
     color: var(--red);
 }
 
 
-/* =====================================================
-   ESTOQUE BAIXO
-===================================================== */
-
 .stock-badge {
-    padding: 2px 5px;
+    padding: 5px 9px;
 
     border: 1px solid #e8a08e;
+    border-radius: 7px;
 
-    border-radius: 5px;
-
-    color: #c84c35;
+    color: #b8402d;
 
     background: #fff4f1;
 
-    font-size: 6px;
+    font-size: 11px;
+    font-weight: 500;
 }
 
 
-/* =====================================================
-   SEGUNDA LINHA
-===================================================== */
-
-.dashboard-card:nth-child(5) {
-    grid-column: 1;
-}
-
-.dashboard-card:nth-child(6) {
-    grid-column: 2;
-}
-
-
-/* =====================================================
-   GRÁFICOS
-===================================================== */
+/* GRÁFICOS */
 
 .dashboard-charts {
     width: 100%;
 
     display: grid;
 
-    grid-template-columns:
-        minmax(0, 1fr)
-        195px;
+    grid-template-columns: minmax(0, 1fr);
 
-    gap: 25px;
+    gap: 28px;
 
-    margin-top: 32px;
+    margin-top: 25px;
     margin-bottom: 55px;
 }
 
+
 .chart-card {
     border: 1px solid var(--border);
-
-    border-radius: 14px;
+    border-radius: 17px;
 
     background: var(--white);
 
     box-shadow: var(--shadow);
 
-    transition: box-shadow .2s ease;
+    transition: box-shadow 0.2s ease;
 }
+
 
 .chart-card:hover {
     box-shadow: var(--shadow-hover);
 }
 
+
 .revenue-chart {
+    width: 100%;
     min-width: 0;
 
-    height: 274px;
+    height: 440px;
 
-    padding: 15px 17px;
+    padding: 25px 28px;
 }
+
 
 .services-chart {
-    height: 274px;
+    width: 100%;
 
-    padding: 15px;
+    min-height: 330px;
+
+    padding: 24px;
 }
 
 
-/* =====================================================
-   CABEÇALHO GRÁFICO
-===================================================== */
+/* CABEÇALHO DO GRÁFICO */
 
 .chart-header {
     width: 100%;
@@ -793,37 +808,47 @@ a {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
+    gap: 20px;
 }
+
 
 .chart-header h3 {
     margin: 0;
 
-    font-size: 11px;
+    font-size: 21px;
     font-weight: 600;
 
-    color: #333333;
+    color: #292929;
 }
+
 
 .chart-header p {
-    margin-top: 4px;
+    margin-top: 7px;
 
-    font-size: 8px;
+    font-size: 14px;
 
-    color: #888888;
+    line-height: 1.5;
+
+    color: #666666;
 }
+
 
 .chart-header > span {
-    font-size: 6px;
+    font-size: 13px;
+
+    color: #555555;
 }
 
-.chart-header select {
-    height: 14px;
 
-    padding: 0 3px;
+.chart-header select {
+    min-width: 75px;
+    height: 34px;
+
+    padding: 0 9px;
 
     border: 1px solid var(--border);
-
-    border-radius: 5px;
+    border-radius: 8px;
 
     outline: none;
 
@@ -831,61 +856,69 @@ a {
 
     color: var(--primary);
 
-    font-size: 5px;
+    font-size: 12px;
 }
+
 
 .chart-title-row {
     display: flex;
     align-items: center;
 
-    gap: 6px;
+    gap: 12px;
 }
 
 
-/* =====================================================
-   GRÁFICO
-===================================================== */
+/* ÁREA DO GRÁFICO */
 
 .chart-area {
-    width: 100%;
-    height: 215px;
+    position: relative;
 
-    margin-top: 6px;
+    width: 100%;
+    height: 340px;
+
+    margin-top: 18px;
 }
 
 
-/* =====================================================
-   SERVIÇOS MAIS VENDIDOS
-===================================================== */
+.chart-area canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* SERVIÇOS */
 
 .service-bars {
-    margin-top: 24px;
+    margin-top: 28px;
 
     display: flex;
     flex-direction: column;
 
-    gap: 15px;
+    gap: 18px;
 }
+
 
 .service-item {
     display: grid;
 
-    grid-template-columns: 58px 1fr;
+    grid-template-columns: 120px 1fr;
 
     align-items: center;
 
-    gap: 6px;
+    gap: 12px;
 }
+
 
 .service-item > span {
-    font-size: 6px;
+    font-size: 13px;
 
-    color: #555555;
+    color: #444444;
 }
+
 
 .service-item .bar {
     width: 100%;
-    height: 10px;
+    height: 15px;
 
     border-radius: 20px;
 
@@ -893,6 +926,7 @@ a {
 
     overflow: hidden;
 }
+
 
 .service-item .bar div {
     height: 100%;
@@ -905,13 +939,11 @@ a {
         #c33a50
     );
 
-    transition: width .4s ease;
+    transition: width 0.4s ease;
 }
 
 
-/* =====================================================
-   PARTE INFERIOR
-===================================================== */
+/* PARTE INFERIOR */
 
 .dashboard-bottom {
     width: 100%;
@@ -920,34 +952,35 @@ a {
 
     grid-template-columns:
         minmax(0, 1.15fr)
-        minmax(300px, 1fr);
+        minmax(340px, 1fr);
 
-    gap: 25px;
+    gap: 28px;
 }
 
 
-/* =====================================================
-   AGENDA
-===================================================== */
+/* AGENDA */
 
 .agenda-card {
-    min-height: 373px;
+    min-height: 410px;
 
-    padding: 20px;
+    padding: 25px;
 
     border: 1px solid var(--border);
-
-    border-radius: 14px;
+    border-radius: 16px;
 
     background: var(--white);
 
     box-shadow: var(--shadow);
 }
 
+
 .agenda-header {
     display: flex;
     justify-content: space-between;
+
+    gap: 20px;
 }
+
 
 .agenda-title {
     display: flex;
@@ -956,44 +989,59 @@ a {
     gap: 14px;
 }
 
+
 .agenda-title h2 {
     margin: 0;
 
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
 
     color: #333333;
 }
 
+
 .agenda-title > span {
-    font-size: 6px;
+    font-size: 12px;
 
     color: var(--primary);
 }
 
-.agenda-button {
-    height: 27px;
 
-    padding: 0 11px;
+.agenda-header p {
+    margin-top: 9px;
+
+    font-size: 13px;
+
+    color: #666666;
+}
+
+
+.agenda-button {
+    min-height: 39px;
+
+    padding: 0 15px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     border: 1px solid #dcbcc2;
-
-    border-radius: 7px;
+    border-radius: 9px;
 
     background: var(--primary-soft);
 
-    font-size: 8px;
+    font-size: 13px;
+    font-weight: 500;
 
     color: var(--primary);
 
+    cursor: pointer;
+
     transition:
-        background .2s ease,
-        color .2s ease;
+        background 0.2s ease,
+        color 0.2s ease;
 }
+
 
 .agenda-button:hover {
     background: var(--primary);
@@ -1001,18 +1049,8 @@ a {
     color: white;
 }
 
-.agenda-header p {
-    margin-top: 9px;
 
-    font-size: 10px;
-
-    color: #888888;
-}
-
-
-/* =====================================================
-   TABELA
-===================================================== */
+/* TABELA */
 
 .table-responsive {
     width: 100%;
@@ -1020,38 +1058,43 @@ a {
     overflow-x: auto;
 }
 
+
 .agenda-table {
     width: 100%;
 
-    margin-top: 32px;
+    margin-top: 30px;
 
     border-collapse: collapse;
 }
 
+
 .agenda-table th {
-    padding-bottom: 8px;
+    padding: 12px 8px;
 
     text-align: left;
 
-    font-size: 8px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
 
-    color: #999999;
+    color: #666666;
 }
 
+
 .agenda-table td {
-    padding: 7px 0;
+    padding: 14px 8px;
 
     border-top: 1px solid #eee4e6;
 
-    font-size: 8px;
+    font-size: 13px;
 
-    color: #444444;
+    color: #383838;
 }
+
 
 .agenda-table tr:hover td {
     background: #fffafb;
 }
+
 
 .agenda-table td:last-child,
 .agenda-table th:last-child {
@@ -1059,104 +1102,108 @@ a {
 }
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+/* STATUS */
 
 .agenda-status {
-    min-width: 50px;
+    min-width: 82px;
 
-    padding: 2px 7px;
+    padding: 6px 10px;
 
     display: inline-flex;
+    align-items: center;
     justify-content: center;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    font-size: 5px;
+    font-size: 11px;
+    font-weight: 600;
 }
+
 
 .agenda-status.confirmado {
     background: #e0f2dc;
 
-    color: #478840;
+    color: #397533;
 }
+
 
 .agenda-status.realizado {
     background: #dce8f7;
 
-    color: #4b77a5;
+    color: #3d6897;
 }
+
 
 .agenda-status.pendente {
     background: #fff0e6;
 
-    color: #d87839;
+    color: #b85f28;
 }
 
 
-/* =====================================================
-   USO DA IA
-===================================================== */
+/* USO DA IA */
 
 .ai-usage-card {
-    min-height: 373px;
+    min-height: 410px;
 
-    padding: 20px 28px;
+    padding: 25px 28px;
 
     border: 1px solid var(--border);
-
-    border-radius: 14px;
+    border-radius: 16px;
 
     background: var(--white);
 
     box-shadow: var(--shadow);
 }
 
+
 .ai-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+
+    gap: 20px;
 }
+
 
 .ai-header h2 {
     margin: 0;
 
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
 
     color: #333333;
 }
 
+
 .ai-header p {
-    margin-top: 5px;
+    margin-top: 7px;
 
-    font-size: 10px;
+    font-size: 13px;
 
-    color: #888888;
+    color: #666666;
 }
 
+
 .ai-header select {
-    height: 14px;
+    min-width: 80px;
+    height: 35px;
+
+    padding: 0 9px;
 
     border: 1px solid var(--border);
-
-    border-radius: 5px;
+    border-radius: 8px;
 
     background: #ffffff;
 
     color: var(--primary);
 
-    font-size: 5px;
+    font-size: 12px;
 }
 
 
-/* =====================================================
-   BARRAS DA IA
-===================================================== */
-
 .ai-chart {
-    height: 205px;
+    height: 225px;
 
     padding-top: 28px;
 
@@ -1164,35 +1211,39 @@ a {
     align-items: flex-end;
     justify-content: center;
 
-    gap: 27px;
+    gap: 30px;
 }
 
+
 .ai-bar-item {
-    height: 170px;
+    height: 190px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
 
-    gap: 5px;
+    gap: 7px;
 }
+
 
 .ai-bar-item span {
-    font-size: 8px;
+    font-size: 12px;
 
-    color: #777777;
+    color: #666666;
 }
 
+
 .ai-bar-item strong {
-    font-size: 8px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
 
     color: var(--primary);
 }
 
+
 .vertical-bar {
-    width: 29px;
+    width: 34px;
 
     background: linear-gradient(
         180deg,
@@ -1202,36 +1253,37 @@ a {
 
     border-radius: 9px 9px 4px 4px;
 
-    box-shadow: 0 3px 8px rgba(157, 18, 40, .16);
+    box-shadow: 0 3px 8px rgba(157, 18, 40, 0.16);
 }
 
 
-/* =====================================================
-   CRÉDITOS CONSUMIDOS
-===================================================== */
+/* CRÉDITOS */
 
 .credits-section {
-    margin-top: 8px;
+    margin-top: 12px;
 }
+
 
 .credits-title {
     display: flex;
     justify-content: space-between;
 
-    margin-bottom: 7px;
+    margin-bottom: 9px;
 
-    font-size: 8px;
+    font-size: 13px;
 }
 
+
 .credits-title strong {
-    font-weight: 500;
+    font-weight: 600;
 
     color: var(--primary);
 }
 
+
 .credits-progress {
     width: 100%;
-    height: 18px;
+    height: 20px;
 
     overflow: hidden;
 
@@ -1239,6 +1291,7 @@ a {
 
     border-radius: 20px;
 }
+
 
 .credits-progress div {
     height: 100%;
@@ -1252,18 +1305,60 @@ a {
     border-radius: 20px;
 }
 
+
 .credits-section p {
     margin-top: 11px;
 
-    font-size: 7px;
+    font-size: 12px;
 
-    color: #888888;
+    color: #666666;
 }
 
 
-/* =====================================================
-   RESPONSIVIDADE
-===================================================== */
+/* CALENDÁRIO */
+
+.calendar-button {
+    border: none;
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    cursor: pointer;
+
+    color: inherit;
+
+    font-family: inherit;
+
+    font-size: 13px;
+}
+
+
+.calendar-button i {
+    cursor: pointer;
+
+    font-size: 17px;
+}
+
+
+.dashboard-calendar {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.chart-date {
+    position: relative;
+}
+
+
+/* RESPONSIVIDADE */
 
 @media (max-width: 1250px) {
 
@@ -1272,16 +1367,19 @@ a {
         padding-right: 35px;
     }
 
-    .dashboard-cards {
-        gap: 20px;
-    }
 
     .admin-top-menu {
-        gap: 13px;
+        gap: 16px;
     }
 
+
     .admin-top-menu a {
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+
+    .dashboard-cards {
+        max-width: 100%;
     }
 }
 
@@ -1290,116 +1388,145 @@ a {
 
     .dashboard-cards {
         grid-template-columns:
-            repeat(2, minmax(180px, 1fr));
+            repeat(2, minmax(240px, 1fr));
     }
 
-    .dashboard-card:nth-child(5),
-    .dashboard-card:nth-child(6) {
-        grid-column: auto;
-    }
 
     .dashboard-charts {
         grid-template-columns: 1fr;
     }
 
-    .services-chart {
-        width: 100%;
-    }
 
     .dashboard-bottom {
         grid-template-columns: 1fr;
     }
 
-    .admin-search {
-        width: 230px;
+
+    .services-chart {
+        width: 100%;
     }
 }
 
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 
     .admin-sidebar {
         display: none;
     }
 
+
     .admin-main {
         width: 100%;
+
         margin-left: 0;
     }
 
+
     .dashboard-content {
-        padding: 20px 20px 50px;
+        padding: 28px 22px 50px;
     }
+
 
     .admin-top-menu {
         display: none;
     }
 
-    .admin-search {
-        flex: 1;
+
+    .dashboard-header h2 {
+        font-size: 20px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+
+    .chart-area {
+        height: 320px;
     }
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 
     .admin-navbar {
+        min-height: 68px;
+
         gap: 10px;
 
-        padding: 0 12px;
+        padding: 0 14px;
     }
+
 
     .admin-profile {
         display: none;
     }
 
+
     .dashboard-cards {
         grid-template-columns: 1fr;
+
+        gap: 18px;
     }
 
+
     .dashboard-card {
-        height: 95px;
+        min-height: 135px;
     }
+
+
+    .dashboard-card-value {
+        font-size: 27px;
+    }
+
 
     .dashboard-header {
         margin-bottom: 25px;
     }
 
-    .agenda-title {
-        align-items: flex-start;
+
+    .revenue-chart {
+        height: 410px;
+
+        padding: 20px 16px;
+    }
+
+
+    .chart-header {
         flex-direction: column;
     }
 
+
+    .chart-title-row {
+        flex-wrap: wrap;
+    }
+
+
+    .chart-area {
+        height: 300px;
+    }
+
+
+    .agenda-title {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
     .ai-usage-card,
     .agenda-card {
-        padding: 16px;
+        padding: 18px;
     }
 
-    .dashboard-charts {
-        gap: 20px;
+
+    .service-item {
+        grid-template-columns: 95px 1fr;
     }
-}
-.calendar-button {
-    border: none;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    color: inherit;
-    font-family: inherit;
-}
 
-.calendar-button i {
-    cursor: pointer;
-}
 
-.dashboard-calendar {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.chart-date {
-    position: relative;
+    .agenda-table {
+        min-width: 650px;
+    }
 }
