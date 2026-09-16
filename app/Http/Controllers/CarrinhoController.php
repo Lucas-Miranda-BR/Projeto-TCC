@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Models\NotificacaoModel;
 
 class CarrinhoController extends Controller
 {
@@ -251,6 +252,14 @@ class CarrinhoController extends Controller
                     $item->estoque -= $produtoCompra['quantidade'];
                     $item->save();
                 }
+
+                    NotificacaoModel::create([
+                        'cliente_id' => $cliente->cliente_id,
+                        'titulo' => 'Pedido Confirmado! 🎉',
+                        'conteudo' => "Sua compra (Pedido #" . $pedido->pedido_id . ") foi realizada com sucesso. Porfavor vá até o local para pegar seu pedido. Agradecemos a preferência!",
+                        'data_recebida' => now(),
+                        'visualizada' => false
+                ]);
 
                 return $pedido;
             });
