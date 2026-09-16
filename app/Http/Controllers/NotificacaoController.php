@@ -115,24 +115,6 @@ class NotificacaoController extends Controller
                 'min:5',
                 'max:255'
             ]
-        ], [
-            'titulo.required' =>
-                'Informe o título da notificação.',
-
-            'titulo.min' =>
-                'O título deve possuir pelo menos 3 caracteres.',
-
-            'titulo.max' =>
-                'O título pode possuir no máximo 255 caracteres.',
-
-            'conteudo.required' =>
-                'Digite a mensagem para o cliente.',
-
-            'conteudo.min' =>
-                'A mensagem deve possuir pelo menos 5 caracteres.',
-
-            'conteudo.max' =>
-                'A mensagem pode possuir no máximo 255 caracteres.'
         ]);
 
         $cliente = ClienteModel::where(
