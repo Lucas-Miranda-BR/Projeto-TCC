@@ -92,7 +92,7 @@ class AgendamentoController extends Controller
         NotificacaoModel::create([
             'cliente_id' => $cliente->cliente_id,
             'titulo' => 'Agendamento Confirmado! 🎉',
-            'conteudo' => "Seu agendamento foi marcado com sucesso. Por favor, compareça ao salão no dia ". $dataFormatada . "às" . $validated['hora'] . "Agradecemos a preferência!",
+            'conteudo' => "Seu agendamento foi marcado com sucesso. Por favor, compareça ao salão no dia ". $dataFormatada . " às " . $validated['hora'] . " Agradecemos a preferência!",
             'data_recebida' => now(),
             'visualizada' => false
         ]);

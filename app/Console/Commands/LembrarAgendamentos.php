@@ -33,7 +33,7 @@ class LembrarAgendamentos extends Command
 
         // Lembrete - 7 dias
 
-        $agendamentosEm7Dias = Agendamento::whereDate('data', $dias7)
+        $agendamentosEm7Dias = AgendamentoModel::whereDate('data', $dias7)
             ->where(function($q) {
                 $q->where('isConcluido', 0)->orWhereNull('isConcluido');
             })
@@ -49,9 +49,11 @@ class LembrarAgendamentos extends Command
             ]);
         }
 
+        $qtd7Dias = $agendamentosEm7Dias->count();
+
         // Lembrete - 1 dia
 
-        $agendamentosEm1Dias = Agendamento::whereDate('data', $dias1)
+        $agendamentosEm1Dias = AgendamentoModel::whereDate('data', $dias1)
         ->where(function($q) {
             $q->where('isConcluido', 0)->orWhereNull('isConcluido');
         })
@@ -67,6 +69,13 @@ class LembrarAgendamentos extends Command
             ]);
         }
 
-        $this->info('Lembretes de agendamentos (7 dias e 1 dia) gerados com sucesso.');
+        $qtd1Dia = $agendamentosEm1Dias->count();
+
+        $totalNotificacoes = $qtd7Dias + $qtd1Dia;
+
+        $this->info("=== Relatório de Lembretes de Agendamento ===");
+        $this->info("Total de notificações geradas: {$totalNotificacoes}");
+        $this->info(" - Para agendamentos amanhã (1 dia): {$qtd1Dia}");
+        $this->info(" - Para agendamentos em 7 dias: {$qtd7Dias}");
     }
 }
