@@ -10,6 +10,8 @@ use App\Models\ProcedimentoModel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NotificacaoModel;
+use Carbon\Carbon;
 
 class AgendamentoController extends Controller
 {
@@ -19,13 +21,13 @@ class AgendamentoController extends Controller
         $procedimentoSelecionado = null;
 
         if ($imagemGeradaId) {
-            $promptIa = \App\Models\PromptIaModel::find($imagemGeradaId);
+            $promptIa = PromptIaModel::find($imagemGeradaId);
             if ($promptIa) {
                 $procedimentoSelecionado = $promptIa->procedimento_id;
             }
         }
 
-        $procedimentos = \App\Models\ProcedimentoModel::with('tipos')->get();
+        $procedimentos = ProcedimentoModel::with('tipos')->get();
 
         if(!Auth::check()){
             return redirect()->route('cliente.cadastro')
@@ -39,7 +41,7 @@ class AgendamentoController extends Controller
             ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
         }
         
-        $clienteId = \App\Models\ClienteModel::find($cliente->cliente_id);
+        $clienteId = ClienteModel::find($cliente->cliente_id);
 
         $agendamentos = AgendamentoModel::with('servicos')->get();
 
@@ -83,7 +85,19 @@ class AgendamentoController extends Controller
 
         AgendamentoModel::create($validated);
 
-        return redirect()->route('site.sobre');
+        $cliente = Auth::user();
+
+        $dataFormatada = Carbon::parse($validated['data'])->format('d/m/Y');
+
+        NotificacaoModel::create([
+            'cliente_id' => $cliente->cliente_id,
+            'titulo' => 'Agendamento Confirmado! 🎉',
+            'conteudo' => "Seu agendamento foi marcado com sucesso. Por favor, compareça ao salão no dia ". $dataFormatada . "às" . $validated['hora'] . "Agradecemos a preferência!",
+            'data_recebida' => now(),
+            'visualizada' => false
+        ]);
+
+        return redirect()->back()->with('success', 'Agendamento concluído com sucesso!');
     }
 
     public function concluirAgendamento($id){

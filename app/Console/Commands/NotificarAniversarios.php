@@ -33,7 +33,6 @@ class NotificarAniversarios extends Command
 
         $clientes = ClienteModel::whereMonth('data_nascimento', $hoje->month)
             ->whereDay('data_nascimento', $hoje->day)
-            ->where('is_admin', false)
             ->get();
 
         foreach ($clientes as $cliente) {
