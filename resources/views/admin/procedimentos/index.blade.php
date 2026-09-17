@@ -39,7 +39,7 @@
                     </h1>
 
                     <p>
-                        Cadastre, edite e organize os serviços disponíveis no salão.
+                        Cadastre, edite e organize os procedimentos disponíveis no salão.
                     </p>
 
                 </div>
@@ -113,7 +113,7 @@
                         </h2>
 
                         <p>
-                            Preencha as informações para cadastrar um novo serviço.
+                            Preencha as informações para cadastrar um novo procedimento.
                         </p>
 
                     </div>
@@ -224,7 +224,7 @@
                             <textarea
                                 name="descricao"
                                 id="descricao"
-                                placeholder="Descreva o procedimento e os principais detalhes do serviço"
+                                placeholder="Descreva o procedimento e os principais detalhes do procedimento"
                                 required
                             >{{ old('descricao') }}</textarea>
 
@@ -277,7 +277,7 @@
 
                             <i class="bi bi-plus-lg"></i>
 
-                            Cadastrar Serviço
+                            Cadastrar Procedimento
 
                         </button>
 
@@ -289,8 +289,14 @@
 
             </section>
 
-            <h1>Gerenciar tipos</h1>
+            <h1>Gerenciar Tipo de Procedimento</h1>
             <button> <a href="{{ route('admin.tipos.index') }}">Gerencie Aqui</a></button>
+
+            <br>
+
+            <h1>Gerenciar Cores Disponíveis de Procedimento</h1>
+            <button> <a href="#">Gerencie Aqui</a></button>
+
 
 
 
@@ -323,7 +329,7 @@
 
                                 </strong>
 
-                                serviço(s) encontrado(s)
+                                procedimento(s) encontrado(s)
 
                             </p>
 
