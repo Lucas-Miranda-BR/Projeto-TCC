@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('networth', function (Blueprint $table) {
             $table->id('networth_id');
-            $table->decimal('ganho', total:8, places:2);
-            $table->decimal('custo', total:8, places:2);
-            $table->decimal('networth', total:8, places:2);
+            $table->decimal('ganho', total:10, places:2)->default(0);
+            $table->decimal('custo', total:10, places:2)->default(0);
+            $table->integer('networth', total:10, places:2)->default(0);
             $table->date('dia');
+            $table->date('hora');
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

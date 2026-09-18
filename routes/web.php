@@ -14,6 +14,7 @@ use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotificacaoController;
+use App\Http\Controllers\NetworthController;
 
 
 /*
@@ -615,5 +616,26 @@ Route::prefix('admin')
         )->name(
             'admin.categorias.store'
         );
+
+        /*
+        |--------------------------------------------------------------------------
+        | NETWORTH
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/networth/gerenciar',
+            [NetworthController::class, 'gerenciar']
+        )->name('admin.networth.gerenciar');
+
+        Route::post(
+            '/networth/ganho',
+            [NetworthController::class, 'adicionarGanho']
+        )->name('admin.networth.ganho.store');
+
+        Route::post(
+            '/networth/custo',
+            [NetworthController::class, 'adicionarCusto']
+        )->name('admin.networth.custo.store');
 
     });
