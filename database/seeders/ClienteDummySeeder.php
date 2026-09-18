@@ -21,5 +21,14 @@ class ClienteDummySeeder extends Seeder
             'is_admin' => true,
             'senha' => 'Admin@1234!']);
 
+        ClienteModel::create(['nome' => 'Usuario',
+            'sobrenome' => 'Sistema',
+            'cpf' => '00000000001',
+            'telefone' => '11999999991',
+            'email' => 'usuario@usuario.com',
+            'data_nascimento' => '1990-09-16',
+            'is_admin' => false,
+            'senha' => 'Usuario@1234!']);
+
     }
 }

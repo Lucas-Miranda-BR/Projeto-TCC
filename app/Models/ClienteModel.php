@@ -23,7 +23,6 @@ class ClienteModel extends Authenticatable
         'telefone',
         'email',
         'data_nascimento',
-        'foto',
         'is_admin',
         'senha'
     ];

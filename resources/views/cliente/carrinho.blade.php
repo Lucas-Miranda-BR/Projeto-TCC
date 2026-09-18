@@ -48,6 +48,17 @@
 
     @endif
 
+    @if(session('avisos'))
+        <div class="carrinho-alert error">
+            @foreach(session('avisos') as $aviso)
+                <p>
+                    <i class="bi bi-exclamation-triangle"></i>
+                    {{ $aviso }}
+                </p>
+            @endforeach
+        </div>
+    @endif
+
 
     @if($errors->any())
 
@@ -78,12 +89,12 @@
                 @foreach($linhas as $linha)
 
 
-                    <article class="carrinho-item">
+                    <article class="carrinho-item" id="item-carrinho-{{ $linha['item']->item_id }}>
 
 
                         <img
                             src="{{ asset(
-                                'storage/' .
+                                'images/produtos/' .
                                 $linha['item']->foto
                             ) }}"
                             alt="{{ $linha['item']->nome }}"
@@ -173,21 +184,10 @@
 
                             </div>
 
-
-                            <button
-                                type="submit"
-                                class="btn-atualizar"
-                            >
-
-                                Atualizar
-
-                            </button>
-
-
                         </form>
 
 
-                        <strong class="carrinho-subtotal">
+                        <strong class="carrinho-subtotal" id="subtotal-{{ $linha['item']->item_id }}">
 
                             R$
                             {{
@@ -251,7 +251,7 @@
                         Total
                     </span>
 
-                    <strong>
+                    <strong id="valor-total-carrinho">
 
                         R$
                         {{
@@ -358,137 +358,7 @@
 @include('components.footer')
 
 
-<script>
-
-document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-
-        document
-            .querySelectorAll(
-                '.carrinho-quantidade-form'
-            )
-            .forEach(function (form) {
-
-
-                const input =
-                    form.querySelector(
-                        '.quantidade-input'
-                    );
-
-
-                const botaoMenos =
-                    form.querySelector(
-                        '.quantidade-menos'
-                    );
-
-
-                const botaoMais =
-                    form.querySelector(
-                        '.quantidade-mais'
-                    );
-
-
-                if (
-                    !input ||
-                    !botaoMenos ||
-                    !botaoMais
-                ) {
-                    return;
-                }
-
-
-                function atualizarBotoes() {
-
-                    const quantidade =
-                        parseInt(input.value);
-
-                    const minimo =
-                        parseInt(input.min);
-
-                    const maximo =
-                        parseInt(input.max);
-
-
-                    botaoMenos.disabled =
-                        quantidade <= minimo;
-
-
-                    botaoMais.disabled =
-                        quantidade >= maximo;
-
-                }
-
-
-                botaoMenos.addEventListener(
-                    'click',
-                    function () {
-
-                        let quantidade =
-                            parseInt(input.value);
-
-                        const minimo =
-                            parseInt(input.min);
-
-
-                        if (
-                            quantidade >
-                            minimo
-                        ) {
-
-                            quantidade--;
-
-                            input.value =
-                                quantidade;
-
-                        }
-
-
-                        atualizarBotoes();
-
-                    }
-                );
-
-
-                botaoMais.addEventListener(
-                    'click',
-                    function () {
-
-                        let quantidade =
-                            parseInt(input.value);
-
-                        const maximo =
-                            parseInt(input.max);
-
-
-                        if (
-                            quantidade <
-                            maximo
-                        ) {
-
-                            quantidade++;
-
-                            input.value =
-                                quantidade;
-
-                        }
-
-
-                        atualizarBotoes();
-
-                    }
-                );
-
-
-                atualizarBotoes();
-
-
-            });
-
-    }
-);
-
-</script>
+<script src="{{ asset('js/carrinho.js') }}"></script>
 
 
 @endsection

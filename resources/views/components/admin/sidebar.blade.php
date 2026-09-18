@@ -118,30 +118,4 @@
             </span>
 
         </a>
-
-
-        <p class="menu-title">
-            Sistema
-        </p>
-
-
-        <a
-            href="{{ route('admin.notificacoes') }}"
-            class="menu-item {{
-                request()->routeIs('admin.notificacoes*')
-                    ? 'active'
-                    : ''
-            }}"
-        >
-
-            <i class="bi bi-bell"></i>
-
-            <span>
-                Notificações
-            </span>
-
-        </a>
-
-    </nav>
-
 </aside>

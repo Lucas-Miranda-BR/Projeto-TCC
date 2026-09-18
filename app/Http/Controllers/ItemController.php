@@ -6,7 +6,7 @@ use App\Models\ItemModel;
 use App\Models\MarcaModel;
 use App\Models\CategoriaModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class ItemController extends Controller
 {
@@ -41,51 +41,64 @@ class ItemController extends Controller
                 'string',
                 'max:255'
             ],
-
             'preco' => [
                 'required',
                 'numeric',
                 'min:0'
             ],
-
             'estoque' => [
                 'required',
                 'integer',
                 'min:0'
             ],
-
             'marca_id' => [
                 'nullable',
                 'integer',
                 'exists:marca,marca_id'
             ],
-
             'categoria_id' => [
                 'nullable',
                 'integer',
                 'exists:categoria,categoria_id'
             ],
-
             'foto' => [
                 'required',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:4096'
+                'max:2048'
             ]
         ]);
 
-        $dados['foto'] = $request
-            ->file('foto')
-            ->store('produtos', 'public');
+        try {
+            if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+                $destino = public_path('images/produtos');
 
-        ItemModel::create($dados);
+                if (!File::isDirectory($destino)) {
+                    File::makeDirectory($destino, 0755, true, true);
+                }
 
-        return redirect()
-            ->route('admin.produtos.index')
-            ->with(
-                'success',
-                'Produto cadastrado com sucesso!'
-            );
+                $nomeImagem = time() . '_' . uniqid() . '.' . $request->foto->extension();
+                $request->foto->move($destino, $nomeImagem);
+
+                $dados['foto'] = $nomeImagem;
+            }
+
+            ItemModel::create($dados);
+
+            return redirect()
+                ->route('admin.produtos.index')
+                ->with('success', 'Produto cadastrado com sucesso!');
+        } catch (\Throwable $e) {
+            if (isset($nomeImagem) && File::exists(public_path('images/produtos/' . $nomeImagem))) {
+                File::delete(public_path('images/produtos/' . $nomeImagem));
+            }
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'Ocorreu um erro ao cadastrar o produto: ' . $e->getMessage()
+                ]);
+        }
     }
 
     public function edit($id)
@@ -116,31 +129,26 @@ class ItemController extends Controller
                 'string',
                 'max:255'
             ],
-
             'preco' => [
                 'required',
                 'numeric',
                 'min:0'
             ],
-
             'estoque' => [
                 'required',
                 'integer',
                 'min:0'
             ],
-
             'marca_id' => [
                 'nullable',
                 'integer',
                 'exists:marca,marca_id'
             ],
-
             'categoria_id' => [
                 'nullable',
                 'integer',
                 'exists:categoria,categoria_id'
             ],
-
             'foto' => [
                 'nullable',
                 'image',
@@ -149,28 +157,40 @@ class ItemController extends Controller
             ]
         ]);
 
-        if ($request->hasFile('foto')) {
+        try {
+            if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+                $destino = public_path('images/produtos');
 
-            if (
-                $produto->foto &&
-                Storage::disk('public')->exists($produto->foto)
-            ) {
-                Storage::disk('public')->delete($produto->foto);
+                if (!File::isDirectory($destino)) {
+                    File::makeDirectory($destino, 0755, true, true);
+                }
+
+                $nomeNovaImagem = time() . '_' . uniqid() . '.' . $request->foto->extension();
+                $request->foto->move($destino, $nomeNovaImagem);
+
+                if ($produto->foto && File::exists(public_path('images/produtos/' . $produto->foto))) {
+                    File::delete(public_path('images/produtos/' . $produto->foto));
+                }
+
+                $dados['foto'] = $nomeNovaImagem;
             }
 
-            $dados['foto'] = $request
-                ->file('foto')
-                ->store('produtos', 'public');
+            $produto->update($dados);
+
+            return redirect()
+                ->route('admin.produtos.index')
+                ->with('success', 'Produto atualizado com sucesso!');
+        } catch (\Throwable $e) {
+            if (isset($nomeNovaImagem) && File::exists(public_path('images/produtos/' . $nomeNovaImagem))) {
+                File::delete(public_path('images/produtos/' . $nomeNovaImagem));
+            }
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'Ocorreu um erro ao atualizar o produto: ' . $e->getMessage()
+                ]);
         }
-
-        $produto->update($dados);
-
-        return redirect()
-            ->route('admin.produtos.index')
-            ->with(
-                'success',
-                'Produto atualizado com sucesso!'
-            );
     }
 
     public function destroy($id)
@@ -185,20 +205,14 @@ class ItemController extends Controller
                 ]);
         }
 
-        if (
-            $produto->foto &&
-            Storage::disk('public')->exists($produto->foto)
-        ) {
-            Storage::disk('public')->delete($produto->foto);
+        if ($produto->foto && File::exists(public_path('images/produtos/' . $produto->foto))) {
+            File::delete(public_path('images/produtos/' . $produto->foto));
         }
 
         $produto->delete();
 
         return redirect()
             ->route('admin.produtos.index')
-            ->with(
-                'success',
-                'Produto excluído com sucesso!'
-            );
+            ->with('success', 'Produto excluído com sucesso!');
     }
 }

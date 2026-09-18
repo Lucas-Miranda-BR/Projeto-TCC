@@ -519,15 +519,19 @@
                 <div class="estoque-card">
 
                     <i class="bi bi-box-seam"></i>
-
+                
                     <span>
                         Unidades em estoque
                     </span>
-
+                
                     <strong>
-                        {{ $produtos->sum('estoque') }}
+                        {{ 
+                            $produtos->filter(function ($produto) {
+                                return $produto->estoque >= 2;
+                            })->count() 
+                        }}
                     </strong>
-
+                
                 </div>
 
 
@@ -546,8 +550,8 @@
                             $produtos
                                 ->filter(function ($produto) {
 
-                                    return $produto->estoque > 0
-                                        && $produto->estoque <= 5;
+                                    return $produto->estoque > 2
+                                        && $produto->estoque <= 10;
 
                                 })
                                 ->count()
@@ -573,7 +577,7 @@
                             $produtos
                                 ->filter(function ($produto) {
 
-                                    return $produto->estoque <= 0;
+                                    return $produto->estoque <= 2;
 
                                 })
                                 ->count()
@@ -663,7 +667,7 @@
                                         $produtos
                                             ->filter(function ($produto) {
 
-                                                return $produto->estoque > 5;
+                                                return $produto->estoque > 10;
 
                                             })
                                             ->count()
@@ -691,8 +695,8 @@
                                         $produtos
                                             ->filter(function ($produto) {
 
-                                                return $produto->estoque > 0
-                                                    && $produto->estoque <= 5;
+                                                return $produto->estoque > 2
+                                                    && $produto->estoque <= 10;
 
                                             })
                                             ->count()
@@ -720,7 +724,7 @@
                                         $produtos
                                             ->filter(function ($produto) {
 
-                                                return $produto->estoque <= 0;
+                                                return $produto->estoque < 2;
 
                                             })
                                             ->count()
@@ -781,11 +785,11 @@
 
                                 @php
 
-                                    if ($produto->estoque <= 0) {
+                                    if ($produto->estoque < 2) {
 
                                         $statusFiltro = 'esgotado';
 
-                                    } elseif ($produto->estoque <= 5) {
+                                    } elseif ($produto->estoque <= 10) {
 
                                         $statusFiltro = 'baixo';
 
@@ -800,18 +804,9 @@
 
 
                                     if ($produto->foto) {
-
-                                        $fotoProduto =
-                                            filter_var(
-                                                $produto->foto,
-                                                FILTER_VALIDATE_URL
-                                            )
-                                                ? $produto->foto
-                                                : asset(
-                                                    'storage/' .
-                                                    $produto->foto
-                                                );
-
+                                        $fotoProduto = filter_var($produto->foto, FILTER_VALIDATE_URL)
+                                        ? $produto->foto
+                                        : asset('images/produtos/' . $produto->foto);
                                     }
 
                                 @endphp
@@ -919,7 +914,7 @@
                                     <td>
 
 
-                                        @if($produto->estoque <= 0)
+                                        @if($produto->estoque < 2)
 
                                             <span class="status-produto sem-estoque">
 
@@ -928,7 +923,7 @@
                                             </span>
 
 
-                                        @elseif($produto->estoque <= 5)
+                                        @elseif($produto->estoque <= 10)
 
                                             <span class="status-produto estoque-baixo">
 
