@@ -2,6 +2,7 @@
     rel="stylesheet"
     href="{{ asset('css/admin/dashboard.css') }}"
 >
+
 <aside class="admin-sidebar">
 
     <div class="sidebar-header">
@@ -19,8 +20,6 @@
 
     <nav class="sidebar-menu">
 
-        {{-- OPERAÇÃO --}}
-
         <p class="menu-title">
             Operação
         </p>
@@ -28,7 +27,11 @@
 
         <a
             href="{{ route('admin.dashboard') }}"
-            class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+            class="menu-item {{
+                request()->routeIs('admin.dashboard')
+                    ? 'active'
+                    : ''
+            }}"
         >
 
             <i class="bi bi-grid"></i>
@@ -42,7 +45,11 @@
 
         <a
             href="{{ route('admin.agendamentos') }}"
-            class="menu-item {{ request()->routeIs('admin.agendamentos') ? 'active' : '' }}"
+            class="menu-item {{
+                request()->routeIs('admin.agendamentos')
+                    ? 'active'
+                    : ''
+            }}"
         >
 
             <i class="bi bi-calendar3"></i>
@@ -56,7 +63,11 @@
 
         <a
             href="{{ route('admin.clientes') }}"
-            class="menu-item {{ request()->routeIs('admin.clientes') ? 'active' : '' }}"
+            class="menu-item {{
+                request()->routeIs('admin.clientes')
+                    ? 'active'
+                    : ''
+            }}"
         >
 
             <i class="bi bi-people"></i>
@@ -68,31 +79,36 @@
         </a>
 
 
-
-        {{-- COMERCIAL --}}
-
         <p class="menu-title">
             Comercial
         </p>
 
 
         <a
-    href="{{ route('admin.produtos.index') }}"
-    class="menu-item {{ request()->routeIs('admin.produtos.*') ? 'active' : '' }}"
->
+            href="{{ route('admin.produtos.index') }}"
+            class="menu-item {{
+                request()->routeIs('admin.produtos.*')
+                    ? 'active'
+                    : ''
+            }}"
+        >
 
-    <i class="bi bi-bag"></i>
+            <i class="bi bi-bag"></i>
 
-    <span>
-        Produtos
-    </span>
+            <span>
+                Produtos
+            </span>
 
-</a>
+        </a>
 
 
         <a
             href="{{ route('admin.procedimentos.index') }}"
-            class="menu-item {{ request()->routeIs('admin.procedimentos.index') ? 'active' : '' }}"
+            class="menu-item {{
+                request()->routeIs('admin.procedimentos.*')
+                    ? 'active'
+                    : ''
+            }}"
         >
 
             <i class="bi bi-scissors"></i>

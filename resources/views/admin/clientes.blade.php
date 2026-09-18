@@ -276,7 +276,7 @@
                                             <div class="cliente-identidade">
 
 
-                                                <div class="cliente-avatar">
+                                            <div class="cliente-avatar">
 
                                                     <div class="cliente-avatar">
                                                         <span>

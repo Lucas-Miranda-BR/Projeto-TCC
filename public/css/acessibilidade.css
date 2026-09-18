@@ -1,0 +1,590 @@
+/* =====================================================
+   TAMANHO MÍNIMO PARA TEXTOS PEQUENOS DO SISTEMA
+===================================================== */
+
+body small,
+body label,
+body .small,
+body .text-small,
+body .text-muted,
+body .text-secondary,
+
+body [class*="label"],
+body [class*="Label"],
+
+body [class*="caption"],
+body [class*="Caption"],
+
+body [class*="helper"],
+body [class*="Helper"],
+
+body [class*="hint"],
+body [class*="Hint"],
+
+body [class*="meta"],
+body [class*="Meta"],
+
+body [class*="subtitle"],
+body [class*="Subtitle"],
+
+body [class*="subtitulo"],
+body [class*="Subtitulo"],
+
+body [class*="descricao"],
+body [class*="Descricao"],
+
+body [class*="description"],
+body [class*="Description"],
+
+body [class*="detalhe"],
+body [class*="Detalhe"],
+
+body [class*="info"],
+body [class*="Info"] {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+
+/* =====================================================
+   TEXTOS SECUNDÁRIOS DENTRO DE CARDS
+===================================================== */
+
+main article small,
+main section small,
+main div small {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+
+/* =====================================================
+   LABELS EM CAIXA ALTA
+   EX: TIPO, SERVIÇO, DESCRIÇÃO, STATUS
+===================================================== */
+
+main [class*="item"] > div > span:first-child,
+main [class*="card"] > div > span:first-child,
+main [class*="resumo"] span:first-child {
+    font-size: 14px !important;
+}
+
+
+/* =====================================================
+   TEXTOS CINZA / SECUNDÁRIOS
+===================================================== */
+
+main .text-muted,
+main .text-secondary,
+main [class*="muted"],
+main [class*="secondary"] {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+
+/* =====================================================
+   TEXTOS DE AJUDA E AVISOS
+===================================================== */
+
+main [class*="aviso"],
+main [class*="alert"],
+main [class*="warning"],
+main [class*="notice"],
+main [class*="help"],
+main [class*="helper"],
+main [class*="hint"] {
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+}
+
+main [class*="aviso"] *,
+main [class*="alert"] *,
+main [class*="warning"] *,
+main [class*="notice"] *,
+main [class*="help"] *,
+main [class*="helper"] *,
+main [class*="hint"] * {
+    font-size: 14px !important;
+}
+
+
+/* =====================================================
+   FORMULÁRIOS
+===================================================== */
+
+form label {
+    font-size: 15px !important;
+}
+
+form small {
+    font-size: 14px !important;
+}
+
+input,
+select,
+textarea {
+    font-size: 16px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    font-size: 15px !important;
+}
+
+
+/* =====================================================
+   TABELAS
+===================================================== */
+
+table th {
+    font-size: 14px !important;
+}
+
+table td {
+    font-size: 14px !important;
+}
+
+
+/* =====================================================
+   BOTÕES
+===================================================== */
+
+button,
+.btn,
+[class*="btn-"],
+[class*="button"] {
+    font-size: 15px !important;
+}
+
+
+/* =====================================================
+   SEGURANÇA CONTRA FONTES MINÚSCULAS
+===================================================== */
+
+main small {
+    font-size: 14px !important;
+}
+
+main label {
+    font-size: 15px !important;
+}
+
+
+/* =====================================================
+   NAVBAR CLIENTE
+===================================================== */
+
+.client-top-menu a {
+    font-size: 15px !important;
+}
+
+.client-profile-info strong {
+    font-size: 13px !important;
+}
+
+.client-profile-info span {
+    font-size: 12px !important;
+}
+
+
+/* =====================================================
+   SIDEBAR ADMIN
+===================================================== */
+
+.menu-title {
+    font-size: 12px !important;
+}
+
+.menu-item,
+.menu-item span {
+    font-size: 15px !important;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 768px) {
+
+    body small {
+        font-size: 14px !important;
+    }
+
+    body label {
+        font-size: 15px !important;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+
+}
+/* =========================================================
+   ACESSIBILIDADE GERAL
+========================================================= */
+
+html {
+    font-size: 100%;
+}
+
+body {
+    font-size: 18px;
+    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+    color: #2e2e2e;
+}
+
+/* texto pequeno geral */
+small,
+label,
+p,
+span,
+li,
+td,
+th,
+input,
+select,
+textarea,
+button,
+a {
+    font-size: inherit;
+}
+
+/* placeholders */
+input::placeholder,
+textarea::placeholder,
+select {
+    font-size: 18px !important;
+}
+
+/* textos secundários gerais */
+.text-muted,
+.text-secondary,
+[class*="descricao"],
+[class*="description"],
+[class*="subtitle"],
+[class*="subtitulo"],
+[class*="info"],
+[class*="helper"],
+[class*="hint"],
+[class*="aviso"] {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+/* labels gerais */
+label {
+    font-size: 20px !important;
+    font-weight: 500;
+}
+
+/* botões */
+button,
+.btn,
+[class*="btn-"] {
+    font-size: 18px !important;
+}
+
+/* inputs */
+input,
+select,
+textarea {
+    font-size: 18px !important;
+}
+
+/* tabelas */
+table th,
+table td {
+    font-size: 18px !important;
+}
+
+/* navbar cliente */
+.client-top-menu a {
+    font-size: 18px !important;
+}
+
+.client-profile-info strong {
+    font-size: 17px !important;
+}
+
+.client-profile-info span {
+    font-size: 16px !important;
+}
+
+/* sidebar admin */
+.menu-title {
+    font-size: 14px !important;
+    letter-spacing: 1px;
+}
+
+.menu-item,
+.menu-item span {
+    font-size: 18px !important;
+}
+
+/* =========================================================
+   AGENDAMENTO - TEXTOS QUE VOCÊ MARCOU
+========================================================= */
+
+/* subtítulos das etapas */
+.etapa-header p,
+.etapa-topo p,
+.etapa-conteudo p,
+.etapa-card p,
+.etapa p,
+.bloco-etapa p,
+.secao-etapa p,
+.card-etapa p,
+.agendamento-container p,
+.agendamento-wrapper p {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+/* títulos das etapas */
+.etapa-header h2,
+.etapa-topo h2,
+.etapa h2,
+.bloco-etapa h2,
+.secao-etapa h2,
+.card-etapa h2,
+.agendamento-container h2,
+.agendamento-wrapper h2 {
+    font-size: 24px !important;
+    line-height: 1.3 !important;
+}
+
+/* resumo lateral */
+.resumo p,
+.resumo span,
+.resumo small,
+.resumo li,
+.resumo strong,
+.resumo-card p,
+.resumo-card span,
+.resumo-card small,
+.resumo-card li,
+.resumo-card strong,
+.resumo-agendamento p,
+.resumo-agendamento span,
+.resumo-agendamento small,
+.resumo-agendamento li,
+.resumo-agendamento strong,
+.agendamento-resumo p,
+.agendamento-resumo span,
+.agendamento-resumo small,
+.agendamento-resumo li,
+.agendamento-resumo strong {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+}
+
+/* títulos pequenos do resumo: TIPO, SERVIÇO, DESCRIÇÃO */
+.resumo .titulo-item,
+.resumo .item-titulo,
+.resumo .item-label,
+.resumo-card .titulo-item,
+.resumo-card .item-titulo,
+.resumo-card .item-label,
+.resumo-agendamento .titulo-item,
+.resumo-agendamento .item-titulo,
+.resumo-agendamento .item-label,
+.agendamento-resumo .titulo-item,
+.agendamento-resumo .item-titulo,
+.agendamento-resumo .item-label {
+    font-size: 17px !important;
+    line-height: 1.5 !important;
+    font-weight: 600 !important;
+}
+
+/* valor do serviço */
+.resumo-preco,
+.valor-servico,
+.preco-resumo,
+.resumo .preco,
+.resumo-card .preco,
+.agendamento-resumo .preco {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+}
+
+/* aviso amarelo */
+.resumo-aviso,
+.aviso-resumo,
+.alerta-resumo,
+.box-aviso,
+.mensagem-aviso {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+}
+
+.resumo-aviso *,
+.aviso-resumo *,
+.alerta-resumo *,
+.box-aviso *,
+.mensagem-aviso * {
+    font-size: 17px !important;
+    line-height: 1.6 !important;
+}
+
+/* botões de horário */
+.botoes-horario span,
+.horarios label span,
+.horario-item span,
+.horario-botao span {
+    font-size: 18px !important;
+}
+
+/* botão confirmar agendamento */
+.confirmar,
+.btn-confirmar-agendamento,
+.btn-agendar {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 768px) {
+    body {
+        font-size: 17px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        font-size: 17px !important;
+    }
+
+    .etapa-header h2,
+    .etapa-topo h2,
+    .etapa h2,
+    .bloco-etapa h2,
+    .secao-etapa h2,
+    .card-etapa h2,
+    .agendamento-container h2,
+    .agendamento-wrapper h2 {
+        font-size: 22px !important;
+    }
+
+    .resumo-preco,
+    .valor-servico,
+    .preco-resumo {
+        font-size: 20px !important;
+    }
+}
+/* =========================================
+   AUMENTA SOMENTE TEXTOS MUITO PEQUENOS
+========================================= */
+
+/* textos auxiliares */
+small,
+.form-text,
+.help-text,
+.helper-text,
+.text-muted,
+.text-secondary,
+[class*="helper"],
+[class*="hint"],
+[class*="meta"],
+[class*="caption"],
+[class*="descricao"],
+[class*="description"],
+[class*="aviso"],
+[class*="notice"],
+[class*="warning"] {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+}
+
+
+/* textos pequenos em cards e resumos */
+main [class*="resumo"] small,
+main [class*="resumo"] span,
+main [class*="card"] small {
+    font-size: 13px !important;
+}
+
+
+/* TIPO, SERVIÇO, DESCRIÇÃO */
+main [class*="resumo"] [class*="label"],
+main [class*="resumo"] [class*="titulo"],
+main [class*="resumo"] > div > span:first-child {
+    font-size: 13px !important;
+}
+
+
+/* subtítulos das etapas */
+.agendamento-container h2 + p,
+.agendamento-container h3 + p,
+[class*="etapa"] h2 + p,
+[class*="etapa"] h3 + p {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+}
+
+
+/* aviso amarelo */
+[class*="aviso"],
+[class*="alert"],
+[class*="warning"],
+[class*="notice"] {
+    font-size: 13px !important;
+}
+
+[class*="aviso"] *,
+[class*="alert"] *,
+[class*="warning"] *,
+[class*="notice"] * {
+    font-size: 13px !important;
+}
+
+
+/* textos menores da sidebar */
+.sidebar-header span {
+    font-size: 11px !important;
+}
+
+.menu-title {
+    font-size: 11px !important;
+}
+
+
+/* perfil */
+.admin-profile-info span,
+.client-profile-info span {
+    font-size: 11px !important;
+}
+
+
+/* breadcrumb */
+.breadcrumb-admin {
+    font-size: 12px !important;
+}
+
+
+/* placeholders */
+input::placeholder,
+textarea::placeholder {
+    font-size: 14px !important;
+}
+
+
+/* tabelas: apenas cabeçalhos menores */
+table th {
+    font-size: 13px !important;
+}
+
+
+/* status pequenos */
+.agenda-status,
+[class*="status"] {
+    font-size: 12px !important;
+}

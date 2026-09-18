@@ -69,10 +69,6 @@
     </div>
 
 
-    <a href="#" class="admin-settings">
-
-        <i class="bi bi-gear-fill"></i>
-
-    </a>
+    
 
 </header>
