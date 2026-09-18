@@ -44,9 +44,9 @@
 
 
         <a
-            href="{{ route('admin.agendamentos') }}"
+            href="{{ route('admin.notificacoes') }}"
             class="menu-item {{
-                request()->routeIs('admin.agendamentos')
+                request()->routeIs('admin.notificacoes')
                     ? 'active'
                     : ''
             }}"
@@ -55,11 +55,10 @@
             <i class="bi bi-calendar3"></i>
 
             <span>
-                Agendamentos
+                Notificações
             </span>
 
         </a>
-
 
         <a
             href="{{ route('admin.clientes') }}"
@@ -118,4 +117,21 @@
             </span>
 
         </a>
+
+        <a
+        href="{{ route('admin.agendamentos') }}"
+        class="menu-item {{
+            request()->routeIs('admin.agendamentos')
+                ? 'active'
+                : ''
+        }}"
+    >
+
+        <i class="bi bi-calendar3"></i>
+
+        <span>
+            Agendamentos
+        </span>
+
+    </a>
 </aside>
