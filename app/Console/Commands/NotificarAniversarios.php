@@ -5,46 +5,50 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\ClienteModel;
 use App\Models\NotificacaoModel;
+use App\Models\TemplateNotificacaoModel;
 use Carbon\Carbon;
 
 class NotificarAniversarios extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'notificacoes:aniversario';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Envia notificação de desconto para clientes que fazem aniversário hoje.';
-
-    /**
-     * Execute the console command.
-     */
+    protected $description = 'Envia notificações e cupons de aniversário para os clientes do dia';
 
     public function handle()
     {
         $hoje = Carbon::today();
+        
+        $mesAtual = $hoje->month;
+        $diaAtual = $hoje->day;
 
-        $clientes = ClienteModel::whereMonth('data_nascimento', $hoje->month)
-            ->whereDay('data_nascimento', $hoje->day)
-            ->get();
+        $aniversariantes = ClienteModel::whereMonth('data_nascimento', $mesAtual)
+                                       ->whereDay('data_nascimento', $diaAtual)
+                                       ->get();
 
-        foreach ($clientes as $cliente) {
+        if ($aniversariantes->isEmpty()) {
+            return;
+        }
+
+        $template = TemplateNotificacaoModel::where('tipo', 'promocao_aniversario')->first();
+
+        if (!$template) {
+            return;
+        }
+
+        foreach ($aniversariantes as $cliente) {
+            
+            $textoFinal = str_replace(
+                ['{nome}'], 
+                [$cliente->nome], 
+                $template->conteudo
+            );
+
             NotificacaoModel::create([
-                'cliente_id' => $cliente->cliente_id,
-                'titulo' => 'Feliz Aniversário! 🎂',
-                'conteudo' => "Olá, {$cliente->nome}! Para celebrar seu dia, liberamos um cupom especial de X% de desconto para sua próxima compra. Aproveite o seu dia!",
+                'cliente_id' => $cliente->cliente_id ?? $cliente->id,
+                'titulo' => $template->titulo,
+                'conteudo' => $textoFinal,
                 'data_recebida' => now(),
                 'visualizada' => false
             ]);
         }
-
-        $this->info(count($clientes) . ' notificações de aniversário foram geradas.');
     }
 }

@@ -379,6 +379,16 @@ Route::prefix('admin')
             'admin.agendamentos'
         );
 
+        Route::get(
+            '/agendamentos/{id}/editar',
+            [AgendamentoController::class, 'editAgendamento']
+        )->name('admin.agendamentos.edit');
+
+        Route::put(
+            '/agendamentos/{id}',
+            [AgendamentoController::class, 'ajustarAgendamento']
+        )->name('admin.agendamentos.update');
+
 
         Route::patch(
             '/agendamentos/{id}/concluir',

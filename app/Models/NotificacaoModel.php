@@ -17,7 +17,8 @@ class NotificacaoModel extends Model
     protected $primaryKey = 'notificacao_id';
 
     protected $fillable = [
-        'cliente_id',
+        'cliente_id', // FK
+        'notificacao_template_id', // FK
         'titulo',
         'conteudo',
         'data_recebida',
@@ -35,6 +36,15 @@ class NotificacaoModel extends Model
             ClienteModel::class,
             'cliente_id',
             'cliente_id'
+        );
+    }
+
+    public function notificacoes_templates(): BelongsTo
+    {
+        return $this->belongsTo(
+            TemplateNotificacaoModel::class,
+            'template_notificacao_id',
+            'template_notificacao_id'
         );
     }
 }

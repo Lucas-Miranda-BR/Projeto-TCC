@@ -111,7 +111,7 @@
                 type="hidden"
                 name="cliente_id"
                 id="cliente_id"
-                value="{{ $clienteId->cliente_id }}"
+                value="{{ $cliente->cliente_id }}"
             >
 
 
