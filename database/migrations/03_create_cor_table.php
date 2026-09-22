@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('cor_id');
             $table->string('nome');
             $table->integer('estoque');
-            $table->boolean('disponivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

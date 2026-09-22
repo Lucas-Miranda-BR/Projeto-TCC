@@ -149,6 +149,7 @@
                                 <select
                                     name="marca_id"
                                     id="marca_id"
+                                    required
                                 >
 
                                     <option value="">
@@ -183,6 +184,7 @@
                                 <select
                                     name="categoria_id"
                                     id="categoria_id"
+                                    required
                                 >
 
                                     <option value="">
@@ -245,8 +247,9 @@
                                     type="number"
                                     name="estoque"
                                     id="estoque"
+                                    placeholder="0,00"
                                     min="0"
-                                    value="{{ old('estoque', 0) }}"
+                                    value="{{ old('estoque') }}"
                                     required
                                 >
 
