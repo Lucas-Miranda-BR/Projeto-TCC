@@ -40,9 +40,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function atualizarCards(dados) {
         const networth = document.getElementById('dashboard-networth');
+        const cardLabel = document.getElementById('dashboard-networth-label');
+        const cardSelect = document.getElementById('card-periodo-select');
+        const graficoSelect = document.getElementById('filtro-periodo');
+        
         if (networth) {
-            networth.textContent = formatarMoeda(dados.networth_hoje);
+            networth.textContent = formatarMoeda(dados.networth_total);
         }
+
+        if (cardLabel) {
+            if (dados.periodo_selecionado === 'dia') {
+                cardLabel.textContent = 'Ganhos - Custos (Hoje)';
+            } 
+            else if (dados.periodo_selecionado === 'semana') {
+                cardLabel.textContent = 'Acumulado (7 dias)';
+            } 
+            else if (dados.periodo_selecionado === 'mes') {
+                cardLabel.textContent = 'Acumulado (30 dias)';
+            }
+        }
+
+        if (cardSelect) cardSelect.value = dados.periodo_selecionado;
+        if (graficoSelect) graficoSelect.value = dados.periodo_selecionado;
     }
 
     function criarGrafico(dados) {
@@ -104,15 +123,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    const filtro = document.getElementById('filtro-periodo');
-    if (filtro) {
-        filtro.addEventListener('change', function() {
-            carregarDashboard(this.value);
-        });
+    const filtroGrafico = document.getElementById('filtro-periodo');
+    const filtroCard = document.getElementById('card-periodo-select');
+
+    function handleFiltroChange(event) {
+        const periodoEscolhido = event.target.value;
+        
+        if (filtroGrafico) filtroGrafico.value = periodoEscolhido;
+        if (filtroCard) filtroCard.value = periodoEscolhido;
+
+        carregarDashboard(periodoEscolhido);
+    }
+
+    if (filtroGrafico) {
+        filtroGrafico.addEventListener('change', handleFiltroChange);
+    }
+    if (filtroCard) {
+        filtroCard.addEventListener('change', handleFiltroChange);
     }
 
     atualizarDataHora();
     setInterval(atualizarDataHora, 1000);
     
-    carregarDashboard(filtro ? filtro.value : 'semana');
+    carregarDashboard(filtroCard ? filtroCard.value : 'semana');
 });

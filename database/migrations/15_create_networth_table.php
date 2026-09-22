@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('networth_id');
             $table->decimal('ganho', total:10, places:2)->default(0);
             $table->decimal('custo', total:10, places:2)->default(0);
-            $table->integer('networth', total:10, places:2)->default(0);
-            $table->date('dia');
-            $table->date('hora');
+            $table->decimal('networth', total:10, places:2)->default(0);
+            $table->date('dia')->useCurrent();
+            $table->integer('hora');
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

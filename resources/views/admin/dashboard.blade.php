@@ -32,8 +32,10 @@
                     
                     <div class="dashboard-card-header">
                         <span>Fluxo de Caixa (Networth)</span>
-                        <select disabled>
-                            <option>Hoje</option>
+                        <select id="card-periodo-select" class="filtro-select">
+                            <option value="dia">Hoje (Por Hora)</option>
+                            <option value="semana" selected>Últimos 7 dias</option>
+                            <option value="mes">Últimos 30 dias</option>
                         </select>
                     </div>
                     
@@ -41,7 +43,7 @@
                         R$ 0,00
                     </strong>
                     
-                    <small>Ganhos - Custos (Hoje)</small>
+                    <small id="dashboard-networth-label">Ganhos - Custos (Hoje)</small>
                     
                     <a href="{{ route('admin.networth.gerenciar') }}" class="link-gerenciar">
                         Gerenciar Custos

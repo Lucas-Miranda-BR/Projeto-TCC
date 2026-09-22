@@ -17,31 +17,28 @@ class AdminController extends Controller
     }
 
 
-    public function dadosDashboard(Request $request)
+    public function dadosDashboard(\Illuminate\Http\Request $request)
     {
         $periodo = $request->query('periodo', 'semana');
 
         $labels = [];
         $networths = [];
+        $totalPeriodo = 0.0;
 
         $hojeStr = Carbon::today()->toDateString();
-        
-        $valorNetworthHoje = (float) NetworthModel::where('dia', $hojeStr)->sum('networth');
 
-        // DIA
+        // Dia
 
         if ($periodo === 'dia') {
             
             $horaAtual = Carbon::now()->hour;
-            
             $registrosHora = \App\Models\NetworthModel::where('dia', $hojeStr)
                 ->get()
                 ->keyBy('hora');
 
-            $horaAbre = 8;
-            $horaFecha = 18;
+                $totalPeriodo = (float) $registrosHora->sum('networth');
 
-            for ($hora = $horaAbre; $hora = $horaFecha; $hora++) {
+            for ($hora = 8; $hora <= 18; $hora++) {
                 $labels[] = str_pad($hora, 2, '0', STR_PAD_LEFT) . 'h';
                 
                 if ($hora <= $horaAtual) {
@@ -57,7 +54,8 @@ class AdminController extends Controller
 
         } else {
             
-            // SEMANA E MÊS
+            // Mês
+
             $dias = ($periodo === 'mes') ? 30 : 7;
             $dataInicio = Carbon::today()->subDays($dias - 1);
 
@@ -76,7 +74,9 @@ class AdminController extends Controller
                 $labels[] = $dataAtual->format('d/m');
 
                 if ($registrosDiarios->has($dataStr)) {
-                    $networths[] = (float) $registrosDiarios[$dataStr]->total_dia;
+                    $valorDia = (float) $registrosDiarios[$dataStr]->total_dia;
+                    $networths[] = $valorDia;
+                    $totalPeriodo += $valorDia;
                 } else {
                     $networths[] = 0;
                 }
@@ -86,7 +86,8 @@ class AdminController extends Controller
         return response()->json([
             'labels' => $labels,
             'networths' => $networths,
-            'networth_hoje' => $valorNetworthHoje
+            'networth_total' => $totalPeriodo,
+            'periodo_selecionado' => $periodo
         ]);
     }
 
