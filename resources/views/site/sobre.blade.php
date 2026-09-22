@@ -167,23 +167,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container-fluid px-3 px-lg-5 d-flex justify-content-between flex-wrap gap-2" style="max-width:1280px;">
-      <span>Salão Sempre Diva</span>
-      <span class="d-inline-flex align-items-center gap-1">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-        Tatuí - SP
-      </span>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS (necessário para o menu recolhível no mobile) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
 
