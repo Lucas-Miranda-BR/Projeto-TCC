@@ -26,7 +26,7 @@
 
                 <span class="breadcrumb-admin">
                     Painel >
-                    <strong>tipos</strong>
+                    <strong>Tipos</strong>
                 </span>
 
                 <h1>

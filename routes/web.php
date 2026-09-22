@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\CorController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\MarcaController;
@@ -520,6 +521,67 @@ Route::prefix('admin')
             ]
         )->name(
             'admin.tipos.destroy'
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | CORES
+        |--------------------------------------------------------------------------
+        */
+
+
+        Route::get(
+            '/cores',
+            [
+                CorController::class,
+                'indexCor'
+            ]
+        )->name(
+            'admin.cores.index'
+        );
+
+
+        Route::post(
+            '/cores/store',
+            [
+                CorController::class,
+                'storeCor'
+            ]
+        )->name(
+            'admin.cores.store'
+        );
+
+
+        Route::get(
+            '/cores/{id}/edit',
+            [
+                CorController::class,
+                'editCor'
+            ]
+        )->name(
+            'admin.cores.edit'
+        );
+
+
+        Route::put(
+            '/cores/{id}',
+            [
+                CorController::class,
+                'updateCor'
+            ]
+        )->name(
+            'admin.cores.update'
+        );
+
+
+        Route::delete(
+            '/cores/{id}',
+            [
+                CorController::class,
+                'destroyCor'
+            ]
+        )->name(
+            'admin.cores.destroy'
         );
 
 

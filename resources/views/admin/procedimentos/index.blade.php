@@ -295,7 +295,7 @@
             <br>
 
             <h1>Gerenciar Cores Disponíveis de Procedimento</h1>
-            <button> <a href="#">Gerencie Aqui</a></button>
+            <button> <a href="{{ route('admin.cores.index') }}">Gerencie Aqui</a></button>
 
 
 

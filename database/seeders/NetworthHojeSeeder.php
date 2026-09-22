@@ -16,7 +16,10 @@ class NetworthHojeSeeder extends Seeder
     {
         $hoje = Carbon::today()->toDateString();
 
-        for ($hora = 8; $hora <= 12; $hora++) {
+        $horaAbre = 8;
+        $horaFecha = 18;
+
+        for ($hora = $horaAbre; $hora <= $horaFecha; $hora++) {
             
             $ganho = rand(20, 150) + (rand(0, 99) / 100);
             $custo = rand(5, 50) + (rand(0, 99) / 100);
