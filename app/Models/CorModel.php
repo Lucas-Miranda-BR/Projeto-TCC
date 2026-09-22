@@ -15,7 +15,11 @@ class CorModel extends Model
     protected $fillable = [
         'nome',
         'estoque',
-        'disponivel'
+        'is_disponivel'
+    ];
+
+    protected $casts = [
+        'is_disponivel' => 'boolean',
     ];
 
     public function prompts_ia(): HasMany {

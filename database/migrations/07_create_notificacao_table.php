@@ -13,31 +13,15 @@ return new class extends Migration
             Schema::create('notificacao', function (Blueprint $table) {
 
                 $table->id('notificacao_id');
-
                 $table->string('titulo');
-
                 $table->string('conteudo');
+                $table->timestamp('data_recebida')->useCurrent();
+                $table->boolean('visualizada')->default(false);
+                $table->timestamp('criado')->useCurrent();
+                $table->unsignedBigInteger('cliente_id')->nullable();
+                $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
 
-                $table->timestamp('data_recebida')
-                    ->useCurrent();
-
-                $table->boolean('visualizada')
-                    ->default(false);
-
-                $table->unsignedBigInteger('cliente_id')
-                    ->nullable();
-
-                $table->timestamp('criado')
-                    ->useCurrent();
-
-                $table->timestamp('atualizado')
-                    ->useCurrent()
-                    ->useCurrentOnUpdate();
-
-                $table->foreign('cliente_id')
-                    ->references('cliente_id')
-                    ->on('cliente')
-                    ->restrictOnDelete();
+                $table->foreign('cliente_id')->references('cliente_id')->on('cliente')->restrictOnDelete();
             });
         }
     }

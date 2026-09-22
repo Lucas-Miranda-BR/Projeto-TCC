@@ -15,6 +15,7 @@ class NetworthModel extends Model
         'ganho',
         'custo',
         'networth',
-        'dia'
+        'dia',
+        'hora'
     ];
 }

@@ -9,11 +9,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AiFotoController;
 use App\Http\Controllers\ProcedimentoController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\CorController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotificacaoController;
+use App\Http\Controllers\NetworthController;
 
 
 /*
@@ -521,6 +523,67 @@ Route::prefix('admin')
             'admin.tipos.destroy'
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | CORES
+        |--------------------------------------------------------------------------
+        */
+
+
+        Route::get(
+            '/cores',
+            [
+                CorController::class,
+                'indexCor'
+            ]
+        )->name(
+            'admin.cores.index'
+        );
+
+
+        Route::post(
+            '/cores/store',
+            [
+                CorController::class,
+                'storeCor'
+            ]
+        )->name(
+            'admin.cores.store'
+        );
+
+
+        Route::get(
+            '/cores/{id}/edit',
+            [
+                CorController::class,
+                'editCor'
+            ]
+        )->name(
+            'admin.cores.edit'
+        );
+
+
+        Route::put(
+            '/cores/{id}',
+            [
+                CorController::class,
+                'updateCor'
+            ]
+        )->name(
+            'admin.cores.update'
+        );
+
+
+        Route::delete(
+            '/cores/{id}',
+            [
+                CorController::class,
+                'destroyCor'
+            ]
+        )->name(
+            'admin.cores.destroy'
+        );
+
 
         /*
         |--------------------------------------------------------------------------
@@ -615,5 +678,26 @@ Route::prefix('admin')
         )->name(
             'admin.categorias.store'
         );
+
+        /*
+        |--------------------------------------------------------------------------
+        | NETWORTH
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/networth/gerenciar',
+            [NetworthController::class, 'gerenciar']
+        )->name('admin.networth.gerenciar');
+
+        Route::post(
+            '/networth/ganho',
+            [NetworthController::class, 'adicionarGanho']
+        )->name('admin.networth.ganho.store');
+
+        Route::post(
+            '/networth/custo',
+            [NetworthController::class, 'adicionarCusto']
+        )->name('admin.networth.custo.store');
 
     });

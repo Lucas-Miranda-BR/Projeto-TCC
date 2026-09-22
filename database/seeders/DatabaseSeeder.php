@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             ClienteDummySeeder::class,
             CorSeeder::class,
             TipoSeeder::class,
-            ProcedimentoSeeder::class
+            ProcedimentoSeeder::class,
+            NetworthDiaSeeder::class,
+            NetworthHojeSeeder::class
 
         ]);
     }
