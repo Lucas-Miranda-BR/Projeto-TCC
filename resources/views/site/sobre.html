@@ -1,3 +1,11 @@
+@extends('layouts.app')
+
+@push('css')
+<link rel="stylesheet" href="{{ asset('css/sobre.css') }}">
+@endpush
+
+@section('content')
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -246,3 +254,7 @@
 
 </body>
 </html>
+
+@include('components.footer')
+
+@endsection
