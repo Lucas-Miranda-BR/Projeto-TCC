@@ -6,6 +6,8 @@ use App\Models\ClienteModel;
 use App\Models\AgendamentoModel;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\NetworthModel;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -15,157 +17,79 @@ class AdminController extends Controller
     }
 
 
-    public function dadosDashboard()
+    public function dadosDashboard(\Illuminate\Http\Request $request)
     {
-        $hoje = Carbon::today();
-
-
-        $pedidosHoje = DB::table('pedido')
-            ->whereDate('pedido_data', $hoje)
-            ->get();
-
-
-        $faturamentoProdutos =
-            (float) $pedidosHoje->sum('valor_total');
-
-
-        $servicosConcluidos = DB::table('agendamento as a')
-            ->join(
-                'procedimento as p',
-                'p.procedimento_id',
-                '=',
-                'a.procedimento_id'
-            )
-            ->where(
-                'a.isConcluido',
-                1
-            )
-            ->select(
-                'a.agendamento_id',
-                'a.data',
-                'a.hora',
-                'a.procedimento_id',
-                'p.nome',
-                'p.preco'
-            )
-            ->get();
-
-
-        $faturamentoServicos =
-            (float) $servicosConcluidos->sum('preco');
-
-
-        $faturamentoTotal =
-            $faturamentoProdutos +
-            $faturamentoServicos;
-
+        $periodo = $request->query('periodo', 'semana');
 
         $labels = [];
+        $networths = [];
+        $totalPeriodo = 0.0;
 
-        $dadosProdutos = [];
+        $hojeStr = Carbon::today()->toDateString();
 
-        $dadosServicos = [];
+        // Dia
 
+        if ($periodo === 'dia') {
+            
+            $horaAtual = Carbon::now()->hour;
+            $registrosHora = \App\Models\NetworthModel::where('dia', $hojeStr)
+                ->get()
+                ->keyBy('hora');
 
-        for ($hora = 8; $hora <= 18; $hora++) {
+                $totalPeriodo = (float) $registrosHora->sum('networth');
 
-            $labels[] =
-                str_pad(
-                    $hora,
-                    2,
-                    '0',
-                    STR_PAD_LEFT
-                ) . 'h';
+            for ($hora = 8; $hora <= 18; $hora++) {
+                $labels[] = str_pad($hora, 2, '0', STR_PAD_LEFT) . 'h';
+                
+                if ($hora <= $horaAtual) {
+                    if ($registrosHora->has($hora)) {
+                        $networths[] = (float) $registrosHora[$hora]->networth;
+                    } else {
+                        $networths[] = 0;
+                    }
+                } else {
+                    $networths[] = null;
+                }
+            }
 
+        } else {
+            
+            // Mês
 
-            $totalProdutosHora =
-                $pedidosHoje
-                    ->filter(
-                        function ($pedido) use ($hora) {
+            $dias = ($periodo === 'mes') ? 30 : 7;
+            $dataInicio = Carbon::today()->subDays($dias - 1);
 
-                            if (
-                                empty(
-                                    $pedido->pedido_data
-                                )
-                            ) {
-                                return false;
-                            }
+            $registrosDiarios = \App\Models\NetworthModel::selectRaw('dia, SUM(networth) as total_dia')
+                ->where('dia', '>=', $dataInicio->toDateString())
+                ->where('dia', '<=', $hojeStr)
+                ->groupBy('dia')
+                ->get()
+                ->keyBy('dia');
 
+            for ($i = 0; $i < $dias; $i++) {
+                $dataAtual = clone $dataInicio;
+                $dataAtual->addDays($i);
+                $dataStr = $dataAtual->toDateString();
 
-                            return Carbon::parse(
-                                $pedido->pedido_data
-                            )->hour === $hora;
+                $labels[] = $dataAtual->format('d/m');
 
-                        }
-                    )
-                    ->sum(
-                        'valor_total'
-                    );
-
-
-            $totalServicosHora =
-                $servicosConcluidos
-                    ->filter(
-                        function ($agendamento) use ($hora) {
-
-                            if (
-                                empty(
-                                    $agendamento->hora
-                                )
-                            ) {
-                                return false;
-                            }
-
-
-                            return Carbon::parse(
-                                $agendamento->hora
-                            )->hour === $hora;
-
-                        }
-                    )
-                    ->sum(
-                        'preco'
-                    );
-
-
-            $dadosProdutos[] =
-                (float) $totalProdutosHora;
-
-
-            $dadosServicos[] =
-                (float) $totalServicosHora;
+                if ($registrosDiarios->has($dataStr)) {
+                    $valorDia = (float) $registrosDiarios[$dataStr]->total_dia;
+                    $networths[] = $valorDia;
+                    $totalPeriodo += $valorDia;
+                } else {
+                    $networths[] = 0;
+                }
+            }
         }
 
-
         return response()->json([
-
-            'labels' =>
-                $labels,
-
-            'produtos' =>
-                $dadosProdutos,
-
-            'servicos' =>
-                $dadosServicos,
-
-            'faturamento_produtos' =>
-                $faturamentoProdutos,
-
-            'faturamento_servicos' =>
-                $faturamentoServicos,
-
-            'faturamento_total' =>
-                $faturamentoTotal,
-
-            'pedidos_realizados' =>
-                $pedidosHoje->count(),
-
-            'servicos_concluidos' =>
-                $servicosConcluidos->count()
-
+            'labels' => $labels,
+            'networths' => $networths,
+            'networth_total' => $totalPeriodo,
+            'periodo_selecionado' => $periodo
         ]);
     }
-
 
     public function viewClientes()
     {
@@ -231,15 +155,6 @@ class AdminController extends Controller
         );
     }
 
-
-    public function viewCalendario()
-    {
-        return view(
-            'admin.calendario'
-        );
-    }
-
-
     public function viewProdutos()
     {
         return view(
@@ -247,11 +162,11 @@ class AdminController extends Controller
         );
     }
 
-
     public function viewProcedimentos()
     {
         return view(
             'admin.procedimentos.index'
         );
     }
+
 }
