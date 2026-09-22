@@ -19,7 +19,7 @@
 
             <p>Salão de beleza de Sandra Nerys</p>
 
-            <a href="{{ route('cliente.login') }}" class="btn-main">
+            <a href="{{ route('site.sobre') }}" class="btn-main">
                 Ver mais
             </a>
 
