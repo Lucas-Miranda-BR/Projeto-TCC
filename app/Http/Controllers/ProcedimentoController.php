@@ -99,7 +99,7 @@ class ProcedimentoController extends Controller
 
         $validated = $validator->validated();
 
-        $procedimento->updateProcedimento($validated);
+        $procedimento->update($validated);
 
         return redirect()
             ->route('admin.procedimentos.index')
