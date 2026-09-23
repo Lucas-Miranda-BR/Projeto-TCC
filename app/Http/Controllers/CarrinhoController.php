@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Models\NotificacaoModel;
+use App\Models\TemplateNotificacaoModel;
 
 class CarrinhoController extends Controller
 {
@@ -253,13 +254,25 @@ class CarrinhoController extends Controller
                     $item->save();
                 }
 
+                $template = TemplateNotificacaoModel::where('tipo', 'compra_confirmada')->first();
+
+                if ($template) {
+                    $valorFormatado = number_format($pedido->valor_total, 2, ',', '.');
+                    
+                    $textoFinal = str_replace(
+                        ['{pedido}', '{valor}'], 
+                        [$pedido->pedido_id, $valorFormatado], 
+                        $template->conteudo
+                    );
+
                     NotificacaoModel::create([
                         'cliente_id' => $cliente->cliente_id,
-                        'titulo' => 'Pedido Confirmado! 🎉',
-                        'conteudo' => "Sua compra (Pedido #" . $pedido->pedido_id . ") foi realizada com sucesso. Porfavor vá até o local para pegar seu pedido. Agradecemos a preferência!",
+                        'titulo' => $template->titulo,
+                        'conteudo' => $textoFinal,
                         'data_recebida' => now(),
                         'visualizada' => false
-                ]);
+                    ]);
+                }
 
                 return $pedido;
             });
