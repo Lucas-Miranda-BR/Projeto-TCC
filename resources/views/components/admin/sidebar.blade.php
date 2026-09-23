@@ -152,12 +152,8 @@
     </a>
 
     <a
-        href="{{ route('#') }}"
-        class="menu-item {{
-            request()->routeIs('#')
-                ? 'active'
-                : ''
-        }}"
+        href="#"
+        class="menu-item"
     >
 
     <i class="bi bi-calendar3"></i>
