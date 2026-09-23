@@ -52,4 +52,13 @@ class ItemModel extends Model
             'item_id'
         );
     }
+
+    public function descontar_itens(): HasMany
+    {
+        return $this->hasMany(
+            DescontarItemModel::class,
+            'item_id',
+            'item_id'
+        );
+    }
 }

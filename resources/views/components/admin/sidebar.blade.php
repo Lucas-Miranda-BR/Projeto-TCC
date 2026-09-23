@@ -134,4 +134,37 @@
         </span>
 
     </a>
+        <a
+        href="{{ route('admin.agendamentos') }}"
+        class="menu-item {{
+            request()->routeIs('admin.agendamentos')
+                ? 'active'
+                : ''
+        }}"
+    >
+
+        <i class="bi bi-calendar3"></i>
+
+        <span>
+            Agendamentos
+        </span>
+
+    </a>
+
+    <a
+        href="{{ route('#') }}"
+        class="menu-item {{
+            request()->routeIs('#')
+                ? 'active'
+                : ''
+        }}"
+    >
+
+    <i class="bi bi-calendar3"></i>
+
+    <span>
+        Descontos
+    </span>
+
+    </a>
 </aside>
