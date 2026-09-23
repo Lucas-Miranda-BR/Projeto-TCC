@@ -22,7 +22,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Gatilho (Tipo)</th>
+                    <th>Quando ocorrer (Tipo)</th>
                     <th>Título da Mensagem</th>
                     <th>Ações</th>
                 </tr>
@@ -34,7 +34,7 @@
                         <td>{{ $template->titulo }}</td>
                         <td>
                             <a href="{{ route('admin.templates.edit', $template->template_notificacao_id) }}">
-                                Editar Textos
+                                Editar
                             </a>
                         </td>
                     </tr>
