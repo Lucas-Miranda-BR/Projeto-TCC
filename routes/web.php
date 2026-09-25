@@ -48,6 +48,11 @@ Route::prefix('site')->group(function () {
         [SiteController::class, 'viewProdutos']
     )->name('site.produtos');
 
+    Route::get(
+        '/produtos/{id}',
+        [SiteController::class, 'viewProdutoDetalhe']
+    )->name('site.produto.detalhe');
+
 
     Route::get(
         '/ia',

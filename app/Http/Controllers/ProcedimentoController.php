@@ -92,7 +92,7 @@ class ProcedimentoController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->route('admin.procedimentos.index', $id)
+                ->route('admin.procedimentos.edit', $id)
                 ->withErrors($validator)
                 ->withInput();
         }

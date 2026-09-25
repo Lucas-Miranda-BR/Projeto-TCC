@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('desconto', function (Blueprint $table) {
             $table->id('desconto_id');
             $table->string('nome');
-            $table->valor('valor');
+            $table->integer('valor');
             $table->timestamp('quando_terminar');
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
