@@ -25,8 +25,7 @@ class TemplateNotificacoesSeeder extends Seeder
         TemplateNotificacaoModel::create([
             'tipo' => 'promocao_aniversario',
             'titulo' => 'Feliz Aniversário! 🎉',
-            'conteudo' => 'Parabéns {nome}! Preparamos um desconto especial de aniversário para você.'
-        ]);
+            'conteudo' => 'Parabéns {nome}! Preparamos um desconto especial de {desconto} de aniversário para você.']);
 
         TemplateNotificacaoModel::create([
             'tipo' => 'agendamento_confirmado',

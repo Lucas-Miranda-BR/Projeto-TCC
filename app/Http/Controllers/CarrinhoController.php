@@ -25,7 +25,7 @@ class CarrinhoController extends Controller
             if ($hoje->month === $nascimento->month && $hoje->day === $nascimento->day) {
                 
                 $jaUsouDesconto = PedidoModel::where('cliente_id', $cliente->cliente_id)
-                    ->whereDate('created_at', $hoje)
+                    ->whereDate('criado', $hoje)
                     ->exists();
 
                 if (!$jaUsouDesconto) {
