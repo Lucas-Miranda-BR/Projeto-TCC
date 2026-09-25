@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             ProcedimentoSeeder::class,
             NetworthDiaSeeder::class,
             NetworthHojeSeeder::class,
-            TemplateNotificacoesSeeder::class
+            TemplateNotificacoesSeeder::class,
+            DescontoSeeder::class
 
         ]);
     }

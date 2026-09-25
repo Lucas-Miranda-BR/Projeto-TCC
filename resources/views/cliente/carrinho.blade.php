@@ -89,7 +89,7 @@
                 @foreach($linhas as $linha)
 
 
-                    <article class="carrinho-item" id="item-carrinho-{{ $linha['item']->item_id }}>
+                    <article class="carrinho-item" id="item-carrinho-{{ $linha['item']->item_id }}">
 
 
                         <img
@@ -244,6 +244,12 @@
                     Resumo do pedido
                 </h2>
 
+                @if(isset($temDescontoAniversario) && $temDescontoAniversario)
+                    <div>
+                        <strong>🎉 Parabéns!</strong><br>
+                        Hoje é seu aniversário. Aplicamos <strong>{{ $valorDescontoPercentual }}% de desconto</strong> no seu pedido!
+                    </div>
+                @endif
 
                 <div class="resumo-linha">
 

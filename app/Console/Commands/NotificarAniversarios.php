@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\ClienteModel;
 use App\Models\NotificacaoModel;
 use App\Models\TemplateNotificacaoModel;
+use App\Models\DescontoModel;
 use Carbon\Carbon;
 
 class NotificarAniversarios extends Command
@@ -34,11 +35,15 @@ class NotificarAniversarios extends Command
             return;
         }
 
+        $regraDesconto = DescontoModel::where('nome', 'like', '%Aniversário%')->first();
+        
+        $descontoFormatado = $regraDesconto ? number_format($regraDesconto->valor, 0) . '%' : '0%';
+
         foreach ($aniversariantes as $cliente) {
             
             $textoFinal = str_replace(
-                ['{nome}'], 
-                [$cliente->nome], 
+                ['{nome}', '{desconto}'], 
+                [$cliente->nome, $descontoFormatado], 
                 $template->conteudo
             );
 
@@ -50,5 +55,7 @@ class NotificarAniversarios extends Command
                 'visualizada' => false
             ]);
         }
+        
+        $this->info("Notificações enviadas com sucesso para " . $aniversariantes->count() . " aniversariante(s).");
     }
 }

@@ -5,15 +5,62 @@ namespace App\Http\Controllers;
 use App\Models\ItemModel;
 use App\Models\PedidoModel;
 use App\Models\CarrinhoItemModel;
+use App\Models\NotificacaoModel;
+use App\Models\TemplateNotificacaoModel;
+use App\Models\DescontoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Models\NotificacaoModel;
-use App\Models\TemplateNotificacaoModel;
+use Carbon\Carbon;
 
 class CarrinhoController extends Controller
 {
+    private function getDescontoAniversario($cliente)
+    {
+        if ($cliente && !empty($cliente->data_nascimento)) {
+            $hoje = Carbon::today();
+            $nascimento = Carbon::parse($cliente->data_nascimento);
+
+            if ($hoje->month === $nascimento->month && $hoje->day === $nascimento->day) {
+                $jaUsouDesconto = PedidoModel::where('cliente_id', $cliente->cliente_id)
+                    ->whereDate('criado', $hoje)
+                    ->exists();
+
+                if (!$jaUsouDesconto) {
+                    $regraDesconto = DescontoModel::where('nome', 'like', '%Aniversário%')->first();
+                    if ($regraDesconto) {
+                        return (float) $regraDesconto->valor;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    private function calcularTotalCarrinho($carrinho)
+    {
+        $totalCentavos = 0;
+        
+        foreach ($carrinho as $itemId => $qtd) {
+            $item = ItemModel::find($itemId);
+            if ($item && $item->estoque >= 2) {
+                $precoCentavos = (int) round(((float) $item->preco) * 100);
+                $totalCentavos += $precoCentavos * $qtd;
+            }
+        }
+
+        $cliente = Auth::user();
+        $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
+
+        if ($valorDescontoPercentual > 0) {
+            $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
+            $totalCentavos -= $descontoCentavos;
+        }
+
+        return $totalCentavos / 100;
+    }
+
     public function index()
     {
         $carrinho = session()->get('carrinho', []);
@@ -21,6 +68,10 @@ class CarrinhoController extends Controller
         $totalCentavos = 0;
         $avisos = [];
         $carrinhoAtualizou = false;
+
+        $cliente = Auth::user();
+        $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
+        $temDescontoAniversario = $valorDescontoPercentual > 0;
 
         foreach ($carrinho as $itemId => $quantidade) {
             $item = ItemModel::with(['marcas', 'categorias'])->find($itemId);
@@ -60,22 +111,14 @@ class CarrinhoController extends Controller
             session()->flash('avisos', $avisos);
         }
 
+        if ($temDescontoAniversario) {
+            $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
+            $totalCentavos -= $descontoCentavos;
+        }
+
         $total = $totalCentavos / 100;
 
-        return view('cliente.carrinho', compact('linhas', 'total'));
-    }
-
-    private function calcularTotalCarrinho($carrinho)
-    {
-        $totalCentavos = 0;
-        foreach ($carrinho as $itemId => $qtd) {
-            $item = \App\Models\ItemModel::find($itemId);
-            if ($item && $item->estoque >= 2) {
-                $precoCentavos = (int) round(((float) $item->preco) * 100);
-                $totalCentavos += $precoCentavos * $qtd;
-            }
-        }
-        return $totalCentavos / 100;
+        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));
     }
 
     public function adicionar(Request $request, $id)
@@ -233,6 +276,13 @@ class CarrinhoController extends Controller
                         'quantidade' => $quantidade,
                         'subtotal' => $subtotalCentavos / 100
                     ];
+                }
+
+                $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
+                
+                if ($valorDescontoPercentual > 0) {
+                    $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
+                    $totalCentavos -= $descontoCentavos;
                 }
 
                 $pedido = PedidoModel::create([

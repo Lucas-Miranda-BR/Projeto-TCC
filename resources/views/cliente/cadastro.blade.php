@@ -74,7 +74,7 @@
                     </strong>
 
                     <p>
-                        O CPF é necessário para identificar sua conta
+                        O CPF é opcional no cadastro, mas necessário para identificar sua conta
                         e será solicitado para finalizar compras.
                     </p>
 
@@ -172,7 +172,6 @@
                             pattern="[0-9]{11}"
                             inputmode="numeric"
                             placeholder="Digite os 11 números"
-                            required
                             autocomplete="off"
                         >
 
