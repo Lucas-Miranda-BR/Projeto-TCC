@@ -105,4 +105,15 @@ class SiteController extends Controller
             )
         );
     }
+
+    public function viewProdutoDetalhe($id)
+    {
+        $item = ItemModel::with(['marcas', 'categorias'])->findOrFail($id);
+        
+        $carrinho = session()->get('carrinho', []);
+        
+        $quantidadeNoCarrinho = $carrinho[$id] ?? 0;
+
+        return view('site.produto-detalhe', compact('item', 'quantidadeNoCarrinho'));
+    }
 }

@@ -134,4 +134,17 @@
         </span>
 
     </a>
+
+    <a
+        href="#"
+        class="menu-item"
+    >
+
+    <i class="bi bi-calendar3"></i>
+
+    <span>
+        Descontos
+    </span>
+
+    </a>
 </aside>

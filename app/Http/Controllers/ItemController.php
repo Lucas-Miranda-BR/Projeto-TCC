@@ -46,6 +46,14 @@ class ItemController extends Controller
                 'numeric',
                 'min:0'
             ],
+            'marca_id' => [
+                'required',
+                'exists:marca,marca_id'
+            ],
+            'categoria_id' => [
+                'required',
+                'exists:categoria,categoria_id'
+            ],
             'estoque' => [
                 'required',
                 'integer',

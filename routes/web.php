@@ -16,6 +16,7 @@ use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotificacaoController;
 use App\Http\Controllers\NetworthController;
+use App\Http\Controllers\TemplateNotificacaoController;
 
 
 /*
@@ -46,6 +47,11 @@ Route::prefix('site')->group(function () {
         '/produtos',
         [SiteController::class, 'viewProdutos']
     )->name('site.produtos');
+
+    Route::get(
+        '/produtos/{id}',
+        [SiteController::class, 'viewProdutoDetalhe']
+    )->name('site.produto.detalhe');
 
 
     Route::get(
@@ -379,6 +385,16 @@ Route::prefix('admin')
             'admin.agendamentos'
         );
 
+        Route::get(
+            '/agendamentos/{id}/editar',
+            [AgendamentoController::class, 'editAgendamento']
+        )->name('admin.agendamentos.edit');
+
+        Route::put(
+            '/agendamentos/{id}',
+            [AgendamentoController::class, 'ajustarAgendamento']
+        )->name('admin.agendamentos.update');
+
 
         Route::patch(
             '/agendamentos/{id}/concluir',
@@ -699,5 +715,25 @@ Route::prefix('admin')
             '/networth/custo',
             [NetworthController::class, 'adicionarCusto']
         )->name('admin.networth.custo.store');
+
+        /*
+        |--------------------------------------------------------------------------
+        | TEMPLATES DE NOTIFICAÇÃO
+        |--------------------------------------------------------------------------
+        */
+        Route::get(
+            '/templates-notificacao', 
+            [TemplateNotificacaoController::class, 'index']
+        )->name('admin.templates.index');
+
+        Route::get(
+            '/templates-notificacao/{id}/editar', 
+            [TemplateNotificacaoController::class, 'edit']
+        )->name('admin.templates.edit');
+
+        Route::put(
+            '/templates-notificacao/{id}', 
+            [TemplateNotificacaoController::class, 'update']
+        )->name('admin.templates.update');
 
     });

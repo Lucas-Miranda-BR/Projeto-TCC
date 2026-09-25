@@ -4,110 +4,161 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AgendamentoModel;
-use App\Models\TipoModel;
-use App\Models\ClienteModel;
 use App\Models\ProcedimentoModel;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Models\NotificacaoModel;
+use App\Models\TemplateNotificacaoModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
-    public function createAgendamento(Request $request)
+    public function createAgendamento()
     {
-        $imagemGeradaId = $request->query('imagem_gerada_id');
-        $procedimentoSelecionado = null;
+        $procedimentos = ProcedimentoModel::all();
+        
+        $cliente = Auth::user();
+        
+        return view('agendamento.agendar', compact('procedimentos', 'cliente'));
+    }
 
-        if ($imagemGeradaId) {
-            $promptIa = PromptIaModel::find($imagemGeradaId);
-            if ($promptIa) {
-                $procedimentoSelecionado = $promptIa->procedimento_id;
+    public function storeAgendamento(Request $request)
+    {
+        $request->validate([
+            'data' => 'required|date|after_or_equal:today',
+            'hora' => 'required',
+            'procedimento_id' => 'required|exists:procedimento,procedimento_id'
+        ]);
+
+        $cliente_id = Auth::id() ?? $request->cliente_id;
+
+        $agendamento = AgendamentoModel::create([
+            'cliente_id' => $cliente_id,
+            'procedimento_id' => $request->procedimento_id,
+            'data' => $request->data,
+            'hora' => $request->hora,
+            'isConcluido' => 0
+        ]);
+
+        $procedimento = ProcedimentoModel::find($request->procedimento_id);
+        $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
+
+        if ($cliente_id) {
+            $template = TemplateNotificacaoModel::where('tipo', 'agendamento_confirmado')->first();
+
+            if ($template) {
+                $dataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
+                
+                $textoFinal = str_replace(
+                    ['{procedimento}', '{data}', '{hora}'], 
+                    [$nomeProcedimento, $dataFormatada, $agendamento->hora], 
+                    $template->conteudo
+                );
+
+                NotificacaoModel::create([
+                    'cliente_id' => $cliente_id,
+                    'titulo' => $template->titulo,
+                    'conteudo' => $textoFinal,
+                    'data_recebida' => now(),
+                    'visualizada' => false
+                ]);
             }
         }
 
-        $procedimentos = ProcedimentoModel::with('tipos')->get();
-
-        if(!Auth::check()){
-            return redirect()->route('cliente.cadastro')
-            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
-        }
-    
-        $cliente = Auth::user();
-        
-        if(!$cliente){
-            return redirect()->route('cliente.cadastro')
-            ->withErrors(['Por favor realize um cadastro ou entre em uma conta para realizar esse agendamento.']);
-        }
-        
-        $clienteId = ClienteModel::find($cliente->cliente_id);
-
-        $agendamentos = AgendamentoModel::with('servicos')->get();
-
-
-        return view('agendamento.agendar', compact('procedimentos', 'clienteId', 'agendamentos', 'imagemGeradaId', 'procedimentoSelecionado'));
+        return redirect()->route('cliente.notificacoes')
+                         ->with('success', 'Agendamento realizado com sucesso!');
     }
 
-    public function storeAgendamento(Request $dados)
+    public function concluirAgendamento($id)
     {
-        $validator = Validator::make($dados->all(), [
-            'hora' => [
-                'required',
-                'date_format:H:i'
-            ],
-
-            'data' => [
-                'required',
-                'date'
-            ],
-
-            'cliente_id' => [
-                'required'
-            ],
-            'procedimento_id' => [
-                'required',
-                'exists:procedimento,procedimento_id'
-            ],
-            'imagem_gerada_id' => [
-                'nullable'
-            ]
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->route('agendamento.agendar')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $validated = $validator->validated();
-
-        AgendamentoModel::create($validated);
-
-        $cliente = Auth::user();
-
-        $dataFormatada = Carbon::parse($validated['data'])->format('d/m/Y');
-
-        NotificacaoModel::create([
-            'cliente_id' => $cliente->cliente_id,
-            'titulo' => 'Agendamento Confirmado! 🎉',
-            'conteudo' => "Seu agendamento foi marcado com sucesso. Por favor, compareça ao salão no dia ". $dataFormatada . " às " . $validated['hora'] . " Agradecemos a preferência!",
-            'data_recebida' => now(),
-            'visualizada' => false
-        ]);
+        $agendamento = AgendamentoModel::findOrFail($id);
+        
+        $agendamento->isConcluido = 1;
+        $agendamento->save();
 
         return redirect()->back()->with('success', 'Agendamento concluído com sucesso!');
     }
 
-    public function concluirAgendamento($id){
+    public function cancelarAgendamento($id)
+    {
+        $agendamento = AgendamentoModel::findOrFail($id);
+        $clienteId = $agendamento->cliente_id;
+        
+        $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
+        $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
+        
+        $template = TemplateNotificacaoModel::where('tipo', 'agendamento_cancelado')->first();
 
-        $agendamento = AgendamentoModel::find($id);
-        if ($agendamento) {
-            $agendamento->isConcluido = 1;
-            $agendamento->save();
+        if ($template && $clienteId) {
+            $dataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
+            
+            $textoFinal = str_replace(
+                ['{procedimento}', '{data}', '{hora}'], 
+                [$nomeProcedimento, $dataFormatada, $agendamento->hora], 
+                $template->conteudo
+            );
+
+            NotificacaoModel::create([
+                'cliente_id' => $clienteId,
+                'titulo' => $template->titulo,
+                'conteudo' => $textoFinal,
+                'data_recebida' => now(),
+                'visualizada' => false
+            ]);
         }
 
-        return redirect()->back();
+        $agendamento->delete(); 
+
+        return redirect()->back()->with('success', 'Agendamento cancelado e cliente notificado.');
+    }
+
+    public function editAgendamento($id)
+    {
+        $agendamento = AgendamentoModel::with(['clientes', 'procedimentos'])->findOrFail($id);
+        
+        return view('admin.agendamentos.edit', compact('agendamento'));
+    }
+
+    public function ajustarAgendamento(Request $request, $id)
+    {
+        $request->validate([
+            'data' => 'required|date',
+            'hora' => 'required'
+        ]);
+
+        $agendamento = AgendamentoModel::findOrFail($id);
+        $clienteId = $agendamento->cliente_id;
+
+        $dataAntigaFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
+        
+        $agendamento->data = $request->data;
+        $agendamento->hora = $request->hora;
+        $agendamento->save();
+
+        $novaDataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
+        $novaHora = $agendamento->hora;
+
+        $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
+        $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
+
+        $template = TemplateNotificacaoModel::where('tipo', 'agendamento_reagendado')->first();
+
+        if ($template && $clienteId) {
+            
+            $textoFinal = str_replace(
+                ['{procedimento}', '{data_antiga}', '{nova_data}', '{nova_hora}'], 
+                [$nomeProcedimento, $dataAntigaFormatada, $novaDataFormatada, $novaHora], 
+                $template->conteudo
+            );
+
+            NotificacaoModel::create([
+                'cliente_id' => $clienteId,
+                'titulo' => $template->titulo,
+                'conteudo' => $textoFinal,
+                'data_recebida' => now(),
+                'visualizada' => false
+            ]);
+        }
+
+        return redirect()->route('admin.agendamentos')->with('success', 'Agendamento remarcado e cliente notificado!');
     }
 }

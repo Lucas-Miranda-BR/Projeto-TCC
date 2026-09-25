@@ -69,6 +69,11 @@
 
             </div>
 
+            <div>
+                <a href="{{ route('admin.templates.index') }}"> Gerenciar Notficaçoes </a>
+            </div>
+            
+
 
             @if(session('success'))
 
