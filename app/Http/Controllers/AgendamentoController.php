@@ -12,21 +12,39 @@ use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
-    public function createAgendamento()
+    public function createAgendamento(Request $request)
     {
-        $procedimentos = ProcedimentoModel::all();
-        
         $cliente = Auth::user();
         
-        return view('agendamento.agendar', compact('procedimentos', 'cliente'));
+        if (!$cliente) {
+            return redirect()
+                ->route('cliente.login')
+                ->with('erro', 'Faça login ou cadastro para agendar o seu horário.');
+        }
+
+        $procedimentos = ProcedimentoModel::all();
+        
+        $procedimentoSelecionado = $request->query('procedimento_id');
+        $imagemGeradaId = $request->query('imagem_id');
+        
+        return view('agendamento.agendar', compact('procedimentos', 'cliente', 'procedimentoSelecionado', 'imagemGeradaId'));
     }
 
     public function storeAgendamento(Request $request)
     {
         $request->validate([
-            'data' => 'required|date|after_or_equal:today',
-            'hora' => 'required',
-            'procedimento_id' => 'required|exists:procedimento,procedimento_id'
+            'data' => [
+                'required',
+                'date',
+                'after_or_equal:today'
+            ],
+            'hora' => [
+                'required'
+            ],
+            'procedimento_id' => [
+                'required',
+                'exists:procedimento,procedimento_id'
+            ]
         ]);
 
         $cliente_id = Auth::id() ?? $request->cliente_id;

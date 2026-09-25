@@ -21,6 +21,9 @@ class LembrarAgendamentos extends Command
         $template7Dias = TemplateNotificacaoModel::where('tipo', 'agendamento_lembrete7dias')->first();
         $template1Dia = TemplateNotificacaoModel::where('tipo', 'agendamento_lembrete1dia')->first();
 
+        $contador7Dias = 0;
+        $contador1Dia = 0;
+
         if ($template7Dias) {
             $agendamentos7Dias = AgendamentoModel::whereDate('data', $daquiSeteDias)
                 ->where(function($query) {
@@ -44,6 +47,8 @@ class LembrarAgendamentos extends Command
                     'data_recebida' => now(),
                     'visualizada' => false
                 ]);
+
+                $contador7Dias++;
             }
         }
 
@@ -70,7 +75,16 @@ class LembrarAgendamentos extends Command
                     'data_recebida' => now(),
                     'visualizada' => false
                 ]);
+
+                $contador1Dia++;
             }
         }
+
+        $total = $contador7Dias + $contador1Dia;
+
+        $this->info("Resumo de Lembretes de Agendamento:");
+        $this->line("- Lembretes (7 dias): {$contador7Dias} notificação(ões)");
+        $this->line("- Lembretes (1 dia): {$contador1Dia} notificação(ões)");
+        $this->info("Total enviado: {$total} notificação(ões)");
     }
 }

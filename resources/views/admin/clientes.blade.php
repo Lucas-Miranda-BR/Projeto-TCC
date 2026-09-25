@@ -643,44 +643,6 @@
 
     <div class="notificacao-form-group">
 
-        <label for="tipo-notificacao">
-
-            <i class="bi bi-bell"></i>
-
-            Tipo da notificação
-
-        </label>
-
-        <select
-            id="tipo-notificacao"
-            class="notificacao-select"
-        >
-
-            <option value="aviso">
-                Aviso
-            </option>
-
-            <option value="promocao">
-                Promoção / Desconto
-            </option>
-
-            <option value="lembrete">
-                Lembrete
-            </option>
-
-            <option value="cancelamento">
-                Cancelamento
-            </option>
-
-            <option value="comunicado">
-                Comunicado
-            </option>
-
-        </select>
-
-    </div>
-
-
     <div class="notificacao-form-group">
 
         <label for="titulo-notificacao">

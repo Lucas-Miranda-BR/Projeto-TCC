@@ -89,7 +89,7 @@
                 @foreach($linhas as $linha)
 
 
-                    <article class="carrinho-item" id="item-carrinho-{{ $linha['item']->item_id }}>
+                    <article class="carrinho-item" id="item-carrinho-{{ $linha['item']->item_id }}">
 
 
                         <img
@@ -244,6 +244,12 @@
                     Resumo do pedido
                 </h2>
 
+                @if(isset($temDescontoAniversario) && $temDescontoAniversario)
+                    <div>
+                        <strong>🎉 Parabéns!</strong><br>
+                        Hoje é seu aniversário. Aplicamos <strong>{{ $valorDescontoPercentual }}% de desconto</strong> no seu pedido!
+                    </div>
+                @endif
 
                 <div class="resumo-linha">
 
@@ -268,42 +274,13 @@
                 </div>
 
 
-                @auth
-
-                    <form
-                        action="{{ route('carrinho.finalizar') }}"
-                        method="POST"
-                    >
-
-                        @csrf
-
-                        <button
-                            type="submit"
-                            class="btn-finalizar"
-                        >
-
-                            <i class="bi bi-check-circle"></i>
-
-                            Finalizar Compra
-
-                        </button>
-
-                    </form>
-
-                @else
-
-                    <a
-                        href="{{ route('cliente.login') }}"
-                        class="btn-finalizar"
-                    >
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        Entrar para comprar
-
-                    </a>
-
-                @endauth
+                <form action="{{ route('carrinho.finalizar') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-finalizar">
+                        <i class="bi bi-check-circle"></i>
+                        Finalizar Compra
+                    </button>
+                </form>
 
 
                 <a
