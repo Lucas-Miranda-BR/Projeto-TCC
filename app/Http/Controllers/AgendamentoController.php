@@ -24,9 +24,18 @@ class AgendamentoController extends Controller
     public function storeAgendamento(Request $request)
     {
         $request->validate([
-            'data' => 'required|date|after_or_equal:today',
-            'hora' => 'required',
-            'procedimento_id' => 'required|exists:procedimento,procedimento_id'
+            'data' => [
+                'required',
+                'date',
+                'after_or_equal:today'
+            ],
+            'hora' => [
+                'required'
+            ],
+            'procedimento_id' => [
+                'required',
+                'exists:procedimento,procedimento_id'
+            ]
         ]);
 
         $cliente_id = Auth::id() ?? $request->cliente_id;

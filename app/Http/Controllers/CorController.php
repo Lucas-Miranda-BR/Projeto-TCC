@@ -36,25 +36,6 @@ class CorController extends Controller
                     'integer',
                     'min:0'
                 ]
-            ],
-            [
-                'nome.required' =>
-                    'Informe o nome da cor.',
-
-                'nome.string' =>
-                    'O nome da cor deve ser válido.',
-
-                'nome.max' =>
-                    'O nome da cor deve possuir no máximo 255 caracteres.',
-
-                'estoque.required' =>
-                    'Informe o estoque da cor.',
-
-                'estoque.integer' =>
-                    'O estoque deve ser um número inteiro.',
-
-                'estoque.min' =>
-                    'O estoque não pode ser negativo.'
             ]
         );
 
@@ -126,25 +107,6 @@ class CorController extends Controller
                     'integer',
                     'min:0'
                 ]
-            ],
-            [
-                'nome.required' =>
-                    'Informe o nome da cor.',
-
-                'nome.string' =>
-                    'O nome da cor deve ser válido.',
-
-                'nome.max' =>
-                    'O nome da cor deve possuir no máximo 255 caracteres.',
-
-                'estoque.required' =>
-                    'Informe o estoque da cor.',
-
-                'estoque.integer' =>
-                    'O estoque deve ser um número inteiro.',
-
-                'estoque.min' =>
-                    'O estoque não pode ser negativo.'
             ]
         );
 
