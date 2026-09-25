@@ -274,42 +274,13 @@
                 </div>
 
 
-                @auth
-
-                    <form
-                        action="{{ route('carrinho.finalizar') }}"
-                        method="POST"
-                    >
-
-                        @csrf
-
-                        <button
-                            type="submit"
-                            class="btn-finalizar"
-                        >
-
-                            <i class="bi bi-check-circle"></i>
-
-                            Finalizar Compra
-
-                        </button>
-
-                    </form>
-
-                @else
-
-                    <a
-                        href="{{ route('cliente.login') }}"
-                        class="btn-finalizar"
-                    >
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        Entrar para comprar
-
-                    </a>
-
-                @endauth
+                <form action="{{ route('carrinho.finalizar') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-finalizar">
+                        <i class="bi bi-check-circle"></i>
+                        Finalizar Compra
+                    </button>
+                </form>
 
 
                 <a

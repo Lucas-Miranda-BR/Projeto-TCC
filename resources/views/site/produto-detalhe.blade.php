@@ -23,8 +23,8 @@
         @endif
 
         @if($quantidadeNoCarrinho > 0)
-        <p><strong>Aviso:</strong> Esse produto já está em seu carrinho em {{ $quantidadeNoCarrinho }} quantidade(s).</p>
-    @endif
+            <p><strong>Aviso:</strong> Esse produto já está em seu carrinho em {{ $quantidadeNoCarrinho }} quantidade(s).</p>
+        @endif
 
         <hr>
 
@@ -54,14 +54,23 @@
         <br>
 
         @if($item->estoque >= 1)
-            <form action="{{ route('carrinho.adicionar', $item->item_id) }}" method="POST">
-                @csrf
-                <label for="quantidade">Quantidade desejada:</label>
-                <input type="number" name="quantidade" id="quantidade" value="1" min="1" max="{{ $item->estoque }}" required>
-                
-                <br><br>
-                <button type="submit">Adicionar ao Carrinho</button>
-            </form>
+            
+            @auth
+                <form action="{{ route('carrinho.adicionar', $item->item_id) }}" method="POST">
+                    @csrf
+                    <label for="quantidade">Quantidade desejada:</label>
+                    <input type="number" name="quantidade" id="quantidade" value="1" min="1" max="{{ $item->estoque }}" required>
+                    
+                    <br><br>
+                    <button type="submit">Adicionar ao Carrinho</button>
+                </form>
+            @else
+                <p>Você precisa estar logado para comprar.</p>
+                <a href="{{ route('cliente.login') }}">
+                    <button type="button">Fazer Login para Adicionar</button>
+                </a>
+            @endauth
+
         @else
             <p><strong>Produto Esgotado</strong></p>
         @endif

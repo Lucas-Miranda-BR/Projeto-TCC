@@ -176,27 +176,43 @@
                                     <strong>R$ {{ number_format($produto->preco, 2, ',', '.') }}</strong>
                                 </div>
 
-                                @if ($produto->estoque >= 2)
-                                    <form action="{{ route('carrinho.adicionar', $produto->item_id) }}" method="POST" class="produto-compra-form">
-                                        @csrf
-                                        <div class="quantidade-produto">
-                                            <button type="button" class="quantidade-btn quantidade-menos" title="Diminuir quantidade">
-                                                <i class="bi bi-dash"></i>
+                                    @if ($produto->estoque >= 2)
+                                        
+                                    @auth
+                                        <form
+                                            action="{{ route('carrinho.adicionar', $produto->item_id) }}"
+                                            method="POST"
+                                            class="produto-compra-form"
+                                        >
+                                            @csrf
+                                            <div class="quantidade-produto">
+                                                <button type="button" class="quantidade-btn quantidade-menos" title="Diminuir quantidade">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                
+                                                <input type="number" name="quantidade" class="quantidade-input" value="1" min="1" max="{{ $produto->estoque }}" readonly>
+                                                
+                                                <button type="button" class="quantidade-btn quantidade-mais" title="Aumentar quantidade">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                            <button type="submit" class="btn-adicionar" title="Adicionar ao carrinho">
+                                                <i class="bi bi-bag-plus"></i>
                                             </button>
-                                            <input type="number" name="quantidade" class="quantidade-input" value="1" min="1" max="{{ $produto->estoque }}" readonly>
-                                            <button type="button" class="quantidade-btn quantidade-mais" title="Aumentar quantidade">
-                                                <i class="bi bi-plus"></i>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('cliente.login') }}" style="width: 100%; display: flex; text-decoration: none;">
+                                            <button type="button" class="btn-adicionar" style="width: 100%; border-radius: 8px; font-size: 0.9rem; justify-content: center; display: flex; align-items: center; gap: 8px;" title="Faça login para comprar">
+                                                <i class="bi bi-box-arrow-in-right"></i> Fazer Login
                                             </button>
-                                        </div>
-                                        <button type="submit" class="btn-adicionar" title="Adicionar ao carrinho">
-                                            <i class="bi bi-bag-plus"></i>
-                                        </button>
-                                    </form>
-                                @else
-                                    <button type="button" class="btn-adicionar btn-esgotado" disabled title="Produto esgotado">
-                                        <i class="bi bi-bag-x"></i>
+                                        </a>
+                                    @endauth
+
+                                    @else
+                                    <button type="button" class="btn-adicionar btn-esgotado" disabled title="Produto esgotado" style="width: 100%; justify-content: center; display: flex;">
+                                        <i class="bi bi-bag-x"></i> Esgotado
                                     </button>
-                                @endif
+                                    @endif
                             </div>
                         </div>
 

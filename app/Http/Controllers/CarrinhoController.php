@@ -23,8 +23,9 @@ class CarrinhoController extends Controller
             $nascimento = Carbon::parse($cliente->data_nascimento);
 
             if ($hoje->month === $nascimento->month && $hoje->day === $nascimento->day) {
+                
                 $jaUsouDesconto = PedidoModel::where('cliente_id', $cliente->cliente_id)
-                    ->whereDate('criado', $hoje)
+                    ->whereDate('created_at', $hoje)
                     ->exists();
 
                 if (!$jaUsouDesconto) {
@@ -63,13 +64,20 @@ class CarrinhoController extends Controller
 
     public function index()
     {
+        $cliente = Auth::user();
+
+        if (!$cliente) {
+            return redirect()
+                ->route('cliente.login')
+                ->with('erro', 'Faça login para acessar o seu carrinho.');
+        }
+
         $carrinho = session()->get('carrinho', []);
         $linhas = [];
         $totalCentavos = 0;
         $avisos = [];
         $carrinhoAtualizou = false;
 
-        $cliente = Auth::user();
         $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
         $temDescontoAniversario = $valorDescontoPercentual > 0;
 
@@ -123,6 +131,12 @@ class CarrinhoController extends Controller
 
     public function adicionar(Request $request, $id)
     {
+        if (!Auth::check()) {
+            return redirect()
+                ->route('cliente.login')
+                ->with('erro', 'Faça login para adicionar produtos ao carrinho.');
+        }
+
         $item = ItemModel::findOrFail($id);
 
         $dados = $request->validate([
@@ -279,6 +293,7 @@ class CarrinhoController extends Controller
                 }
 
                 $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
+                $descontoCentavos = 0;
                 
                 if ($valorDescontoPercentual > 0) {
                     $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
@@ -308,10 +323,11 @@ class CarrinhoController extends Controller
 
                 if ($template) {
                     $valorFormatado = number_format($pedido->valor_total, 2, ',', '.');
+                    $descontoFormatado = number_format($descontoCentavos / 100, 2, ',', '.');
                     
                     $textoFinal = str_replace(
-                        ['{pedido}', '{valor}'], 
-                        [$pedido->pedido_id, $valorFormatado], 
+                        ['{pedido}', '{valor}', '{desconto}'], 
+                        [$pedido->pedido_id, $valorFormatado, $descontoFormatado], 
                         $template->conteudo
                     );
 
