@@ -1,40 +1,48 @@
 .procedimentos-content {
     width: 100%;
-    min-height: calc(100vh - 68px);
 
-    padding: 32px 40px 60px;
-
-    box-sizing: border-box;
+    padding: 32px 40px 50px;
 
     background: #f8eeee;
 
+    min-height: calc(100vh - 70px);
+
     font-family: 'Poppins', sans-serif;
+
+    color: #332b2b;
+
+    box-sizing: border-box;
 }
 
 
-/* ==================================================
-   HEADER
-   ================================================== */
+.procedimentos-content * {
+    box-sizing: border-box;
+}
+
 
 .procedimentos-header {
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
-.breadcrumb-admin {
+
+.procedimentos-header .breadcrumb-admin {
     display: block;
 
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 
-    color: #968889;
+    color: #8a7a7a;
 
-    font-size: 11px;
+    font-size: 13px;
 }
 
+
+.procedimentos-header
 .breadcrumb-admin strong {
     color: #9d1228;
 
     font-weight: 600;
 }
+
 
 .procedimentos-header h1 {
     margin: 0;
@@ -43,127 +51,121 @@
 
     font-family: 'Playfair Display', serif;
 
-    font-size: 34px;
+    font-size: 32px;
 
     font-weight: 600;
-
-    line-height: 1.2;
 }
+
 
 .procedimentos-header p {
     margin: 8px 0 0;
 
     color: #817575;
 
+    font-size: 14px;
+}
+
+
+.procedimentos-content
+.alert-success,
+.procedimentos-content
+.alert-errors {
+    width: 100%;
+
+    margin-bottom: 22px;
+
+    padding: 14px 18px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    border-radius: 8px;
+
     font-size: 13px;
 }
 
 
-/* ==================================================
-   ALERTAS
-   ================================================== */
-
-.alert-success,
-.alert-errors {
-    width: 100%;
-
-    margin-bottom: 24px;
-
-    padding: 14px 18px;
-
-    box-sizing: border-box;
-
-    border-radius: 10px;
-
-    font-size: 12px;
-}
-
+.procedimentos-content
 .alert-success {
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    background: #edf8ef;
+    background: #edf7ef;
 
     color: #397346;
 
     border: 1px solid #cce7d2;
 }
 
-.alert-success i {
-    font-size: 16px;
-}
 
+.procedimentos-content
 .alert-errors {
-    background: #fff1f2;
+    background: #fff0f0;
 
     color: #9d1228;
 
     border: 1px solid #efcccc;
 }
 
-.alert-errors-title {
-    display: flex;
 
-    align-items: center;
-
-    gap: 8px;
-
-    margin-bottom: 7px;
-}
-
+.procedimentos-content
 .alert-errors ul {
     margin: 0;
 
-    padding-left: 22px;
+    padding-left: 18px;
 }
 
 
-/* ==================================================
-   NOVO PROCEDIMENTO
-   ================================================== */
-
-.novo-procedimento {
+.procedimentos-topo {
     width: 100%;
 
     margin-bottom: 30px;
 
-    padding: 26px 28px;
+    display: grid;
 
-    box-sizing: border-box;
+    grid-template-columns:
+        minmax(0, 2.4fr)
+        minmax(300px, .8fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+
+.novo-procedimento {
+    width: 100%;
+
+    padding: 26px;
 
     background: #ffffff;
 
     border: 1px solid #eadada;
 
-    border-radius: 16px;
+    border-radius: 14px;
 
     box-shadow:
-        0 5px 18px rgba(90, 40, 50, 0.05);
+        0 4px 15px
+        rgba(90, 40, 50, .05);
 }
 
 
-/* ==================================================
-   CABEÇALHO DO FORM
-   ================================================== */
+.section-header {
+    margin-bottom: 23px;
 
-.novo-procedimento-header {
+    padding-bottom: 20px;
+
     display: flex;
 
     align-items: center;
 
     gap: 13px;
 
-    margin-bottom: 25px;
-
-    padding-bottom: 20px;
-
-    border-bottom: 1px solid #f0e4e5;
+    border-bottom: 1px solid #eee1e3;
 }
 
-.novo-procedimento-icon {
+
+.section-header-icon {
     width: 42px;
 
     height: 42px;
@@ -178,14 +180,15 @@
 
     border-radius: 50%;
 
-    background: #f7e6e9;
+    background: #f8e7ea;
 
     color: #9d1228;
 
-    font-size: 18px;
+    font-size: 17px;
 }
 
-.novo-procedimento-header h2 {
+
+.section-header h2 {
     margin: 0;
 
     color: #332b2b;
@@ -197,172 +200,160 @@
     font-weight: 600;
 }
 
-.novo-procedimento-header p {
+
+.section-header p {
     margin: 3px 0 0;
 
     color: #8b7d7d;
 
-    font-size: 11px;
+    font-size: 12px;
 }
 
 
-/* ==================================================
-   FORM
-   ================================================== */
-
-.procedimento-form {
-    width: 100%;
-}
-
+.procedimentos-content
 .form-row {
     display: grid;
 
     grid-template-columns:
-        minmax(0, 0.7fr)
-        minmax(0, 1.3fr);
+        repeat(2, minmax(0, 1fr));
 
-    gap: 18px;
+    gap: 17px;
 }
 
+
+.procedimentos-content
 .form-row-descricao {
     grid-template-columns:
-        minmax(0, 1fr)
-        220px;
-
-    align-items: start;
+        minmax(0, 2.5fr)
+        minmax(170px, .65fr);
 }
 
+
+.procedimentos-content
 .form-group {
-    min-width: 0;
+    width: 100%;
+
+    margin-bottom: 18px;
 
     display: flex;
 
     flex-direction: column;
-
-    margin-bottom: 20px;
 }
 
+
+.procedimentos-content
 .form-group label {
-    margin-bottom: 8px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
+    margin-bottom: 7px;
 
     color: #514646;
 
-    font-size: 11px;
+    font-size: 13px;
 
     font-weight: 500;
 }
 
-.form-group label i {
-    color: #9d1228;
 
-    font-size: 12px;
+.procedimentos-content
+.form-group label i {
+    margin-right: 5px;
+
+    color: #9d1228;
 }
 
+
+.procedimentos-content
 .form-group input,
+.procedimentos-content
 .form-group select,
+.procedimentos-content
 .form-group textarea {
     width: 100%;
-
-    min-height: 44px;
-
-    padding: 10px 13px;
-
-    box-sizing: border-box;
 
     background: #ffffff;
 
     color: #403737;
 
-    border: 1px solid #dacbcd;
+    border: 1px solid #d9caca;
 
-    border-radius: 9px;
+    border-radius: 7px;
 
     outline: none;
 
     font-family: 'Poppins', sans-serif;
 
-    font-size: 12px;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+    font-size: 13px;
 }
 
+
+.procedimentos-content
+.form-group input,
+.procedimentos-content
+.form-group select {
+    min-height: 44px;
+
+    padding: 0 13px;
+}
+
+
+.procedimentos-content
 .form-group textarea {
-    min-height: 105px;
+    min-height: 110px;
+
+    padding: 12px 13px;
 
     resize: vertical;
-
-    line-height: 1.55;
 }
 
-.form-group input:hover,
-.form-group select:hover,
-.form-group textarea:hover {
-    border-color: #ceb9bd;
-}
 
+.procedimentos-content
 .form-group input:focus,
+.procedimentos-content
 .form-group select:focus,
+.procedimentos-content
 .form-group textarea:focus {
     border-color: #9d1228;
 
     box-shadow:
-        0 0 0 3px rgba(157, 18, 40, .07);
+        0 0 0 3px
+        rgba(157, 18, 40, .07);
 }
 
+
+.procedimentos-content
 .form-group input::placeholder,
+.procedimentos-content
 .form-group textarea::placeholder {
-    color: #b8aaaa;
+    color: #b5a6a6;
 }
 
 
-/* ==================================================
-   PREÇO
-   ================================================== */
+.form-error {
+    margin-top: 5px;
 
-.preco-group {
-    width: 100%;
+    color: #a52238;
+
+    font-size: 12px;
 }
+
+
+.status-colorivel {
+    display: none;
+
+    margin-top: 6px;
+
+    font-size: 12px;
+}
+
 
 .preco-input {
     width: 100%;
 
     display: flex;
-
-    align-items: center;
-
-    overflow: hidden;
-
-    background: #ffffff;
-
-    border: 1px solid #dacbcd;
-
-    border-radius: 9px;
-
-    transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
 }
 
-.preco-input:focus-within {
-    border-color: #9d1228;
 
-    box-shadow:
-        0 0 0 3px rgba(157, 18, 40, .07);
-}
-
-.preco-input span {
-    height: 44px;
-
-    padding: 0 13px;
+.preco-input > span {
+    min-width: 47px;
 
     display: flex;
 
@@ -370,44 +361,38 @@
 
     justify-content: center;
 
-    background: #faf3f4;
+    background: #f8eeee;
+
+    border: 1px solid #d9caca;
+
+    border-right: none;
+
+    border-radius:
+        7px 0 0 7px;
 
     color: #9d1228;
 
-    border-right: 1px solid #eadada;
-
-    font-size: 11px;
+    font-size: 12px;
 
     font-weight: 600;
 }
 
+
 .preco-input input {
-    min-width: 0;
-
-    border: none;
-
-    border-radius: 0;
-
-    box-shadow: none !important;
+    border-radius:
+        0 7px 7px 0 !important;
 }
 
 
-/* ==================================================
-   AÇÃO FORM
-   ================================================== */
-
-.form-actions {
+.procedimento-form-footer {
     display: flex;
 
     justify-content: flex-end;
-
-    padding-top: 2px;
 }
 
-.btn-salvar {
-    min-width: 180px;
 
-    min-height: 44px;
+.btn-salvar {
+    min-height: 43px;
 
     padding: 0 20px;
 
@@ -419,92 +404,70 @@
 
     gap: 8px;
 
+    border: none;
+
+    border-radius: 7px;
+
     background: #9d1228;
 
     color: #ffffff;
 
-    border: none;
-
-    border-radius: 9px;
-
     font-family: 'Poppins', sans-serif;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    font-weight: 500;
+    font-weight: 600;
 
     cursor: pointer;
-
-    transition:
-        background .2s ease,
-        transform .15s ease,
-        box-shadow .2s ease;
 }
+
 
 .btn-salvar:hover {
     background: #801020;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 5px 12px rgba(157, 18, 40, .16);
 }
 
 
-/* ==================================================
-   LISTA
-   ================================================== */
+.procedimento-cadastros-laterais {
+    display: flex;
 
-.lista-procedimentos {
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.cadastro-lateral-card {
     width: 100%;
+
+    padding: 22px;
 
     background: #ffffff;
 
     border: 1px solid #eadada;
 
-    border-radius: 16px;
-
-    overflow: hidden;
+    border-radius: 14px;
 
     box-shadow:
-        0 6px 20px rgba(90, 40, 50, .055);
+        0 4px 15px
+        rgba(90, 40, 50, .05);
 }
 
 
-/* ==================================================
-   HEADER LISTA
-   ================================================== */
-
-.lista-header {
-    padding: 22px 26px;
+.cadastro-lateral-header {
+    margin-bottom: 18px;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: space-between;
-
-    gap: 25px;
-
-    background: #fffdfd;
-
-    border-bottom: 1px solid #eee1e3;
+    gap: 11px;
 }
 
-.lista-header-title {
-    min-width: 0;
 
-    display: flex;
+.cadastro-lateral-icon {
+    width: 38px;
 
-    align-items: center;
-
-    gap: 12px;
-}
-
-.lista-header-icon {
-    width: 40px;
-
-    height: 40px;
+    height: 38px;
 
     display: flex;
 
@@ -514,407 +477,57 @@
 
     flex-shrink: 0;
 
-    border-radius: 10px;
+    border-radius: 50%;
 
-    background: #f7e6e9;
+    background: #f8e7ea;
 
     color: #9d1228;
 
-    font-size: 17px;
+    font-size: 16px;
 }
 
-.lista-header h2 {
+
+.cadastro-lateral-header h2 {
     margin: 0;
 
     color: #332b2b;
 
     font-family: 'Playfair Display', serif;
 
-    font-size: 22px;
+    font-size: 19px;
 
     font-weight: 600;
 }
 
-.lista-header p {
-    margin: 3px 0 0;
+
+.cadastro-lateral-header p {
+    margin: 2px 0 0;
 
     color: #8b7d7d;
 
-    font-size: 10px;
-}
-
-.lista-header p strong {
-    color: #9d1228;
+    font-size: 12px;
 }
 
 
-/* ==================================================
-   BUSCA
-   ================================================== */
+.cadastro-lateral-card
+.form-group {
+    margin-bottom: 14px;
+}
 
-.lista-header-search {
-    width: 270px;
+
+.cadastro-lateral-card
+.form-group input {
+    min-height: 42px;
+
+    font-size: 13px;
+}
+
+
+.btn-cadastro-auxiliar {
+    width: 100%;
 
     min-height: 40px;
 
-    padding: 0 13px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    box-sizing: border-box;
-
-    background: #ffffff;
-
-    border: 1px solid #dfd0d2;
-
-    border-radius: 20px;
-}
-
-.lista-header-search i {
-    color: #9d1228;
-
-    font-size: 12px;
-}
-
-.lista-header-search input {
-    width: 100%;
-
-    min-width: 0;
-
-    border: none;
-
-    outline: none;
-
-    background: transparent;
-
-    color: #4b4141;
-
-    font-family: 'Poppins', sans-serif;
-
-    font-size: 11px;
-}
-
-.lista-header-search input::placeholder {
-    color: #ad9f9f;
-}
-
-
-/* ==================================================
-   RESPONSIVE TABLE
-   ================================================== */
-
-.table-responsive {
-    width: 100%;
-
-    padding: 0 22px 22px;
-
-    box-sizing: border-box;
-
-    overflow-x: auto;
-}
-
-
-/* ==================================================
-   TABELA
-   ================================================== */
-
-.tabela-procedimentos {
-    width: 100%;
-
-    min-width: 950px;
-
-    border-collapse: collapse;
-
-    table-layout: fixed;
-
-    background: #ffffff;
-}
-
-
-/* ==================================================
-   CABEÇALHO TABELA
-   ================================================== */
-
-.tabela-procedimentos thead {
-    background: #faf4f5;
-}
-
-.tabela-procedimentos th {
-    padding: 14px 16px;
-
-    background: #faf4f5;
-
-    color: #78696b;
-
-    border-bottom: 1px solid #eadbdd;
-
-    text-align: left;
-
-    font-size: 9px;
-
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: .7px;
-}
-
-.tabela-procedimentos th:first-child {
-    border-top-left-radius: 9px;
-}
-
-.tabela-procedimentos th:last-child {
-    border-top-right-radius: 9px;
-}
-
-
-/* ==================================================
-   LARGURA DAS COLUNAS
-   ================================================== */
-
-.tabela-procedimentos th:nth-child(1) {
-    width: 120px;
-}
-
-.tabela-procedimentos th:nth-child(2) {
-    width: 210px;
-}
-
-.tabela-procedimentos th:nth-child(3) {
-    width: auto;
-}
-
-.tabela-procedimentos th:nth-child(4) {
-    width: 120px;
-
-    text-align: right;
-}
-
-.tabela-procedimentos th:nth-child(5) {
-    width: 170px;
-
-    text-align: center;
-}
-
-
-/* ==================================================
-   CÉLULAS
-   ================================================== */
-
-.tabela-procedimentos td {
-    padding: 17px 16px;
-
-    vertical-align: middle;
-
-    background: #ffffff;
-
-    color: #554949;
-
-    border-bottom: 1px solid #f1e6e7;
-
-    font-size: 11px;
-
-    line-height: 1.5;
-}
-
-.tabela-procedimentos tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.tabela-procedimentos tbody tr:nth-child(even) td {
-    background: #fffafa;
-}
-
-.tabela-procedimentos tbody tr td {
-    transition:
-        background .18s ease;
-}
-
-.tabela-procedimentos tbody tr:hover td {
-    background: #fcf3f4;
-}
-
-
-/* ==================================================
-   TIPO
-   ================================================== */
-
-.tipo-badge {
-    max-width: 110px;
-
-    padding: 6px 10px;
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
-
-    background: #f6e7e9;
-
-    color: #9d1228;
-
-    border: 1px solid #ecd6da;
-
-    border-radius: 20px;
-
-    font-size: 9px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-    text-overflow: ellipsis;
-}
-
-
-/* ==================================================
-   PROCEDIMENTO
-   ================================================== */
-
-.procedimento-info {
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 6px;
-}
-
-.procedimento-nome {
-    max-width: 190px;
-
-    overflow: hidden;
-
-    color: #332b2b;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    line-height: 1.35;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-}
-
-
-/* ==================================================
-   STATUS COLORÍVEL
-   ================================================== */
-
-.status-colorivel {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-    color: #827373;
-
-    font-size: 8px;
-
-    font-weight: 500;
-}
-
-.status-dot {
-    width: 6px;
-
-    height: 6px;
-
-    display: block;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-}
-
-.status-colorivel.sim .status-dot {
-    background: #4c9b66;
-}
-
-.status-colorivel.sim {
-    color: #518162;
-}
-
-.status-colorivel.nao .status-dot {
-    background: #b8a7aa;
-}
-
-.status-colorivel.nao {
-    color: #98898b;
-}
-
-
-/* ==================================================
-   DESCRIÇÃO
-   ================================================== */
-
-.procedimento-descricao {
-    max-width: 100%;
-
-    margin: 0;
-
-    display: -webkit-box;
-
-    overflow: hidden;
-
-    color: #726565;
-
-    font-size: 10px;
-
-    line-height: 1.55;
-
-    -webkit-box-orient: vertical;
-
-    -webkit-line-clamp: 2;
-}
-
-
-/* ==================================================
-   PREÇO
-   ================================================== */
-
-.tabela-procedimentos td:nth-child(4) {
-    text-align: right;
-}
-
-.procedimento-preco {
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    color: #9d1228;
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-}
-
-
-/* ==================================================
-   AÇÕES
-   ================================================== */
-
-.tabela-procedimentos td:nth-child(5) {
-    text-align: center;
-}
-
-.acoes-procedimento {
     display: flex;
 
     align-items: center;
@@ -922,24 +535,374 @@
     justify-content: center;
 
     gap: 7px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #9d1228;
+
+    color: #ffffff;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
 }
 
-.acoes-procedimento form {
+
+.btn-cadastro-auxiliar:hover {
+    background: #801020;
+}
+
+
+/* BOTÃO GERENCIAR */
+
+.btn-gerenciar-auxiliar {
+    width: 100%;
+
+    min-height: 40px;
+
+    margin-top: 10px;
+
+    padding: 0 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    background: #ffffff;
+
+    color: #9d1228;
+
+    border: 1px solid #dfbfc5;
+
+    border-radius: 7px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+.btn-gerenciar-auxiliar:hover {
+    background: #fff5f6;
+
+    border-color: #9d1228;
+}
+
+
+.btn-gerenciar-auxiliar i {
+    font-size: 15px;
+}
+
+
+.lista-procedimentos {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #d6c3c3;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 3px 12px
+        rgba(90, 40, 50, .05);
+}
+
+
+.lista-header {
+    padding: 22px 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom: 1px solid #e6dada;
+}
+
+
+.lista-header h2 {
+    margin: 0;
+
+    color: #3b3030;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 22px;
+}
+
+
+.lista-header p {
+    margin: 4px 0 0;
+
+    color: #817575;
+
+    font-size: 13px;
+}
+
+
+.contador-servicos {
+    padding: 7px 12px;
+
+    flex-shrink: 0;
+
+    background: #f8e7ea;
+
+    color: #9d1228;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+.table-responsive {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.procedimentos-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: #ffffff;
+}
+
+
+.procedimentos-table th {
+    padding: 14px 16px;
+
+    background: #faf4f4;
+
+    color: #756565;
+
+    border-bottom: 1px solid #ded0d0;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+}
+
+
+.procedimentos-table td {
+    padding: 15px 16px;
+
+    color: #554949;
+
+    border-bottom: 1px solid #eee3e3;
+
+    vertical-align: middle;
+
+    font-size: 13px;
+}
+
+
+.procedimentos-table
+tbody tr:hover {
+    background: #fffafa;
+}
+
+
+.tipo-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 10px;
+
+    background: #f5e6e6;
+
+    color: #8c2435;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+}
+
+
+.procedimento-nome {
+    color: #332b2b;
+
+    font-weight: 600;
+}
+
+
+.procedimento-descricao {
+    color: #6f6262;
+
+    line-height: 1.5;
+}
+
+
+.preco-procedimento {
+    color: #9d1228;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.acoes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+
+.acoes form {
     margin: 0;
 }
 
 
-/* ==================================================
-   BOTÕES
-   ================================================== */
-
 .btn-editar,
 .btn-excluir {
-    min-width: 70px;
+    min-height: 37px;
 
-    height: 34px;
+    padding: 0 13px;
 
-    padding: 0 10px;
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    border-radius: 7px;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+
+.btn-editar {
+    background: #f5e6e6;
+
+    color: #9d1228;
+
+    border: 1px solid #ead1d5;
+}
+
+
+.btn-editar:hover {
+    background: #ead4d8;
+}
+
+
+.btn-excluir {
+    background: #fff0f0;
+
+    color: #bb3548;
+
+    border: 1px solid #f1cccc;
+}
+
+
+.btn-excluir:hover {
+    background: #f9dddd;
+}
+
+
+/* PAGINAÇÃO */
+
+.procedimentos-pagination-footer {
+    width: 100%;
+
+    min-height: 78px;
+
+    padding: 18px 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #eadede;
+}
+
+
+.procedimentos-pagination-info {
+    color: #766c6c;
+
+    font-size: 13px !important;
+}
+
+
+.procedimentos-pagination {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.procedimentos-pagination-numeros {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.procedimentos-pagination-btn {
+    min-width: 94px;
+
+    height: 40px;
+
+    padding: 0 13px;
 
     display: inline-flex;
 
@@ -949,227 +912,166 @@
 
     gap: 5px;
 
-    box-sizing: border-box;
+    background: #ffffff;
 
-    border-radius: 8px;
+    border: 1px solid #ded3d3;
+
+    border-radius: 9px;
+
+    color: #625858;
 
     font-family: 'Poppins', sans-serif;
 
-    font-size: 9px;
+    font-size: 13px !important;
 
     font-weight: 500;
 
-    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.procedimentos-pagination-btn:hover:not(:disabled) {
+    background: #fff5f6;
+
+    border-color: #9d1228;
+
+    color: #9d1228;
+}
+
+
+.procedimentos-pagination-btn:disabled {
+    opacity: .4;
+
+    cursor: not-allowed;
+}
+
+
+.procedimentos-pagination-num {
+    width: 39px;
+
+    height: 39px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #ded3d3;
+
+    border-radius: 8px;
+
+    color: #625858;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 13px !important;
+
+    font-weight: 500;
 
     cursor: pointer;
-
-    transition:
-        transform .15s ease,
-        background .2s ease,
-        box-shadow .2s ease;
 }
 
-.btn-editar {
-    background: #f8e7ea;
+
+.procedimentos-pagination-num:hover {
+    background: #fff5f6;
+
+    border-color: #caa9ae;
 
     color: #9d1228;
-
-    border: 1px solid #ead1d5;
-}
-
-.btn-editar:hover {
-    background: #efd8dc;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 3px 7px rgba(157, 18, 40, .08);
-}
-
-.btn-excluir {
-    background: #fff3f4;
-
-    color: #bc3043;
-
-    border: 1px solid #f0cfd3;
-}
-
-.btn-excluir:hover {
-    background: #ffe3e6;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 3px 7px rgba(190, 45, 65, .08);
 }
 
 
-/* ==================================================
-   BUSCA VAZIA
-   ================================================== */
+.procedimentos-pagination-num.active {
+    background: #9d1228;
 
-.busca-vazia {
-    min-height: 250px;
+    border-color: #9d1228;
 
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    color: #8b7d7d;
+    color: #ffffff;
 }
 
-.busca-vazia-icon {
-    width: 52px;
-
-    height: 52px;
-
-    margin-bottom: 13px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f7e6e9;
-
-    color: #9d1228;
-
-    font-size: 20px;
-}
-
-.busca-vazia h3 {
-    margin: 0;
-
-    color: #443939;
-
-    font-family: 'Playfair Display', serif;
-
-    font-size: 18px;
-}
-
-.busca-vazia p {
-    margin: 5px 0 0;
-
-    color: #978989;
-
-    font-size: 10px;
-}
-
-
-/* ==================================================
-   NENHUM PROCEDIMENTO
-   ================================================== */
 
 .nenhum-procedimento {
-    padding: 65px 20px;
+    padding: 45px 20px;
 
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
+    color: #958686;
 
     text-align: center;
-
-    color: #8b7d7d;
 }
 
-.nenhum-procedimento-icon {
-    width: 56px;
 
-    height: 56px;
+.nenhum-procedimento i {
+    display: block;
 
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 
-    display: flex;
+    color: #c8b5b5;
 
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f7e6e9;
-
-    color: #9d1228;
-
-    font-size: 21px;
+    font-size: 35px;
 }
+
 
 .nenhum-procedimento h3 {
-    margin: 0;
+    margin: 0 0 5px;
 
-    color: #443939;
+    color: #514646;
 
-    font-family: 'Playfair Display', serif;
-
-    font-size: 19px;
+    font-size: 17px;
 }
+
 
 .nenhum-procedimento p {
-    max-width: 380px;
+    margin: 0;
 
-    margin: 6px 0 0;
-
-    color: #958787;
-
-    font-size: 11px;
+    font-size: 13px;
 }
 
 
-/* ==================================================
-   SCROLL
-   ================================================== */
+@media(max-width: 1050px) {
 
-.table-responsive::-webkit-scrollbar {
-    height: 7px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-    background: #f7eeee;
-
-    border-radius: 10px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-    background: #d8bfc3;
-
-    border-radius: 10px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb:hover {
-    background: #c9aaaf;
-}
+    .procedimentos-topo {
+        grid-template-columns: 1fr;
+    }
 
 
-/* ==================================================
-   RESPONSIVO
-   ================================================== */
+    .procedimento-cadastros-laterais {
+        display: grid;
 
-@media(max-width: 1200px) {
-
-    .procedimentos-content {
-        padding:
-            28px
-            25px
-            50px;
+        grid-template-columns:
+            1fr 1fr;
     }
 
 }
 
 
-@media(max-width: 900px) {
+@media(max-width: 700px) {
+
+    .procedimentos-content {
+        padding: 24px 18px 40px;
+    }
+
+
+    .procedimentos-header h1 {
+        font-size: 27px;
+    }
+
+
+    .procedimentos-content
+    .form-row,
+    .procedimentos-content
+    .form-row-descricao {
+        grid-template-columns: 1fr;
+    }
+
+
+    .procedimento-cadastros-laterais {
+        grid-template-columns: 1fr;
+    }
+
 
     .lista-header {
         align-items: flex-start;
@@ -1177,84 +1079,18 @@
         flex-direction: column;
     }
 
-    .lista-header-search {
-        width: 100%;
-    }
 
-    .form-row,
-    .form-row-descricao {
-        grid-template-columns: 1fr;
-    }
-
-    .preco-group {
-        max-width: none;
-    }
-
-}
-
-
-@media(max-width: 768px) {
-
-    .procedimentos-content {
-        padding:
-            24px
-            16px
-            40px;
-    }
-
-    .procedimentos-header h1 {
-        font-size: 28px;
-    }
-
-    .novo-procedimento {
-        padding: 20px;
-    }
-
-    .lista-header {
-        padding: 20px;
-    }
-
-    .table-responsive {
-        padding:
-            0
-            14px
-            18px;
-    }
-
-    .tabela-procedimentos {
-        min-width: 900px;
-    }
-
-    .form-actions {
-        justify-content: stretch;
-    }
-
-    .btn-salvar {
-        width: 100%;
-    }
-
-}
-
-
-@media(max-width: 480px) {
-
-    .procedimentos-content {
-        padding:
-            20px
-            12px
-            30px;
-    }
-
-    .procedimentos-header h1 {
-        font-size: 25px;
-    }
-
-    .novo-procedimento {
-        padding: 17px;
-    }
-
-    .novo-procedimento-header {
+    .procedimentos-pagination-footer {
         align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .procedimentos-pagination {
+        width: 100%;
+
+        flex-wrap: wrap;
     }
 
 }

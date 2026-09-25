@@ -4,11 +4,6 @@
 
 <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
->
-
-<link
-    rel="stylesheet"
     href="{{ asset('css/admin/dashboard.css') }}"
 >
 
@@ -26,27 +21,48 @@
 
     @include('components.admin.sidebar')
 
+
     <div class="admin-main">
 
         @include('components.admin.navbar')
 
+
         <main class="produtos-content">
+
+
+            @php
+
+                $produtosBastante = $produtos
+                    ->filter(function ($produto) {
+                        return $produto->estoque > 5;
+                    })
+                    ->count();
+
+                $produtosAtencao = $produtos
+                    ->filter(function ($produto) {
+                        return $produto->estoque > 0
+                            && $produto->estoque <= 5;
+                    })
+                    ->count();
+
+                $produtosEsgotados = $produtos
+                    ->filter(function ($produto) {
+                        return $produto->estoque <= 0;
+                    })
+                    ->count();
+
+            @endphp
 
 
             <div class="produtos-header">
 
-                <span class="breadcrumb-admin">
-                    Painel >
-                    <strong>Produtos</strong>
+                <span class="breadcrumb-produtos">
+                    Painel > Produtos
                 </span>
 
                 <h1>
-                    Gerenciar Produtos
+                    Produtos e Estoque
                 </h1>
-
-                <p>
-                    Cadastre produtos e acompanhe o estoque.
-                </p>
 
             </div>
 
@@ -54,6 +70,8 @@
             @if(session('success'))
 
                 <div class="produto-alert produto-alert-success">
+
+                    <i class="bi bi-check-circle"></i>
 
                     {{ session('success') }}
 
@@ -66,85 +84,40 @@
 
                 <div class="produto-alert produto-alert-error">
 
-                    @foreach($errors->all() as $erro)
+                    <i class="bi bi-exclamation-circle"></i>
 
-                        <p>
-                            {{ $erro }}
-                        </p>
+                    <div>
 
-                    @endforeach
+                        @foreach($errors->all() as $erro)
+
+                            <p>
+                                {{ $erro }}
+                            </p>
+
+                        @endforeach
+
+                    </div>
 
                 </div>
 
             @endif
 
 
+            <section class="estoque-resumo">
 
-            <section class="produtos-topo">
+                <div class="estoque-card estoque-bastante">
 
+                    <span class="estoque-titulo">
+                        BASTANTE
+                    </span>
 
-                <div class="produto-form-card produto-form-principal">
+                    <strong>
+                        {{ $produtosBastante }}
 
-
-                    <div class="produto-form-title">
-
-                        <span class="produto-form-icon">
-
-                            <i class="bi bi-bag-plus"></i>
-
+                        <span>
+                            produtos
                         </span>
-
-                        <div>
-
-                            <h2>
-                                Novo Produto
-                            </h2>
-
-                            <p>
-                                Adicione um novo produto ao catálogo.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <form
-                        action="{{ route('admin.produtos.store') }}"
-                        method="POST"
-                        enctype="multipart/form-data"
-                    >
-
-                        @csrf
-
-
-                        <div class="form-group">
-
-                            <label for="nome">
-                                Nome do produto
-                            </label>
-
-                            <input
-                                type="text"
-                                name="nome"
-                                id="nome"
-                                value="{{ old('nome') }}"
-                                placeholder="Ex: Shampoo Hidratante"
-                                required
-                            >
-
-                        </div>
-
-
-
-                        <div class="form-row">
-
-
-                            <div class="form-group">
-
-                                <label for="marca_id">
-                                    Marca
-                                </label>
+                    </strong>
 
                                 <select
                                     name="marca_id"
@@ -152,34 +125,39 @@
                                     required
                                 >
 
-                                    <option value="">
-                                        Sem marca
-                                    </option>
 
-                                    @foreach($marcas as $marca)
+                <div class="estoque-card estoque-atencao">
 
-                                        <option
-                                            value="{{ $marca->marca_id }}"
-                                            {{ old('marca_id') == $marca->marca_id ? 'selected' : '' }}
-                                        >
+                    <span class="estoque-titulo">
+                        ATENÇÃO
+                    </span>
 
-                                            {{ $marca->nome }}
+                    <strong>
+                        {{ $produtosAtencao }}
 
-                                        </option>
+                        <span>
+                            produtos
+                        </span>
+                    </strong>
 
-                                    @endforeach
-
-                                </select>
-
-                            </div>
+                </div>
 
 
+                <div class="estoque-card estoque-esgotado">
 
-                            <div class="form-group">
+                    <span class="estoque-titulo">
+                        ESGOTADOS
+                    </span>
 
-                                <label for="categoria_id">
-                                    Categoria
-                                </label>
+                    <strong>
+                        {{ $produtosEsgotados }}
+
+                        <span>
+                            produtos
+                        </span>
+                    </strong>
+
+                </div>
 
                                 <select
                                     name="categoria_id"
@@ -187,61 +165,40 @@
                                     required
                                 >
 
-                                    <option value="">
-                                        Sem categoria
-                                    </option>
 
-                                    @foreach($categorias as $categoria)
+            <section class="produtos-area">
 
-                                        <option
-                                            value="{{ $categoria->categoria_id }}"
-                                            {{ old('categoria_id') == $categoria->categoria_id ? 'selected' : '' }}
-                                        >
 
-                                            {{ $categoria->nome }}
+                <div class="catalogo-card">
 
-                                        </option>
 
-                                    @endforeach
+                    <div class="catalogo-header">
 
-                                </select>
+                        <div>
 
-                            </div>
+                            <h2>
+                                Catálogo de produtos
+                            </h2>
 
+                            <p>
+                                {{ $categorias->count() }} categorias ·
+                                {{ $marcas->count() }} marcas ·
+                                {{ $produtos->count() }} produtos
+                            </p>
 
                         </div>
 
 
+                        <details class="novo-produto">
 
-                        <div class="form-row">
+                            <summary>
 
+                                <i class="bi bi-plus-lg"></i>
 
-                            <div class="form-group">
+                                Novo produto
 
-                                <label for="preco">
-                                    Preço
-                                </label>
+                            </summary>
 
-                                <input
-                                    type="number"
-                                    name="preco"
-                                    id="preco"
-                                    min="0"
-                                    step="0.01"
-                                    value="{{ old('preco') }}"
-                                    placeholder="0,00"
-                                    required
-                                >
-
-                            </div>
-
-
-
-                            <div class="form-group">
-
-                                <label for="estoque">
-                                    Estoque inicial
-                                </label>
 
                                 <input
                                     type="number"
@@ -253,920 +210,853 @@
                                     required
                                 >
 
-                            </div>
+                                <div class="novo-produto-cabecalho">
 
+                                    <h3>
+                                        Cadastrar Produto
+                                    </h3>
 
-                        </div>
-
-
-
-                        <div class="form-group">
-
-                            <label for="foto">
-                                Foto do produto
-                            </label>
-
-                            <input
-                                type="file"
-                                name="foto"
-                                id="foto"
-                                accept="image/jpeg,image/png,image/webp"
-                                require
-                            >
-
-                        </div>
-
-
-
-                        <button
-                            type="submit"
-                            class="btn-produto-principal"
-                        >
-
-                            <i class="bi bi-plus-lg"></i>
-
-                            Cadastrar Produto
-
-                        </button>
-
-
-                    </form>
-
-
-                </div>
-
-
-
-                <aside class="produto-cadastros-laterais">
-
-
-                    <div class="cadastro-lateral-card">
-
-
-                        <div class="cadastro-lateral-header">
-
-                            <span class="cadastro-lateral-icon">
-
-                                <i class="bi bi-tag"></i>
-
-                            </span>
-
-                            <div>
-
-                                <h2>
-                                    Nova Marca
-                                </h2>
-
-                                <p>
-                                    Cadastre uma marca.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-                        <form
-                            action="{{ route('admin.marcas.store') }}"
-                            method="POST"
-                        >
-
-                            @csrf
-
-
-                            <div class="form-group">
-
-                                <label for="marca_nome">
-                                    Nome da marca
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    id="marca_nome"
-                                    placeholder="Ex: Eudora"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <button
-                                type="submit"
-                                class="btn-cadastro-auxiliar"
-                            >
-
-                                <i class="bi bi-plus-lg"></i>
-
-                                Adicionar Marca
-
-                            </button>
-
-                        </form>
-
-
-
-                        @if($marcas->count() > 0)
-
-                            <div class="auxiliar-cadastrados">
-
-                                <span>
-                                    Marcas cadastradas
-                                </span>
-
-                                <div class="auxiliar-badges">
-
-                                    @foreach($marcas as $marca)
-
-                                        <span class="auxiliar-badge">
-                                            {{ $marca->nome }}
-                                        </span>
-
-                                    @endforeach
+                                    <p>
+                                        Adicione um novo produto ao estoque.
+                                    </p>
 
                                 </div>
 
-                            </div>
 
-                        @endif
-
-
-                    </div>
-
-
-
-                    <div class="cadastro-lateral-card">
-
-
-                        <div class="cadastro-lateral-header">
-
-                            <span class="cadastro-lateral-icon">
-
-                                <i class="bi bi-grid"></i>
-
-                            </span>
-
-                            <div>
-
-                                <h2>
-                                    Nova Categoria
-                                </h2>
-
-                                <p>
-                                    Cadastre uma categoria.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <form
-                            action="{{ route('admin.categorias.store') }}"
-                            method="POST"
-                        >
-
-                            @csrf
-
-
-                            <div class="form-group">
-
-                                <label for="categoria_nome">
-                                    Nome da categoria
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    id="categoria_nome"
-                                    placeholder="Ex: Cabelos"
-                                    required
+                                <form
+                                    action="{{ route('admin.produtos.store') }}"
+                                    method="POST"
+                                    enctype="multipart/form-data"
                                 >
 
-                            </div>
+                                    @csrf
 
 
-                            <button
-                                type="submit"
-                                class="btn-cadastro-auxiliar"
-                            >
+                                    <div class="form-group">
 
-                                <i class="bi bi-plus-lg"></i>
+                                        <label for="nome">
+                                            Nome do produto
+                                        </label>
 
-                                Adicionar Categoria
+                                        <input
+                                            type="text"
+                                            name="nome"
+                                            id="nome"
+                                            value="{{ old('nome') }}"
+                                            placeholder="Ex: Shampoo Hidratante"
+                                            required
+                                        >
 
-                            </button>
+                                    </div>
 
 
-                        </form>
+                                    <div class="form-row">
 
+                                        <div class="form-group">
 
+                                            <label for="categoria_id">
+                                                Categoria
+                                            </label>
 
-                        @if($categorias->count() > 0)
-
-                            <div class="auxiliar-cadastrados">
-
-                                <span>
-                                    Categorias cadastradas
-                                </span>
-
-                                <div class="auxiliar-badges">
-
-                                    @foreach($categorias as $categoria)
-
-                                        <span class="auxiliar-badge">
-
-                                            {{ $categoria->nome }}
-
-                                        </span>
-
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-
-                        @endif
-
-
-                    </div>
-
-
-                </aside>
-
-
-            </section>
-
-
-
-            <section class="estoque-resumo estoque-resumo-horizontal">
-
-
-                <div class="estoque-card">
-
-                    <i class="bi bi-bag"></i>
-
-                    <span>
-                        Produtos cadastrados
-                    </span>
-
-                    <strong>
-                        {{ $produtos->count() }}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="estoque-card">
-
-                    <i class="bi bi-box-seam"></i>
-                
-                    <span>
-                        Unidades em estoque
-                    </span>
-                
-                    <strong>
-                        {{ 
-                            $produtos->filter(function ($produto) {
-                                return $produto->estoque >= 2;
-                            })->count() 
-                        }}
-                    </strong>
-                
-                </div>
-
-
-
-                <div class="estoque-card">
-
-                    <i class="bi bi-exclamation-triangle"></i>
-
-                    <span>
-                        Estoque baixo
-                    </span>
-
-                    <strong>
-
-                        {{
-                            $produtos
-                                ->filter(function ($produto) {
-
-                                    return $produto->estoque > 2
-                                        && $produto->estoque <= 10;
-
-                                })
-                                ->count()
-                        }}
-
-                    </strong>
-
-                </div>
-
-
-
-                <div class="estoque-card">
-
-                    <i class="bi bi-x-circle"></i>
-
-                    <span>
-                        Sem estoque
-                    </span>
-
-                    <strong>
-
-                        {{
-                            $produtos
-                                ->filter(function ($produto) {
-
-                                    return $produto->estoque <= 2;
-
-                                })
-                                ->count()
-                        }}
-
-                    </strong>
-
-                </div>
-
-
-            </section>
-
-
-
-            <section class="lista-produtos">
-
-
-                <div class="lista-produtos-header">
-
-
-                    <div class="lista-produtos-titulo">
-
-                        <h2>
-                            Produtos cadastrados
-                        </h2>
-
-                        <p>
-                            Gerencie produtos, preços e estoque.
-                        </p>
-
-                    </div>
-
-
-
-                    <div class="produtos-filtros">
-
-
-                        <div class="produtos-pesquisa">
-
-                            <i class="bi bi-search"></i>
-
-                            <input
-                                type="text"
-                                id="buscar-produto"
-                                placeholder="Buscar produto, marca ou categoria..."
-                                autocomplete="off"
-                            >
-
-                        </div>
-
-
-
-                        <div class="filtros-estoque">
-
-
-                            <button
-                                type="button"
-                                class="filtro-produto ativo"
-                                data-filtro="todos"
-                            >
-
-                                <i class="bi bi-grid"></i>
-
-                                Todos
-
-                                <span>
-                                    {{ $produtos->count() }}
-                                </span>
-
-                            </button>
-
-
-
-                            <button
-                                type="button"
-                                class="filtro-produto"
-                                data-filtro="disponivel"
-                            >
-
-                                <i class="bi bi-check-circle"></i>
-
-                                Disponíveis
-
-                                <span>
-
-                                    {{
-                                        $produtos
-                                            ->filter(function ($produto) {
-
-                                                return $produto->estoque > 10;
-
-                                            })
-                                            ->count()
-                                    }}
-
-                                </span>
-
-                            </button>
-
-
-
-                            <button
-                                type="button"
-                                class="filtro-produto"
-                                data-filtro="baixo"
-                            >
-
-                                <i class="bi bi-exclamation-triangle"></i>
-
-                                Estoque baixo
-
-                                <span>
-
-                                    {{
-                                        $produtos
-                                            ->filter(function ($produto) {
-
-                                                return $produto->estoque > 2
-                                                    && $produto->estoque <= 10;
-
-                                            })
-                                            ->count()
-                                    }}
-
-                                </span>
-
-                            </button>
-
-
-
-                            <button
-                                type="button"
-                                class="filtro-produto"
-                                data-filtro="esgotado"
-                            >
-
-                                <i class="bi bi-x-circle"></i>
-
-                                Esgotados
-
-                                <span>
-
-                                    {{
-                                        $produtos
-                                            ->filter(function ($produto) {
-
-                                                return $produto->estoque < 2;
-
-                                            })
-                                            ->count()
-                                    }}
-
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-
-                <div class="tabela-container">
-
-
-                    <table class="tabela-produtos">
-
-
-                        <thead>
-
-                            <tr>
-
-                                <th>Foto</th>
-
-                                <th>Produto</th>
-
-                                <th>Marca</th>
-
-                                <th>Categoria</th>
-
-                                <th>Preço</th>
-
-                                <th>Estoque</th>
-
-                                <th>Status</th>
-
-                                <th>Ações</th>
-
-                            </tr>
-
-                        </thead>
-
-
-
-                        <tbody id="tabela-produtos-body">
-
-
-                            @forelse($produtos as $produto)
-
-
-                                @php
-
-                                    if ($produto->estoque < 2) {
-
-                                        $statusFiltro = 'esgotado';
-
-                                    } elseif ($produto->estoque <= 10) {
-
-                                        $statusFiltro = 'baixo';
-
-                                    } else {
-
-                                        $statusFiltro = 'disponivel';
-
-                                    }
-
-
-                                    $fotoProduto = null;
-
-
-                                    if ($produto->foto) {
-                                        $fotoProduto = filter_var($produto->foto, FILTER_VALIDATE_URL)
-                                        ? $produto->foto
-                                        : asset('images/produtos/' . $produto->foto);
-                                    }
-
-                                @endphp
-
-
-
-                                <tr
-                                    class="produto-linha"
-                                    data-status="{{ $statusFiltro }}"
-                                    data-busca="{{ $produto->nome }} {{ $produto->marcas->nome ?? '' }} {{ $produto->categorias->nome ?? '' }}"
-                                >
-
-
-                                    <td>
-
-                                        @if($fotoProduto)
-
-                                            <img
-                                                src="{{ $fotoProduto }}"
-                                                alt="{{ $produto->nome }}"
-                                                class="produto-imagem"
+                                            <select
+                                                name="categoria_id"
+                                                id="categoria_id"
                                             >
 
-                                        @else
+                                                <option value="">
+                                                    Sem categoria
+                                                </option>
 
-                                            <div class="produto-sem-foto">
+                                                @foreach($categorias as $categoria)
 
-                                                <i class="bi bi-image"></i>
+                                                    <option
+                                                        value="{{ $categoria->categoria_id }}"
+                                                        {{ old('categoria_id') == $categoria->categoria_id ? 'selected' : '' }}
+                                                    >
+                                                        {{ $categoria->nome }}
+                                                    </option>
 
-                                            </div>
+                                                @endforeach
 
-                                        @endif
-
-                                    </td>
-
-
-
-                                    <td>
-
-                                        <strong class="produto-nome">
-
-                                            {{ $produto->nome }}
-
-                                        </strong>
-
-                                    </td>
-
-
-
-                                    <td>
-
-                                        {{
-                                            $produto->marcas->nome
-                                            ?? 'Sem marca'
-                                        }}
-
-                                    </td>
-
-
-
-                                    <td>
-
-                                        {{
-                                            $produto->categorias->nome
-                                            ?? 'Sem categoria'
-                                        }}
-
-                                    </td>
-
-
-
-                                    <td>
-
-                                        <strong class="produto-preco">
-
-                                            R$
-
-                                            {{
-                                                number_format(
-                                                    $produto->preco,
-                                                    2,
-                                                    ',',
-                                                    '.'
-                                                )
-                                            }}
-
-                                        </strong>
-
-                                    </td>
-
-
-
-                                    <td>
-
-                                        <strong>
-
-                                            {{ $produto->estoque }}
-
-                                        </strong>
-
-                                    </td>
-
-
-
-                                    <td>
-
-
-                                        @if($produto->estoque < 2)
-
-                                            <span class="status-produto sem-estoque">
-
-                                                Sem estoque
-
-                                            </span>
-
-
-                                        @elseif($produto->estoque <= 10)
-
-                                            <span class="status-produto estoque-baixo">
-
-                                                Estoque baixo
-
-                                            </span>
-
-
-                                        @else
-
-                                            <span class="status-produto disponivel">
-
-                                                Disponível
-
-                                            </span>
-
-                                        @endif
-
-
-                                    </td>
-
-
-
-                                    <td>
-
-
-                                        <div class="acoes-produto">
-
-
-                                            <a
-                                                href="{{ route(
-                                                    'admin.produtos.edit',
-                                                    $produto->item_id
-                                                ) }}"
-                                                class="btn-editar-produto"
-                                                title="Editar produto"
-                                            >
-
-                                                <i class="bi bi-pencil"></i>
-
-                                            </a>
-
-
-
-                                            <form
-                                                action="{{ route(
-                                                    'admin.produtos.destroy',
-                                                    $produto->item_id
-                                                ) }}"
-                                                method="POST"
-                                            >
-
-                                                @csrf
-
-                                                @method('DELETE')
-
-
-                                                <button
-                                                    type="submit"
-                                                    class="btn-excluir-produto"
-                                                    title="Excluir produto"
-                                                    onclick="return confirm('Deseja excluir este produto?')"
-                                                >
-
-                                                    <i class="bi bi-trash"></i>
-
-                                                </button>
-
-
-                                            </form>
-
+                                            </select>
 
                                         </div>
 
 
-                                    </td>
+                                        <div class="form-group">
+
+                                            <label for="marca_id">
+                                                Marca
+                                            </label>
+
+                                            <select
+                                                name="marca_id"
+                                                id="marca_id"
+                                            >
+
+                                                <option value="">
+                                                    Sem marca
+                                                </option>
+
+                                                @foreach($marcas as $marca)
+
+                                                    <option
+                                                        value="{{ $marca->marca_id }}"
+                                                        {{ old('marca_id') == $marca->marca_id ? 'selected' : '' }}
+                                                    >
+                                                        {{ $marca->nome }}
+                                                    </option>
+
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
 
 
-                                </tr>
+                                    <div class="form-row">
+
+                                        <div class="form-group">
+
+                                            <label for="preco">
+                                                Preço
+                                            </label>
+
+                                            <input
+                                                type="number"
+                                                name="preco"
+                                                id="preco"
+                                                min="0"
+                                                step="0.01"
+                                                value="{{ old('preco') }}"
+                                                placeholder="0,00"
+                                                required
+                                            >
+
+                                        </div>
 
 
-                            @empty
+                                        <div class="form-group">
+
+                                            <label for="estoque">
+                                                Estoque inicial
+                                            </label>
+
+                                            <input
+                                                type="number"
+                                                name="estoque"
+                                                id="estoque"
+                                                min="0"
+                                                value="{{ old('estoque', 0) }}"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
 
 
-                                <tr>
+                                    <div class="form-group">
 
-                                    <td
-                                        colspan="8"
-                                        class="produtos-vazio"
+                                        <label for="foto">
+                                            Foto do produto
+                                        </label>
+
+                                        <input
+                                            type="file"
+                                            name="foto"
+                                            id="foto"
+                                            accept="image/jpeg,image/png,image/webp"
+                                            required
+                                        >
+
+                                    </div>
+
+
+                                    <button
+                                        type="submit"
+                                        class="btn-salvar-produto"
                                     >
 
-                                        Nenhum produto cadastrado.
+                                        <i class="bi bi-plus-lg"></i>
 
-                                    </td>
+                                        Cadastrar produto
 
-                                </tr>
+                                    </button>
 
-
-                            @endforelse
-
-
-                        </tbody>
-
-
-                    </table>
-
-
-
-                    @if($produtos->count() > 0)
-
-                        <div
-                            id="nenhum-produto-filtro"
-                            class="nenhum-produto-filtro"
-                            style="display: none;"
-                        >
-
-                            <div class="nenhum-produto-filtro-icon">
-
-                                <i class="bi bi-search"></i>
+                                </form>
 
                             </div>
 
-                            <h3>
-                                Nenhum produto encontrado
-                            </h3>
+                        </details>
 
-                            <p>
-                                Tente alterar a pesquisa ou selecionar outro filtro.
-                            </p>
+                    </div>
 
-                        </div>
 
-                    @endif
+                    <div class="catalogo-pesquisa">
 
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            id="pesquisa-produtos"
+                            placeholder="Buscar marca, categoria, produto..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="tabela-produtos-wrapper">
+
+                        <table class="tabela-produtos">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Produto
+                                    </th>
+
+                                    <th>
+                                        Categoria
+                                    </th>
+
+                                    <th>
+                                        Marca
+                                    </th>
+
+                                    <th>
+                                        Preço
+                                    </th>
+
+                                    <th>
+                                        Estoque
+                                    </th>
+
+                                    <th>
+                                        Status do estoque
+                                    </th>
+
+                                    <th>
+                                        Ações
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="produtos-tbody">
+
+                                @forelse($produtos as $produto)
+
+                                    <tr
+                                        class="produto-linha"
+                                        data-pesquisa="{{
+                                            mb_strtolower(
+                                                ($produto->nome ?? '') .
+                                                ' ' .
+                                                ($produto->categorias->nome ?? '') .
+                                                ' ' .
+                                                ($produto->marcas->nome ?? '')
+                                            )
+                                        }}"
+                                    >
+
+                                        <td>
+
+                                            <strong class="produto-nome">
+                                                {{ $produto->nome }}
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td>
+                                            {{
+                                                $produto->categorias->nome
+                                                ?? 'Sem categoria'
+                                            }}
+                                        </td>
+
+
+                                        <td>
+                                            {{
+                                                $produto->marcas->nome
+                                                ?? 'Sem marca'
+                                            }}
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong class="produto-preco">
+
+                                                R$
+
+                                                {{
+                                                    number_format(
+                                                        $produto->preco,
+                                                        2,
+                                                        ',',
+                                                        '.'
+                                                    )
+                                                }}
+
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td class="produto-estoque">
+
+                                            {{ $produto->estoque }} un
+
+                                        </td>
+
+
+                                        <td>
+
+                                            @if($produto->estoque <= 0)
+
+                                                <span class="status-produto sem-estoque">
+
+                                                    <span class="status-bolinha"></span>
+
+                                                    Esgotado
+
+                                                </span>
+
+                                            @elseif($produto->estoque <= 5)
+
+                                                <span class="status-produto estoque-baixo">
+
+                                                    <span class="status-bolinha"></span>
+
+                                                    Baixo Estoque
+
+                                                </span>
+
+                                            @else
+
+                                                <span class="status-produto disponivel">
+
+                                                    <span class="status-bolinha"></span>
+
+                                                    Disponível
+
+                                                </span>
+
+                                            @endif
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="acoes-produto">
+
+                                                <a
+                                                    href="{{ route(
+                                                        'admin.produtos.edit',
+                                                        $produto->item_id
+                                                    ) }}"
+                                                    class="btn-editar-produto"
+                                                    title="Editar produto"
+                                                >
+
+                                                    <i class="bi bi-pencil-square"></i>
+
+                                                </a>
+
+
+                                                <form
+                                                    action="{{ route(
+                                                        'admin.produtos.destroy',
+                                                        $produto->item_id
+                                                    ) }}"
+                                                    method="POST"
+                                                >
+
+                                                    @csrf
+                                                    @method('DELETE')
+
+
+                                                    <button
+                                                        type="submit"
+                                                        class="btn-excluir-produto"
+                                                        title="Excluir produto"
+                                                        onclick="return confirm('Deseja excluir este produto?')"
+                                                    >
+
+                                                        <i class="bi bi-trash"></i>
+
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                @empty
+
+                                    <tr>
+
+                                        <td
+                                            colspan="7"
+                                            class="produtos-vazio"
+                                        >
+                                            Nenhum produto cadastrado.
+                                        </td>
+
+                                    </tr>
+
+                                @endforelse
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div
+                        id="nenhum-produto-pesquisa"
+                        class="nenhum-produto-pesquisa"
+                    >
+
+                        <i class="bi bi-search"></i>
+
+                        <span>
+                            Nenhum produto encontrado.
+                        </span>
+
+                    </div>
+
+
+                    <div class="catalogo-footer">
+
+                        <span id="contador-produtos">
+                            Exibindo 0 produtos
+                        </span>
+
+
+                        <nav
+                            class="produtos-pagination"
+                            id="produtos-pagination"
+                        >
+
+                            <button
+                                type="button"
+                                class="pagination-btn"
+                                id="pagination-anterior"
+                            >
+                                Anterior
+                            </button>
+
+
+                            <div
+                                class="pagination-numeros"
+                                id="pagination-numeros"
+                            >
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="pagination-btn"
+                                id="pagination-proximo"
+                            >
+                                Próximo
+                            </button>
+
+                        </nav>
+
+                    </div>
 
                 </div>
 
 
-            </section>
+                <aside class="produtos-lateral">
 
+
+                    <div class="lateral-card">
+
+                        <div class="lateral-card-header">
+
+                            <h3>
+                                Categorias
+                            </h3>
+
+
+                            <details class="adicionar-lateral">
+
+                                <summary title="Nova categoria">
+                                    +
+                                </summary>
+
+
+                                <div class="adicionar-lateral-form">
+
+                                    <form
+                                        action="{{ route('admin.categorias.store') }}"
+                                        method="POST"
+                                    >
+
+                                        @csrf
+
+
+                                        <label for="categoria_nome">
+                                            Nova categoria
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="nome"
+                                            id="categoria_nome"
+                                            placeholder="Nome da categoria"
+                                            required
+                                        >
+
+                                        <button type="submit">
+                                            Adicionar
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </details>
+
+                        </div>
+
+
+                        <div class="lateral-lista">
+
+                            @forelse($categorias as $categoria)
+
+                                <div class="lateral-item">
+
+                                    <div class="lateral-item-nome">
+
+                                        <span class="categoria-bolinha"></span>
+
+                                        <span>
+                                            {{ $categoria->nome }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="lateral-quantidade">
+
+                                        {{
+                                            $produtos
+                                                ->where(
+                                                    'categoria_id',
+                                                    $categoria->categoria_id
+                                                )
+                                                ->count()
+                                        }}
+
+                                        itens
+
+                                    </span>
+
+                                </div>
+
+                            @empty
+
+                                <p class="lateral-vazio">
+                                    Nenhuma categoria cadastrada.
+                                </p>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="lateral-card">
+
+                        <div class="lateral-card-header">
+
+                            <h3>
+                                Marcas
+                            </h3>
+
+
+                            <details class="adicionar-lateral">
+
+                                <summary title="Nova marca">
+                                    +
+                                </summary>
+
+
+                                <div class="adicionar-lateral-form">
+
+                                    <form
+                                        action="{{ route('admin.marcas.store') }}"
+                                        method="POST"
+                                    >
+
+                                        @csrf
+
+
+                                        <label for="marca_nome">
+                                            Nova marca
+                                        </label>
+
+                                        <input
+                                            type="text"
+                                            name="nome"
+                                            id="marca_nome"
+                                            placeholder="Nome da marca"
+                                            required
+                                        >
+
+                                        <button type="submit">
+                                            Adicionar
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </details>
+
+                        </div>
+
+
+                        <div class="lateral-lista">
+
+                            @forelse($marcas as $marca)
+
+                                <div class="lateral-item">
+
+                                    <div class="lateral-item-nome">
+
+                                        <span class="marca-bolinha"></span>
+
+                                        <span>
+                                            {{ $marca->nome }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="lateral-quantidade">
+
+                                        {{
+                                            $produtos
+                                                ->where(
+                                                    'marca_id',
+                                                    $marca->marca_id
+                                                )
+                                                ->count()
+                                        }}
+
+                                        itens
+
+                                    </span>
+
+                                </div>
+
+                            @empty
+
+                                <p class="lateral-vazio">
+                                    Nenhuma marca cadastrada.
+                                </p>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </section>
 
         </main>
 
-
     </div>
-
 
 </div>
 
-@endsection
-
-
-
-@push('scripts')
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const botoesFiltro =
-        document.querySelectorAll('.filtro-produto');
+    const pesquisa =
+        document.getElementById('pesquisa-produtos');
 
-    const linhas =
-        document.querySelectorAll('.produto-linha');
+    const todasLinhas =
+        Array.from(
+            document.querySelectorAll('.produto-linha')
+        );
 
-    const campoBusca =
-        document.getElementById('buscar-produto');
+    const contador =
+        document.getElementById('contador-produtos');
 
-    const mensagemVazia =
-        document.getElementById('nenhum-produto-filtro');
+    const pagination =
+        document.getElementById('produtos-pagination');
+
+    const numeros =
+        document.getElementById('pagination-numeros');
+
+    const anterior =
+        document.getElementById('pagination-anterior');
+
+    const proximo =
+        document.getElementById('pagination-proximo');
+
+    const nenhumProduto =
+        document.getElementById('nenhum-produto-pesquisa');
 
 
-    let filtroAtual = 'todos';
+    const produtosPorPagina = 5;
+
+    let paginaAtual = 1;
+
+    let linhasFiltradas = [...todasLinhas];
 
 
-    function removerAcentos(texto) {
+    function normalizarTexto(texto) {
 
         return texto
+            .toLowerCase()
             .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase();
+            .replace(
+                /[\u0300-\u036f]/g,
+                ''
+            );
 
     }
 
 
-    function aplicarFiltros() {
+    function filtrarProdutos() {
 
-        const termoBusca =
-            campoBusca
-                ? removerAcentos(campoBusca.value.trim())
-                : '';
-
-
-        let encontrados = 0;
+        const termo =
+            normalizarTexto(
+                pesquisa.value.trim()
+            );
 
 
-        linhas.forEach(function (linha) {
+        linhasFiltradas =
+            todasLinhas.filter(
+                function (linha) {
 
-            const status =
-                linha.dataset.status;
+                    const dados =
+                        normalizarTexto(
+                            linha.dataset.pesquisa || ''
+                        );
 
+                    return dados.includes(termo);
 
-            const texto =
-                removerAcentos(
-                    linha.dataset.busca || ''
-                );
-
-
-            const correspondeStatus =
-                filtroAtual === 'todos'
-                || status === filtroAtual;
+                }
+            );
 
 
-            const correspondeBusca =
-                termoBusca === ''
-                || texto.includes(termoBusca);
+        paginaAtual = 1;
+
+        renderizarPagina();
+
+    }
 
 
-            if (
-                correspondeStatus
-                && correspondeBusca
-            ) {
+    function renderizarPagina() {
 
-                linha.style.display = '';
-
-                encontrados++;
-
-            } else {
+        todasLinhas.forEach(
+            function (linha) {
 
                 linha.style.display = 'none';
 
             }
+        );
 
-        });
+
+        const totalProdutos =
+            linhasFiltradas.length;
+
+        const totalPaginas =
+            Math.ceil(
+                totalProdutos /
+                produtosPorPagina
+            );
 
 
-        if (mensagemVazia) {
+        if (
+            paginaAtual > totalPaginas &&
+            totalPaginas > 0
+        ) {
 
-            mensagemVazia.style.display =
-                encontrados === 0
+            paginaAtual = totalPaginas;
+
+        }
+
+
+        const inicio =
+            (paginaAtual - 1) *
+            produtosPorPagina;
+
+        const fim =
+            inicio +
+            produtosPorPagina;
+
+
+        const produtosPagina =
+            linhasFiltradas.slice(
+                inicio,
+                fim
+            );
+
+
+        produtosPagina.forEach(
+            function (linha) {
+
+                linha.style.display = '';
+
+            }
+        );
+
+
+        atualizarContador(
+            inicio,
+            produtosPagina.length,
+            totalProdutos
+        );
+
+
+        criarPaginacao(
+            totalPaginas
+        );
+
+
+        if (totalProdutos === 0) {
+
+            nenhumProduto.style.display =
+                'flex';
+
+            pagination.style.display =
+                'none';
+
+        } else {
+
+            nenhumProduto.style.display =
+                'none';
+
+            pagination.style.display =
+                totalPaginas > 1
                     ? 'flex'
                     : 'none';
 
@@ -1175,42 +1065,165 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    botoesFiltro.forEach(function (botao) {
+    function atualizarContador(
+        inicio,
+        quantidadePagina,
+        total
+    ) {
 
-        botao.addEventListener('click', function () {
+        if (total === 0) {
 
-            botoesFiltro.forEach(function (item) {
+            contador.textContent =
+                'Nenhum produto encontrado';
 
-                item.classList.remove('ativo');
+            return;
 
-            });
-
-
-            this.classList.add('ativo');
-
-
-            filtroAtual =
-                this.dataset.filtro;
+        }
 
 
-            aplicarFiltros();
+        const primeiro =
+            inicio + 1;
 
-        });
+        const ultimo =
+            inicio + quantidadePagina;
 
-    });
 
-
-    if (campoBusca) {
-
-        campoBusca.addEventListener(
-            'input',
-            aplicarFiltros
-        );
+        contador.textContent =
+            'Exibindo ' +
+            primeiro +
+            '-' +
+            ultimo +
+            ' de ' +
+            total +
+            ' produtos';
 
     }
+
+
+    function criarPaginacao(
+        totalPaginas
+    ) {
+
+        numeros.innerHTML = '';
+
+
+        anterior.disabled =
+            paginaAtual === 1;
+
+
+        proximo.disabled =
+            paginaAtual === totalPaginas ||
+            totalPaginas === 0;
+
+
+        for (
+            let pagina = 1;
+            pagina <= totalPaginas;
+            pagina++
+        ) {
+
+            const botao =
+                document.createElement(
+                    'button'
+                );
+
+
+            botao.type =
+                'button';
+
+            botao.textContent =
+                pagina;
+
+            botao.className =
+                'pagination-num';
+
+
+            if (
+                pagina === paginaAtual
+            ) {
+
+                botao.classList.add(
+                    'active'
+                );
+
+            }
+
+
+            botao.addEventListener(
+                'click',
+                function () {
+
+                    paginaAtual =
+                        pagina;
+
+                    renderizarPagina();
+
+                }
+            );
+
+
+            numeros.appendChild(
+                botao
+            );
+
+        }
+
+    }
+
+
+    anterior.addEventListener(
+        'click',
+        function () {
+
+            if (paginaAtual > 1) {
+
+                paginaAtual--;
+
+                renderizarPagina();
+
+            }
+
+        }
+    );
+
+
+    proximo.addEventListener(
+        'click',
+        function () {
+
+            const totalPaginas =
+                Math.ceil(
+                    linhasFiltradas.length /
+                    produtosPorPagina
+                );
+
+
+            if (
+                paginaAtual <
+                totalPaginas
+            ) {
+
+                paginaAtual++;
+
+                renderizarPagina();
+
+            }
+
+        }
+    );
+
+
+    pesquisa.addEventListener(
+        'input',
+        filtrarProdutos
+    );
+
+
+    renderizarPagina();
 
 });
 
 </script>
 
-@endpush
+
+@endsection

@@ -4,6 +4,16 @@
 
 <link
     rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ asset('css/admin/dashboard.css') }}"
+>
+
+<link
+    rel="stylesheet"
     href="{{ asset('css/admin/procedimentos.css') }}"
 >
 
@@ -27,22 +37,18 @@
 
             <div class="procedimentos-header">
 
-                <div>
+                <span class="breadcrumb-admin">
+                    Painel >
+                    <strong>Procedimentos</strong>
+                </span>
 
-                    <span class="breadcrumb-admin">
-                        Painel >
-                        <strong>Procedimentos</strong>
-                    </span>
+                <h1>
+                    Gerenciar Procedimentos
+                </h1>
 
-                    <h1>
-                        Gerenciar Procedimentos
-                    </h1>
-
-                    <p>
-                        Cadastre, edite e organize os procedimentos disponíveis no salão.
-                    </p>
-
-                </div>
+                <p>
+                    Cadastre, edite ou remova os procedimentos disponíveis.
+                </p>
 
             </div>
 
@@ -51,10 +57,25 @@
 
                 <div class="alert-success">
 
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-circle"></i>
 
                     <span>
                         {{ session('success') }}
+                    </span>
+
+                </div>
+
+            @endif
+
+
+            @if(session('error'))
+
+                <div class="alert-errors">
+
+                    <i class="bi bi-exclamation-circle"></i>
+
+                    <span>
+                        {{ session('error') }}
                     </span>
 
                 </div>
@@ -66,15 +87,7 @@
 
                 <div class="alert-errors">
 
-                    <div class="alert-errors-title">
-
-                        <i class="bi bi-exclamation-circle-fill"></i>
-
-                        <strong>
-                            Verifique os campos abaixo
-                        </strong>
-
-                    </div>
+                    <i class="bi bi-exclamation-circle"></i>
 
                     <ul>
 
@@ -94,243 +107,30 @@
 
 
 
-            <section class="novo-procedimento">
+            <section class="procedimentos-topo">
 
 
-                <div class="novo-procedimento-header">
+                <div class="novo-procedimento">
 
-                    <div class="novo-procedimento-icon">
 
-                        <i class="bi bi-scissors"></i>
+                    <div class="section-header">
 
-                    </div>
+                        <span class="section-header-icon">
 
+                            <i class="bi bi-scissors"></i>
 
-                    <div>
-
-                        <h2>
-                            Novo Procedimento
-                        </h2>
-
-                        <p>
-                            Preencha as informações para cadastrar um novo procedimento.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-
-                <form
-                    action="{{ route('admin.procedimentos.store') }}"
-                    method="POST"
-                    class="procedimento-form"
-                >
-
-                    @csrf
-
-
-                    <div class="form-row">
-
-
-                        <div class="form-group">
-
-                            <label for="tipo_id">
-
-                                <i class="bi bi-grid"></i>
-
-                                Tipo
-
-                            </label>
-
-                            <select
-                                name="tipo_id"
-                                id="tipo_id"
-                                required
-                            >
-
-                                <option
-                                    value=""
-                                    selected
-                                    disabled
-                                >
-                                    Selecione o tipo
-                                </option>
-
-                       <span id="status-colorivel" style="display: none; margin-top: 8px; font-weight: 500;">Selecione um tipo</span>
-
-                    </div>
-
-                                @foreach($tipos as $tipo)
-
-                                    <option
-                                        value="{{ $tipo->tipo_id }}"
-                                        data-colorivel="{{ $tipo->colorivel ? '1' : '0' }}"
-                                        {{ old('tipo_id') == $tipo->tipo_id ? 'selected' : '' }}
-                                    >
-
-                                        {{ $tipo->nome }}
-
-                                    </option>
-
-                                @endforeach
-
-                            </select>
-
-                        </div>
-
-
-
-                        <div class="form-group">
-
-                            <label for="nome">
-
-                                <i class="bi bi-scissors"></i>
-
-                                Nome do procedimento
-
-                            </label>
-
-                            <input
-                                type="text"
-                                name="nome"
-                                id="nome"
-                                value="{{ old('nome') }}"
-                                placeholder="Ex: Corte feminino"
-                                required
-                            >
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="form-row form-row-descricao">
-
-
-                        <div class="form-group">
-
-                            <label for="descricao">
-
-                                <i class="bi bi-card-text"></i>
-
-                                Descrição
-
-                            </label>
-
-                            <textarea
-                                name="descricao"
-                                id="descricao"
-                                placeholder="Descreva o procedimento e os principais detalhes do procedimento"
-                                required
-                            >{{ old('descricao') }}</textarea>
-
-                        </div>
-
-
-
-                        <div class="form-group preco-group">
-
-                            <label for="preco">
-
-                                <i class="bi bi-currency-dollar"></i>
-
-                                Preço
-
-                            </label>
-
-                            <div class="preco-input">
-
-                                <span>
-                                    R$
-                                </span>
-
-                                <input
-                                    type="number"
-                                    name="preco"
-                                    id="preco"
-                                    step="0.01"
-                                    min="0"
-                                    value="{{ old('preco') }}"
-                                    placeholder="0,00"
-                                    required
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="form-actions">
-
-                        <button
-                            type="submit"
-                            class="btn-salvar"
-                        >
-
-                            <i class="bi bi-plus-lg"></i>
-
-                            Cadastrar Procedimento
-
-                        </button>
-
-                    </div>
-
-
-                </form>
-
-
-            </section>
-
-            <h1>Gerenciar Tipo de Procedimento</h1>
-            <button> <a href="{{ route('admin.tipos.index') }}">Gerencie Aqui</a></button>
-
-            <br>
-
-            <h1>Gerenciar Cores Disponíveis de Procedimento</h1>
-            <button> <a href="{{ route('admin.cores.index') }}">Gerencie Aqui</a></button>
-
-
-
-
-            <section class="lista-procedimentos">
-
-
-                <div class="lista-header">
-
-
-                    <div class="lista-header-title">
-
-                        <div class="lista-header-icon">
-
-                            <i class="bi bi-list-check"></i>
-
-                        </div>
+                        </span>
 
 
                         <div>
 
                             <h2>
-                                Procedimentos Cadastrados
+                                Novo Procedimento
                             </h2>
 
                             <p>
-
-                                <strong id="contador-procedimentos">
-
-                                    {{ $procedimentos->count() }}
-
-                                </strong>
-
-                                procedimento(s) encontrado(s)
-
+                                Preencha as informações para cadastrar
+                                um novo procedimento.
                             </p>
 
                         </div>
@@ -338,23 +138,441 @@
                     </div>
 
 
+                    <form
+                        action="{{ route('admin.procedimentos.store') }}"
+                        method="POST"
+                    >
 
-                    <div class="lista-header-search">
+                        @csrf
 
-                        <i class="bi bi-search"></i>
 
-                        <input
-                            type="text"
-                            id="buscar-procedimento"
-                            placeholder="Buscar procedimento..."
-                            autocomplete="off"
+                        <div class="form-row">
+
+
+                            <div class="form-group">
+
+                                <label for="tipo_id">
+
+                                    <i class="bi bi-grid"></i>
+
+                                    Tipo
+
+                                </label>
+
+
+                                <select
+                                    name="tipo_id"
+                                    id="tipo_id"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Selecione o tipo
+                                    </option>
+
+
+                                    @foreach($tipos as $tipo)
+
+                                        <option
+                                            value="{{ $tipo->tipo_id }}"
+                                            data-colorivel="{{
+                                                !empty($tipo->is_colorivel)
+                                                    ? '1'
+                                                    : '0'
+                                            }}"
+                                            {{
+                                                old('tipo_id') == $tipo->tipo_id
+                                                    ? 'selected'
+                                                    : ''
+                                            }}
+                                        >
+
+                                            {{ $tipo->nome }}
+
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+
+                                <small
+                                    id="status-colorivel"
+                                    class="status-colorivel"
+                                ></small>
+
+
+                                @error('tipo_id')
+
+                                    <small class="form-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="nome">
+
+                                    <i class="bi bi-scissors"></i>
+
+                                    Nome do procedimento
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    id="nome"
+                                    value="{{ old('nome') }}"
+                                    placeholder="Ex: Corte feminino"
+                                    maxlength="255"
+                                    required
+                                >
+
+
+                                @error('nome')
+
+                                    <small class="form-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row form-row-descricao">
+
+
+                            <div class="form-group">
+
+                                <label for="descricao">
+
+                                    <i class="bi bi-card-text"></i>
+
+                                    Descrição
+
+                                </label>
+
+
+                                <textarea
+                                    name="descricao"
+                                    id="descricao"
+                                    placeholder="Descreva o procedimento e os principais detalhes"
+                                    required
+                                >{{ old('descricao') }}</textarea>
+
+
+                                @error('descricao')
+
+                                    <small class="form-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="preco">
+
+                                    <i class="bi bi-currency-dollar"></i>
+
+                                    Preço
+
+                                </label>
+
+
+                                <div class="preco-input">
+
+                                    <span>
+                                        R$
+                                    </span>
+
+
+                                    <input
+                                        type="number"
+                                        name="preco"
+                                        id="preco"
+                                        min="0"
+                                        step="0.01"
+                                        value="{{ old('preco') }}"
+                                        placeholder="0,00"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                @error('preco')
+
+                                    <small class="form-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="procedimento-form-footer">
+
+                            <button
+                                type="submit"
+                                class="btn-salvar"
+                            >
+
+                                <i class="bi bi-plus-lg"></i>
+
+                                Cadastrar Procedimento
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+
+                <aside class="procedimento-cadastros-laterais">
+
+
+                    <div class="cadastro-lateral-card">
+
+
+                        <div class="cadastro-lateral-header">
+
+                            <span class="cadastro-lateral-icon">
+
+                                <i class="bi bi-grid"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <h2>
+                                    Novo Tipo
+                                </h2>
+
+                                <p>
+                                    Cadastre um tipo.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <form
+                            action="{{ route('admin.tipos.store') }}"
+                            method="POST"
                         >
+
+                            @csrf
+
+
+                            <div class="form-group">
+
+                                <label for="tipo_nome">
+                                    Nome do tipo
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    id="tipo_nome"
+                                    placeholder="Ex: Cabelo"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-cadastro-auxiliar"
+                            >
+
+                                <i class="bi bi-plus-lg"></i>
+
+                                Adicionar Tipo
+
+                            </button>
+
+                        </form>
+
+
+                        <a
+                            href="{{ route('admin.tipos.index') }}"
+                            class="btn-gerenciar-auxiliar"
+                        >
+
+                            <i class="bi bi-gear"></i>
+
+                            Gerenciar Tipos
+
+                        </a>
 
                     </div>
 
 
-                </div>
 
+                    <div class="cadastro-lateral-card">
+
+
+                        <div class="cadastro-lateral-header">
+
+                            <span class="cadastro-lateral-icon">
+
+                                <i class="bi bi-palette"></i>
+
+                            </span>
+
+
+                            <div>
+
+                                <h2>
+                                    Nova Cor
+                                </h2>
+
+                                <p>
+                                    Cadastre uma cor disponível.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <form
+                            action="{{ route('admin.cores.store') }}"
+                            method="POST"
+                        >
+
+                            @csrf
+
+
+                            <div class="form-group">
+
+                                <label for="cor_nome">
+                                    Nome da cor
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    id="cor_nome"
+                                    placeholder="Ex: Loiro"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="cor_estoque">
+                                    Estoque
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    name="estoque"
+                                    id="cor_estoque"
+                                    min="0"
+                                    value="0"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="btn-cadastro-auxiliar"
+                            >
+
+                                <i class="bi bi-plus-lg"></i>
+
+                                Adicionar Cor
+
+                            </button>
+
+                        </form>
+
+
+                        <a
+                            href="{{ route('admin.cores.store') }}"
+                            class="btn-gerenciar-auxiliar"
+                        >
+
+                            <i class="bi bi-gear"></i>
+
+                            Gerenciar Cores
+
+                        </a>
+
+                    </div>
+
+
+                </aside>
+
+
+            </section>
+
+
+
+            <section
+                class="lista-procedimentos"
+                id="lista-procedimentos"
+            >
+
+
+                <div class="lista-header">
+
+                    <div>
+
+                        <h2>
+                            Procedimentos Cadastrados
+                        </h2>
+
+                        <p>
+                            Procedimentos disponíveis para os clientes.
+                        </p>
+
+                    </div>
+
+
+                    <span class="contador-servicos">
+
+                        {{ $procedimentos->count() }}
+
+                        {{
+                            $procedimentos->count() === 1
+                                ? 'procedimento'
+                                : 'procedimentos'
+                        }}
+
+                    </span>
+
+                </div>
 
 
                 @if($procedimentos->count() > 0)
@@ -363,7 +581,10 @@
                     <div class="table-responsive">
 
 
-                        <table class="tabela-procedimentos">
+                        <table
+                            class="procedimentos-table"
+                            id="tabela-procedimentos"
+                        >
 
 
                             <thead>
@@ -386,7 +607,7 @@
                                         Preço
                                     </th>
 
-                                    <th class="coluna-acoes">
+                                    <th>
                                         Ações
                                     </th>
 
@@ -395,14 +616,12 @@
                             </thead>
 
 
-
                             <tbody id="procedimentos-tbody">
 
 
                                 @foreach($procedimentos as $procedimento)
 
-
-                                    <tr class="procedimento-row">
+                                    <tr class="procedimento-linha">
 
 
                                         <td>
@@ -419,61 +638,31 @@
                                         </td>
 
 
-
                                         <td>
 
-                                            <div class="procedimento-info">
+                                            <strong class="procedimento-nome">
 
-                                                <strong class="procedimento-nome">
+                                                {{ $procedimento->nome }}
 
-                                                    {{ $procedimento->nome }}
-
-                                                </strong>
-
-
-                                                @if(optional($procedimento->tipos)->colorivel)
-
-                                                    <span class="status-colorivel sim">
-
-                                                        <span class="status-dot"></span>
-
-                                                        Colorível
-
-                                                    </span>
-
-                                                @else
-
-                                                    <span class="status-colorivel nao">
-
-                                                        <span class="status-dot"></span>
-
-                                                        Não colorível
-
-                                                    </span>
-
-                                                @endif
-
-                                            </div>
+                                            </strong>
 
                                         </td>
 
 
-
                                         <td>
 
-                                            <p class="procedimento-descricao">
+                                            <span class="procedimento-descricao">
 
                                                 {{ $procedimento->descricao }}
 
-                                            </p>
+                                            </span>
 
                                         </td>
 
 
-
                                         <td>
 
-                                            <span class="procedimento-preco">
+                                            <span class="preco-procedimento">
 
                                                 R$
 
@@ -491,12 +680,9 @@
                                         </td>
 
 
-
                                         <td>
 
-
-                                            <div class="acoes-procedimento">
-
+                                            <div class="acoes">
 
                                                 <a
                                                     href="{{ route(
@@ -504,17 +690,13 @@
                                                         $procedimento->getKey()
                                                     ) }}"
                                                     class="btn-editar"
-                                                    title="Editar procedimento"
                                                 >
 
                                                     <i class="bi bi-pencil"></i>
 
-                                                    <span>
-                                                        Editar
-                                                    </span>
+                                                    Editar
 
                                                 </a>
-
 
 
                                                 <form
@@ -532,61 +714,83 @@
                                                     <button
                                                         type="submit"
                                                         class="btn-excluir"
-                                                        title="Excluir procedimento"
                                                         onclick="return confirm('Deseja realmente excluir este procedimento?')"
                                                     >
 
                                                         <i class="bi bi-trash"></i>
 
-                                                        <span>
-                                                            Excluir
-                                                        </span>
+                                                        Excluir
 
                                                     </button>
 
                                                 </form>
 
-
                                             </div>
-
 
                                         </td>
 
-
                                     </tr>
-
 
                                 @endforeach
 
 
                             </tbody>
 
-
                         </table>
 
+                    </div>
 
-                        <div
-                            id="busca-vazia"
-                            class="busca-vazia"
-                            style="display: none;"
+
+                    <div
+                        class="procedimentos-pagination-footer"
+                        id="procedimentos-pagination-footer"
+                    >
+
+                        <span
+                            class="procedimentos-pagination-info"
+                            id="procedimentos-pagination-info"
+                        >
+                            Carregando...
+                        </span>
+
+
+                        <nav
+                            class="procedimentos-pagination"
+                            id="procedimentos-pagination"
                         >
 
-                            <div class="busca-vazia-icon">
+                            <button
+                                type="button"
+                                class="procedimentos-pagination-btn"
+                                id="procedimentos-anterior"
+                            >
 
-                                <i class="bi bi-search"></i>
+                                <i class="bi bi-chevron-left"></i>
 
-                            </div>
+                                Anterior
 
-                            <h3>
-                                Nenhum procedimento encontrado
-                            </h3>
+                            </button>
 
-                            <p>
-                                Tente pesquisar por outro nome, tipo ou descrição.
-                            </p>
 
-                        </div>
+                            <div
+                                class="procedimentos-pagination-numeros"
+                                id="procedimentos-pagination-numeros"
+                            ></div>
 
+
+                            <button
+                                type="button"
+                                class="procedimentos-pagination-btn"
+                                id="procedimentos-proximo"
+                            >
+
+                                Próximo
+
+                                <i class="bi bi-chevron-right"></i>
+
+                            </button>
+
+                        </nav>
 
                     </div>
 
@@ -596,18 +800,14 @@
 
                     <div class="nenhum-procedimento">
 
-                        <div class="nenhum-procedimento-icon">
-
-                            <i class="bi bi-scissors"></i>
-
-                        </div>
+                        <i class="bi bi-scissors"></i>
 
                         <h3>
                             Nenhum procedimento cadastrado
                         </h3>
 
                         <p>
-                            Cadastre seu primeiro procedimento utilizando o formulário acima.
+                            Cadastre seu primeiro procedimento.
                         </p>
 
                     </div>
@@ -621,16 +821,17 @@
 
         </main>
 
-
     </div>
-
 
 </div>
 
 @endsection
 
 
-
 @push('scripts')
-<script src="{{ asset('js/admin/procedimento.js') }}"></script>
+
+<script
+    src="{{ asset('js/admin/procedimento.js') }}"
+></script>
+
 @endpush
