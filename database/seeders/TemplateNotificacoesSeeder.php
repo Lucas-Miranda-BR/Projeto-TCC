@@ -25,7 +25,7 @@ class TemplateNotificacoesSeeder extends Seeder
         TemplateNotificacaoModel::create([
             'tipo' => 'promocao_aniversario',
             'titulo' => 'Feliz Aniversário! 🎉',
-            'conteudo' => 'Parabéns {nome}! Preparamos um cupom especial de aniversário para você.'
+            'conteudo' => 'Parabéns {nome}! Preparamos um desconto especial de aniversário para você.'
         ]);
 
         TemplateNotificacaoModel::create([
@@ -49,7 +49,7 @@ class TemplateNotificacoesSeeder extends Seeder
         TemplateNotificacaoModel::create([
             'tipo' => 'compra_confirmada',
             'titulo' => 'Compra Confirmada! 🛍️',
-            'conteudo' => 'Olá! Sua compra referente ao pedido #{pedido} no valor de R$ {valor} foi confirmada com sucesso. Agradecemos a preferência!'
+            'conteudo' => 'Olá! Sua compra referente ao pedido #{pedido} no valor de R$ {valor} foi confirmada com sucesso, vá até o local para retirar. Agradecemos a preferência!'
         ]);
     }
 }
