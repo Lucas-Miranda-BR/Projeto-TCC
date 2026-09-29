@@ -131,7 +131,7 @@
                     <article class="produto-card">
 
                         <a href="{{ route('site.produto.detalhe', $produto->item_id) }}">
-                            <div class="produto-imagem">
+                            <div class="produto-imagem" style="position: relative;">
                                 @if (!empty($produto->foto))
                                     <img src="{{ asset('images/produtos/' . $produto->foto) }}" alt="{{ $produto->nome }}">
                                 @else
@@ -143,6 +143,13 @@
 
                                 @if ($produto->categorias)
                                     <span class="produto-categoria">{{ $produto->categorias->nome }}</span>
+                                @endif
+
+                                <!-- BADGE DE DESCONTO -->
+                                @if($produto->desconto_ativo)
+                                    <span style="position: absolute; top: 10px; right: 10px; background: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.8rem; z-index: 2;">
+                                        -{{ $produto->desconto_ativo->valor }}%
+                                    </span>
                                 @endif
                             </div>
                         </a>
@@ -172,8 +179,18 @@
 
                             <div class="produto-bottom">
                                 <div class="produto-preco">
-                                    <span>Por</span>
-                                    <strong>R$ {{ number_format($produto->preco, 2, ',', '.') }}</strong>
+                                    @if($produto->desconto_ativo)
+                                        <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                                            <small style="text-decoration: line-through; color: #999; font-size: 0.8rem;">R$ {{ number_format($produto->preco, 2, ',', '.') }}</small>
+                                            <strong style="color: #28a745;">R$ {{ number_format($produto->preco_final, 2, ',', '.') }}</strong>
+                                            @if($produto->desconto_ativo->quando_terminar)
+                                                <small style="color: #dc3545; font-size: 0.7rem; margin-top: 2px;">Termina: {{ \Carbon\Carbon::parse($produto->desconto_ativo->quando_terminar)->format('d/m') }}</small>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span>Por</span>
+                                        <strong>R$ {{ number_format($produto->preco, 2, ',', '.') }}</strong>
+                                    @endif
                                 </div>
 
                                     @if ($produto->estoque >= 2)

@@ -107,19 +107,20 @@
                                 {{ $linha['item']->nome }}
                             </h2>
 
-                            <span>
-
-                                R$
-                                {{
-                                    number_format(
-                                        $linha['item']->preco,
-                                        2,
-                                        ',',
-                                        '.'
-                                    )
-                                }}
-
-                            </span>
+                            @if($linha['item']->desconto_ativo)
+                                <span style="display: flex; flex-direction: column; gap: 2px;">
+                                    <small style="text-decoration: line-through; color: #999; font-size: 0.8em; line-height: 1;">
+                                        R$ {{ number_format($linha['item']->preco, 2, ',', '.') }}
+                                    </small>
+                                    <span style="color: #28a745; font-weight: bold;">
+                                        R$ {{ number_format($linha['item']->preco_final, 2, ',', '.') }}
+                                    </span>
+                                </span>
+                            @else
+                                <span>
+                                    R$ {{ number_format($linha['item']->preco, 2, ',', '.') }}
+                                </span>
+                            @endif
 
                             <small>
 
