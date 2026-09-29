@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('pedido', function (Blueprint $table) {
             $table->id('pedido_id');
             $table->decimal('valor_total', total: 8, places: 2);
-            $table->timestamp('pedido_data')->useCurrent();
+            $table->datetime('pedido_data')->useCurrent();
+            $table->char('status', 1)->default("P");
+            $table->decimal('valor_desconto', 10, 2)->default(0);
             $table->unsignedBigInteger('cliente_id')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();

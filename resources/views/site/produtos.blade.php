@@ -76,7 +76,7 @@
                     @endif
                 </p>
             </div>
-            <a href="{{ route('carrinho.index') }}" class="btn-carrinho">
+            <a href="{{ route('cliente.carrinho') }}" class="btn-carrinho">
                 <i class="bi bi-bag"></i> Ver Carrinho
             </a>
         </div>
