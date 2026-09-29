@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class DescontoModel extends Model
 {
@@ -28,6 +29,16 @@ class DescontoModel extends Model
             DescontarItemModel::class,
             'desconto_id',
             'desconto_id'
+        );
+    }
+
+    public function itens(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            ItemModel::class,
+            'descontar_item',
+            'desconto_id',
+            'item_id'
         );
     }
 }
