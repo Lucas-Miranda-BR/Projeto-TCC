@@ -17,7 +17,8 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\NotificacaoController;
 use App\Http\Controllers\NetworthController;
 use App\Http\Controllers\TemplateNotificacaoController;
-
+use App\Http\Controllers\DescontoController;
+use App\Http\Controllers\PagamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -210,12 +211,12 @@ Route::prefix('agendamento')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('carrinho')->group(function () {
+Route::prefix('cliente')->group(function () {
 
     Route::get(
-        '/',
+        '/carrinho',
         [CarrinhoController::class, 'index']
-    )->name('carrinho.index');
+    )->name('cliente.carrinho');
 
 
     Route::post(
@@ -319,9 +320,7 @@ Route::prefix('admin')
                 AdminController::class,
                 'viewClientes'
             ]
-        )->name(
-            'admin.clientes'
-        );
+        )->name('admin.clientes');
 
 
         Route::post(
@@ -330,9 +329,7 @@ Route::prefix('admin')
                 NotificacaoController::class,
                 'enviarParaCliente'
             ]
-        )->name(
-            'admin.clientes.notificacao.enviar'
-        );
+        )->name('admin.clientes.notificacao.enviar');
 
         Route::get(
             '/notificacoes',
@@ -351,24 +348,6 @@ Route::prefix('admin')
             ]
         )->name('admin.notificacoes.destroy');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CALENDÁRIO
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get(
-            '/calendario',
-            [
-                AdminController::class,
-                'viewCalendario'
-            ]
-        )->name(
-            'admin.calendario'
-        );
-
-
         /*
         |--------------------------------------------------------------------------
         | AGENDAMENTOS
@@ -381,9 +360,7 @@ Route::prefix('admin')
                 AdminController::class,
                 'viewAgendamentos'
             ]
-        )->name(
-            'admin.agendamentos'
-        );
+        )->name('admin.agendamentos');
 
         Route::get(
             '/agendamentos/{id}/editar',
@@ -402,9 +379,7 @@ Route::prefix('admin')
                 AgendamentoController::class,
                 'concluirAgendamento'
             ]
-        )->name(
-            'admin.agendamentos.concluir'
-        );
+        )->name('admin.agendamentos.concluir');
 
 
         Route::patch(
@@ -413,9 +388,7 @@ Route::prefix('admin')
                 AgendamentoController::class,
                 'cancelarAgendamento'
             ]
-        )->name(
-            'admin.agendamentos.cancelar'
-        );
+        )->name('admin.agendamentos.cancelar');
 
 
         /*
@@ -430,9 +403,7 @@ Route::prefix('admin')
                 ProcedimentoController::class,
                 'indexProcedimento'
             ]
-        )->name(
-            'admin.procedimentos.index'
-        );
+        )->name('admin.procedimentos.index');
 
 
         Route::post(
@@ -441,9 +412,7 @@ Route::prefix('admin')
                 ProcedimentoController::class,
                 'storeProcedimento'
             ]
-        )->name(
-            'admin.procedimentos.store'
-        );
+        )->name('admin.procedimentos.store');
 
 
         Route::get(
@@ -452,9 +421,7 @@ Route::prefix('admin')
                 ProcedimentoController::class,
                 'editProcedimento'
             ]
-        )->name(
-            'admin.procedimentos.edit'
-        );
+        )->name('admin.procedimentos.edit');
 
 
         Route::put(
@@ -463,9 +430,7 @@ Route::prefix('admin')
                 ProcedimentoController::class,
                 'updateProcedimento'
             ]
-        )->name(
-            'admin.procedimentos.update'
-        );
+        )->name('admin.procedimentos.update');
 
 
         Route::delete(
@@ -474,9 +439,7 @@ Route::prefix('admin')
                 ProcedimentoController::class,
                 'destroyProcedimento'
             ]
-        )->name(
-            'admin.procedimentos.destroy'
-        );
+        )->name('admin.procedimentos.destroy');
 
 
         /*
@@ -491,9 +454,7 @@ Route::prefix('admin')
                 TipoController::class,
                 'indexTipo'
             ]
-        )->name(
-            'admin.tipos.index'
-        );
+        )->name('admin.tipos.index');
 
 
         Route::post(
@@ -502,9 +463,7 @@ Route::prefix('admin')
                 TipoController::class,
                 'storeTipo'
             ]
-        )->name(
-            'admin.tipos.store'
-        );
+        )->name('admin.tipos.store');
 
 
         Route::get(
@@ -513,9 +472,7 @@ Route::prefix('admin')
                 TipoController::class,
                 'editTipo'
             ]
-        )->name(
-            'admin.tipos.edit'
-        );
+        )->name('admin.tipos.edit');
 
 
         Route::put(
@@ -524,9 +481,7 @@ Route::prefix('admin')
                 TipoController::class,
                 'updateTipo'
             ]
-        )->name(
-            'admin.tipos.update'
-        );
+        )->name('admin.tipos.update');
 
 
         Route::delete(
@@ -535,9 +490,7 @@ Route::prefix('admin')
                 TipoController::class,
                 'destroyTipo'
             ]
-        )->name(
-            'admin.tipos.destroy'
-        );
+        )->name('admin.tipos.destroy');
 
         /*
         |--------------------------------------------------------------------------
@@ -552,9 +505,7 @@ Route::prefix('admin')
                 CorController::class,
                 'indexCor'
             ]
-        )->name(
-            'admin.cores.index'
-        );
+        )->name('admin.cores.index');
 
 
         Route::post(
@@ -563,9 +514,7 @@ Route::prefix('admin')
                 CorController::class,
                 'storeCor'
             ]
-        )->name(
-            'admin.cores.store'
-        );
+        )->name('admin.cores.store');
 
 
         Route::get(
@@ -574,9 +523,7 @@ Route::prefix('admin')
                 CorController::class,
                 'editCor'
             ]
-        )->name(
-            'admin.cores.edit'
-        );
+        )->name('admin.cores.edit');
 
 
         Route::put(
@@ -585,9 +532,7 @@ Route::prefix('admin')
                 CorController::class,
                 'updateCor'
             ]
-        )->name(
-            'admin.cores.update'
-        );
+        )->name('admin.cores.update');
 
 
         Route::delete(
@@ -596,9 +541,7 @@ Route::prefix('admin')
                 CorController::class,
                 'destroyCor'
             ]
-        )->name(
-            'admin.cores.destroy'
-        );
+        )->name('admin.cores.destroy');
 
 
         /*
@@ -613,9 +556,7 @@ Route::prefix('admin')
                 ItemController::class,
                 'index'
             ]
-        )->name(
-            'admin.produtos.index'
-        );
+        )->name('admin.produtos.index');
 
 
         Route::post(
@@ -624,9 +565,7 @@ Route::prefix('admin')
                 ItemController::class,
                 'store'
             ]
-        )->name(
-            'admin.produtos.store'
-        );
+        )->name('admin.produtos.store');
 
 
         Route::get(
@@ -635,9 +574,7 @@ Route::prefix('admin')
                 ItemController::class,
                 'edit'
             ]
-        )->name(
-            'admin.produtos.edit'
-        );
+        )->name('admin.produtos.edit');
 
 
         Route::put(
@@ -646,9 +583,7 @@ Route::prefix('admin')
                 ItemController::class,
                 'update'
             ]
-        )->name(
-            'admin.produtos.update'
-        );
+        )->name('admin.produtos.update');
 
 
         Route::delete(
@@ -657,9 +592,7 @@ Route::prefix('admin')
                 ItemController::class,
                 'destroy'
             ]
-        )->name(
-            'admin.produtos.destroy'
-        );
+        )->name('admin.produtos.destroy');
 
 
         /*
@@ -674,9 +607,7 @@ Route::prefix('admin')
                 MarcaController::class,
                 'store'
             ]
-        )->name(
-            'admin.marcas.store'
-        );
+        )->name('admin.marcas.store');
 
 
         /*
@@ -691,9 +622,7 @@ Route::prefix('admin')
                 CategoriaController::class,
                 'store'
             ]
-        )->name(
-            'admin.categorias.store'
-        );
+        )->name('admin.categorias.store');
 
         /*
         |--------------------------------------------------------------------------
@@ -721,6 +650,7 @@ Route::prefix('admin')
         | TEMPLATES DE NOTIFICAÇÃO
         |--------------------------------------------------------------------------
         */
+
         Route::get(
             '/templates-notificacao', 
             [TemplateNotificacaoController::class, 'index']
@@ -735,5 +665,64 @@ Route::prefix('admin')
             '/templates-notificacao/{id}', 
             [TemplateNotificacaoController::class, 'update']
         )->name('admin.templates.update');
+
+        /*
+        |--------------------------------------------------------------------------
+        | DESCONTOS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/descontos',
+            [DescontoController::class, 'index'])
+        ->name('admin.descontos.index');
+
+        Route::get(
+            '/descontos/criar', 
+            [DescontoController::class, 'create'])
+        ->name('admin.descontos.create');
+
+        Route::post(
+            '/descontos', 
+            [DescontoController::class, 'store'])
+        ->name('admin.descontos.store');
+
+        Route::get(
+            '/descontos/{id}/editar', 
+            [DescontoController::class, 'edit'])
+        ->name('admin.descontos.edit');
+
+        Route::put(
+            '/descontos/{id}', 
+            [DescontoController::class, 'update'])
+        ->name('admin.descontos.update');
+
+        Route::delete(
+            '/descontos/{id}', 
+            [DescontoController::class, 'destroy'])
+        ->name('admin.descontos.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | MERCADO PAGO - COMPRAS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/pagamento/sucesso', function() {
+            return "Pagamento aprovado! O seu pedido já está sendo preparado.";})
+        ->name('site.pagamento.sucesso');
+        
+        Route::get('/pagamento/falha', function() {
+            return "Houve um problema com o pagamento. Tente novamente.";})
+        ->name('site.pagamento.falha');
+        
+        Route::get('/pagamento/pendente', function() {
+            return "Seu pagamento está em análise ou aguardando o pagamento do Boleto/Pix.";})
+        ->name('site.pagamento.pendente');
+
+        Route::post(
+            '/webhook/mercadopago',
+            [PagamentoController::class, 'webhook'])
+        ->name('webhook.mp');
 
     });

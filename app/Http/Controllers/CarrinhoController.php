@@ -2,228 +2,101 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ItemModel;
-use App\Models\PedidoModel;
-use App\Models\CarrinhoItemModel;
-use App\Models\NotificacaoModel;
-use App\Models\TemplateNotificacaoModel;
-use App\Models\DescontoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Models\ItemModel;
+use App\Models\PedidoModel;
+use App\Models\CarrinhoItemModel;
+use App\Models\DescontoModel;
 use Carbon\Carbon;
+use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Client\Preference\PreferenceClient;
 
 class CarrinhoController extends Controller
 {
-    private function getDescontoAniversario($cliente)
-    {
-        if ($cliente && !empty($cliente->data_nascimento)) {
-            $hoje = Carbon::today();
-            $nascimento = Carbon::parse($cliente->data_nascimento);
-
-            if ($hoje->month === $nascimento->month && $hoje->day === $nascimento->day) {
-                
-                $jaUsouDesconto = PedidoModel::where('cliente_id', $cliente->cliente_id)
-                    ->whereDate('criado', $hoje)
-                    ->exists();
-
-                if (!$jaUsouDesconto) {
-                    $regraDesconto = DescontoModel::where('nome', 'like', '%Aniversário%')->first();
-                    if ($regraDesconto) {
-                        return (float) $regraDesconto->valor;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-
-    private function calcularTotalCarrinho($carrinho)
-    {
-        $totalCentavos = 0;
-        
-        foreach ($carrinho as $itemId => $qtd) {
-            $item = ItemModel::find($itemId);
-            if ($item && $item->estoque >= 2) {
-                $precoCentavos = (int) round(((float) $item->preco) * 100);
-                $totalCentavos += $precoCentavos * $qtd;
-            }
-        }
-
-        $cliente = Auth::user();
-        $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
-
-        if ($valorDescontoPercentual > 0) {
-            $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
-            $totalCentavos -= $descontoCentavos;
-        }
-
-        return $totalCentavos / 100;
-    }
 
     public function index()
     {
-        $cliente = Auth::user();
-
-        if (!$cliente) {
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Faça login para acessar o seu carrinho.');
-        }
-
         $carrinho = session()->get('carrinho', []);
         $linhas = [];
-        $totalCentavos = 0;
-        $avisos = [];
-        $carrinhoAtualizou = false;
-
-        $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
-        $temDescontoAniversario = $valorDescontoPercentual > 0;
+        $total = 0;
+        $cliente = Auth::user();
 
         foreach ($carrinho as $itemId => $quantidade) {
-            $item = ItemModel::with(['marcas', 'categorias'])->find($itemId);
-
-            if (!$item || $item->estoque < 2) {
-                $nomeProduto = $item ? $item->nome : 'Produto indisponível';
-                $avisos[] = "O produto '{$nomeProduto}' esgotou e foi removido do seu carrinho.";
+            $item = ItemModel::find($itemId);
+            if ($item) {
+                $subtotal = $item->preco_final * $quantidade;
+                $total += $subtotal;
                 
-                unset($carrinho[$itemId]);
-                $carrinhoAtualizou = true;
-                continue;
+                $linhas[] = [
+                    'item' => $item,
+                    'quantidade' => $quantidade,
+                    'subtotal' => $subtotal
+                ];
             }
+        }
 
-            $quantidade = (int) $quantidade;
+        $temDescontoAniversario = false;
+        $valorDescontoPercentual = 0;
 
-            if ($quantidade > $item->estoque) {
-                $avisos[] = "O estoque de '{$item->nome}' diminuiu. Ajustamos sua quantidade para {$item->estoque}.";
-                
-                $quantidade = $item->estoque;
-                $carrinho[$itemId] = $quantidade;
-                $carrinhoAtualizou = true;
+        if ($cliente) {
+            $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
+            if ($valorDescontoPercentual > 0) {
+                $temDescontoAniversario = true;
+                $total = $total - ($total * ($valorDescontoPercentual / 100));
             }
-
-            $precoCentavos = (int) round(((float) $item->preco) * 100);
-            $subtotalCentavos = $precoCentavos * $quantidade;
-            $totalCentavos += $subtotalCentavos;
-
-            $linhas[] = [
-                'item' => $item,
-                'quantidade' => $quantidade,
-                'subtotal' => $subtotalCentavos / 100
-            ];
         }
 
-        if ($carrinhoAtualizou) {
-            session()->put('carrinho', $carrinho);
-            session()->flash('avisos', $avisos);
-        }
-
-        if ($temDescontoAniversario) {
-            $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
-            $totalCentavos -= $descontoCentavos;
-        }
-
-        $total = $totalCentavos / 100;
-
-        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));
-    }
+        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));    }
 
     public function adicionar(Request $request, $id)
     {
-        if (!Auth::check()) {
-            return redirect()
-                ->route('cliente.login')
-                ->with('erro', 'Faça login para adicionar produtos ao carrinho.');
-        }
-
         $item = ItemModel::findOrFail($id);
+        $quantidade = (int) $request->input('quantidade', 1);
 
-        $dados = $request->validate([
-            'quantidade' => ['required', 'integer', 'min:1']
-        ]);
-
-        $quantidade = (int) $dados['quantidade'];
-
-        if ($item->estoque < 2) {
-            return back()->with('erro', 'O produto "' . $item->nome . '" está esgotado.');
-        }
-
-        if ($quantidade > $item->estoque) {
-            return back()->with('erro', 'Quantidade indisponível. Estoque atual: ' . $item->estoque . '.');
+        if ($item->estoque < $quantidade) {
+            return redirect()->back()->with('erro', 'Estoque insuficiente.');
         }
 
         $carrinho = session()->get('carrinho', []);
-        $quantidadeAtual = $carrinho[$item->item_id] ?? 0;
-        $novaQuantidade = $quantidadeAtual + $quantidade;
 
-        if ($novaQuantidade > $item->estoque) {
-            $restante = $item->estoque - $quantidadeAtual;
-
-            if ($restante <= 0) {
-                return back()->with('erro', 'Você já possui a quantidade máxima disponível de "' . $item->nome . '" no carrinho.');
+        if (isset($carrinho[$id])) {
+            $novaQuantidade = $carrinho[$id] + $quantidade;
+            if ($item->estoque < $novaQuantidade) {
+                return redirect()->back()->with('erro', 'A quantidade total desejada excede o estoque.');
             }
-
-            return back()->with('erro', 'Você pode adicionar apenas mais ' . $restante . ' unidade(s) de "' . $item->nome . '".');
+            $carrinho[$id] = $novaQuantidade;
+        } else {
+            $carrinho[$id] = $quantidade;
         }
 
-        $carrinho[$item->item_id] = $novaQuantidade;
         session()->put('carrinho', $carrinho);
-
-        return back()->with('success', $quantidade . ' unidade(s) de "' . $item->nome . '" adicionada(s) ao carrinho!');
+        return redirect()->route('cliente.carrinho')->with('success', 'Produto adicionado ao carrinho!');
     }
 
     public function atualizar(Request $request, $id)
     {
         $item = ItemModel::findOrFail($id);
+        $quantidade = (int) $request->input('quantidade');
 
-        $dados = $request->validate([
-            'quantidade' => ['required', 'integer', 'min:1']
-        ]);
-
-        $quantidade = (int) $dados['quantidade'];
-        $isAjax = $request->wantsJson() || $request->ajax();
-
-        if ($item->estoque < 2) {
-            $carrinho = session()->get('carrinho', []);
-            unset($carrinho[$item->item_id]);
-            session()->put('carrinho', $carrinho);
-
-            if ($isAjax) {
-                return response()->json([
-                    'removido' => true,
-                    'mensagem' => 'O produto "' . $item->nome . '" ficou sem estoque e foi removido do carrinho.',
-                    'novo_total' => number_format($this->calcularTotalCarrinho($carrinho), 2, ',', '.')
-                ]);
-            }
-            return back()->with('erro', 'O produto "' . $item->nome . '" ficou sem estoque e foi removido.');
+        if ($quantidade <= 0) {
+            return $this->remover($id);
         }
 
-        if ($quantidade > $item->estoque) {
-            if ($isAjax) {
-                return response()->json([
-                    'erro' => true,
-                    'mensagem' => 'Quantidade indisponível. Estoque atual: ' . $item->estoque . '.',
-                    'estoque_atual' => $item->estoque
-                ]);
-            }
-            return back()->with('erro', 'Quantidade indisponível.');
+        if ($item->estoque < $quantidade) {
+            return redirect()->back()->with('erro', 'Estoque insuficiente.');
         }
 
         $carrinho = session()->get('carrinho', []);
-        $carrinho[$item->item_id] = $quantidade;
-        session()->put('carrinho', $carrinho);
-
-        if ($isAjax) {
-            $subtotal = $item->preco * $quantidade;
-            return response()->json([
-                'success' => true,
-                'novo_subtotal' => number_format($subtotal, 2, ',', '.'),
-                'novo_total' => number_format($this->calcularTotalCarrinho($carrinho), 2, ',', '.')
-            ]);
+        
+        if (isset($carrinho[$id])) {
+            $carrinho[$id] = $quantidade;
+            session()->put('carrinho', $carrinho);
         }
 
-        return back()->with('success', 'Quantidade atualizada!');
+        return redirect()->route('cliente.carrinho');
     }
 
     public function remover($id)
@@ -232,11 +105,29 @@ class CarrinhoController extends Controller
 
         if (isset($carrinho[$id])) {
             unset($carrinho[$id]);
+            session()->put('carrinho', $carrinho);
         }
 
-        session()->put('carrinho', $carrinho);
+        return redirect()->route('cliente.carrinho')->with('success', 'Produto removido do carrinho.');
+    }
 
-        return back()->with('success', 'Produto removido do carrinho.');
+    private function getDescontoAniversario($cliente)
+    {
+        if (empty($cliente->data_nascimento)) {
+            return 0;
+        }
+
+        $nascimento = Carbon::parse($cliente->data_nascimento);
+        
+        if ($nascimento->isBirthday()) {
+            $descontoAniversario = DescontoModel::where('nome', 'like', '%aniversário%')->first();
+            
+            if ($descontoAniversario) {
+                return (float) $descontoAniversario->valor;
+            }
+        }
+
+        return 0;
     }
 
     public function finalizar()
@@ -247,33 +138,38 @@ class CarrinhoController extends Controller
             return redirect()->route('cliente.login')->with('erro', 'Faça login para finalizar a compra.');
         }
 
+        if (empty($cliente->cpf)) {
+            return redirect()->route('cliente.carrinho')
+                             ->with('erro', 'Para finalizar a compra, é obrigatório cadastrar o seu CPF. Atualize seus dados no perfil.');
+        }
+
         $carrinho = session()->get('carrinho', []);
 
         if (empty($carrinho)) {
-            return redirect()->route('carrinho.index')->with('erro', 'Seu carrinho está vazio.');
+            return redirect()->route('cliente.carrinho')->with('erro', 'Seu carrinho está vazio.');
         }
 
         try {
-            $pedido = DB::transaction(function () use ($carrinho, $cliente) {
+            MercadoPagoConfig::setAccessToken(env('MERCADOPAGO_ACCESS_TOKEN'));
+
+            $itensMercadoPago = [];
+            $pedidoIdRetorno = null;
+            $descontoCentavosGeral = 0;
+
+            DB::transaction(function () use ($carrinho, $cliente, &$itensMercadoPago, &$pedidoIdRetorno, &$descontoCentavosGeral) {
                 $produtosCompra = [];
                 $totalCentavos = 0;
 
                 foreach ($carrinho as $itemId => $quantidade) {
                     $item = ItemModel::where('item_id', $itemId)->lockForUpdate()->first();
 
-                    if (!$item || $item->estoque < 2) {
+                    if (!$item || $item->estoque < 1) {
                         throw ValidationException::withMessages([
-                            'carrinho' => 'O produto "' . ($item ? $item->nome : 'desconhecido') . '" esgotou antes da finalização e foi removido do carrinho.'
+                            'carrinho' => 'O produto "' . ($item ? $item->nome : 'desconhecido') . '" esgotou antes da finalização e foi removido.'
                         ]);
                     }
 
                     $quantidade = (int) $quantidade;
-
-                    if ($quantidade <= 0) {
-                        throw ValidationException::withMessages([
-                            'carrinho' => 'Quantidade inválida no carrinho.'
-                        ]);
-                    }
 
                     if ($item->estoque < $quantidade) {
                         throw ValidationException::withMessages([
@@ -281,7 +177,7 @@ class CarrinhoController extends Controller
                         ]);
                     }
 
-                    $precoCentavos = (int) round(((float) $item->preco) * 100);
+                    $precoCentavos = (int) round(((float) $item->preco_final) * 100);
                     $subtotalCentavos = $precoCentavos * $quantidade;
                     $totalCentavos += $subtotalCentavos;
 
@@ -293,17 +189,22 @@ class CarrinhoController extends Controller
                 }
 
                 $valorDescontoPercentual = $this->getDescontoAniversario($cliente);
-                $descontoCentavos = 0;
+                $fatorDescontoAniversario = 1;
                 
                 if ($valorDescontoPercentual > 0) {
-                    $descontoCentavos = ($totalCentavos * $valorDescontoPercentual) / 100;
-                    $totalCentavos -= $descontoCentavos;
+                    $descontoCentavosGeral = ($totalCentavos * $valorDescontoPercentual) / 100;
+                    $totalCentavos -= $descontoCentavosGeral;
+                    $fatorDescontoAniversario = 1 - ($valorDescontoPercentual / 100);
                 }
 
                 $pedido = PedidoModel::create([
                     'cliente_id' => $cliente->cliente_id,
-                    'valor_total' => $totalCentavos / 100
+                    'valor_total' => $totalCentavos / 100,
+                    'valor_desconto' => $descontoCentavosGeral / 100,
+                    'status' => 'P'
                 ]);
+
+                $pedidoIdRetorno = $pedido->pedido_id;
 
                 foreach ($produtosCompra as $produtoCompra) {
                     $item = $produtoCompra['item'];
@@ -317,38 +218,49 @@ class CarrinhoController extends Controller
 
                     $item->estoque -= $produtoCompra['quantidade'];
                     $item->save();
+
+                    $precoParaMP = $item->preco_final * $fatorDescontoAniversario;
+
+                    $itensMercadoPago[] = [
+                        "id" => (string) $item->item_id,
+                        "title" => $item->nome,
+                        "quantity" => $produtoCompra['quantidade'],
+                        "unit_price" => (float) round($precoParaMP, 2),
+                        "currency_id" => "BRL"
+                    ];
                 }
-
-                $template = TemplateNotificacaoModel::where('tipo', 'compra_confirmada')->first();
-
-                if ($template) {
-                    $valorFormatado = number_format($pedido->valor_total, 2, ',', '.');
-                    $descontoFormatado = number_format($descontoCentavos / 100, 2, ',', '.');
-                    
-                    $textoFinal = str_replace(
-                        ['{pedido}', '{valor}', '{desconto}'], 
-                        [$pedido->pedido_id, $valorFormatado, $descontoFormatado], 
-                        $template->conteudo
-                    );
-
-                    NotificacaoModel::create([
-                        'cliente_id' => $cliente->cliente_id,
-                        'titulo' => $template->titulo,
-                        'conteudo' => $textoFinal,
-                        'data_recebida' => now(),
-                        'visualizada' => false
-                    ]);
-                }
-
-                return $pedido;
             });
+
+            $client = new PreferenceClient();
+            
+            $preference = $client->create([
+                "items" => $itensMercadoPago,
+                "external_reference" => (string) $pedidoIdRetorno,
+                "back_urls" => [
+                    "success" => route('site.pagamento.sucesso'),
+                    "failure" => route('site.pagamento.falha'),
+                    "pending" => route('site.pagamento.pendente')
+                ],
+                "auto_return" => "approved",
+                "payer" => [
+                    "name" => $cliente->nome,
+                    "email" => $cliente->email,
+                    "identification" => [
+                        "type" => "CPF",
+                        "number" => $cliente->cpf
+                    ]
+                ]
+            ]);
 
             session()->forget('carrinho');
 
-            return redirect()->route('site.produtos')->with('success', 'Compra realizada com sucesso! Pedido #' . $pedido->pedido_id);
+            // (Use sandbox_init_point para testes e init_point em produção)
+            return redirect()->away($preference->sandbox_init_point);
 
         } catch (ValidationException $e) {
-            return redirect()->route('carrinho.index')->withErrors($e->errors());
+            return redirect()->route('cliente.carrinho')->withErrors($e->errors());
+        } catch (\Exception $e) {
+            return redirect()->route('cliente.carrinho')->with('erro', 'Erro ao conectar com o Mercado Pago: ' . $e->getMessage());
         }
     }
 }

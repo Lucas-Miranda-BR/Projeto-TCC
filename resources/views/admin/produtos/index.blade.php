@@ -349,7 +349,8 @@
                                                 name="estoque"
                                                 id="estoque"
                                                 min="0"
-                                                value="{{ old('estoque', 0) }}"
+                                                value="{{ old('estoque') }}"
+                                                placeholder="Ex. 0"
                                                 required
                                             >
 

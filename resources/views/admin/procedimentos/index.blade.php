@@ -497,7 +497,7 @@
                                     name="estoque"
                                     id="cor_estoque"
                                     min="0"
-                                    value="0"
+                                    placeholder="Ex. 0"
                                     required
                                 >
 
@@ -519,7 +519,7 @@
 
 
                         <a
-                            href="{{ route('admin.cores.store') }}"
+                            href="{{ route('admin.cores.index') }}"
                             class="btn-gerenciar-auxiliar"
                         >
 
