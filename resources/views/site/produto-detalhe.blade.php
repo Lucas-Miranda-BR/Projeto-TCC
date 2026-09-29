@@ -48,26 +48,17 @@
         <p><strong>Categoria:</strong> {{ $item->categorias->nome ?? 'Sem categoria' }}</p>
 
         @if($item->desconto_ativo)
-            <div class="produto-preco" style="margin: 15px 0;">
-                <p style="margin: 0;"><strong>Valor:</strong></p>
-                <small style="text-decoration: line-through; color: #999; font-size: 1rem;">
-                    R$ {{ number_format($item->preco, 2, ',', '.') }}
-                </small>
-                
-                <h3 style="color: #28a745; margin: 5px 0;">
-                    R$ {{ number_format($item->preco_final, 2, ',', '.') }}
-                </h3>
-                
-                <span style="background: #ffc107; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">
-                    -{{ $item->desconto_ativo->valor }}% OFF
-                </span>
-
-                @if($item->desconto_ativo->quando_terminar)
-                    <p style="font-size: 0.8rem; color: #dc3545; margin-top: 5px;">
-                        <i class="bi bi-clock-history"></i> Termina em: {{ \Carbon\Carbon::parse($item->desconto_ativo->quando_terminar)->format('d/m/Y') }}
-                    </p>
-                @endif
-            </div>
+            <p>
+                <strong>Valor:</strong> 
+                <small style="text-decoration: line-through; color: #999; margin-right: 5px;">R$ {{ number_format($item->preco, 2, ',', '.') }}</small>
+                <span style="color: #28a745; font-size: 1.2em; font-weight: bold;">R$ {{ number_format($item->preco_final, 2, ',', '.') }}</span>
+                <span style="background: #ffc107; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: 8px;">-{{ $item->desconto_ativo->valor }}% OFF</span>
+            </p>
+            @if($item->desconto_ativo->quando_terminar)
+                <p style="font-size: 0.85rem; color: #dc3545; margin-top: -10px;">
+                    <i class="bi bi-clock-history"></i> Termina em: {{ \Carbon\Carbon::parse($item->desconto_ativo->quando_terminar)->format('d/m/Y') }}
+                </p>
+            @endif
         @else
             <p><strong>Valor:</strong> R$ {{ number_format($item->preco, 2, ',', '.') }}</p>
         @endif

@@ -40,16 +40,16 @@ class ItemModel extends Model
     public function categorias(): BelongsTo{
         return $this->belongsTo(
             CategoriaModel::class,
-            'item_id',
-            'item_id'
+            'categoria_id',
+            'categoria_id'
         );
     }
 
     public function marcas(): BelongsTo{
         return $this->belongsTo(
             MarcaModel::class,
-            'item_id',
-            'item_id'
+            'marca_id',
+            'marca_id'
         );
     }
 
