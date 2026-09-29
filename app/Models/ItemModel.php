@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Carbon\Carbon;
 
 class ItemModel extends Model
 {
@@ -18,16 +19,25 @@ class ItemModel extends Model
     protected $primaryKey = 'item_id';
 
     protected $fillable = [
-        'categoria_id',
-        'marca_id',
+        'categoria_id', // FK
+        'marca_id', // FK
         'nome',
         'preco',
         'foto',
         'estoque'
     ];
 
-    public function categorias(): BelongsTo
+    public function descontos(): BelongsToMany
     {
+        return $this->belongsToMany(
+            DescontoModel::class,
+            'descontar_item',
+            'item_id',
+            'desconto_id'
+        );
+    }
+
+    public function categorias(): BelongsTo{
         return $this->belongsTo(
             CategoriaModel::class,
             'categoria_id',
@@ -35,8 +45,7 @@ class ItemModel extends Model
         );
     }
 
-    public function marcas(): BelongsTo
-    {
+    public function marcas(): BelongsTo{
         return $this->belongsTo(
             MarcaModel::class,
             'marca_id',
@@ -44,21 +53,29 @@ class ItemModel extends Model
         );
     }
 
-    public function carrinhos_itens(): HasMany
+    public function getDescontoAtivoAttribute()
     {
-        return $this->hasMany(
-            CarrinhoItemModel::class,
-            'item_id',
-            'item_id'
-        );
+        $hoje = Carbon::today()->format('Y-m-d');
+        
+        $descontosValidos = $this->descontos->filter(function ($desc) use ($hoje) {
+            if ($desc->quando_terminar === null) {
+                return true;
+            }
+            return Carbon::parse($desc->quando_terminar)->format('Y-m-d') >= $hoje;
+        });
+
+        return $descontosValidos->sortByDesc('valor')->first();
     }
 
-    public function descontar_itens(): HasMany
+    public function getPrecoFinalAttribute()
     {
-        return $this->hasMany(
-            DescontarItemModel::class,
-            'item_id',
-            'item_id'
-        );
+        $desconto = $this->desconto_ativo;
+        
+        if ($desconto) {
+            $valorDesconto = ($this->preco * $desconto->valor) / 100;
+            return $this->preco - $valorDesconto;
+        }
+        
+        return $this->preco;
     }
 }

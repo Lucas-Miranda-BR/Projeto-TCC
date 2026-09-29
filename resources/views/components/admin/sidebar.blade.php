@@ -136,7 +136,7 @@
     </a>
 
     <a
-        href="#"
+        href="{{ route('admin.descontos.index') }}"
         class="menu-item"
     >
 

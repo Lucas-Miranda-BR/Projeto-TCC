@@ -46,7 +46,7 @@ class CarrinhoController extends Controller
         foreach ($carrinho as $itemId => $qtd) {
             $item = ItemModel::find($itemId);
             if ($item && $item->estoque >= 2) {
-                $precoCentavos = (int) round(((float) $item->preco) * 100);
+                $precoCentavos = (int) round(((float) $item->preco_final) * 100);
                 $totalCentavos += $precoCentavos * $qtd;
             }
         }
@@ -103,7 +103,7 @@ class CarrinhoController extends Controller
                 $carrinhoAtualizou = true;
             }
 
-            $precoCentavos = (int) round(((float) $item->preco) * 100);
+            $precoCentavos = (int) round(((float) $item->preco_final) * 100);
             $subtotalCentavos = $precoCentavos * $quantidade;
             $totalCentavos += $subtotalCentavos;
 
@@ -247,6 +247,11 @@ class CarrinhoController extends Controller
             return redirect()->route('cliente.login')->with('erro', 'Faça login para finalizar a compra.');
         }
 
+        if (empty($cliente->cpf)) {
+            return redirect()->route('carrinho.index')
+                             ->with('erro', 'Para finalizar a compra, é obrigatório cadastrar o seu CPF. Por favor, atualize os seus dados no perfil.');
+        }
+
         $carrinho = session()->get('carrinho', []);
 
         if (empty($carrinho)) {
@@ -281,7 +286,7 @@ class CarrinhoController extends Controller
                         ]);
                     }
 
-                    $precoCentavos = (int) round(((float) $item->preco) * 100);
+                    $precoCentavos = (int) round(((float) $item->preco_final) * 100);
                     $subtotalCentavos = $precoCentavos * $quantidade;
                     $totalCentavos += $subtotalCentavos;
 
