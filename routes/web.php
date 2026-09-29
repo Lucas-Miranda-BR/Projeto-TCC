@@ -18,6 +18,7 @@ use App\Http\Controllers\NotificacaoController;
 use App\Http\Controllers\NetworthController;
 use App\Http\Controllers\TemplateNotificacaoController;
 use App\Http\Controllers\DescontoController;
+use App\Http\Controllers\PagamentoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -700,5 +701,28 @@ Route::prefix('admin')
             '/descontos/{id}', 
             [DescontoController::class, 'destroy'])
         ->name('admin.descontos.destroy');
+
+        /*
+        |--------------------------------------------------------------------------
+        | MERCADO PAGO - COMPRAS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/pagamento/sucesso', function() {
+            return "Pagamento aprovado! O seu pedido já está sendo preparado.";})
+        ->name('site.pagamento.sucesso');
+        
+        Route::get('/pagamento/falha', function() {
+            return "Houve um problema com o pagamento. Tente novamente.";})
+        ->name('site.pagamento.falha');
+        
+        Route::get('/pagamento/pendente', function() {
+            return "Seu pagamento está em análise ou aguardando o pagamento do Boleto/Pix.";})
+        ->name('site.pagamento.pendente');
+
+        Route::post(
+            '/webhook/mercadopago',
+            [PagamentoController::class, 'webhook'])
+        ->name('webhook.mp');
 
     });

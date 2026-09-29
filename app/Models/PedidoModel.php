@@ -19,7 +19,10 @@ class PedidoModel extends Model
 
     protected $fillable = [
         'cliente_id',
-        'valor_total'
+        'valor_total',
+        'valor_desconto',
+        'pedido_data',
+        'status'
     ];
 
     protected $casts = [
