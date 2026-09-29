@@ -1,119 +1,311 @@
 :root{
-    --wine-900:#4a0712;
-    --wine-800:#650a19;
-    --wine-700:#7a0d1f;
-    --wine-600:#9d1228;
-    --wine-500:#b81430;
-    --rose-100:#f7d9de;
-    --cream:#fdf3f1;
-    --ink:#2b1b1d;
-    --muted:#8a7375;
-    --line:#ecdcda;
-    --gradient-brand:linear-gradient(100deg,var(--wine-700),var(--wine-500));
-    --shadow-card:0 6px 20px rgba(80,10,20,.08);
-    --shadow-hover:0 16px 30px rgba(80,10,20,.16);
-    --radius:18px;
-  }
-  
-  /* ---------- Banner ---------- */
-  .banner{
-    background:var(--gradient-brand);
-    padding:40px 24px;
-    display:flex;
-    justify-content:center;
-  }
-  .banner img{
-    width:100%;
-    max-width:1100px;
-    max-height:320px;
-    object-fit:cover;
-    display:block;
-    border-radius:var(--radius);
-    box-shadow:0 18px 40px rgba(80,10,20,.35);
-  }
-  
-  /* ---------- Grade de serviços ---------- */
-  .servicos{
-    max-width:1200px;
-    margin:0 auto;
-    padding:60px 24px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:24px;
-  }
-  @media (max-width:900px){
-    .servicos{grid-template-columns:repeat(2,1fr);}
-  }
-  @media (max-width:600px){
-    .servicos{grid-template-columns:1fr;}
-  }
-  
-  /* ---------- Card de serviço ---------- */
-  .card{
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    box-shadow:var(--shadow-card);
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .card:hover{
-    transform:translateY(-4px);
-    box-shadow:var(--shadow-hover);
-  }
-  .card img{
+  --radius:18px;
+
+  --wine-900:#4a0712;
+  --wine-800:#650a19;
+  --wine-700:#7a0d1f;
+  --wine-600:#9d1228;
+  --wine-500:#b81430;
+
+  --ink:#2b1b1d;
+  --muted:#8a7375;
+  --line:#ecdcda;
+  --secondary:#f7d9de;
+  --card:#ffffff;
+
+  --gradient-brand:linear-gradient(100deg,var(--wine-700),var(--wine-500));
+  --shadow-card:0 1px 2px rgba(74,7,18,.06),0 12px 30px -14px rgba(74,7,18,.25);
+  --shadow-hover:0 18px 40px -16px rgba(74,7,18,.4);
+
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Jost',system-ui,sans-serif;
+}
+
+/* ---------- Banner ---------- */
+.banner-servicos{
+  background:var(--gradient-brand);
+  color:#fff;
+  overflow:hidden;
+}
+
+.banner-conteudo{
+  max-width:1200px;
+  margin:0 auto;
+  min-height:clamp(160px,20vh,220px);
+  padding:32px 24px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:32px;
+}
+
+.banner-imagem{
+  width:clamp(160px,20vh,220px);
+  height:clamp(140px,16vh,180px);
+  flex-shrink:0;
+  overflow:hidden;
+  border-radius:var(--radius);
+}
+
+.banner-imagem img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.banner-texto{
+  flex:1 1 320px;
+  border-left:1px solid rgba(255,255,255,.25);
+  padding-left:25px;
+}
+
+.banner-titulo{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(24px,4vh,34px);
+  line-height:1.2;
+  margin:0;
+}
+
+.banner-descricao{
+  max-width:360px;
+  margin:12px 0 0;
+  font-size:.9rem;
+  opacity:.85;
+}
+
+.banner-acoes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:20px;
+}
+
+.btn-banner{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.6rem 1.4rem;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:.2s ease;
+}
+.btn-banner-solido{
+  background:#fff;
+  color:var(--wine-600);
+}
+.btn-banner-solido:hover{opacity:.9;color:var(--wine-600);}
+.btn-banner-outline{
+  background:transparent;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.6);
+}
+.btn-banner-outline:hover{background:rgba(255,255,255,.15);color:#fff;}
+
+/* ---------- Título da seção ---------- */
+.servicos-section{
+  max-width:1200px;
+  margin:0 auto;
+  padding:clamp(32px,5vh,56px) 24px 70px;
+}
+
+.titulo-servicos{
+  font-family:var(--font-display);
+  font-size:clamp(28px,4.5vh,40px);
+  font-weight:500;
+  text-align:center;
+  margin:0 0 clamp(24px,3vh,36px);
+  color:var(--ink);
+}
+
+/* ---------- Grade de serviços ---------- */
+.servicos{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+@media (max-width:900px){
+  .servicos{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:600px){
+  .servicos{grid-template-columns:1fr;}
+}
+
+/* ---------- Card de serviço ---------- */
+.card{
+  display:flex;
+  flex-direction:column;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-card);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-hover);
+}
+
+.imagem-container{
+  width:100%;
+  height:clamp(150px,24vh,200px);
+  flex-shrink:0;
+  overflow:hidden;
+  background:var(--secondary);
+}
+.imagem-container img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-conteudo{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:16px 18px;
+}
+
+.categoria{
+  color:var(--wine-600);
+  font-size:.75rem;
+  font-family:var(--font-body);
+  margin:0 0 4px;
+}
+
+.card h3{
+  font-family:var(--font-display);
+  font-size:clamp(17px,2.4vh,21px);
+  font-weight:500;
+  color:var(--ink);
+  margin:0 0 6px;
+}
+
+.descricao{
+  color:var(--muted);
+  font-size:.8rem;
+  line-height:1.45;
+  margin:0;
+}
+
+.rodape-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:auto;
+  padding-top:14px;
+}
+
+.preco-principal{
+  color:var(--wine-600);
+  font-size:.95rem;
+  font-weight:600;
+  margin:0;
+}
+
+.tempo-principal{
+  color:var(--muted);
+  font-size:.68rem;
+  margin:2px 0 0;
+}
+
+.btn-quero-principal{
+  padding:7px 18px;
+  border:1px solid var(--wine-600);
+  border-radius:999px;
+  background:transparent;
+  color:var(--wine-600);
+  font-family:var(--font-body);
+  font-size:.75rem;
+  cursor:pointer;
+  transition:.2s ease;
+}
+.btn-quero-principal:hover{
+  background:var(--wine-600);
+  color:#fff;
+}
+
+/* ---------- CTA final ---------- */
+.cta-final{
+  max-width:1200px;
+  margin:70px auto 0;
+  padding:50px 25px;
+  background:var(--secondary);
+  border-radius:var(--radius);
+  text-align:center;
+}
+
+.cta-final h2{
+  font-family:var(--font-display);
+  font-size:30px;
+  color:var(--ink);
+  margin:0;
+}
+
+.cta-descricao{
+  max-width:380px;
+  margin:12px auto 0;
+  color:var(--muted);
+  font-size:.85rem;
+}
+
+.cta-acoes{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  margin-top:24px;
+}
+
+.btn-ghost-brand{
+  padding:.6rem 1.4rem;
+  border-radius:999px;
+  border:1px solid var(--wine-600);
+  background:transparent;
+  color:var(--wine-600);
+  font-size:.82rem;
+  text-decoration:none;
+  transition:.2s ease;
+}
+.btn-ghost-brand:hover{
+  background:var(--wine-600);
+  color:#fff;
+}
+
+.brand-gradient{
+  padding:.6rem 1.4rem;
+  border-radius:999px;
+  background:var(--gradient-brand);
+  color:#fff;
+  font-size:.82rem;
+  text-decoration:none;
+  transition:.2s ease;
+}
+.brand-gradient:hover{
+  opacity:.92;
+  color:#fff;
+}
+
+/* ---------- Responsividade ---------- */
+@media (max-width:900px){
+  .banner-imagem{
     width:100%;
     height:200px;
-    object-fit:cover;
-    display:block;
-    background:var(--cream);
   }
-  .card h3{
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-    font-size:1.1rem;
-    color:var(--ink);
-    margin:16px 20px 6px;
+  .banner-texto{
+    width:100%;
+    border-left:none;
+    padding-left:0;
   }
-  .card p{
-    margin:0 20px 20px;
-    color:var(--wine-600);
-    font-weight:600;
-    font-size:.9rem;
-  }
-  
-  /* ---------- Agende agora (CTA) ---------- */
-  .agendar{
-    max-width:1200px;
-    margin:20px auto 70px;
-    padding:56px 24px;
-    background:var(--rose-100);
-    border-radius:20px;
-    text-align:center;
-  }
-  .agendar h2{
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-    font-size:1.8rem;
-    color:var(--ink);
-    margin-bottom:20px;
-    letter-spacing:.5px;
-  }
-  .btn-agendar{
-    display:inline-block;
-    padding:.75rem 2.2rem;
-    border-radius:999px;
-    background:var(--gradient-brand);
-    color:#fff;
-    text-decoration:none;
-    font-weight:600;
-    font-size:.9rem;
-    letter-spacing:.4px;
-    transition:opacity .2s ease, transform .2s ease;
-  }
-  .btn-agendar:hover{
-    opacity:.92;
-    transform:translateY(-1px);
-  }
+}
+
+@media (max-width:576px){
+  .banner-imagem{height:180px;}
+  .titulo-servicos{font-size:30px;}
+}
