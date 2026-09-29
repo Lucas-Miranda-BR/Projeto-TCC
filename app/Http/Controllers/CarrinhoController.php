@@ -247,6 +247,11 @@ class CarrinhoController extends Controller
             return redirect()->route('cliente.login')->with('erro', 'Faça login para finalizar a compra.');
         }
 
+        if (empty($cliente->cpf)) {
+            return redirect()->route('carrinho.index')
+                             ->with('erro', 'Para finalizar a compra, é obrigatório cadastrar o seu CPF. Por favor, atualize os seus dados no perfil.');
+        }
+
         $carrinho = session()->get('carrinho', []);
 
         if (empty($carrinho)) {
