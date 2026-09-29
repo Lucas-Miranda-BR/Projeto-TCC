@@ -46,7 +46,7 @@
 
 
         <a
-            href="{{ route('carrinho.index') }}"
+            href="{{ route('cliente.carrinho') }}"
             class="client-cart-link"
         >
 

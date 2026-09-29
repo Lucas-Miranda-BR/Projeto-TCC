@@ -211,12 +211,12 @@ Route::prefix('agendamento')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('carrinho')->group(function () {
+Route::prefix('cliente')->group(function () {
 
     Route::get(
-        '/',
+        '/carrinho',
         [CarrinhoController::class, 'index']
-    )->name('carrinho.index');
+    )->name('cliente.carrinho');
 
 
     Route::post(

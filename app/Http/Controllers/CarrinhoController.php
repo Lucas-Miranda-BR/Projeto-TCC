@@ -49,8 +49,7 @@ class CarrinhoController extends Controller
             }
         }
 
-        return view('site.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));
-    }
+        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));    }
 
     public function adicionar(Request $request, $id)
     {
@@ -74,7 +73,7 @@ class CarrinhoController extends Controller
         }
 
         session()->put('carrinho', $carrinho);
-        return redirect()->route('carrinho.index')->with('success', 'Produto adicionado ao carrinho!');
+        return redirect()->route('cliente.carrinho')->with('success', 'Produto adicionado ao carrinho!');
     }
 
     public function atualizar(Request $request, $id)
@@ -97,7 +96,7 @@ class CarrinhoController extends Controller
             session()->put('carrinho', $carrinho);
         }
 
-        return redirect()->route('carrinho.index');
+        return redirect()->route('cliente.carrinho');
     }
 
     public function remover($id)
@@ -109,7 +108,7 @@ class CarrinhoController extends Controller
             session()->put('carrinho', $carrinho);
         }
 
-        return redirect()->route('carrinho.index')->with('success', 'Produto removido do carrinho.');
+        return redirect()->route('cliente.carrinho')->with('success', 'Produto removido do carrinho.');
     }
 
     private function getDescontoAniversario($cliente)
@@ -140,14 +139,14 @@ class CarrinhoController extends Controller
         }
 
         if (empty($cliente->cpf)) {
-            return redirect()->route('carrinho.index')
+            return redirect()->route('cliente.carrinho')
                              ->with('erro', 'Para finalizar a compra, é obrigatório cadastrar o seu CPF. Atualize seus dados no perfil.');
         }
 
         $carrinho = session()->get('carrinho', []);
 
         if (empty($carrinho)) {
-            return redirect()->route('carrinho.index')->with('erro', 'Seu carrinho está vazio.');
+            return redirect()->route('cliente.carrinho')->with('erro', 'Seu carrinho está vazio.');
         }
 
         try {
@@ -259,9 +258,9 @@ class CarrinhoController extends Controller
             return redirect()->away($preference->sandbox_init_point);
 
         } catch (ValidationException $e) {
-            return redirect()->route('carrinho.index')->withErrors($e->errors());
+            return redirect()->route('cliente.carrinho')->withErrors($e->errors());
         } catch (\Exception $e) {
-            return redirect()->route('carrinho.index')->with('erro', 'Erro ao conectar com o Mercado Pago: ' . $e->getMessage());
+            return redirect()->route('cliente.carrinho')->with('erro', 'Erro ao conectar com o Mercado Pago: ' . $e->getMessage());
         }
     }
 }
