@@ -46,7 +46,7 @@ class CarrinhoController extends Controller
         foreach ($carrinho as $itemId => $qtd) {
             $item = ItemModel::find($itemId);
             if ($item && $item->estoque >= 2) {
-                $precoCentavos = (int) round(((float) $item->preco) * 100);
+                $precoCentavos = (int) round(((float) $item->preco_final) * 100);
                 $totalCentavos += $precoCentavos * $qtd;
             }
         }
@@ -103,7 +103,7 @@ class CarrinhoController extends Controller
                 $carrinhoAtualizou = true;
             }
 
-            $precoCentavos = (int) round(((float) $item->preco) * 100);
+            $precoCentavos = (int) round(((float) $item->preco_final) * 100);
             $subtotalCentavos = $precoCentavos * $quantidade;
             $totalCentavos += $subtotalCentavos;
 
@@ -286,7 +286,7 @@ class CarrinhoController extends Controller
                         ]);
                     }
 
-                    $precoCentavos = (int) round(((float) $item->preco) * 100);
+                    $precoCentavos = (int) round(((float) $item->preco_final) * 100);
                     $subtotalCentavos = $precoCentavos * $quantidade;
                     $totalCentavos += $subtotalCentavos;
 
