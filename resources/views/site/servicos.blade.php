@@ -63,9 +63,7 @@
                             <p class="tempo-principal">40 min</p>
                         </div>
 
-                        <button class="btn-quero-principal" type="button">
-                            Quero esse
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -86,9 +84,7 @@
                             <p class="tempo-principal">45 min</p>
                         </div>
 
-                        <button class="btn-quero-principal" type="button">
-                            Quero esse
-                        </button>
+
                     </div>
                 </div>
             </div>
@@ -109,9 +105,7 @@
                             <p class="tempo-principal">60 min</p>
                         </div>
 
-                        <button class="btn-quero-principal" type="button">
-                            Quero esse
-                        </button>
+
                     </div>
                 </div>
             </div>
