@@ -66,6 +66,16 @@
 
         </div>
 
+        <a
+            href="{{ route('cliente.logout') }}"
+            class="client-logout"
+            title="Sair"
+        >
+
+            <i class="bi bi-box-arrow-right"></i>
+
+        </a>
+
     </div>
 
 

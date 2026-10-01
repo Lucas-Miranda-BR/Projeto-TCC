@@ -14,27 +14,30 @@ body{
    NAVBAR CLIENTE
 ===================================================== */
 
+:root {
+    --vinho: #9d1228;
+    --vinho-escuro: #7f0e20;
+    --texto: #3a2c2f;
+    --texto-suave: #8a7a7e;
+    --borda: #eadfe1;
+}
+
 .client-navbar {
-    width: 100%;
-    height: 68px;
-
-    padding: 0 25px;
-
     position: sticky;
     top: 0;
+    z-index: 900;
+
+    width: 100%;
+    height: 72px;
+    padding: 0 40px;
 
     display: flex;
     align-items: center;
+    gap: 32px;
 
-    gap: 20px;
-
-    background: rgba(255, 255, 255, .97);
-
-    border-bottom: 1px solid #e5d9dc;
-
-    box-shadow: 0 2px 12px rgba(80, 20, 30, .035);
-
-    z-index: 900;
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--borda);
 }
 
 
@@ -43,38 +46,17 @@ body{
 ===================================================== */
 
 .client-brand {
-    width: 120px;
-    height: 68px;
-
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-start;
-
     flex-shrink: 0;
-
-    position: relative;
-
+    display: flex;
+    align-items: center;
     text-decoration: none;
 }
 
 .client-brand-image {
-    display: block !important;
-
-    width: auto !important;
-    height: 55px !important;
-
-    max-width: 110px !important;
-    max-height: 55px !important;
-
-    object-fit: contain !important;
-
-    opacity: 1 !important;
-    visibility: visible !important;
-
-    position: static !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
+    display: block;
+    height: 46px;
+    width: auto;
+    object-fit: contain;
 }
 
 
@@ -84,11 +66,9 @@ body{
 
 .client-top-menu {
     margin-left: auto;
-
     display: flex;
     align-items: center;
-
-    gap: 22px;
+    gap: 30px;
 }
 
 .client-top-menu a {
@@ -96,71 +76,113 @@ body{
 
     display: flex;
     align-items: center;
-
-    gap: 5px;
-
-    white-space: nowrap;
-
-    text-decoration: none;
+    gap: 7px;
+    padding: 6px 0;
 
     font-size: 13px;
     font-weight: 400;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    text-decoration: none;
 
-    color: #333333;
+    color: var(--texto);
+    transition: color .25s ease;
+}
 
-    transition: color .2s ease;
+.client-top-menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: var(--vinho);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s ease;
 }
 
 .client-top-menu a:hover {
-    color: #9d1228;
+    color: var(--vinho);
+}
+
+.client-top-menu a:hover::after {
+    transform: scaleX(1);
 }
 
 
 /* =====================================================
-   NOTIFICAÇÕES
+   ÍCONES + BADGE (carrinho, IA, notificações)
 ===================================================== */
 
-.client-notifications-link {
-    display: flex;
-    align-items: center;
-}
-
-.client-notification-wrapper {
+.nav-icon {
     position: relative;
-
     display: inline-flex;
     align-items: center;
 }
 
-.client-notification-wrapper > i {
-    font-size: 16px;
-
-    color: #444444;
+.nav-icon svg {
+    width: 17px;
+    height: 17px;
+    overflow: visible;
+    transition: color .25s ease, stroke .25s ease, fill .25s ease;
 }
 
-.client-notification-count {
-    width: 12px;
-    height: 12px;
+/* carrinho: contorno vermelho no hover */
+.client-top-menu a:hover .nav-icon svg {
+    color: var(--vinho);
+    stroke: var(--vinho);
+}
 
+/* IA: estrelas preenchidas ficam vermelhas no hover */
+.client-top-menu a:hover .nav-icon-ia svg {
+    fill: var(--vinho);
+    stroke: var(--vinho);
+}
+
+.nav-icon i {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.nav-badge {
     position: absolute;
-
     top: -8px;
-    right: -7px;
+    right: -10px;
+
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    border-radius: 10px;
+    background: var(--vinho);
+    color: #fff;
 
-    background: #9d1228;
-
-    color: #ffffff;
-
-    font-size: 5px;
+    font-size: 10px;
     font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+}
 
-    border: 2px solid #ffffff;
+
+/* =====================================================
+   ÁREA DO USUÁRIO
+===================================================== */
+
+.client-user-area {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding-left: 28px;
+    border-left: 1px solid var(--borda);
 }
 
 
@@ -169,52 +191,31 @@ body{
 ===================================================== */
 
 .client-profile {
-    min-width: 105px;
-    height: 40px;
-
-    padding: 4px 10px 4px 6px;
+    height: 44px;
+    padding: 5px 16px 5px 5px;
 
     display: flex;
     align-items: center;
+    gap: 10px;
 
-    gap: 8px;
-
-    flex-shrink: 0;
-
-    border: 1px solid #e5d9dc;
-
-    border-radius: 22px;
-
-    background: #ffffff;
+    border: 1px solid var(--borda);
+    border-radius: 30px;
+    background: #fff;
 
     text-decoration: none;
+    color: var(--texto);
 
-    color: #242424;
-
-    transition:
-        box-shadow .2s ease,
-        border-color .2s ease;
+    transition: border-color .25s ease, box-shadow .25s ease;
 }
 
 .client-profile:hover {
-    border-color: #d8c8cb;
-
-    box-shadow: 0 4px 18px rgba(80, 20, 30, 0.07);
+    border-color: #d9c4c8;
+    box-shadow: 0 4px 16px rgba(80, 20, 30, .07);
 }
 
-
-/* =====================================================
-   FOTO DO CLIENTE
-===================================================== */
-
-/* =====================================================
-   ÍCONE DO CLIENTE
-===================================================== */
-
 .client-avatar-initials {
-    width: 29px;
-    height: 29px;
-
+    width: 34px;
+    height: 34px;
     flex-shrink: 0;
 
     display: flex;
@@ -222,126 +223,69 @@ body{
     justify-content: center;
 
     border-radius: 50%;
+    background: var(--vinho);
+    color: #fff;
 
-    background: #f8e7ea;
-
-    border: 1px solid #edd3d8;
-
-    color: #9d1228;
-
-    font-size: 10px;
-    font-weight: 700;
-
-    letter-spacing: 0.5px;
-
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .05em;
     text-transform: uppercase;
 
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
+    transition: background .25s ease;
 }
 
 .client-profile:hover .client-avatar-initials {
-    background: #9d1228;
-
-    border-color: #9d1228;
-
-    color: #ffffff;
+    background: var(--vinho-escuro);
 }
-
-/* =====================================================
-   INFORMAÇÕES PERFIL
-===================================================== */
 
 .client-profile-info {
     display: flex;
     flex-direction: column;
-
-    justify-content: center;
-
-    line-height: 1.2;
+    line-height: 1.25;
 }
 
 .client-profile-info strong {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 
-    font-size: 9px;
-    font-weight: 600;
-
-    color: #242424;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texto);
 }
 
-.client-profile-info span {
-    margin-top: 2px;
-
-    font-size: 7px;
-
-    color: #999999;
+.client-profile-info small {
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
 }
 
 
 /* =====================================================
-   CONFIGURAÇÕES
+   BOTÕES DE ÍCONE (configurações / sair)
 ===================================================== */
 
-.client-settings {
-    width: 33px;
-    height: 33px;
+.client-icon-btn {
+    width: 38px;
+    height: 38px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    flex-shrink: 0;
-
-    font-size: 21px;
-
-    color: #333333;
-
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--texto);
     text-decoration: none;
 
-    transition:
-        color .2s ease,
-        transform .3s ease;
+    transition: background .25s ease, color .25s ease;
 }
 
-.client-settings:hover {
-    color: #9d1228;
-
-    transform: rotate(45deg);
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-.client-logout {
-    width: 33px;
-    height: 33px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    font-size: 19px;
-
-    color: #333333;
-
-    text-decoration: none;
-
-    transition:
-        color .2s ease,
-        transform .2s ease;
-}
-
-.client-logout:hover {
-    color: #9d1228;
-
-    transform: translateX(2px);
+.client-icon-btn:hover {
+    background: #f8ecee;
+    color: var(--vinho);
 }
 
 
@@ -350,38 +294,30 @@ body{
 ===================================================== */
 
 .client-login {
-    height: 38px;
-
-    padding: 0 20px;
+    height: 40px;
+    padding: 0 26px;
 
     display: inline-flex;
     align-items: center;
-    justify-content: center;
 
-    flex-shrink: 0;
-
-    border-radius: 22px;
-
-    background: #9d1228;
-
-    color: #ffffff;
-
-    text-decoration: none;
+    border: 1px solid var(--vinho);
+    border-radius: 30px;
 
     font-size: 12px;
     font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
 
-    white-space: nowrap;
+    color: var(--vinho);
+    background: transparent;
 
-    transition:
-        background .2s ease,
-        transform .2s ease;
+    transition: background .25s ease, color .25s ease;
 }
 
 .client-login:hover {
-    background: #7f0e20;
-
-    transform: translateY(-1px);
+    background: var(--vinho);
+    color: #fff;
 }
 
 
@@ -390,117 +326,26 @@ body{
 ===================================================== */
 
 @media (max-width: 1150px) {
-
-    .client-top-menu {
-        gap: 14px;
-    }
-
-    .client-top-menu a {
-        font-size: 12px;
-    }
-
+    .client-navbar { padding: 0 24px; gap: 20px; }
+    .client-top-menu { gap: 20px; }
+    .client-top-menu a { font-size: 12px; }
+    .client-user-area { padding-left: 20px; }
 }
-
 
 @media (max-width: 950px) {
-
-    .client-top-menu {
-        gap: 10px;
-    }
-
-    .client-top-menu a {
-        font-size: 11px;
-    }
-
-    .client-brand {
-        width: 100px;
-    }
-
-    .client-brand-image {
-        height: 50px !important;
-        max-width: 95px !important;
-    }
-
+    .client-top-menu { gap: 14px; }
+    .client-profile-info { display: none; }
+    .client-profile { padding: 5px; }
 }
-
 
 @media (max-width: 850px) {
-
-    .client-top-menu {
-        display: none;
-    }
-
-    .client-profile {
-        margin-left: auto;
-    }
-
-    .client-login {
-        margin-left: auto;
-    }
-
+    .client-top-menu { display: none; }
+    .client-user-area { margin-left: auto; border-left: 0; padding-left: 0; }
 }
 
-
 @media (max-width: 600px) {
-
-    .client-navbar {
-        height: 62px;
-
-        padding: 0 15px;
-
-        gap: 10px;
-    }
-    .client-brand {
-        width: 130px;
-        height: 68px;
-    
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-    
-        flex: 0 0 130px !important;
-    
-        position: relative !important;
-    
-        overflow: visible !important;
-    
-        z-index: 9999 !important;
-    }
-    
-    .client-brand-image {
-        display: block !important;
-    
-        width: 70px !important;
-        height: 60px !important;
-    
-        max-width: none !important;
-        max-height: none !important;
-    
-        object-fit: contain !important;
-    
-        position: relative !important;
-    
-        opacity: 1 !important;
-        visibility: visible !important;
-    
-        z-index: 9999 !important;
-    }
-
-    .client-profile-info {
-        display: none;
-    }
-
-    .client-profile {
-        min-width: 40px;
-
-        width: 40px;
-        height: 40px;
-
-        padding: 4px;
-
-        justify-content: center;
-    }
-
+    .client-navbar { height: 64px; padding: 0 16px; }
+    .client-brand-image { height: 40px; }
 }
 
 
@@ -523,71 +368,4 @@ body{
     padding:40px;
 
     flex-wrap:wrap;
-}
-.client-cart-link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
-}
-
-.client-cart-icon {
-    position: relative;
-    display: inline-flex;
-}
-
-.client-cart-count {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-
-    min-width: 15px;
-    height: 15px;
-
-    padding: 0 4px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #9d1228;
-    color: #ffffff;
-
-    font-size: 7px;
-    font-weight: 600;
-}
-.navbar-notificacoes {
-    position: relative;
-
-    display: inline-flex;
-    align-items: center;
-
-    gap: 5px;
-
-    text-decoration: none;
-}
-
-.navbar-notificacoes-badge {
-    min-width: 16px;
-    height: 16px;
-
-    padding: 0 4px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-
-    background: #9d1228;
-
-    color: #ffffff;
-
-    border: 2px solid #ffffff;
-    border-radius: 20px;
-
-    font-size: 7px;
-    font-weight: 600;
 }
