@@ -1,119 +1,165 @@
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-h1,h2,h3{
-    font-family:'Playfair Display', serif;
+h1,
+h2,
+h3 {
+    font-family: 'Playfair Display', serif;
 }
 
-.hero{
-    height:100vh;
+/* =========================
+   HERO
+   A altura desconta a navbar para a imagem terminar
+   exatamente onde o footer começa.
+========================= */
 
-    background-image:url('../images/salao.png');
+.hero {
+    --home-nav-h: 72px;
 
-    background-size:cover;
-    background-position:center;
+    height: calc(100vh - var(--home-nav-h));
+    min-height: 460px;
 
-    position:relative;
+    background-image: url('../images/salao.png');
+
+    background-size: cover;
+    background-position: center;
+
+    position: relative;
+    margin: 0;
 }
 
-.overlay{
-    position:absolute;
-    width:100%;
-    height:100%;
+/* sem espaço entre a imagem e o footer */
+html body .footer {
+    margin-top: 0;
+}
 
-    background:rgba(0,0,0,.35);
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, .35);
 }
 
 
-.menu-right{
-
-    display:flex;
-
-    gap:15px;
-
-    align-items:center;
+.menu-right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
-.btn-about{
-
-    text-decoration:none;
-
-    color:white;
-
-    border:1px solid white;
-
-    padding:6px 15px;
-
-    border-radius:20px;
-
-    font-size:12px;
+.btn-about {
+    text-decoration: none;
+    color: white;
+    border: 1px solid white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 12px;
 }
 
-.btn-profile{
+.btn-profile {
+    width: 35px;
+    height: 35px;
 
-    width:35px;
-    height:35px;
+    border: 1px solid white;
+    border-radius: 50%;
 
-    border:1px solid white;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.btn-profile img{
-
-    width:15px;
+.btn-profile img {
+    width: 15px;
 }
 
-.hero-content{
+.hero-content {
+    position: absolute;
 
-    position:absolute;
+    top: 50%;
+    left: 50%;
 
-    top:50%;
-    left:50%;
+    transform: translate(-50%, -50%);
 
-    transform:translate(-50%,-50%);
+    text-align: center;
+    color: white;
 
-    text-align:center;
-
-    color:white;
-
-    z-index:2;
+    z-index: 2;
 }
 
-.hero-content h1{
+/* Playfair Display: serifada elegante, muito usada em sites de salão e beleza */
+.hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
 
-    font-size:55px;
-
-    font-family:Georgia;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, .45);
 }
 
-.hero-content p{
-
-    margin-top:15px;
-
-    margin-bottom:25px;
+.hero-content p {
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
-.btn-main{
+/* =========================
+   BOTÃO "VER MAIS"
+   hover: #7A1212  |  clique: #4F0404
+========================= */
 
-    color:white;
+.btn-main {
+    display: inline-block;
 
-    text-decoration:none;
+    color: white;
+    text-decoration: none;
 
-    border:1px solid white;
+    /* mesma tipografia do protótipo do Figma */
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
 
-    padding:15px 50px;
+    background-color: transparent;
+    border: 1px solid white;
 
-    border-radius:12px;
+    padding: 19px 56px;
+    border-radius: 16px;
+
+    cursor: pointer;
+
+    /* só o fundo anima: a borda branca some na hora, sem passar por branco */
+    transition: background-color 0.25s ease;
+}
+
+/* a borda fica transparente e a cor de fundo preenche tudo, até a borda */
+a.btn-main:hover {
+    background-color: #7A1212 !important;
+    border-color: transparent !important;
+    color: white !important;
+}
+
+a.btn-main:active {
+    background-color: #4F0404 !important;
+    border-color: transparent !important;
+    color: white !important;
+}
+
+a.btn-main:focus {
+    outline: none;
+}
+
+a.btn-main:focus-visible {
+    outline: 2px solid #7A1212;
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-main {
+        transition: none;
+    }
 }
