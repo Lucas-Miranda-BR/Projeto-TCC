@@ -1406,3 +1406,359 @@ span:last-child {
     }
 
 }
+
+
+/* =========================================================
+   CORREÇÃO DE ESTRUTURA
+   Mantém o visual original e corrige apenas o posicionamento
+   ========================================================= */
+
+
+/* Área principal de produtos */
+
+.produtos-content .produtos-topo {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(275px, 0.95fr);
+
+    align-items: start;
+
+    gap: 27px;
+
+    margin-bottom: 30px;
+}
+
+
+/* Card principal do cadastro */
+
+.produtos-content .produto-form-card {
+    width: 100%;
+    min-width: 0;
+
+    background: #ffffff;
+
+    border: 1px solid #ded8d8;
+
+    border-radius: 19px;
+
+    box-shadow:
+        0 2px 7px
+        rgba(45, 30, 30, 0.02);
+}
+
+
+/* Formulário principal */
+
+.produtos-content .produto-form-principal {
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* Coluna lateral */
+
+.produtos-content .produto-cadastros-laterais {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* Cards auxiliares */
+
+.produtos-content .cadastro-lateral-card {
+    width: 100%;
+    min-width: 0;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #eadada;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(90, 40, 50, 0.05);
+}
+
+
+/* Cabeçalho dos cards auxiliares */
+
+.produtos-content .cadastro-lateral-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 18px;
+}
+
+
+.produtos-content .cadastro-lateral-header h2 {
+    margin: 0;
+
+    color: #332b2b;
+
+    font-family: 'Playfair Display', serif;
+
+    font-size: 19px;
+
+    font-weight: 600;
+}
+
+
+.produtos-content .cadastro-lateral-header p {
+    margin: 2px 0 0;
+
+    color: #8b7d7d;
+
+    font-size: 10px;
+}
+
+
+/* Ícone dos cards auxiliares */
+
+.produtos-content .cadastro-lateral-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #f8e7ea;
+
+    color: #9d1228;
+
+    font-size: 16px;
+}
+
+
+/* Botões auxiliares */
+
+.produtos-content .btn-cadastro-auxiliar {
+    width: 100%;
+    min-height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #9d1228;
+
+    color: #ffffff;
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+
+/* Lista de produtos */
+
+.produtos-content .lista-produtos {
+    width: 100%;
+    min-width: 0;
+
+    margin-top: 30px;
+
+    padding: 22px 25px 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #ded8d8;
+
+    border-radius: 19px;
+
+    box-shadow:
+        0 2px 7px
+        rgba(45, 30, 30, 0.02);
+}
+
+
+/* Container da tabela */
+
+.produtos-content .tabela-container {
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+
+    border: 1px solid #ded7d7;
+
+    border-radius: 16px;
+}
+
+
+/* Garante que o catálogo não seja comprimido */
+
+.produtos-content .produtos-topo > *,
+.produtos-content .produtos-area > * {
+    min-width: 0;
+}
+
+
+/* Cabeçalho do catálogo */
+
+.produtos-content .catalogo-header > div:first-child {
+    min-width: 0;
+    flex: 1;
+}
+
+
+/* Texto do catálogo não invade o botão */
+
+.produtos-content .catalogo-header h2,
+.produtos-content .catalogo-header p {
+    max-width: 100%;
+}
+
+
+/* Pesquisa nunca ultrapassa o catálogo */
+
+.produtos-content .catalogo-pesquisa {
+    max-width: 100%;
+}
+
+
+/* Tabela ocupa todo o espaço disponível */
+
+.produtos-content .tabela-produtos-wrapper,
+.produtos-content .tabela-container {
+    max-width: 100%;
+}
+
+
+/* Evita que formulários flex/grid criem largura extra */
+
+.produtos-content form,
+.produtos-content fieldset {
+    max-width: 100%;
+}
+
+
+/* Corrige imagens de produtos sem estourar o card */
+
+.produtos-content img {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE DA CORREÇÃO
+   ========================================================= */
+
+@media(max-width: 1150px) {
+
+    .produtos-content .produtos-topo {
+        grid-template-columns:
+            minmax(0, 1fr)
+            260px;
+    }
+
+}
+
+
+@media(max-width: 980px) {
+
+    .produtos-content .produtos-topo {
+        grid-template-columns: 1fr;
+    }
+
+
+    .produtos-content .produto-cadastros-laterais {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .produtos-content .lista-produtos {
+        margin-top: 24px;
+    }
+
+}
+
+
+@media(max-width: 700px) {
+
+    .produtos-content .produto-cadastros-laterais {
+        grid-template-columns: 1fr;
+    }
+
+
+    .produtos-content .catalogo-header {
+        width: 100%;
+    }
+
+
+    .produtos-content .catalogo-pesquisa {
+        width: 100%;
+
+        max-width: 100%;
+    }
+
+
+    .produtos-content .produto-form-card,
+    .produtos-content .lista-produtos {
+        border-radius: 14px;
+    }
+
+
+    .produtos-content .lista-produtos {
+        padding: 18px;
+    }
+
+}
+
+
+@media(max-width: 480px) {
+
+    .produtos-content .produtos-topo {
+        gap: 18px;
+    }
+
+
+    .produtos-content .produto-cadastros-laterais {
+        gap: 18px;
+    }
+
+
+    .produtos-content .cadastro-lateral-card {
+        padding: 18px;
+    }
+
+
+    .produtos-content .lista-produtos {
+        padding: 16px;
+    }
+
+}

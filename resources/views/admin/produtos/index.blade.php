@@ -119,11 +119,7 @@
                         </span>
                     </strong>
 
-                                <select
-                                    name="marca_id"
-                                    id="marca_id"
-                                    required
-                                >
+                </div>
 
 
                 <div class="estoque-card estoque-atencao">
@@ -159,11 +155,7 @@
 
                 </div>
 
-                                <select
-                                    name="categoria_id"
-                                    id="categoria_id"
-                                    required
-                                >
+            </section>
 
 
             <section class="produtos-area">
@@ -200,15 +192,7 @@
                             </summary>
 
 
-                                <input
-                                    type="number"
-                                    name="estoque"
-                                    id="estoque"
-                                    placeholder="0,00"
-                                    min="0"
-                                    value="{{ old('estoque') }}"
-                                    required
-                                >
+                            <div class="novo-produto-conteudo">
 
                                 <div class="novo-produto-cabecalho">
 
@@ -349,8 +333,7 @@
                                                 name="estoque"
                                                 id="estoque"
                                                 min="0"
-                                                value="{{ old('estoque') }}"
-                                                placeholder="Ex. 0"
+                                                value="{{ old('estoque', 0) }}"
                                                 required
                                             >
 
