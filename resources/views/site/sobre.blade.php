@@ -46,7 +46,7 @@
                 <div class="about-photo-wrap">
                     <img
                         class="about-photo"
-                        src="{{ asset('images/sandra-portrait-DG3g3Jq0.jpg') }}"
+                        src="{{ asset('images/12cf2d08-6d57-4785-9777-65d46319b2a1.jpg') }}"
                         alt="Sandra Nerys, proprietária do Salão Sempre Diva"
                     >
                 </div>
