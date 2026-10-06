@@ -91,11 +91,11 @@
 
             <select name="tipo_id" id="tipo_id" required>
                 <option value="" selected disabled>Selecione o tipo</option>
-                @foreach($tipos as $tipo)
-                    <option value="{{ $tipo->tipo_id }}" data-colorivel="{{ $tipo->colorivel ? '1' : '0' }}" {{ old('tipo_id') == $tipo->tipo_id ? 'selected' : '' }}>
+                    <option value="{{ $tipo->tipo_id }}" 
+                        data-colorivel="{{ $tipo->colorivel ? '1' : '0' }}" 
+                        {{ old('tipo_id', $procedimento->tipo_id) == $tipo->tipo_id ? 'selected' : '' }}>
                         {{ $tipo->nome }}
                     </option>
-                @endforeach
             </select>
 
         </div>
