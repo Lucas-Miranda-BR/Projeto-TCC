@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Deploy to InfinityFree
+      - name: Deploy to InfinityFree (Core)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          server-dir: htdocs/
+          server-dir: htdocs/core/
           timeout: 60000
           exclude: |
             **/.git*
@@ -32,5 +32,7 @@ jobs:
             **/node_modules/**
             .env
             .env.example
-            public/index.php
             README.md
+            public/index.php
+            public/.htaccess
+            .htaccess
