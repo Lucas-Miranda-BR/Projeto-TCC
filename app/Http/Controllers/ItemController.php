@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ItemModel;
 use App\Models\MarcaModel;
 use App\Models\CategoriaModel;
-use App\Models\DescontoModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -111,24 +110,22 @@ class ItemController extends Controller
     }
 
     public function edit($id)
-{
-    $produto = ItemModel::findOrFail($id);
+    {
+        $produto = ItemModel::findOrFail($id);
 
-    $marcas = MarcaModel::orderBy('nome')->get();
-    $categorias = CategoriaModel::orderBy('nome')->get();
-    
-    $descontos = DescontoModel::orderBy('nome')->get();
+        $marcas = MarcaModel::orderBy('nome')->get();
 
-    return view(
-        'admin.produtos.edit',
-        compact(
-            'produto',
-            'marcas',
-            'categorias',
-            'descontos'
-        )
-    );
-}
+        $categorias = CategoriaModel::orderBy('nome')->get();
+
+        return view(
+            'admin.produtos.edit',
+            compact(
+                'produto',
+                'marcas',
+                'categorias'
+            )
+        );
+    }
 
     public function update(Request $request, $id)
     {
