@@ -49,7 +49,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.removido) {
                     const itemCard = form.closest('.carrinho-item');
                     if(itemCard) itemCard.remove();
-                    document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
+                    
+                    if (data.novo_total) {
+                        document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
+                    }
+                    
                     mostrarToastDinamico(data.mensagem, 'erro');
                     
                     if(document.querySelectorAll('.carrinho-item').length === 0) {
@@ -60,22 +64,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (data.erro) {
                     input.value = data.estoque_atual;
-                    atualizarBotoesUI();
                     mostrarToastDinamico(data.mensagem, 'erro');
                     return;
                 }
 
-                if (data.success) {
-                    const itemId = url.split('/').pop();
-                    const subtotalEl = document.getElementById('subtotal-' + itemId);
-                    
-                    if (subtotalEl) subtotalEl.innerText = 'R$ ' + data.novo_subtotal;
+                const itemId = url.split('/').pop();
+                const subtotalEl = document.getElementById('subtotal-' + itemId);
+                
+                if (subtotalEl && data.novo_subtotal) {
+                    subtotalEl.innerText = 'R$ ' + data.novo_subtotal;
+                }
+                
+                if (data.novo_total) {
                     document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
-                    atualizarBotoesUI();
                 }
             })
             .catch(error => {
                 console.error('Erro na requisição AJAX:', error);
+            })
+            .finally(() => {
                 atualizarBotoesUI();
             });
         }
