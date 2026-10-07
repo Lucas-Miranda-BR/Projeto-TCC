@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
 
 class ItemModel extends Model
@@ -50,6 +51,14 @@ class ItemModel extends Model
             MarcaModel::class,
             'marca_id',
             'marca_id'
+        );
+    }
+
+    public function carrinho_itens(): HasMany{
+        return $this->hasMany(
+            CarrinhoItemModel::class,
+            'item_id',
+            'item_id'
         );
     }
 
