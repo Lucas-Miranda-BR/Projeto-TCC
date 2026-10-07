@@ -34,5 +34,5 @@ jobs:
             .env.example
             README.md
             public/index.php
-            public/.htaccess
             .htaccess
+            index.php
