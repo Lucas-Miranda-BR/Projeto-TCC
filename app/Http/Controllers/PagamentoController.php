@@ -51,15 +51,13 @@ class PagamentoController extends Controller
             return redirect()->to($preference->init_point);
 
         } catch (\Exception $e) {
-            Log::error("Erro ao criar preferência no Mercado Pago: " . $e->getMessage());
+            $errorMessage = "Erro no MP: " . $e->getMessage();
             
             if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
-                Log::error("Detalhes da API do MP: " . json_encode($e->getApiResponse()->getContent()));
+                $errorMessage .= " | Detalhes: " . json_encode($e->getApiResponse()->getContent());
             }
-
-            return redirect()->route('cliente.carrinho')->withErrors([
-                'Erro ao conectar com o Mercado Pago: ' . $e->getMessage()
-            ]);
+        
+            dd($errorMessage);
         }
     }
 
