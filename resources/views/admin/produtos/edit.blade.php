@@ -70,7 +70,7 @@
                     @if($produto->foto)
 
                         <img
-                            src="{{ asset('storage/' . $produto->foto) }}"
+                            src="{{ asset('images/produtos/' . $produto->foto) }}"
                             alt="{{ $produto->nome }}"
                         >
 

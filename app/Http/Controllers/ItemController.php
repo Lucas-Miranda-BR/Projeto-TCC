@@ -10,6 +10,20 @@ use Illuminate\Support\Facades\File;
 
 class ItemController extends Controller
 {
+
+    private function getCaminhoImagens()
+    {
+        // INFINITYFREE
+
+        if (basename(base_path()) === 'core') {
+            return base_path('../public/images/produtos');
+        } 
+        
+        // LOCALHOST
+
+        return public_path('images/produtos');
+    }
+
     public function index()
     {
         $produtos = ItemModel::with([
@@ -20,7 +34,6 @@ class ItemController extends Controller
             ->get();
 
         $marcas = MarcaModel::orderBy('nome')->get();
-
         $categorias = CategoriaModel::orderBy('nome')->get();
 
         return view(
@@ -79,7 +92,8 @@ class ItemController extends Controller
 
         try {
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                $destino = public_path('images/produtos');
+                
+                $destino = $this->getCaminhoImagens();
 
                 if (!File::isDirectory($destino)) {
                     File::makeDirectory($destino, 0755, true, true);
@@ -97,8 +111,11 @@ class ItemController extends Controller
                 ->route('admin.produtos.index')
                 ->with('success', 'Produto cadastrado com sucesso!');
         } catch (\Throwable $e) {
-            if (isset($nomeImagem) && File::exists(public_path('images/produtos/' . $nomeImagem))) {
-                File::delete(public_path('images/produtos/' . $nomeImagem));
+            
+            $destino = $this->getCaminhoImagens();
+            
+            if (isset($nomeImagem) && File::exists($destino . '/' . $nomeImagem)) {
+                File::delete($destino . '/' . $nomeImagem);
             }
 
             return back()
@@ -114,7 +131,6 @@ class ItemController extends Controller
         $produto = ItemModel::findOrFail($id);
 
         $marcas = MarcaModel::orderBy('nome')->get();
-
         $categorias = CategoriaModel::orderBy('nome')->get();
 
         return view(
@@ -167,7 +183,8 @@ class ItemController extends Controller
 
         try {
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                $destino = public_path('images/produtos');
+                
+                $destino = $this->getCaminhoImagens();
 
                 if (!File::isDirectory($destino)) {
                     File::makeDirectory($destino, 0755, true, true);
@@ -176,8 +193,8 @@ class ItemController extends Controller
                 $nomeNovaImagem = time() . '_' . uniqid() . '.' . $request->foto->extension();
                 $request->foto->move($destino, $nomeNovaImagem);
 
-                if ($produto->foto && File::exists(public_path('images/produtos/' . $produto->foto))) {
-                    File::delete(public_path('images/produtos/' . $produto->foto));
+                if ($produto->foto && File::exists($destino . '/' . $produto->foto)) {
+                    File::delete($destino . '/' . $produto->foto);
                 }
 
                 $dados['foto'] = $nomeNovaImagem;
@@ -189,8 +206,11 @@ class ItemController extends Controller
                 ->route('admin.produtos.index')
                 ->with('success', 'Produto atualizado com sucesso!');
         } catch (\Throwable $e) {
-            if (isset($nomeNovaImagem) && File::exists(public_path('images/produtos/' . $nomeNovaImagem))) {
-                File::delete(public_path('images/produtos/' . $nomeNovaImagem));
+            
+            $destino = $this->getCaminhoImagens();
+            
+            if (isset($nomeNovaImagem) && File::exists($destino . '/' . $nomeNovaImagem)) {
+                File::delete($destino . '/' . $nomeNovaImagem);
             }
 
             return back()
@@ -213,8 +233,10 @@ class ItemController extends Controller
                 ]);
         }
 
-        if ($produto->foto && File::exists(public_path('images/produtos/' . $produto->foto))) {
-            File::delete(public_path('images/produtos/' . $produto->foto));
+        $destino = $this->getCaminhoImagens();
+        
+        if ($produto->foto && File::exists($destino . '/' . $produto->foto)) {
+            File::delete($destino . '/' . $produto->foto);
         }
 
         $produto->delete();
