@@ -205,7 +205,7 @@ class ItemController extends Controller
     {
         $produto = ItemModel::findOrFail($id);
 
-        if ($produto->carrinhos_itens()->exists()) {
+        if ($produto->carrinho_itens()->exists()) {
             return redirect()
                 ->route('admin.produtos.index')
                 ->withErrors([

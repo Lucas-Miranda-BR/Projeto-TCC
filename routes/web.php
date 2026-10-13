@@ -20,6 +20,28 @@ use App\Http\Controllers\TemplateNotificacaoController;
 use App\Http\Controllers\DescontoController;
 use App\Http\Controllers\PagamentoController;
 
+
+/*
+|--------------------------------------------------------------------------
+| MERCADO PAGO
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/pagamento/sucesso', function() {
+    return "Pagamento aprovado! O seu pedido já está sendo preparado.";})
+->name('site.pagamento.sucesso');
+
+Route::get('/pagamento/falha', function() {
+    return "Houve um problema com o pagamento. Tente novamente.";})
+->name('site.pagamento.falha');
+
+Route::get('/pagamento/pendente', function() {
+    return "Seu pagamento está em análise ou aguardando o pagamento do Boleto/Pix.";})
+->name('site.pagamento.pendente');
+
+Route::post('/webhook/mercadopago', [PagamentoController::class, 'webhook'])
+->name('webhook.mp');
+
 /*
 |--------------------------------------------------------------------------
 | SITE
@@ -310,7 +332,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | CLIENTES
+        | CLIENTES - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -331,26 +353,10 @@ Route::prefix('admin')
             ]
         )->name('admin.clientes.notificacao.enviar');
 
-        Route::get(
-            '/notificacoes',
-            [
-                NotificacaoController::class,
-                'adminIndex'
-            ]
-        )->name('admin.notificacoes');
         
-        
-        Route::delete(
-            '/notificacoes/{id}',
-            [
-                NotificacaoController::class,
-                'destruir'
-            ]
-        )->name('admin.notificacoes.destroy');
-
         /*
         |--------------------------------------------------------------------------
-        | AGENDAMENTOS
+        | AGENDAMENTOS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -393,7 +399,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | PROCEDIMENTOS
+        | PROCEDIMENTOS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -444,7 +450,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | TIPOS
+        | TIPOS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -494,7 +500,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | CORES
+        | CORES - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -546,7 +552,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | PRODUTOS
+        | PRODUTOS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -597,7 +603,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | MARCAS
+        | MARCAS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -612,7 +618,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | CATEGORIAS
+        | CATEGORIAS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -626,7 +632,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | NETWORTH
+        | NETWORTH - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -647,7 +653,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | TEMPLATES DE NOTIFICAÇÃO
+        |   NOTIFICAÇÕES - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -666,9 +672,27 @@ Route::prefix('admin')
             [TemplateNotificacaoController::class, 'update']
         )->name('admin.templates.update');
 
+        Route::get(
+            '/notificacoes',
+            [
+                NotificacaoController::class,
+                'adminIndex'
+            ]
+        )->name('admin.notificacoes');
+        
+        
+        Route::delete(
+            '/notificacoes/{id}',
+            [
+                NotificacaoController::class,
+                'destruir'
+            ]
+        )->name('admin.notificacoes.destroy');
+
+
         /*
         |--------------------------------------------------------------------------
-        | DESCONTOS
+        | DESCONTOS - ADMIN
         |--------------------------------------------------------------------------
         */
 
@@ -701,28 +725,7 @@ Route::prefix('admin')
             '/descontos/{id}', 
             [DescontoController::class, 'destroy'])
         ->name('admin.descontos.destroy');
-
-        /*
-        |--------------------------------------------------------------------------
-        | MERCADO PAGO - COMPRAS
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get('/pagamento/sucesso', function() {
-            return "Pagamento aprovado! O seu pedido já está sendo preparado.";})
-        ->name('site.pagamento.sucesso');
-        
-        Route::get('/pagamento/falha', function() {
-            return "Houve um problema com o pagamento. Tente novamente.";})
-        ->name('site.pagamento.falha');
-        
-        Route::get('/pagamento/pendente', function() {
-            return "Seu pagamento está em análise ou aguardando o pagamento do Boleto/Pix.";})
-        ->name('site.pagamento.pendente');
-
-        Route::post(
-            '/webhook/mercadopago',
-            [PagamentoController::class, 'webhook'])
-        ->name('webhook.mp');
-
     });
+
+    
+

@@ -4,15 +4,64 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Models\PedidoModel;
 use App\Models\CarrinhoItemModel;
 use App\Models\TemplateNotificacaoModel;
 use App\Models\NotificacaoModel;
 use MercadoPago\MercadoPagoConfig;
+use MercadoPago\Client\Preference\PreferenceClient;
 use MercadoPago\Client\Payment\PaymentClient;
 
 class PagamentoController extends Controller
 {
+    public function criarPreferencia($pedidoId)
+    {
+        try {
+            MercadoPagoConfig::setAccessToken(env('MERCADOPAGO_ACCESS_TOKEN'));
+
+            $pedido = PedidoModel::with('itens.item')->findOrFail($pedidoId);
+
+            $itemsParaEnvio = [];
+
+            foreach ($pedido->itens as $pedidoItem) {
+                $produto = $pedidoItem->item;
+                if ($produto) {
+                    $itemsParaEnvio[] = [
+                        $produto->nome,
+                        (int) $pedidoItem->quantidade,
+                        (float) $produto->preco_final
+                    ];
+                }
+            }
+
+            $client = new PreferenceClient();
+            
+            $preference = $client->create([
+                "items" => $itemsParaEnvio,
+                "external_reference" => (string) $pedido->pedido_id,
+                "back_urls" => [
+                    "success" => route('site.pagamento.sucesso'),
+                    "failure" => route('site.pagamento.falha'),
+                    "pending" => route('site.pagamento.pendente')
+                ],
+                "auto_return" => "approved",
+            ]);
+
+            return redirect()->to($preference->init_point);
+
+        } catch (\Exception $e) {
+            $errorMessage = "Erro no MP: " . $e->getMessage();
+            
+            if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
+                $errorMessage .= " | Detalhes: " . json_encode($e->getApiResponse()->getContent());
+            }
+        
+            dd($errorMessage);
+        }
+    }
+
+
     public function webhook(Request $request)
     {
         try {
@@ -32,9 +81,8 @@ class PagamentoController extends Controller
                 if ($pedido) {
                     $statusMp = $payment->status;
 
-                    // ==========================================
                     // 1. PAGAMENTO APROVADO
-                    // ==========================================
+
                     if ($statusMp === 'approved' && $pedido->status !== 'A') {
                         $pedido->status = 'A';
                         $pedido->pedido_data = now(); 
@@ -43,9 +91,8 @@ class PagamentoController extends Controller
                         $this->dispararNotificacaoCompra($pedido);
                     }
 
-                    // ==========================================
                     // 2. PAGAMENTO RECUSADO OU CANCELADO
-                    // ==========================================
+
                     elseif (in_array($statusMp, ['rejected', 'cancelled', 'refunded']) && !in_array($pedido->status, ['R', 'C'])) {
                         
                         $pedido->status = 'R';
@@ -65,6 +112,10 @@ class PagamentoController extends Controller
             }
         } catch (\Exception $e) {
             Log::error("Erro no Webhook do Mercado Pago: " . $e->getMessage());
+            
+            if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
+                Log::error("Detalhes da API do Webhook: " . json_encode($e->getApiResponse()->getContent()));
+            }
         }
 
         return response()->json(['status' => 'success'], 200);
