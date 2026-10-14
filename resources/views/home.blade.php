@@ -97,7 +97,7 @@
     </section>
 
     {{-- IA --}}
-    <section class="home-container home-section">
+    <section class="home-cta-band">
 
         <div class="home-cta">
 

@@ -121,7 +121,8 @@ a.home-btn:focus-visible {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(35, 6, 10, .5);
+    /* película vermelha sobre a foto: um pouco mais forte à esquerda, onde fica o texto */
+    background: linear-gradient(90deg, rgba(120, 8, 24, .78) 0%, rgba(157, 18, 40, .64) 55%, rgba(157, 18, 40, .55) 100%);
 }
 
 .home-hero-inner {
@@ -163,6 +164,28 @@ a.home-btn:focus-visible {
     gap: 12px;
     margin-top: 30px;
 }
+
+/* entrada do texto do banner: desliza da esquerda até a posição, de forma suave */
+@keyframes home-hero-slide {
+    from {
+        opacity: 0;
+        transform: translateX(-70px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.home-hero-inner > * {
+    animation: home-hero-slide 1s cubic-bezier(.22, .61, .36, 1) both;
+}
+
+/* cada linha entra um instante depois da anterior */
+.home-hero-inner > :nth-child(2) { animation-delay: .12s; }
+.home-hero-inner > :nth-child(3) { animation-delay: .24s; }
+.home-hero-inner > :nth-child(4) { animation-delay: .36s; }
 
 /* =========================
    ATALHOS
@@ -226,7 +249,8 @@ a.home-btn:focus-visible {
 ========================= */
 
 .home-about {
-    background: var(--home-creme-2);
+    /* transição em degradê vinda da seção dos cards (creme) para o bege */
+    background: linear-gradient(to bottom, var(--home-creme) 0, var(--home-creme-2) 140px);
 }
 
 .home-about-grid {
@@ -285,17 +309,28 @@ a.home-btn:focus-visible {
    IA
 ========================= */
 
+/* faixa em largura total, com a mesma cor da seção "Um espaço feito para o seu tempo" */
+.home-cta-band {
+    /* sem espaço em cima: a seção "Sobre" já tem 64px embaixo */
+    padding: 0 0 64px;
+
+    background: var(--home-creme-2);
+    color: var(--home-texto);
+}
+
+/* alinhado com as colunas do footer: texto na esquerda ("Salão Sempre Diva")
+   e botão na direita (fim da coluna "Horário"). Ajuste o max-width se o footer mudar. */
 .home-cta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    justify-content: flex-start;
+    gap: 56px;
 
-    padding: 36px 40px;
-
-    background: var(--home-vinho-hover);
-    border-radius: 6px;
-    color: #fff;
+    /* mesma largura e margens da seção "Um espaço feito para o seu tempo" */
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
 .home-cta h2 {
@@ -308,20 +343,31 @@ a.home-btn:focus-visible {
 
     font-size: 14px;
     line-height: 1.65;
-    opacity: .9;
+    color: var(--home-texto-suave);
 }
 
 .home-cta .home-btn {
     flex-shrink: 0;
 }
 
-/* no fundo vinho o botão claro escurece no hover */
+/* no fundo claro o botão fica vinho (hover e clique escurecem) */
+.home-cta .home-btn-light {
+    background: var(--home-vinho);
+    color: #fff;
+}
+
 .home-cta a.home-btn:hover {
-    background-color: var(--home-vinho-ativo);
+    background-color: var(--home-vinho-hover);
+    border-color: var(--home-vinho-hover);
 }
 
 .home-cta a.home-btn:active {
-    background-color: #330202;
+    background-color: var(--home-vinho-ativo);
+    border-color: var(--home-vinho-ativo);
+}
+
+.home-cta a.home-btn:focus-visible {
+    outline-color: var(--home-vinho);
 }
 
 /* =========================
@@ -339,10 +385,13 @@ a.home-btn:focus-visible {
         grid-template-columns: 1fr;
     }
 
+    .home-cta-band {
+        padding: 0 0 48px;
+    }
+
     .home-cta {
         flex-direction: column;
         align-items: flex-start;
-        padding: 30px 26px;
     }
 }
 
@@ -352,5 +401,9 @@ a.home-btn:focus-visible {
     .home-card,
     .home-card-link {
         transition: none;
+    }
+
+    .home-hero-inner > * {
+        animation: none;
     }
 }
