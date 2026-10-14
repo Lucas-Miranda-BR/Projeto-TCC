@@ -2,7 +2,8 @@
 
 @push('css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Inria+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/sobre.css') }}">
 @endpush
 
@@ -10,20 +11,23 @@
 
     @include('components.navbar')
 
-    
+    {{-- INTRODUÇÃO --}}
     <section class="about-hero">
         <div class="about-hero-inner">
 
             <div class="about-hero-text">
-                <h1 class="about-name mb-3">
+                <h1 class="about-name">
                     Sandra<br><span class="last">Nerys</span>
                 </h1>
 
                 <p class="about-desc">
-                    Sandra Nerys, 41 anos, é especialista em embelezamento e apaixonada por elevar a autoestima de
-                    seus clientes. Desde 2015, é proprietária do Salão Sempre Diva, onde oferece atendimento
-                    cuidadoso, moderno e personalizado. Com dedicação e sensibilidade, Sandra transforma beleza em
-                    confiança, criando uma experiência única para cada mulher que passa pelo seu salão.
+                    Sandra Nerys tem 41 anos e é especialista em embelezamento. Desde 2015 é proprietária do
+                    Salão Sempre Diva, onde faz um atendimento cuidadoso, moderno e personalizado.
+                </p>
+
+                <p class="about-desc">
+                    Para ela, o trabalho vai além do cabelo: é ajudar cada mulher que passa pelo salão a se
+                    sentir mais confiante.
                 </p>
 
                 <div class="stats-row">
@@ -32,7 +36,7 @@
                         <div class="stat-label">anos de carreira</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-num">4K</div>
+                        <div class="stat-num">4 mil</div>
                         <div class="stat-label">atendimentos</div>
                     </div>
                     <div class="stat-item">
@@ -55,37 +59,27 @@
         </div>
     </section>
 
-    <hr class="section-divider">
-
-    
+    {{-- CITAÇÃO --}}
     <section class="quote-section">
-        <div class="quote-icon">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="6" cy="6" r="3"/>
-                <circle cx="6" cy="18" r="3"/>
-                <line x1="20" y1="4" x2="8.12" y2="15.88"/>
-                <line x1="14.47" y1="14.48" x2="20" y2="20"/>
-                <line x1="8.12" y1="8.12" x2="12" y2="12"/>
-            </svg>
-        </div>
-
-        <p class="quote-text">
-            "Cada cabelo conta uma história. Meu trabalho é fazer com que essa história seja contada com orgulho."
-        </p>
+        <figure class="quote-inner">
+            <blockquote class="quote-text">
+                “Cada cabelo conta uma história. Meu trabalho é fazer com que essa história seja contada com orgulho.”
+            </blockquote>
+            <figcaption class="quote-author">Sandra Nerys</figcaption>
+        </figure>
     </section>
 
-    
+    {{-- TRAJETÓRIA --}}
     <section class="trajetoria-section section-wrap">
-        <div class="eyebrow">Trajetória</div>
-        <h2 class="section-title">Uma carreira construída fio a fio</h2>
+        <h2 class="section-title">Trajetória</h2>
 
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-year">2005</div>
                 <div class="timeline-title">O primeiro corte</div>
                 <p class="timeline-desc">
-                    Começou como assistente em um salão de bairro, aprendendo lavagem, escova e o valor de ouvir
-                    cada cliente.
+                    Começou como assistente em um salão de bairro, aprendendo lavagem e escova e a ouvir cada
+                    cliente.
                 </p>
             </div>
 
@@ -93,15 +87,15 @@
                 <div class="timeline-year">2010</div>
                 <div class="timeline-title">Especialização em coloração</div>
                 <p class="timeline-desc">
-                    Mergulhou no universo da colorimetria: correção de cor, loiros complexos e vermelhos vibrantes.
+                    Estudou colorimetria: correção de cor, loiros e vermelhos.
                 </p>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-year">2015</div>
-                <div class="timeline-title">Nasce o Sempre Diva</div>
+                <div class="timeline-title">Abre o Salão Sempre Diva</div>
                 <p class="timeline-desc">
-                    Abriu seu próprio salão, com atendimento cuidadoso, moderno e totalmente personalizado.
+                    Abriu o próprio salão, com atendimento cuidadoso e personalizado.
                 </p>
             </div>
 
@@ -109,72 +103,60 @@
                 <div class="timeline-year">2020</div>
                 <div class="timeline-title">Cortes e visagismo</div>
                 <p class="timeline-desc">
-                    Formação em visagismo para desenhar cortes que conversam com o rosto e a personalidade de cada
-                    mulher.
+                    Fez formação em visagismo para criar cortes que combinam com o rosto e a personalidade de
+                    cada cliente.
                 </p>
             </div>
 
             <div class="timeline-item">
                 <div class="timeline-year">Hoje</div>
-                <div class="timeline-title">Referência em autoestima</div>
+                <div class="timeline-title">Mais de 4 mil atendimentos</div>
                 <p class="timeline-desc">
-                    Mais de 4 mil atendimentos e uma missão simples: transformar beleza em confiança.
+                    Segue atendendo no Salão Sempre Diva.
                 </p>
             </div>
         </div>
     </section>
 
-   
+    {{-- CERTIFICAÇÕES --}}
     <section class="certifications">
         <div class="section-wrap">
-            <div class="eyebrow">Certificações</div>
-            <h2 class="section-title mb-4">Certificados &amp; especializações</h2>
+            <h2 class="section-title">Certificados e especializações</h2>
 
             <div class="cert-grid">
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-1.jpg') }}" alt="Certificado de especialização 1">
-                </div>
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-2.jpg') }}" alt="Certificado de especialização 2">
-                </div>
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-3.jpg') }}" alt="Certificado de especialização 3">
-                </div>
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-4.jpg') }}" alt="Certificado de especialização 4">
-                </div>
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-5.jpg') }}" alt="Certificado de especialização 5">
-                </div>
-                <div class="cert-card">
-                    <img src="{{ asset('images/certificado-6.jpg') }}" alt="Certificado de especialização 6">
-                </div>
+                @for ($i = 1; $i <= 6; $i++)
+                    <div class="cert-card">
+                        <img src="{{ asset('images/certificado-' . $i . '.jpg') }}" alt="Certificado de especialização {{ $i }}" loading="lazy">
+                    </div>
+                @endfor
             </div>
         </div>
     </section>
 
-    
-    <section class="cta-section section-wrap">
+    {{-- CONTATO --}}
+    <section class="cta-section">
         <div class="cta-banner">
-            <h2>Vamos cuidar do seu cabelo?</h2>
-            <p>Agende um horário no Salão Sempre Diva e viva uma experiência feita sob medida para você.</p>
+            <div>
+                <h2>Vamos cuidar do seu cabelo?</h2>
+                <p>Agende seu horário pelo telefone ou pelo Instagram.</p>
+            </div>
 
             <div class="cta-actions">
-                <button class="btn-cta" type="button">
+                <a class="btn-cta" href="tel:+5515981807270">
                     <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
                     </svg>
                     (15) 98180-7270
-                </button>
+                </a>
 
-                <button class="btn-cta" type="button">
+                <a class="btn-cta" href="https://www.instagram.com/salaosemprediva" target="_blank" rel="noopener">
                     <svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true">
                         <rect x="2" y="2" width="20" height="20" rx="5"/>
                         <circle cx="12" cy="12" r="4"/>
                         <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
                     </svg>
                     @salaosemprediva
-                </button>
+                </a>
             </div>
         </div>
     </section>

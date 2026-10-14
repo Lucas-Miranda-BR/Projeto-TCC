@@ -17,6 +17,13 @@ body {
 }
 
 
+/* sem espaço entre o conteúdo da página e o footer
+   (o global.css coloca margin-top:50px no .footer) */
+html body .footer {
+    margin-top: 0;
+}
+
+
 /* =====================================================
    PÁGINA
 ===================================================== */
@@ -586,6 +593,154 @@ body {
     .update-back,
     .update-save {
         width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   CABER EM UMA TELA (desktop): sem rolagem da página
+   navbar + conteúdo + footer = 100% da altura da janela.
+   Os tamanhos se ajustam à altura da tela (vh); em telas
+   muito baixas ou no celular a página volta a rolar.
+===================================================== */
+
+@media (min-width: 801px) and (min-height: 600px) {
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        height: 100vh;
+        height: 100dvh;
+
+        display: flex;
+        flex-direction: column;
+
+        overflow: hidden;
+    }
+
+    .client-navbar {
+        flex: none;
+    }
+
+    .update-page {
+        flex: 1 1 auto;
+        min-height: 0;
+
+        grid-template-rows: minmax(0, 1fr);
+    }
+
+    .update-left,
+    .update-right {
+        min-height: 0;
+    }
+
+
+    /* footer compacto só nesta página */
+
+    html body .footer {
+        flex: none;
+    }
+
+    html body .footer .footer-container {
+        padding: 14px 40px;
+    }
+
+    html body .footer h3 {
+        margin: 0 0 3px;
+
+        font-size: 15px;
+    }
+
+    html body .footer p {
+        margin: 2px 0;
+
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+
+    /* lado esquerdo */
+
+    .update-left-content {
+        padding: 30px 60px;
+    }
+
+    .update-logo {
+        width: clamp(90px, 14vh, 150px);
+
+        margin-bottom: clamp(18px, 4vh, 42px);
+    }
+
+    .update-left-content h1 {
+        font-size: clamp(34px, 6.2vh, 62px);
+    }
+
+    .update-left-content p {
+        margin-top: clamp(14px, 2.6vh, 30px);
+
+        font-size: clamp(13px, 1.9vh, 16px);
+    }
+
+
+    /* lado direito: card menor */
+
+    .update-right {
+        padding: clamp(12px, 2.4vh, 28px) 48px;
+    }
+
+    .update-card {
+        padding: clamp(16px, 3vh, 32px) 40px;
+    }
+
+    .update-header {
+        margin-bottom: clamp(10px, 2vh, 22px);
+    }
+
+    .update-header h2 {
+        font-size: clamp(24px, 3.6vh, 32px);
+    }
+
+    .update-header p {
+        margin-top: 5px;
+    }
+
+    .update-grid {
+        gap: 14px;
+    }
+
+    .update-field {
+        margin-bottom: clamp(6px, 1.5vh, 14px);
+    }
+
+    .update-field label {
+        margin-bottom: 4px;
+    }
+
+    .update-field input {
+        height: clamp(34px, 4.8vh, 44px);
+    }
+
+    .update-security {
+        margin: 2px 0 clamp(8px, 1.5vh, 14px);
+
+        padding-top: clamp(10px, 1.8vh, 16px);
+    }
+
+    .update-security h3 {
+        font-size: clamp(19px, 2.8vh, 23px);
+    }
+
+    .update-actions {
+        margin-top: 4px;
+    }
+
+    .update-back,
+    .update-save {
+        height: clamp(38px, 5vh, 46px);
     }
 
 }
