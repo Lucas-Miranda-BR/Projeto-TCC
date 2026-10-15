@@ -49,7 +49,8 @@ class CarrinhoController extends Controller
             }
         }
 
-        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));    }
+        return view('cliente.carrinho', compact('linhas', 'total', 'temDescontoAniversario', 'valorDescontoPercentual'));    
+    }
 
     public function adicionar(Request $request, $id)
     {
@@ -247,20 +248,27 @@ class CarrinhoController extends Controller
                     "email" => $cliente->email,
                     "identification" => [
                         "type" => "CPF",
-                        "number" => $cliente->cpf
+                        "number" => preg_replace('/[^0-9]/', '', $cliente->cpf)
                     ]
                 ]
             ]);
 
             session()->forget('carrinho');
 
-            // (Use sandbox_init_point para testes e init_point em produção)
             return redirect()->away($preference->sandbox_init_point);
 
         } catch (ValidationException $e) {
             return redirect()->route('cliente.carrinho')->withErrors($e->errors());
         } catch (\Exception $e) {
-            return redirect()->route('cliente.carrinho')->with('erro', 'Erro ao conectar com o Mercado Pago: ' . $e->getMessage());
+            
+            // CAPTURA DETALHADA PARA ENCONTRAR O ERRO
+            $errorMessage = "Erro no Carrinho (MP): " . $e->getMessage();
+            
+            if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
+                $errorMessage .= " | Detalhes da API: " . json_encode($e->getApiResponse()->getContent());
+            }
+
+            dd($errorMessage);
         }
     }
 }
