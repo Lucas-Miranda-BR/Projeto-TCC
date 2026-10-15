@@ -16,7 +16,6 @@ use MercadoPago\Client\Preference\PreferenceClient;
 
 class CarrinhoController extends Controller
 {
-
     public function index()
     {
         $carrinho = session()->get('carrinho', []);
@@ -28,7 +27,6 @@ class CarrinhoController extends Controller
             $item = ItemModel::find($itemId);
             if ($item) {
                 $precoBase = $item->preco_final ?? $item->preco;
-                
                 if (is_string($precoBase)) {
                     $precoBase = str_replace(',', '.', $precoBase);
                 }
@@ -238,9 +236,6 @@ class CarrinhoController extends Controller
                         'subtotal' => $produtoCompra['subtotal']
                     ]);
 
-                    $item->estoque -= $produtoCompra['quantidade'];
-                    $item->save();
-
                     $precoParaMP = $produtoCompra['preco_unitario'] * $fatorDescontoAniversario;
 
                     $itensMercadoPago[] = [
@@ -281,13 +276,10 @@ class CarrinhoController extends Controller
         } catch (ValidationException $e) {
             return redirect()->route('cliente.carrinho')->withErrors($e->errors());
         } catch (\Exception $e) {
-            
             $errorMessage = "Erro no Carrinho (MP): " . $e->getMessage();
-            
             if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
                 $errorMessage .= " | Detalhes da API: " . json_encode($e->getApiResponse()->getContent());
             }
-
             dd($errorMessage);
         }
     }

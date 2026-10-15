@@ -13,18 +13,28 @@ use MercadoPago\Client\Payment\PaymentClient;
 
 class PagamentoController extends Controller
 {
-
     public function retornoSucesso(Request $request)
     {
         $pedidoId = $request->input('external_reference');
 
         if ($pedidoId) {
-            $pedido = PedidoModel::with('itens')->find($pedidoId);
+            $pedido = PedidoModel::with('itens.item')->find($pedidoId);
 
             if ($pedido && $pedido->status !== 'A') {
                 $pedido->status = 'A';
                 $pedido->pedido_data = now(); 
                 $pedido->save();
+
+                foreach ($pedido->itens as $pedidoItem) {
+                    $item = $pedidoItem->item;
+                    if ($item) {
+                        $item->estoque -= $pedidoItem->quantidade;
+                        if ($item->estoque < 0) {
+                            $item->estoque = 0;
+                        }
+                        $item->save();
+                    }
+                }
 
                 $this->dispararNotificacaoCompra($pedido);
             }
@@ -39,19 +49,11 @@ class PagamentoController extends Controller
         $pedidoId = $request->input('external_reference');
 
         if ($pedidoId) {
-            $pedido = PedidoModel::with('itens.item')->find($pedidoId);
+            $pedido = PedidoModel::find($pedidoId);
 
-            if ($pedido && !in_array($pedido->status, ['R', 'C'])) {
+            if ($pedido && !in_array($pedido->status, ['R', 'C', 'A'])) {
                 $pedido->status = 'R';
                 $pedido->save();
-
-                foreach ($pedido->itens as $pedidoItem) {
-                    $item = $pedidoItem->item;
-                    if ($item) {
-                        $item->estoque += $pedidoItem->quantidade;
-                        $item->save();
-                    }
-                }
             }
         }
 
@@ -99,25 +101,25 @@ class PagamentoController extends Controller
                         $pedido->pedido_data = now(); 
                         $pedido->save();
 
-                        $this->dispararNotificacaoCompra($pedido);
-                    }
-                    elseif (in_array($statusMp, ['rejected', 'cancelled', 'refunded']) && !in_array($pedido->status, ['R', 'C'])) {
-                        
-                        $pedido->status = 'R';
-                        $pedido->save();
-
                         foreach ($pedido->itens as $pedidoItem) {
                             $item = $pedidoItem->item;
                             if ($item) {
-                                $item->estoque += $pedidoItem->quantidade;
+                                $item->estoque -= $pedidoItem->quantidade;
+                                if ($item->estoque < 0) $item->estoque = 0;
                                 $item->save();
                             }
                         }
+
+                        $this->dispararNotificacaoCompra($pedido);
+                    }
+                    elseif (in_array($statusMp, ['rejected', 'cancelled', 'refunded']) && !in_array($pedido->status, ['R', 'C', 'A'])) {
+                        $pedido->status = 'R';
+                        $pedido->save();
                     }
                 }
             }
         } catch (\Exception $e) {
-            Log::error("Erro no Webhook do Mercado Pago: " . $e->getMessage());
+            Log::error("Erro no Webhook: " . $e->getMessage());
         }
 
         return response()->json(['status' => 'success'], 200);
@@ -147,4 +149,4 @@ class PagamentoController extends Controller
             ]);
         }
     }
-}   
+}
