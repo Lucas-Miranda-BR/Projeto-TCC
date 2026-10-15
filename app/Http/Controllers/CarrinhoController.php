@@ -27,7 +27,13 @@ class CarrinhoController extends Controller
         foreach ($carrinho as $itemId => $quantidade) {
             $item = ItemModel::find($itemId);
             if ($item) {
-                $subtotal = $item->preco_final * $quantidade;
+                $precoBase = $item->preco_final ?? $item->preco;
+                
+                if (is_string($precoBase)) {
+                    $precoBase = str_replace(',', '.', $precoBase);
+                }
+
+                $subtotal = (float) $precoBase * $quantidade;
                 $total += $subtotal;
                 
                 $linhas[] = [
@@ -178,14 +184,29 @@ class CarrinhoController extends Controller
                         ]);
                     }
 
-                    $precoCentavos = (int) round(((float) $item->preco_final) * 100);
+                    $precoBruto = $item->preco_final ?? $item->preco;
+
+                    if (is_string($precoBruto)) {
+                        $precoBruto = str_replace(',', '.', $precoBruto);
+                    }
+
+                    $precoValido = (float) $precoBruto;
+
+                    if ($precoValido <= 0) {
+                        throw ValidationException::withMessages([
+                            'carrinho' => 'O produto "' . $item->nome . '" tem um valor inválido configurado e não pode ser processado.'
+                        ]);
+                    }
+
+                    $precoCentavos = (int) round($precoValido * 100);
                     $subtotalCentavos = $precoCentavos * $quantidade;
                     $totalCentavos += $subtotalCentavos;
 
                     $produtosCompra[] = [
                         'item' => $item,
                         'quantidade' => $quantidade,
-                        'subtotal' => $subtotalCentavos / 100
+                        'subtotal' => $subtotalCentavos / 100,
+                        'preco_unitario' => $precoValido
                     ];
                 }
 
@@ -220,12 +241,12 @@ class CarrinhoController extends Controller
                     $item->estoque -= $produtoCompra['quantidade'];
                     $item->save();
 
-                    $precoParaMP = $item->preco_final * $fatorDescontoAniversario;
+                    $precoParaMP = $produtoCompra['preco_unitario'] * $fatorDescontoAniversario;
 
                     $itensMercadoPago[] = [
                         "id" => (string) $item->item_id,
-                        "title" => $item->nome,
-                        "quantity" => $produtoCompra['quantidade'],
+                        "title" => mb_substr((string) $item->nome, 0, 250),
+                        "quantity" => (int) $produtoCompra['quantidade'],
                         "unit_price" => (float) round($precoParaMP, 2),
                         "currency_id" => "BRL"
                     ];
@@ -244,7 +265,7 @@ class CarrinhoController extends Controller
                 ],
                 "auto_return" => "approved",
                 "payer" => [
-                    "name" => $cliente->nome,
+                    "name" => mb_substr((string) $cliente->nome, 0, 250),
                     "email" => $cliente->email,
                     "identification" => [
                         "type" => "CPF",
@@ -261,7 +282,6 @@ class CarrinhoController extends Controller
             return redirect()->route('cliente.carrinho')->withErrors($e->errors());
         } catch (\Exception $e) {
             
-            // CAPTURA DETALHADA PARA ENCONTRAR O ERRO
             $errorMessage = "Erro no Carrinho (MP): " . $e->getMessage();
             
             if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
