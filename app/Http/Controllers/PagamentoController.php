@@ -18,7 +18,7 @@ class PagamentoController extends Controller
         $pedidoId = $request->input('external_reference');
 
         if ($pedidoId) {
-            $pedido = PedidoModel::with('itens.item')->find($pedidoId);
+            $pedido = PedidoModel::with('carrinhos_itens.item')->find($pedidoId);
 
             if ($pedido && $pedido->status !== 'A') {
                 $pedido->status = 'A';
@@ -91,7 +91,7 @@ class PagamentoController extends Controller
                 $payment = $client->get($paymentId);
 
                 $pedidoId = $payment->external_reference;
-                $pedido = PedidoModel::with('itens.item')->find($pedidoId);
+                $pedido = PedidoModel::with('carrinhos_itens.item')->find($pedidoId);
 
                 if ($pedido) {
                     $statusMp = $payment->status;
