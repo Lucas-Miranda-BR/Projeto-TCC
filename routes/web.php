@@ -27,20 +27,17 @@ use App\Http\Controllers\PagamentoController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/pagamento/sucesso', function() {
-    return "Pagamento aprovado! O seu pedido já está sendo preparado.";})
-->name('site.pagamento.sucesso');
+Route::get('/pagamento/sucesso', [PagamentoController::class, 'retornoSucesso'])
+    ->name('site.pagamento.sucesso');
 
-Route::get('/pagamento/falha', function() {
-    return "Houve um problema com o pagamento. Tente novamente.";})
-->name('site.pagamento.falha');
+Route::get('/pagamento/falha', [PagamentoController::class, 'retornoFalha'])
+    ->name('site.pagamento.falha');
 
-Route::get('/pagamento/pendente', function() {
-    return "Seu pagamento está em análise ou aguardando o pagamento do Boleto/Pix.";})
-->name('site.pagamento.pendente');
+Route::get('/pagamento/pendente', [PagamentoController::class, 'retornoPendente'])
+    ->name('site.pagamento.pendente');
 
 Route::post('/webhook/mercadopago', [PagamentoController::class, 'webhook'])
-->name('webhook.mp');
+    ->name('webhook.mp');
 
 /*
 |--------------------------------------------------------------------------

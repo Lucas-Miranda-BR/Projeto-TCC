@@ -13,6 +13,68 @@ use MercadoPago\Client\Payment\PaymentClient;
 
 class PagamentoController extends Controller
 {
+
+    public function retornoSucesso(Request $request)
+    {
+        $pedidoId = $request->input('external_reference');
+
+        if ($pedidoId) {
+            $pedido = PedidoModel::with('itens')->find($pedidoId);
+
+            if ($pedido && $pedido->status !== 'A') {
+                $pedido->status = 'A';
+                $pedido->pedido_data = now(); 
+                $pedido->save();
+
+                $this->dispararNotificacaoCompra($pedido);
+            }
+        }
+
+        return redirect()->route('site.produtos')
+            ->with('success', 'Pagamento aprovado! O seu pedido já está sendo preparado.');
+    }
+
+    public function retornoFalha(Request $request)
+    {
+        $pedidoId = $request->input('external_reference');
+
+        if ($pedidoId) {
+            $pedido = PedidoModel::with('itens.item')->find($pedidoId);
+
+            if ($pedido && !in_array($pedido->status, ['R', 'C'])) {
+                $pedido->status = 'R';
+                $pedido->save();
+
+                foreach ($pedido->itens as $pedidoItem) {
+                    $item = $pedidoItem->item;
+                    if ($item) {
+                        $item->estoque += $pedidoItem->quantidade;
+                        $item->save();
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('cliente.carrinho')
+            ->with('erro', 'O pagamento foi recusado ou cancelado. Tente novamente.');
+    }
+
+    public function retornoPendente(Request $request)
+    {
+        $pedidoId = $request->input('external_reference');
+
+        if ($pedidoId) {
+            $pedido = PedidoModel::find($pedidoId);
+            if ($pedido && $pedido->status !== 'A') {
+                $pedido->status = 'P';
+                $pedido->save();
+            }
+        }
+
+        return redirect()->route('site.produtos')
+            ->with('success', 'Seu pagamento está em análise. Avisaremos quando for aprovado!');
+    }
+
     public function webhook(Request $request)
     {
         try {
@@ -27,12 +89,11 @@ class PagamentoController extends Controller
                 $payment = $client->get($paymentId);
 
                 $pedidoId = $payment->external_reference;
-                $pedido = PedidoModel::with('itens')->find($pedidoId);
+                $pedido = PedidoModel::with('itens.item')->find($pedidoId);
 
                 if ($pedido) {
                     $statusMp = $payment->status;
 
-                    // 1. PAGAMENTO APROVADO
                     if ($statusMp === 'approved' && $pedido->status !== 'A') {
                         $pedido->status = 'A';
                         $pedido->pedido_data = now(); 
@@ -40,8 +101,6 @@ class PagamentoController extends Controller
 
                         $this->dispararNotificacaoCompra($pedido);
                     }
-
-                    // 2. PAGAMENTO RECUSADO OU CANCELADO
                     elseif (in_array($statusMp, ['rejected', 'cancelled', 'refunded']) && !in_array($pedido->status, ['R', 'C'])) {
                         
                         $pedido->status = 'R';
@@ -54,17 +113,11 @@ class PagamentoController extends Controller
                                 $item->save();
                             }
                         }
-
-                        Log::info("Pedido #{$pedido->pedido_id} cancelado/recusado pelo Mercado Pago. Estoque devolvido.");
                     }
                 }
             }
         } catch (\Exception $e) {
             Log::error("Erro no Webhook do Mercado Pago: " . $e->getMessage());
-            
-            if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
-                Log::error("Detalhes da API do Webhook: " . json_encode($e->getApiResponse()->getContent()));
-            }
         }
 
         return response()->json(['status' => 'success'], 200);
@@ -94,4 +147,4 @@ class PagamentoController extends Controller
             ]);
         }
     }
-}
+}   
