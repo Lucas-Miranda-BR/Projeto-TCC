@@ -53,6 +53,26 @@
 
 <main class="produtos-page">
 
+    {{-- Ícone padrão (shampoo) usado quando o produto não tem imagem --}}
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="icone-shampoo" viewBox="0 0 100 140">
+            {{-- bico e haste da bomba --}}
+            <rect x="60" y="5" width="26" height="8" rx="4" fill="#9d1228"/>
+            <rect x="42" y="5" width="26" height="12" rx="4" fill="#9d1228"/>
+            <rect x="50" y="17" width="10" height="12" fill="#9d1228"/>
+            {{-- tampa --}}
+            <rect x="38" y="28" width="34" height="11" rx="3" fill="#ffffff"/>
+            {{-- corpo --}}
+            <rect x="26" y="38" width="58" height="94" rx="15" fill="#ffffff"/>
+            {{-- rótulo vinho --}}
+            <rect x="26" y="68" width="58" height="42" fill="#9d1228"/>
+            {{-- gota branca --}}
+            <path d="M55 77C55 77 46 88 46 94a9 9 0 0 0 18 0C64 88 55 77 55 77Z" fill="#ffffff"/>
+            {{-- detalhe no topo do corpo --}}
+            <rect x="26" y="50" width="58" height="4" fill="#9d1228"/>
+        </symbol>
+    </svg>
+
     <section class="produtos-hero">
         <div class="produtos-hero-content">
             <span class="produtos-tag">SEMPRE DIVA</span>
@@ -132,13 +152,13 @@
 
                         <a href="{{ route('site.produto.detalhe', $produto->item_id) }}">
                             <div class="produto-imagem" style="position: relative;">
+                                {{-- sem imagem (ou imagem que falhou ao carregar): fundo rosa com o shampoo --}}
+                                <div class="produto-sem-imagem" role="img" aria-label="Produto sem imagem">
+                                    <svg viewBox="0 0 100 140" aria-hidden="true"><use href="#icone-shampoo"></use></svg>
+                                </div>
+
                                 @if (!empty($produto->foto))
-                                    <img src="{{ asset('images/produtos/' . $produto->foto) }}" alt="{{ $produto->nome }}">
-                                @else
-                                    <div class="produto-sem-imagem">
-                                        <i class="bi bi-image"></i>
-                                        <span>Sem imagem</span>
-                                    </div>
+                                    <img src="{{ asset('images/produtos/' . $produto->foto) }}" alt="{{ $produto->nome }}" onerror="this.remove()">
                                 @endif
 
                                 @if ($produto->categorias)
@@ -162,20 +182,6 @@
                                 @endif
                                 <h3>{{ $produto->nome }}</h3>
                             </a>
-
-                            <div class="produto-estoque {{ $produto->estoque < 2 ? 'produto-esgotado' : '' }}">
-                                @if ($produto->estoque >= 2)
-                                    <i class="bi bi-check-circle"></i>
-                                    {{ $produto->estoque }}
-                                    @if ($produto->estoque == 1)
-                                        unidade disponível
-                                    @else
-                                        unidades disponíveis
-                                    @endif
-                                @else
-                                    <i class="bi bi-x-circle"></i> Produto esgotado
-                                @endif
-                            </div>
 
                             <div class="produto-bottom">
                                 <div class="produto-preco">

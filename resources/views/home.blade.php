@@ -4,6 +4,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    {{-- baixa a imagem do banner o quanto antes (antes mesmo do CSS terminar de carregar) --}}
+    <link rel="preload" as="image" href="{{ asset('images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg') }}" fetchpriority="high">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @endpush
 
@@ -35,6 +37,41 @@
         </div>
 
     </section>
+
+    {{-- Segura a animação do banner até a imagem estar carregada e decodificada,
+         para texto e imagem entrarem juntos mesmo com internet lenta.
+         Sem JS, a animação roda normalmente. --}}
+    <script>
+        (function () {
+            var hero = document.querySelector('.home-hero');
+            if (!hero) return;
+
+            var started = false;
+
+            function start() {
+                if (started) return;
+                started = true;
+
+                requestAnimationFrame(function () {
+                    hero.classList.remove('is-waiting');
+                });
+            }
+
+            hero.classList.add('is-waiting');
+
+            var img = new Image();
+            img.src = "{{ asset('images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg') }}";
+
+            if (img.decode) {
+                img.decode().then(start, start);
+            } else {
+                img.onload = img.onerror = start;
+            }
+
+            // internet muito lenta: não deixa o texto esperando para sempre
+            setTimeout(start, 2500);
+        })();
+    </script>
 
     {{-- ATALHOS --}}
     <section class="home-container home-section">
@@ -90,6 +127,38 @@
                 <img src="{{ asset('images/prod-1-BPQ7Wc6b.jpg') }}" alt="Produto profissional do Salão Sempre Diva" loading="lazy">
                 <img src="{{ asset('images/prod-2-DD_EaWGG.jpg') }}" alt="Produto profissional do Salão Sempre Diva" loading="lazy">
                 <img src="{{ asset('images/prod-3-DirrTLqy.jpg') }}" alt="Produto profissional do Salão Sempre Diva" loading="lazy">
+            </div>
+
+        </div>
+
+    </section>
+
+    {{-- SERVIÇOS (mesmo estilo da seção acima) --}}
+    <section class="home-about home-about-services">
+
+        <div class="home-container home-about-grid">
+
+            <div>
+
+                <h2>Serviços para cada momento</h2>
+
+                <p class="home-about-text">
+                    Do corte à manicure e à depilação, cada atendimento é individual e feito com
+                    calma. Você escolhe o serviço, o dia e o horário, e a Sandra cuida do resto.
+                </p>
+
+                <ul class="home-list">
+                    <li>Corte personalizado · a partir de R$150</li>
+                    <li>Manicure e esmaltação em gel · a partir de R$45</li>
+                    <li>Depilação com cera quente · a partir de R$20</li>
+                </ul>
+
+            </div>
+
+            <div class="home-gallery">
+                <img src="{{ asset('images/trabalho1.png') }}" alt="Corte de cabelo feito no Salão Sempre Diva" loading="lazy">
+                <img src="{{ asset('images/manicure.png') }}" alt="Manicure sendo feita no Salão Sempre Diva" loading="lazy">
+                <img src="{{ asset('images/depilacao.png') }}" alt="Depilação com cera quente no Salão Sempre Diva" loading="lazy">
             </div>
 
         </div>

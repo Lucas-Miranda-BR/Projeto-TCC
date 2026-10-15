@@ -4,6 +4,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    {{-- baixa a foto da hero o quanto antes --}}
+    <link rel="preload" as="image" href="{{ asset('images/12cf2d08-6d57-4785-9777-65d46319b2a1.jpg') }}" fetchpriority="high">
     <link rel="stylesheet" href="{{ asset('css/sobre.css') }}">
 @endpush
 
@@ -58,6 +60,40 @@
 
         </div>
     </section>
+
+    {{-- Segura a animação da introdução até a foto estar carregada, para texto e foto
+         entrarem juntos mesmo com internet lenta. Sem JS, a animação roda normalmente. --}}
+    <script>
+        (function () {
+            var hero = document.querySelector('.about-hero');
+            var photo = document.querySelector('.about-photo');
+            if (!hero || !photo) return;
+
+            var started = false;
+
+            function start() {
+                if (started) return;
+                started = true;
+
+                requestAnimationFrame(function () {
+                    hero.classList.remove('is-waiting');
+                });
+            }
+
+            hero.classList.add('is-waiting');
+
+            if (photo.decode) {
+                photo.decode().then(start, start);
+            } else if (photo.complete) {
+                start();
+            } else {
+                photo.onload = photo.onerror = start;
+            }
+
+            // internet muito lenta: não deixa o texto esperando para sempre
+            setTimeout(start, 2500);
+        })();
+    </script>
 
     {{-- CITAÇÃO --}}
     <section class="quote-section">

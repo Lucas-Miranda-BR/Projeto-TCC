@@ -90,6 +90,11 @@ html body .footer {
     border-color: rgba(255, 255, 255, .7);
 }
 
+.home-btn-wine {
+    background: var(--home-vinho);
+    color: #fff;
+}
+
 .home-page a.home-btn:hover {
     background-color: var(--home-vinho-hover);
     border-color: var(--home-vinho-hover);
@@ -122,13 +127,44 @@ html body .footer {
     min-height: 580px;
     overflow: hidden;
 
+    /* cor de base enquanto a imagem aparece */
+    background-color: #5a0a16;
+
+    color: #fff;
+    isolation: isolate;
+}
+
+/* Imagem do banner: aparece suavemente junto com o texto */
+.home-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+
     background-image: url('../images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
-    color: #fff;
-    isolation: isolate;
+    opacity: 0;
+    animation: home-hero-image-enter 1.4s ease-out both;
+}
+
+@keyframes home-hero-image-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Enquanto a imagem não carrega, o JS adiciona .is-waiting e as animações
+   ficam em pausa; ao terminar de carregar, tudo começa junto. */
+.home-hero.is-waiting::after,
+.home-hero.is-waiting .home-hero-inner > * {
+    animation-play-state: paused;
 }
 
 /* Película vinho sobre a imagem */
@@ -355,6 +391,19 @@ html body .footer {
     border-radius: 4px;
 }
 
+/* Serviços: reaproveita o layout da seção Sobre, só sem o degradê do topo */
+.home-about-services {
+    background: var(--home-creme-2);
+}
+
+.home-about-services .home-about-grid {
+    padding-top: 16px;
+}
+
+.home-about-actions {
+    margin-top: 28px;
+}
+
 /* =====================================================
    PROVADOR DE ESTILO
 ===================================================== */
@@ -447,6 +496,9 @@ html body .footer {
 @media (max-width: 480px) {
     .home-hero {
         min-height: 460px;
+    }
+
+    .home-hero::after {
         background-position: 58% center;
     }
 
@@ -513,6 +565,11 @@ html body .footer {
 ===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
+    .home-hero::after {
+        animation: none;
+        opacity: 1;
+    }
+
     .home-hero-inner > * {
         animation: none;
         opacity: 1;
