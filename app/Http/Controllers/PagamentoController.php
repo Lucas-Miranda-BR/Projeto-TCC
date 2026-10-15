@@ -13,20 +13,21 @@ use MercadoPago\Client\Payment\PaymentClient;
 
 class PagamentoController extends Controller
 {
+
     public function retornoSucesso(Request $request)
     {
         $pedidoId = $request->input('external_reference');
 
         if ($pedidoId) {
-            $pedido = PedidoModel::with('carrinhos_itens.item')->find($pedidoId);
+            $pedido = PedidoModel::with('carrinhos_itens.itens')->find($pedidoId);
 
             if ($pedido && $pedido->status !== 'A') {
                 $pedido->status = 'A';
                 $pedido->pedido_data = now(); 
                 $pedido->save();
 
-                foreach ($pedido->itens as $pedidoItem) {
-                    $item = $pedidoItem->item;
+                foreach ($pedido->carrinhos_itens as $pedidoItem) {
+                    $item = $pedidoItem->itens;
                     if ($item) {
                         $item->estoque -= $pedidoItem->quantidade;
                         if ($item->estoque < 0) {
@@ -91,7 +92,8 @@ class PagamentoController extends Controller
                 $payment = $client->get($paymentId);
 
                 $pedidoId = $payment->external_reference;
-                $pedido = PedidoModel::with('carrinhos_itens.item')->find($pedidoId);
+                
+                $pedido = PedidoModel::with('carrinhos_itens.itens')->find($pedidoId);
 
                 if ($pedido) {
                     $statusMp = $payment->status;
@@ -101,8 +103,8 @@ class PagamentoController extends Controller
                         $pedido->pedido_data = now(); 
                         $pedido->save();
 
-                        foreach ($pedido->itens as $pedidoItem) {
-                            $item = $pedidoItem->item;
+                        foreach ($pedido->carrinhos_itens as $pedidoItem) {
+                            $item = $pedidoItem->itens;
                             if ($item) {
                                 $item->estoque -= $pedidoItem->quantidade;
                                 if ($item->estoque < 0) $item->estoque = 0;
