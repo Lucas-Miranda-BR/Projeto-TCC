@@ -397,7 +397,12 @@
     /* cobre o ícone padrão que fica por trás, mesmo em PNG com transparência */
     background: #fdf4f6;
 
-    transition: transform .4s ease;
+    transition: opacity .3s ease;
+}
+
+/* enquanto o JS remove o fundo liso da foto, ela fica oculta (evita piscar o fundo branco) */
+.js-remover-fundo .produto-imagem img:not(.fundo-ok) {
+    opacity: 0;
 }
 
 

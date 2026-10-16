@@ -53,6 +53,9 @@
 
 <main class="produtos-page">
 
+    {{-- liga o modo "remover fundo": as fotos ficam ocultas até serem processadas (evita piscar o fundo branco) --}}
+    <script>document.querySelector('.produtos-page').classList.add('js-remover-fundo');</script>
+
     {{-- Ícone padrão (shampoo) usado quando o produto não tem imagem --}}
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
         <symbol id="icone-shampoo" viewBox="0 0 100 140">
@@ -298,6 +301,177 @@
 </main>
 
 @include('components.footer')
+
+<script>
+/*
+ * Remove o fundo liso (branco, cinza...) das fotos dos produtos, no navegador.
+ * - Só age se a borda da foto for de uma cor só; caso contrário, deixa a foto como está.
+ * - Apaga a cor "de fora para dentro", então detalhes internos da mesma cor (rótulo branco) ficam.
+ * - Não altera o arquivo no servidor: o recorte é refeito a cada visita.
+ */
+(function () {
+    var TOL = 38, TOL2 = TOL * TOL;   // distância de cor considerada "fundo"
+    var SUAVIZACAO = 1.5;              // transição suave na borda do recorte
+    var MIN_BORDA = 0.8;               // % da borda que precisa ter a cor do fundo
+    var MIN_REMOVIDO = 0.02, MAX_REMOVIDO = 0.94;
+    var MARGEM = 0.04;                 // folga em volta do produto depois de cortar
+    var MAX_LADO = 700;                // lado maior usado no processamento (px)
+
+    function mediana(v) {
+        v.sort(function (a, b) { return a - b; });
+        return v[v.length >> 1];
+    }
+
+    function limitar(v) {
+        return v < 0 ? 0 : (v > 255 ? 255 : Math.round(v));
+    }
+
+    function carregada(img) {
+        return new Promise(function (resolve) {
+            if (img.complete && img.naturalWidth) { return resolve(img); }
+            img.addEventListener('load', function () { resolve(img); }, { once: true });
+            img.addEventListener('error', function () { resolve(img); }, { once: true });
+        });
+    }
+
+    function processar(img) {
+        return new Promise(function (resolve) {
+            try {
+                var nw = img.naturalWidth, nh = img.naturalHeight;
+                if (!nw || !nh) { return resolve(false); }
+
+                var escala = Math.min(1, MAX_LADO / Math.max(nw, nh));
+                var w = Math.round(nw * escala), h = Math.round(nh * escala);
+                if (w < 20 || h < 20) { return resolve(false); }
+
+                var canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                var ctx = canvas.getContext('2d', { willReadFrequently: true });
+                ctx.drawImage(img, 0, 0, w, h);
+
+                var dados = ctx.getImageData(0, 0, w, h); // erro se a imagem for de outro domínio
+                var d = dados.data;
+
+                // já é um PNG recortado: não mexe
+                var cantos = [0, (w - 1) * 4, (h - 1) * w * 4, ((h - 1) * w + w - 1) * 4], transp = 0;
+                cantos.forEach(function (p) { if (d[p + 3] < 30) { transp++; } });
+                if (transp >= 2) { return resolve(false); }
+
+                // pixels da borda da imagem
+                var per = [], x, y;
+                for (x = 0; x < w; x++) { per.push(x, (h - 1) * w + x); }
+                for (y = 1; y < h - 1; y++) { per.push(y * w, y * w + w - 1); }
+
+                // cor do fundo = mediana da borda
+                var rs = [], gs = [], bs = [];
+                per.forEach(function (i) { rs.push(d[i * 4]); gs.push(d[i * 4 + 1]); bs.push(d[i * 4 + 2]); });
+                var br = mediana(rs), bg = mediana(gs), bb = mediana(bs);
+
+                function dist2(i) {
+                    var p = i * 4, dr = d[p] - br, dg = d[p + 1] - bg, db = d[p + 2] - bb;
+                    return dr * dr + dg * dg + db * db;
+                }
+
+                // a borda precisa ser (quase toda) dessa cor, ou não é fundo liso
+                var limite = Math.pow(TOL * 1.2, 2), parecidos = 0;
+                per.forEach(function (i) { if (dist2(i) <= limite) { parecidos++; } });
+                if (parecidos / per.length < MIN_BORDA) { return resolve(false); }
+
+                // flood fill a partir da borda: 1 = fundo, 2 = borda do produto
+                var mascara = new Uint8Array(w * h);
+                var pilha = new Int32Array(w * h), topo = 0, cand = [];
+
+                per.forEach(function (i) {
+                    if (mascara[i] === 0 && dist2(i) <= TOL2) { mascara[i] = 1; pilha[topo++] = i; }
+                });
+
+                function visitar(n) {
+                    if (mascara[n] !== 0) { return; }
+                    if (dist2(n) <= TOL2) { mascara[n] = 1; pilha[topo++] = n; }
+                    else { mascara[n] = 2; cand.push(n); }
+                }
+
+                while (topo > 0) {
+                    var i = pilha[--topo];
+                    var cx = i % w, cy = (i - cx) / w;
+                    if (cx + 1 < w) { visitar(i + 1); }
+                    if (cx > 0) { visitar(i - 1); }
+                    if (cy + 1 < h) { visitar(i + w); }
+                    if (cy > 0) { visitar(i - w); }
+                }
+
+                var removidos = 0;
+                for (i = 0; i < mascara.length; i++) { if (mascara[i] === 1) { removidos++; } }
+                var proporcao = removidos / (w * h);
+                if (proporcao < MIN_REMOVIDO || proporcao > MAX_REMOVIDO) { return resolve(false); }
+
+                // apaga o fundo
+                for (i = 0; i < mascara.length; i++) { if (mascara[i] === 1) { d[i * 4 + 3] = 0; } }
+
+                // suaviza a borda do recorte (e tira o "resto" do fundo misturado na cor)
+                cand.forEach(function (n) {
+                    var a = (Math.sqrt(dist2(n)) - TOL) / (TOL * SUAVIZACAO);
+                    if (a >= 1) { return; }
+                    if (a < 0) { a = 0; }
+                    var p = n * 4;
+                    if (a > 0.05) {
+                        d[p]     = limitar((d[p]     - (1 - a) * br) / a);
+                        d[p + 1] = limitar((d[p + 1] - (1 - a) * bg) / a);
+                        d[p + 2] = limitar((d[p + 2] - (1 - a) * bb) / a);
+                    }
+                    d[p + 3] = Math.round(255 * a);
+                });
+
+                // corta as sobras transparentes
+                var minX = w, maxX = -1, minY = h, maxY = -1;
+                for (y = 0; y < h; y++) {
+                    for (x = 0; x < w; x++) {
+                        if (mascara[y * w + x] !== 1) {
+                            if (x < minX) { minX = x; }
+                            if (x > maxX) { maxX = x; }
+                            if (y < minY) { minY = y; }
+                            if (y > maxY) { maxY = y; }
+                        }
+                    }
+                }
+                if (maxX < 0) { return resolve(false); }
+
+                var margem = Math.round(Math.max(maxX - minX + 1, maxY - minY + 1) * MARGEM);
+                var x0 = Math.max(0, minX - margem), y0 = Math.max(0, minY - margem);
+                var x1 = Math.min(w - 1, maxX + margem), y1 = Math.min(h - 1, maxY + margem);
+                var cw = x1 - x0 + 1, ch = y1 - y0 + 1;
+
+                ctx.putImageData(dados, 0, 0);
+
+                var saida = document.createElement('canvas');
+                saida.width = cw;
+                saida.height = ch;
+                saida.getContext('2d').drawImage(canvas, x0, y0, cw, ch, 0, 0, cw, ch);
+
+                saida.toBlob(function (blob) {
+                    if (!blob) { return resolve(false); }
+                    img.addEventListener('load', function () { resolve(true); }, { once: true });
+                    img.src = URL.createObjectURL(blob);
+                }, 'image/png');
+            } catch (e) {
+                resolve(false); // imagem de outro domínio, memória, etc.: mantém a original
+            }
+        });
+    }
+
+    function pronta(img) { img.classList.add('fundo-ok'); }
+
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('.produtos-page .produto-imagem img'));
+
+    imgs.forEach(function (img) {
+        carregada(img).then(processar).catch(function () { return false; }).then(function () { pronta(img); });
+    });
+
+    // segurança: nenhuma imagem fica escondida por mais de 5s
+    setTimeout(function () { imgs.forEach(pronta); }, 5000);
+})();
+</script>
 
 <script src="{{ asset('js/listar-produtos.js') }}"></script>
 
