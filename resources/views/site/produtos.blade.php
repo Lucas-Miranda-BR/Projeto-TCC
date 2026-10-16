@@ -113,28 +113,38 @@
                 </div>
             </div>
 
-            <div class="filtro-grupo">
-                <label for="categoria">Categoria</label>
-                <select name="categoria" id="categoria">
-                    <option value="">Todas</option>
-                    @foreach ($categorias as $categoria)
-                        <option value="{{ $categoria->categoria_id }}" {{ request('categoria') == $categoria->categoria_id ? 'selected' : '' }}>
-                            {{ $categoria->nome }}
-                        </option>
-                    @endforeach
-                </select>
+            <div class="filtro-grupo filtro-dropdown">
+                <label id="categoria-label">Categoria</label>
+                <input type="hidden" name="categoria" id="categoria" value="{{ request('categoria') }}">
+                <div class="dropdown-custom" data-dropdown>
+                    <button type="button" class="dropdown-trigger" aria-labelledby="categoria-label" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="dropdown-valor">{{ $categorias->firstWhere('categoria_id', request('categoria'))?->nome ?? 'Todas' }}</span>
+                        <i class="bi bi-chevron-down dropdown-seta" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-opcoes" role="listbox" aria-label="Categoria">
+                        <button type="button" class="dropdown-opcao {{ !request('categoria') ? 'selecionada' : '' }}" role="option" aria-selected="{{ !request('categoria') ? 'true' : 'false' }}" data-value="">Todas</button>
+                        @foreach ($categorias as $categoria)
+                            <button type="button" class="dropdown-opcao {{ request('categoria') == $categoria->categoria_id ? 'selecionada' : '' }}" role="option" aria-selected="{{ request('categoria') == $categoria->categoria_id ? 'true' : 'false' }}" data-value="{{ $categoria->categoria_id }}">{{ $categoria->nome }}</button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
-            <div class="filtro-grupo">
-                <label for="marca">Marca</label>
-                <select name="marca" id="marca">
-                    <option value="">Todas</option>
-                    @foreach ($marcas as $marca)
-                        <option value="{{ $marca->marca_id }}" {{ request('marca') == $marca->marca_id ? 'selected' : '' }}>
-                            {{ $marca->nome }}
-                        </option>
-                    @endforeach
-                </select>
+            <div class="filtro-grupo filtro-dropdown">
+                <label id="marca-label">Marca</label>
+                <input type="hidden" name="marca" id="marca" value="{{ request('marca') }}">
+                <div class="dropdown-custom" data-dropdown>
+                    <button type="button" class="dropdown-trigger" aria-labelledby="marca-label" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="dropdown-valor">{{ $marcas->firstWhere('marca_id', request('marca'))?->nome ?? 'Todas' }}</span>
+                        <i class="bi bi-chevron-down dropdown-seta" aria-hidden="true"></i>
+                    </button>
+                    <div class="dropdown-opcoes" role="listbox" aria-label="Marca">
+                        <button type="button" class="dropdown-opcao {{ !request('marca') ? 'selecionada' : '' }}" role="option" aria-selected="{{ !request('marca') ? 'true' : 'false' }}" data-value="">Todas</button>
+                        @foreach ($marcas as $marca)
+                            <button type="button" class="dropdown-opcao {{ request('marca') == $marca->marca_id ? 'selecionada' : '' }}" role="option" aria-selected="{{ request('marca') == $marca->marca_id ? 'true' : 'false' }}" data-value="{{ $marca->marca_id }}">{{ $marca->nome }}</button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
             <button type="submit" class="btn-filtrar">
@@ -202,7 +212,7 @@
                                     @endif
                                 </div>
 
-                                    @if ($produto->estoque >= 2)
+                                    @if ($produto->estoque >= 1)
                                         
                                     @auth
                                         <form
@@ -211,18 +221,8 @@
                                             class="produto-compra-form"
                                         >
                                             @csrf
-                                            <div class="quantidade-produto">
-                                                <button type="button" class="quantidade-btn quantidade-menos" title="Diminuir quantidade">
-                                                    <i class="bi bi-dash"></i>
-                                                </button>
-                                                
-                                                <input type="number" name="quantidade" class="quantidade-input" value="1" min="1" max="{{ $produto->estoque }}" readonly>
-                                                
-                                                <button type="button" class="quantidade-btn quantidade-mais" title="Aumentar quantidade">
-                                                    <i class="bi bi-plus"></i>
-                                                </button>
-                                            </div>
-                                            <button type="submit" class="btn-adicionar" title="Adicionar ao carrinho">
+                                            <input type="hidden" name="quantidade" value="1">
+                                            <button type="submit" class="btn-adicionar" title="Adicionar ao carrinho" aria-label="Adicionar {{ $produto->nome }} ao carrinho">
                                                 <i class="bi bi-bag-plus"></i>
                                             </button>
                                         </form>
@@ -474,5 +474,60 @@
 </script>
 
 <script src="{{ asset('js/listar-produtos.js') }}"></script>
+
+
+<script>
+(function () {
+    const dropdowns = document.querySelectorAll('.produtos-filtros [data-dropdown]');
+
+    function fecharTodos(excecao) {
+        dropdowns.forEach(function (dropdown) {
+            if (dropdown !== excecao) {
+                dropdown.classList.remove('aberto');
+                dropdown.querySelector('.dropdown-trigger').setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    dropdowns.forEach(function (dropdown) {
+        const trigger = dropdown.querySelector('.dropdown-trigger');
+        const valor = dropdown.querySelector('.dropdown-valor');
+        const opcoes = dropdown.querySelectorAll('.dropdown-opcao');
+        const input = dropdown.parentElement.querySelector('input[type="hidden"]');
+
+        trigger.addEventListener('click', function () {
+            const abrir = !dropdown.classList.contains('aberto');
+            fecharTodos(dropdown);
+            dropdown.classList.toggle('aberto', abrir);
+            trigger.setAttribute('aria-expanded', String(abrir));
+        });
+
+        opcoes.forEach(function (opcao) {
+            opcao.addEventListener('click', function () {
+                input.value = opcao.dataset.value;
+                valor.textContent = opcao.textContent.trim();
+                opcoes.forEach(function (item) {
+                    const selecionada = item === opcao;
+                    item.classList.toggle('selecionada', selecionada);
+                    item.setAttribute('aria-selected', String(selecionada));
+                });
+                dropdown.classList.remove('aberto');
+                trigger.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        trigger.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                dropdown.classList.remove('aberto');
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.produtos-filtros [data-dropdown]')) fecharTodos(null);
+    });
+})();
+</script>
 
 @endsection
