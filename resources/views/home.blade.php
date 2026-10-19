@@ -5,9 +5,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="preload" as="image" href="/images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="/public/images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg" fetchpriority="high">
     
-    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="/public/css/home.css?v=2">
 @endpush
 
 @section('content')
@@ -16,7 +16,6 @@
 
 <main class="home-page">
 
-    {{-- HERO --}}
     <section class="home-hero">
         <div class="home-hero-inner">
             <p class="home-hero-kicker">Salão de beleza de Sandra Nerys</p>
@@ -70,9 +69,9 @@
                 </ul>
             </div>
             <div class="home-gallery">
-                <img src="/images/prod-1-BPQ7Wc6b.jpg" alt="Produto profissional" loading="lazy">
-                <img src="/images/prod-2-DD_EaWGG.jpg" alt="Produto profissional" loading="lazy">
-                <img src="/images/prod-3-DirrTLqy.jpg" alt="Produto profissional" loading="lazy">
+                <img src="/public/images/prod-1-BPQ7Wc6b.jpg" alt="Produto profissional" loading="lazy">
+                <img src="/public/images/prod-2-DD_EaWGG.jpg" alt="Produto profissional" loading="lazy">
+                <img src="/public/images/prod-3-DirrTLqy.jpg" alt="Produto profissional" loading="lazy">
             </div>
         </div>
     </section>
@@ -93,9 +92,9 @@
                 </ul>
             </div>
             <div class="home-gallery">
-                <img src="/images/trabalho1.png" alt="Corte de cabelo" loading="lazy">
-                <img src="/images/manicure.png" alt="Manicure" loading="lazy">
-                <img src="/images/depilacao.png" alt="Depilação com cera" loading="lazy">
+                <img src="/public/images/trabalho1.png" alt="Corte de cabelo" loading="lazy">
+                <img src="/public/images/manicure.png" alt="Manicure" loading="lazy">
+                <img src="/public/images/depilacao.png" alt="Depilação com cera" loading="lazy">
             </div>
         </div>
     </section>
@@ -115,6 +114,6 @@
 
 @include('components.footer')
 
-<script src="/public/js/home.js"></script>
+<script src="/public/js/home.js?v=2"></script>
 
 @endsection
