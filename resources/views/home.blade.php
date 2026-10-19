@@ -7,7 +7,7 @@
     
     <link rel="preload" as="image" href="/images/8fe6d343-1ce3-4871-a71a-f631d1484826.jpg" fetchpriority="high">
     
-    <link rel="stylesheet" href="/css/home.css?v=1">
+    <link rel="stylesheet" href="/public/css/home.css">
 @endpush
 
 @section('content')
@@ -115,6 +115,6 @@
 
 @include('components.footer')
 
-<script src="../public/js/home.js?v=1"></script>
+<script src="/public/js/home.js"></script>
 
 @endsection
