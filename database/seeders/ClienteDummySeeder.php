@@ -18,8 +18,7 @@ class ClienteDummySeeder extends Seeder
             'email' => 'admin@admin.com',
             'data_nascimento' => '1990-01-01',
             'is_admin' => true,
-            'senha' => '
-            ',
+            'senha' => 'Admin@1234!',
         ]);
 
         ClienteModel::create([
