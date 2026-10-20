@@ -22,7 +22,7 @@
         <p>Salão de beleza de Sandra Nerys</p>
 
         <a href="{{ route('site.sobre') }}" class="btn-main">
-            Ver mais
+            Ver mais teste
         </a>
 
     </div>
