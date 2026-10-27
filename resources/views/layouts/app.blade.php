@@ -44,6 +44,7 @@
         rel="stylesheet"
         href="{{ asset('css/acessibilidade.css') }}"
     >
+    @stack('styles')
 
 </head>
 
