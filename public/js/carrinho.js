@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const botaoMais = form.querySelector('.quantidade-mais');
         const tokenCsrf = form.querySelector('input[name="_token"]').value;
         const url = form.action;
+        const itemId = form.dataset.id;
 
         if (!input || !botaoMenos || !botaoMais) return;
 
@@ -54,7 +55,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
                     }
                     
-                    mostrarToastDinamico(data.mensagem, 'erro');
+                    if(data.mensagem) {
+                        mostrarToastDinamico(data.mensagem, 'erro');
+                    }
                     
                     if(document.querySelectorAll('.carrinho-item').length === 0) {
                         window.location.reload();
@@ -63,14 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 if (data.erro) {
-                    input.value = data.estoque_atual;
-                    mostrarToastDinamico(data.mensagem, 'erro');
+                    if (data.estoque_atual !== undefined) {
+                        input.value = data.estoque_atual;
+                    }
+                    if (data.mensagem) {
+                        mostrarToastDinamico(data.mensagem, 'erro');
+                    }
                     return;
                 }
 
-                const itemId = url.split('/').pop();
                 const subtotalEl = document.getElementById('subtotal-' + itemId);
-                
                 if (subtotalEl && data.novo_subtotal) {
                     subtotalEl.innerText = 'R$ ' + data.novo_subtotal;
                 }

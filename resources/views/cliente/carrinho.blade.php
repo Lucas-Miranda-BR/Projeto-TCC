@@ -134,12 +134,10 @@
 
 
                         <form
-                            action="{{ route(
-                                'carrinho.atualizar',
-                                $linha['item']->item_id
-                            ) }}"
+                            action="{{ route('carrinho.atualizar', $linha['item']->item_id) }}"
                             method="POST"
                             class="carrinho-quantidade-form"
+                            data-id="{{ $linha['item']->item_id }}"
                         >
 
                             @csrf
