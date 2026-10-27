@@ -16,15 +16,22 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Preparar Estrutura de Pastas (Evitar bloqueio FTP)
+      - name: Preparar Estrutura e Proteger Ficheiros
         run: |
           mkdir -p deploy_dist/core
           
           rsync -a --exclude='.git' --exclude='node_modules' --exclude='public' --exclude='deploy_dist' ./ deploy_dist/core/
           
           cp -r public deploy_dist/
+          
+          rm -f deploy_dist/core/index.php
+          rm -f deploy_dist/core/.htaccess
+          rm -f deploy_dist/public/index.php
+          rm -f deploy_dist/public/.htaccess
+          rm -f deploy_dist/index.php
+          rm -f deploy_dist/.htaccess
 
-      - name: Enviar para o InfinityFree (Sessão Única)
+      - name: Enviar para o InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -32,6 +39,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
+          # Envia a pasta final (já sem os ficheiros index e htaccess)
           local-dir: ./deploy_dist/
           server-dir: htdocs/
           timeout: 600000
