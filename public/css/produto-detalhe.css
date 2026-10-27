@@ -199,7 +199,7 @@ html, body {
     margin: 0;
 }
 
-/* Botões e Form */
+
 .card-login-required {
     background-color: #fff5f5;
     border: 1px solid #feb2b2;
@@ -268,7 +268,7 @@ html, body {
     transform: translateY(-2px);
 }
 
-/* Alertas */
+
 .alert {
     padding: 14px 18px;
     border-radius: 10px;
