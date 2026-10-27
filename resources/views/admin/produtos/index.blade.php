@@ -174,6 +174,7 @@
                                 <tr>
                                     <th style="width: 60px;">Foto</th>
                                     <th>Produto</th>
+                                    <th>Descrição</th> <!-- NOVA COLUNA -->
                                     <th>Categoria</th>
                                     <th>Marca</th>
                                     <th>Preço</th>
@@ -198,6 +199,12 @@
                                         </td>
 
                                         <td><strong class="produto-nome">{{ $produto->nome }}</strong></td>
+                                        
+                                        <!-- NOVO CAMPO DESCRIÇÃO LIMITADO A 25 CARACTERES -->
+                                        <td title="{{ $produto->descricao }}" style="color: #666; font-size: 0.9em;">
+                                            {{ \Illuminate\Support\Str::limit($produto->descricao, 25, '...') }}
+                                        </td>
+
                                         <td>{{ $produto->categorias->nome ?? 'Sem categoria' }}</td>
                                         <td>{{ $produto->marcas->nome ?? 'Sem marca' }}</td>
                                         <td><strong class="produto-preco">R$ {{ number_format($produto->preco, 2, ',', '.') }}</strong></td>
@@ -231,7 +238,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="produtos-vazio">Nenhum produto cadastrado.</td>
+                                        <td colspan="9" class="produtos-vazio">Nenhum produto cadastrado.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -251,7 +258,78 @@
                             <button type="button" class="pagination-btn" id="pagination-proximo">Próximo</button>
                         </nav>
                     </div>
-                </div>                
+                </div>
+
+                <aside class="produtos-lateral">
+
+                    <div class="lateral-card">
+                        <div class="lateral-card-header">
+                            <h3>Categorias</h3>
+                            <details class="adicionar-lateral">
+                                <summary title="Nova categoria">+</summary>
+                                <div class="adicionar-lateral-form">
+                                    <form action="{{ route('admin.categorias.store') }}" method="POST">
+                                        @csrf
+                                        <label for="categoria_nome">Nova categoria</label>
+                                        <input type="text" name="nome" id="categoria_nome" placeholder="Nome da categoria" required>
+                                        <button type="submit">Adicionar</button>
+                                    </form>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="lateral-lista">
+                            @forelse($categorias as $categoria)
+                                <div class="lateral-item">
+                                    <div class="lateral-item-nome">
+                                        <span class="categoria-bolinha"></span>
+                                        <span>{{ $categoria->nome }}</span>
+                                    </div>
+                                    <span class="lateral-quantidade">
+                                        {{ $produtos->where('categoria_id', $categoria->categoria_id)->count() }} itens
+                                    </span>
+                                </div>
+                            @empty
+                                <p class="lateral-vazio">Nenhuma categoria cadastrada.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <div class="lateral-card">
+                        <div class="lateral-card-header">
+                            <h3>Marcas</h3>
+                            <details class="adicionar-lateral">
+                                <summary title="Nova marca">+</summary>
+                                <div class="adicionar-lateral-form">
+                                    <form action="{{ route('admin.marcas.store') }}" method="POST">
+                                        @csrf
+                                        <label for="marca_nome">Nova marca</label>
+                                        <input type="text" name="nome" id="marca_nome" placeholder="Nome da marca" required>
+                                        <button type="submit">Adicionar</button>
+                                    </form>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="lateral-lista">
+                            @forelse($marcas as $marca)
+                                <div class="lateral-item">
+                                    <div class="lateral-item-nome">
+                                        <span class="marca-bolinha"></span>
+                                        <span>{{ $marca->nome }}</span>
+                                    </div>
+                                    <span class="lateral-quantidade">
+                                        {{ $produtos->where('marca_id', $marca->marca_id)->count() }} itens
+                                    </span>
+                                </div>
+                            @empty
+                                <p class="lateral-vazio">Nenhuma marca cadastrada.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                </aside>
+
             </section>
         </main>
     </div>
