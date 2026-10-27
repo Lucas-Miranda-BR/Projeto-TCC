@@ -54,3 +54,4 @@ jobs:
           exclude: |
             index.php
             .htaccess
+            images/produtos/**
