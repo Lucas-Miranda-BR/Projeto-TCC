@@ -30,9 +30,24 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+            public/**
             .env
             .env.example
             README.md
-            public/index.php
-            .htaccess
             index.php
+            .htaccess
+
+      - name: Deploy to InfinityFree (Public Assets)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./public/
+          server-dir: htdocs/public/
+          timeout: 60000
+          exclude: |
+            index.php
+            .htaccess
