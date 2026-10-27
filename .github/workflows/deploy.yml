@@ -25,7 +25,7 @@ jobs:
           protocol: ftp
           port: 21
           server-dir: htdocs/core/
-          timeout: 60000
+          timeout: 600000
           exclude: |
             **/.git*
             **/.git*/**
@@ -37,7 +37,10 @@ jobs:
             index.php
             .htaccess
 
-      - name: Deploy to InfinityFree (Public Assets)
+      - name: Aguardar o servidor encerrar a conexão FTP (Evitar bloqueio)
+        run: sleep 15
+
+      - name: Deploy to InfinityFree (Public)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -47,7 +50,8 @@ jobs:
           port: 21
           local-dir: ./public/
           server-dir: htdocs/public/
-          timeout: 60000
+          timeout: 600000
           exclude: |
             index.php
             .htaccess
+            images/produtos/**
