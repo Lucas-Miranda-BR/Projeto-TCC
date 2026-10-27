@@ -112,6 +112,25 @@ body{
     transform: scaleX(1);
 }
 
+/* página atual: a barrinha fica fixa embaixo do link */
+.client-top-menu a.active {
+    color: var(--vinho);
+}
+
+.client-top-menu a.active::after {
+    transform: scaleX(1);
+}
+
+.client-top-menu a.active .nav-icon svg {
+    color: var(--vinho);
+    stroke: var(--vinho);
+}
+
+.client-top-menu a.active .nav-icon-ia svg {
+    fill: var(--vinho);
+    stroke: var(--vinho);
+}
+
 
 /* =====================================================
    ÍCONES + BADGE (carrinho, IA, notificações)
@@ -180,9 +199,6 @@ body{
     display: flex;
     align-items: center;
     gap: 6px;
-
-    padding-left: 28px;
-    border-left: 1px solid var(--borda);
 }
 
 
@@ -329,7 +345,6 @@ body{
     .client-navbar { padding: 0 24px; gap: 20px; }
     .client-top-menu { gap: 20px; }
     .client-top-menu a { font-size: 12px; }
-    .client-user-area { padding-left: 20px; }
 }
 
 @media (max-width: 950px) {
@@ -340,7 +355,7 @@ body{
 
 @media (max-width: 850px) {
     .client-top-menu { display: none; }
-    .client-user-area { margin-left: auto; border-left: 0; padding-left: 0; }
+    .client-user-area { margin-left: auto; }
 }
 
 @media (max-width: 600px) {

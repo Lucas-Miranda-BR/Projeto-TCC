@@ -45,7 +45,12 @@ Route::post('/webhook/mercadopago', [PagamentoController::class, 'webhook'])
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [SiteController::class, 'viewHome'])
+// Tela inicial (entrada do site, sem footer). O botão dela leva para a home.
+Route::view('/', 'site.inicio')
+    ->name('inicio');
+
+// Página home (a que já existia)
+Route::get('/home', [SiteController::class, 'viewHome'])
     ->name('home');
 
 
@@ -723,6 +728,3 @@ Route::prefix('admin')
             [DescontoController::class, 'destroy'])
         ->name('admin.descontos.destroy');
     });
-
-    
-

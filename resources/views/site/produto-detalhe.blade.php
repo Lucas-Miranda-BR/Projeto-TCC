@@ -1,93 +1,139 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/produto-detalhe.css') }}">
+@endpush
+
 @section('content')
-    <div>
-        <a href="{{ route('site.produtos') }}">Voltar para a lista de produtos</a>
+   
+    @include('components.navbar')
 
-        <br><br>
-
-        @if(session('success'))
-            <p>{{ session('success') }}</p>
-        @endif
-
-        @if(session('erro'))
-            <p>{{ session('erro') }}</p>
-        @endif
-
-        @if($errors->any())
-            <ul>
-                @foreach($errors->all() as $erro)
-                    <li>{{ $erro }}</li>
-                @endforeach
-            </ul>
-        @endif
-
-        @if($quantidadeNoCarrinho > 0)
-            <p><strong>Aviso:</strong> Esse produto já está em seu carrinho em {{ $quantidadeNoCarrinho }} quantidade(s).</p>
-        @endif
-
-        <hr>
-
-        @if($item->foto)
-            <img 
-                src="{{ filter_var($item->foto, FILTER_VALIDATE_URL) ? $item->foto : asset('images/produtos/' . $item->foto) }}" 
-                alt="{{ $item->nome }}"
-            >
-        @else
-            <p>Nenhuma foto disponível</p>
-        @endif
-
-        <h1>{{ $item->nome }}</h1>
-        <p>
-            <strong>Descrição:</strong> 
-            {{ $item->descricao ?? 'Nenhuma descrição informada para este produto.' }}
-        </p>
-
-        <p><strong>Marca:</strong> {{ $item->marcas->nome ?? 'Sem marca' }}</p>
-
-        <p><strong>Categoria:</strong> {{ $item->categorias->nome ?? 'Sem categoria' }}</p>
-
-        @if($item->desconto_ativo)
-            <p>
-                <strong>Valor:</strong> 
-                <small style="text-decoration: line-through; color: #999; margin-right: 5px;">R$ {{ number_format($item->preco, 2, ',', '.') }}</small>
-                <span style="color: #28a745; font-size: 1.2em; font-weight: bold;">R$ {{ number_format($item->preco_final, 2, ',', '.') }}</span>
-                <span style="background: #ffc107; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-left: 8px;">-{{ $item->desconto_ativo->valor }}% OFF</span>
-            </p>
-            @if($item->desconto_ativo->quando_terminar)
-                <p style="font-size: 0.85rem; color: #dc3545; margin-top: -10px;">
-                    <i class="bi bi-clock-history"></i> Termina em: {{ \Carbon\Carbon::parse($item->desconto_ativo->quando_terminar)->format('d/m/Y') }}
-                </p>
-            @endif
-        @else
-            <p><strong>Valor:</strong> R$ {{ number_format($item->preco, 2, ',', '.') }}</p>
-        @endif
-
-        <p><strong>Quantidade em estoque:</strong> {{ $item->estoque }} unidade(s)</p>
-
-        <br>
-
-        @if($item->estoque >= 1)
+   
+    <main class="produto-detalhe-main">
+        <div class="produto-detalhe-container">
             
-            @auth
-                <form action="{{ route('carrinho.adicionar', $item->item_id) }}" method="POST">
-                    @csrf
-                    <label for="quantidade">Quantidade desejada:</label>
-                    <input type="number" name="quantidade" id="quantidade" value="1" min="1" max="{{ $item->estoque }}" required>
+           
+            <a href="{{ route('site.produtos') }}" class="btn-voltar">
+                &larr; Voltar para a lista de produtos
+            </a>
+
+           
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            @if(session('erro'))
+                <div class="alert alert-danger">{{ session('erro') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $erro)
+                            <li>{{ $erro }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if($quantidadeNoCarrinho > 0)
+                <div class="alert alert-info">
+                    <strong>Aviso:</strong> Esse produto já está em seu carrinho em {{ $quantidadeNoCarrinho }} quantidade(s).
+                </div>
+            @endif
+
+     
+            <div class="produto-card-split">
+                
+               
+                <div class="produto-col-esquerda">
+                    @if($item->foto)
+                        <img 
+                            src="{{ filter_var($item->foto, FILTER_VALIDATE_URL) ? $item->foto : asset('images/produtos/' . $item->foto) }}" 
+                            alt="{{ $item->nome }}"
+                            class="foto-produto-full"
+                        >
+                    @else
+                        <div class="sem-foto">
+                            <p>Nenhuma foto disponível</p>
+                        </div>
+                    @endif
+                </div>
+
+                
+                <div class="produto-col-direita">
                     
-                    <br><br>
-                    <button type="submit">Adicionar ao Carrinho</button>
-                </form>
-            @else
-                <p>Você precisa estar logado para comprar.</p>
-                <a href="{{ route('cliente.login') }}">
-                    <button type="button">Fazer Login para Adicionar</button>
-                </a>
-            @endauth
+                    <div class="badges-container">
+                        <span class="badge-categoria">{{ $item->categorias->nome ?? 'Sem categoria' }}</span>
+                        <span class="badge-marca">{{ $item->marcas->nome ?? 'Sem marca' }}</span>
+                    </div>
 
-        @else
-            <p><strong>Produto Esgotado</strong></p>
-        @endif
+                    <h1 class="produto-titulo">{{ $item->nome }}</h1>
 
-    </div>
+                   
+                    <div class="preco-container">
+                        @if($item->desconto_ativo)
+                            <div class="preco-flex">
+                                <span class="preco-original">R$ {{ number_format($item->preco, 2, ',', '.') }}</span>
+                                <span class="preco-promocao">R$ {{ number_format($item->preco_final, 2, ',', '.') }}</span>
+                                <span class="badge-desconto">-{{ $item->desconto_ativo->valor }}% OFF</span>
+                            </div>
+                            @if($item->desconto_ativo->quando_terminar)
+                                <p class="desconto-timer">
+                                    <i class="bi bi-clock-history"></i> Termina em: {{ \Carbon\Carbon::parse($item->desconto_ativo->quando_terminar)->format('d/m/Y') }}
+                                </p>
+                            @endif
+                        @else
+                            <span class="preco-normal">R$ {{ number_format($item->preco, 2, ',', '.') }}</span>
+                        @endif
+                    </div>
+
+                    <p class="estoque-info">
+                        <strong>Estoque disponível:</strong> {{ $item->estoque }} unidade(s)
+                    </p>
+
+                  
+                    <div class="descricao-container">
+                        <h3>Descrição</h3>
+                        <p>{{ $item->descricao ?? 'Nenhuma descrição informada para este produto.' }}</p>
+                    </div>
+
+                    
+                    <div class="acoes-container">
+                        @if($item->estoque >= 1)
+                            @auth
+                                <form action="{{ route('carrinho.adicionar', $item->item_id) }}" method="POST" class="form-carrinho">
+                                    @csrf
+                                    <div class="qtd-field">
+                                        <label for="quantidade">Qtd:</label>
+                                        <input type="number" name="quantidade" id="quantidade" value="1" min="1" max="{{ $item->estoque }}" required>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn-comprar">
+                                        Adicionar ao Carrinho
+                                    </button>
+                                </form>
+                            @else
+                                <div class="card-login-required">
+                                    <p>Você precisa estar logado para comprar este produto.</p>
+                                    <a href="{{ route('cliente.login') }}" class="btn-login">
+                                        Fazer Login para Adicionar
+                                    </a>
+                                </div>
+                            @endauth
+                        @else
+                            <div class="card-esgotado">
+                                <span>Produto Esgotado</span>
+                            </div>
+                        @endif
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    
+    @include('components.footer')
 @endsection

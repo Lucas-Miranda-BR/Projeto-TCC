@@ -1,5 +1,8 @@
 @php
     $quantidadeCarrinho = array_sum(session('carrinho', []));
+
+    // página atual: o link correspondente fica com a barrinha embaixo
+    $ativa = fn (...$rotas) => request()->routeIs(...$rotas);
 @endphp
 
 <header class="client-navbar">
@@ -14,12 +17,12 @@
 
     <nav class="client-top-menu">
 
-        <a href="{{ route('home') }}">Início</a>
-        <a href="{{ route('site.sobre') }}">Sobre Mim</a>
-        <a href="{{ route('site.servicos') }}">Serviços</a>
-        <a href="{{ route('site.produtos') }}">Produtos</a>
+        <a href="{{ route('home') }}" @class(['active' => $ativa('home', 'inicio')])>Início</a>
+        <a href="{{ route('site.sobre') }}" @class(['active' => $ativa('site.sobre')])>Sobre Mim</a>
+        <a href="{{ route('site.servicos') }}" @class(['active' => $ativa('site.servicos')])>Serviços</a>
+        <a href="{{ route('site.produtos') }}" @class(['active' => $ativa('site.produtos', 'site.produto.*')])>Produtos</a>
 
-        <a href="{{ route('cliente.carrinho') }}">
+        <a href="{{ route('cliente.carrinho') }}" @class(['active' => $ativa('cliente.carrinho')])>
             Carrinho
 
             <span class="nav-icon">
@@ -36,7 +39,7 @@
             </span>
         </a>
 
-        <a href="{{ route('site.ia') }}">
+        <a href="{{ route('site.ia') }}" @class(['active' => $ativa('site.ia')])>
             IA
 
             <span class="nav-icon nav-icon-ia">
@@ -52,9 +55,9 @@
         @auth
             @if(!auth()->user()->is_admin)
 
-                <a href="{{ route('agendamento.agendar') }}">Agendamentos</a>
+                <a href="{{ route('agendamento.agendar') }}" @class(['active' => $ativa('agendamento.*')])>Agendamentos</a>
 
-                <a href="{{ route('cliente.notificacoes') }}">
+                <a href="{{ route('cliente.notificacoes') }}" @class(['active' => $ativa('cliente.notificacoes*')])>
                     Notificações
 
                     <span class="nav-icon">
@@ -87,7 +90,9 @@
 
                 <span class="client-profile-info">
                     <strong>{{ auth()->user()->nome }}</strong>
-                    <small>{{ auth()->user()->is_admin ? 'Administrador' : 'Cliente' }}</small>
+                    @if(auth()->user()->is_admin)
+                        <small>Administrador</small>
+                    @endif
                 </span>
             </a>
 

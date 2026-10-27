@@ -1,0 +1,281 @@
+/* Estrutura Flex para empurrar o Footer para a base da página */
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Área central entre o Navbar e o Footer */
+.produto-detalhe-main {
+    flex: 1;
+    width: 100%;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container de conteúdo proporcional */
+.produto-detalhe-container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #2d3748;
+}
+
+/* Botão Voltar */
+.btn-voltar {
+    display: inline-block;
+    color: #d81b60;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.btn-voltar:hover {
+    color: #ad144b;
+    transform: translateX(-4px);
+}
+
+/* Card Principal Divisão 50/50 */
+.produto-card-split {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    width: 100%;
+    min-height: 520px;
+}
+
+@media (min-width: 992px) {
+    .produto-card-split {
+        flex-direction: row;
+    }
+}
+
+/* ESQUERDA: Container da Foto (Mantém a resolução original sem borrar) */
+.produto-col-esquerda {
+    flex: 1;
+    background-color: #faf5f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+    border-right: 1px solid #f8bbd0;
+}
+
+.foto-produto-full {
+    width: 100%;
+    max-width: 450px;
+    height: 420px;
+    object-fit: contain; /* Preserva a alta nitidez da foto original */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.foto-produto-full:hover {
+    transform: scale(1.03);
+}
+
+.sem-foto {
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* DIREITA: Informações do Produto */
+.produto-col-direita {
+    flex: 1;
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+/* Badges */
+.badges-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.badge-categoria {
+    background-color: #fce4ec;
+    color: #c2185b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+}
+
+.badge-marca {
+    background-color: #edf2f7;
+    color: #4a5568;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+}
+
+/* Título */
+.produto-titulo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #1a202c;
+    margin: 0 0 18px 0;
+    line-height: 1.15;
+}
+
+/* Preço */
+.preco-container {
+    background-color: #fdf5f7;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 1px solid #f8bbd0;
+    margin-bottom: 20px;
+}
+
+.preco-normal, .preco-promocao {
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #276749;
+}
+
+.preco-original {
+    text-decoration: line-through;
+    color: #a0aec0;
+    font-size: 1.25rem;
+    margin-right: 8px;
+}
+
+.badge-desconto {
+    background-color: #ecc94b;
+    color: #744210;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.desconto-timer {
+    font-size: 0.85rem;
+    color: #e53e3e;
+    margin: 8px 0 0 0;
+    font-weight: 600;
+}
+
+/* Estoque e Descrição */
+.estoque-info {
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-bottom: 15px;
+}
+
+.descricao-container {
+    border-top: 1px solid #edf2f7;
+    padding-top: 15px;
+    margin-bottom: 25px;
+}
+
+.descricao-container h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 8px 0;
+}
+
+.descricao-container p {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: #718096;
+    margin: 0;
+}
+
+
+.card-login-required {
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.card-login-required p {
+    margin: 0 0 14px 0;
+    color: #c53030;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.btn-login {
+    display: block;
+    background-color: #d81b60;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 14px rgba(216, 27, 96, 0.25);
+    box-sizing: border-box;
+}
+
+.btn-login:hover {
+    background-color: #ad144b;
+    transform: translateY(-2px);
+}
+
+.form-carrinho {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.qtd-field input {
+    width: 75px;
+    padding: 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    text-align: center;
+}
+
+.btn-comprar {
+    flex: 1;
+    background-color: #d81b60;
+    color: #ffffff;
+    border: none;
+    padding: 14px 24px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(216, 27, 96, 0.25);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-comprar:hover {
+    background-color: #ad144b;
+    transform: translateY(-2px);
+}
+
+
+.alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.alert-success { background-color: #f0fff4; color: #276749; border-left: 4px solid #38a169; }
+.alert-danger { background-color: #fff5f5; color: #9b2c2c; border-left: 4px solid #e53e3e; }
+.alert-info { background-color: #ebf8ff; color: #2c5282; border-left: 4px solid #3182ce; }
