@@ -141,8 +141,6 @@
                         >
 
                             @csrf
-                            @method('PATCH')
-
 
                             <div class="quantidade-box">
 
