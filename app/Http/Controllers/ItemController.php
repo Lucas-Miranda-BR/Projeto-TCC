@@ -54,6 +54,11 @@ class ItemController extends Controller
                 'string',
                 'max:255'
             ],
+            'descricao' => [
+                'required',
+                'string',
+                'max:255'
+            ],
             'preco' => [
                 'required',
                 'numeric',
@@ -149,6 +154,11 @@ class ItemController extends Controller
 
         $dados = $request->validate([
             'nome' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            'descricao' => [
                 'required',
                 'string',
                 'max:255'

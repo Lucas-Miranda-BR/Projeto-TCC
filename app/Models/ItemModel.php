@@ -25,7 +25,8 @@ class ItemModel extends Model
         'nome',
         'preco',
         'foto',
-        'estoque'
+        'estoque',
+        'descricao'
     ];
 
     public function descontos(): BelongsToMany
