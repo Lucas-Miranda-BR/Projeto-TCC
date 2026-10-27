@@ -174,7 +174,7 @@
                                 <tr>
                                     <th style="width: 60px;">Foto</th>
                                     <th>Produto</th>
-                                    <th>Descrição</th> <!-- NOVA COLUNA -->
+                                    <th>Descrição</th>
                                     <th>Categoria</th>
                                     <th>Marca</th>
                                     <th>Preço</th>
@@ -200,7 +200,6 @@
 
                                         <td><strong class="produto-nome">{{ $produto->nome }}</strong></td>
                                         
-                                        <!-- NOVO CAMPO DESCRIÇÃO LIMITADO A 25 CARACTERES -->
                                         <td title="{{ $produto->descricao }}" style="color: #666; font-size: 0.9em;">
                                             {{ \Illuminate\Support\Str::limit($produto->descricao, 25, '...') }}
                                         </td>
