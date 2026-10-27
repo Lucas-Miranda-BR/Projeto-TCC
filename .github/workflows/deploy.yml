@@ -16,22 +16,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Preparar Estrutura e Proteger Ficheiros
-        run: |
-          mkdir -p deploy_dist/core
-          
-          rsync -a --exclude='.git' --exclude='node_modules' --exclude='public' --exclude='deploy_dist' ./ deploy_dist/core/
-          
-          cp -r public deploy_dist/
-          
-          rm -f deploy_dist/core/index.php
-          rm -f deploy_dist/core/.htaccess
-          rm -f deploy_dist/public/index.php
-          rm -f deploy_dist/public/.htaccess
-          rm -f deploy_dist/index.php
-          rm -f deploy_dist/.htaccess
-
-      - name: Enviar para o InfinityFree
+      - name: Deploy to InfinityFree (Core)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -39,7 +24,33 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          # Envia a pasta final (já sem os ficheiros index e htaccess)
-          local-dir: ./deploy_dist/
-          server-dir: htdocs/
+          server-dir: htdocs/core/
           timeout: 600000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            public/**
+            .env
+            .env.example
+            README.md
+            index.php
+            .htaccess
+
+      - name: Aguardar o servidor encerrar a conexão FTP (Evitar bloqueio)
+        run: sleep 15
+
+      - name: Deploy to InfinityFree (Public)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./public/
+          server-dir: htdocs/public/
+          timeout: 600000
+          exclude: |
+            index.php
+            .htaccess
