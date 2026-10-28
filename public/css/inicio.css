@@ -358,49 +358,36 @@
 }
 
 /* =========================
-   ANIMAÇÃO DE ENTRADA (inicio.js)
-   A classe .ini-js é colocada no <html> pelo script do <head>.
-   Sem JS, tudo aparece normal. Duração (700ms) igual à constante DUR do inicio.js.
+   ANIMAÇÃO DE ENTRADA (CSS puro, sem JavaScript)
+   - Cada elemento com .ini-anim desliza da esquerda. O atraso vem da variável --d,
+     definida no HTML (style="--d: 120ms"), o que monta a sequência em camadas.
+   - Sem estado "escondido": o elemento só fica invisível DURANTE o atraso (fill-mode backwards).
+     Se o navegador não suportar animação, tudo aparece normal.
+   - Quem tem .ini-float-a/b/c, depois de entrar, passa a flutuar de baixo pra cima.
 ========================= */
 
-.ini-js .ini-anim {
-    opacity: 0;
-    transform: translate3d(-140px, 0, 0);
+@keyframes ini-entra {
+    from {
+        opacity: 0;
+        transform: translate3d(-140px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
-.ini-js .ini-anim.ini-in {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        transform 700ms cubic-bezier(.22, 1, .36, 1),
-        opacity 560ms ease-out;
-}
+@keyframes ini-entra-texto {
+    from {
+        opacity: 0;
+        transform: translate3d(-60px, 0, 0);
+    }
 
-/* título: deslizar mais curto e curva bem suave (550ms = DUR_TEXTO do script) */
-.ini-js .inicio-line.ini-anim:not(.ini-in) {
-    opacity: 0;
-    transform: translate3d(-60px, 0, 0);
-}
-
-.ini-js .inicio-line.ini-in {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        transform 550ms cubic-bezier(.33, 1, .68, 1),
-        opacity 550ms cubic-bezier(.33, 1, .68, 1);
-}
-
-/* depois de entrar, cartão e botão flutuam de baixo pra cima, bem suave */
-.ini-float {
-    animation: ini-flutuar 4.6s ease-in-out infinite;
-}
-
-.ini-float--b {
-    animation-duration: 5.4s;
-}
-
-.ini-float--c {
-    animation-duration: 6.2s;
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 @keyframes ini-flutuar {
@@ -414,10 +401,32 @@
     }
 }
 
-/* segurança: se o JS falhar, tudo aparece */
-.ini-js.ini-fallback .ini-anim {
-    opacity: 1;
-    transform: none;
+.ini-anim {
+    animation: ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards;
+}
+
+/* linhas do título: percurso mais curto e curva bem suave */
+.inicio-line.ini-anim {
+    animation: ini-entra-texto 550ms cubic-bezier(.33, 1, .68, 1) var(--d, 0ms) backwards;
+}
+
+/* entra (700ms) e, logo depois, começa a flutuar; cada um num ritmo diferente */
+.ini-float-a {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 4.6s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
+}
+
+.ini-float-b {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 5.4s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
+}
+
+.ini-float-c {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 6.2s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
 }
 
 /* =========================

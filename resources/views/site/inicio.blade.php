@@ -8,145 +8,148 @@
 @push('css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/inicio.css') }}?v={{ $versaoCss }}">
-
-    {{--
-        ANIMAÇÃO DE ENTRADA DA TELA INICIAL
-        - O título entra em 3 camadas, da esquerda: cada linha começa quando a anterior está na metade do caminho.
-        - Depois, o cartão "Nossos trabalhos" e o botão "Nossos serviços" deslizam.
-        - Quando terminam de entrar, os dois passam a flutuar suavemente.
-        JavaScript simples (ES5): funciona em qualquer navegador e dispositivo.
-        Roda aqui no <head>, antes da primeira pintura, para esconder os elementos sem piscar.
-    --}}
-    <script>
-        (function () {
-            'use strict';
-
-            var DUR = 700;           // duração do deslizar (igual ao CSS: 700ms)
-            var DUR_TEXTO = 550;     // duração do deslizar de cada linha do título (igual ao CSS: 550ms)
-            var PASSO = DUR_TEXTO / 2; // a próxima linha começa na metade do caminho da anterior
-            var ENTRE_CAIXAS = 0;    // intervalo entre o cartão e o botão (0 = entram juntos)
-
-            // false = a animação roda sempre, mesmo se o Windows/navegador estiver com "reduzir movimento".
-            // true = respeita essa configuração (tudo aparece parado).
-            var RESPEITAR_MOVIMENTO_REDUZIDO = false;
-            var html = document.documentElement;
-            var iniciou = false;
-
-            // esconde os elementos animados antes de pintar a tela (o CSS usa a classe ini-js)
-            html.classList.add('ini-js');
-
-            // segurança: se algo falhar, tudo aparece depois de 4s
-            window.setTimeout(function () {
-                if (!iniciou) {
-                    html.classList.add('ini-fallback');
-                }
-            }, 4000);
-
-            function depois(fn, ms) {
-                return window.setTimeout(fn, ms);
-            }
-
-            function entrar(el) {
-                el.classList.add('ini-in');
-            }
-
-            // cada elemento flutua num ritmo um pouco diferente (a, b, c) para não ficar mecânico
-            function flutuar(el, indice) {
-                el.classList.add('ini-float');
-                if (indice === 1) {
-                    el.classList.add('ini-float--b');
-                } else if (indice === 2) {
-                    el.classList.add('ini-float--c');
-                }
-            }
-
-            function iniciar() {
-                iniciou = true;
-
-                var linhas = Array.prototype.slice.call(document.querySelectorAll('.inicio-line'));
-                var caixas = [
-                    document.querySelector('.inicio-card-wrap'),
-                    document.querySelector('.inicio-pill-wrap'),
-                    document.querySelector('.inicio-cta-wrap')
-                ];
-
-                var reduzMovimento = window.matchMedia &&
-                    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-                if (RESPEITAR_MOVIMENTO_REDUZIDO && reduzMovimento) {
-                    html.classList.add('ini-fallback');
-                    return;
-                }
-
-                // 1) título em camadas
-                linhas.forEach(function (linha, i) {
-                    depois(function () {
-                        entrar(linha);
-                    }, i * PASSO);
-                });
-
-                // 2) cartão e botão: começam ao mesmo tempo que o título (no instante da primeira linha)
-                var inicioCaixas = 0;
-
-                caixas.forEach(function (caixa, i) {
-                    if (!caixa) {
-                        return;
-                    }
-
-                    depois(function () {
-                        entrar(caixa);
-
-                        // 3) ao terminar de entrar, começa a flutuar
-                        depois(function () {
-                            flutuar(caixa, i);
-                        }, DUR);
-                    }, inicioCaixas + i * ENTRE_CAIXAS);
-                });
-            }
-
-            // espera a página existir e o navegador pintar o estado inicial (escondido) antes de animar
-            function comecar() {
-                if (window.requestAnimationFrame) {
-                    window.requestAnimationFrame(function () {
-                        window.requestAnimationFrame(iniciar);
-                    });
-                } else {
-                    depois(iniciar, 50);
-                }
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', comecar);
-            } else {
-                comecar();
-            }
-        })();
-    </script>
 @endpush
 
 @section('content')
 
-@include('components.navbar')
+{{-- Navbar (mesmo código de components/navbar.blade.php) --}}
+@php
+    $quantidadeCarrinho = array_sum(session('carrinho', []));
+
+    // página atual: o link correspondente fica com a barrinha embaixo
+    $ativa = fn (...$rotas) => request()->routeIs(...$rotas);
+@endphp
+
+<header class="client-navbar">
+
+    <a href="{{ route('home') }}" class="client-brand">
+        <img
+            src="{{ asset('images/logo.png') }}"
+            alt="Salão Sempre Diva"
+            class="client-brand-image"
+        >
+    </a>
+
+    <nav class="client-top-menu">
+
+        <a href="{{ route('home') }}" @class(['active' => $ativa('home')])>Início</a>
+        <a href="{{ route('site.sobre') }}" @class(['active' => $ativa('site.sobre')])>Sobre Mim</a>
+        <a href="{{ route('site.servicos') }}" @class(['active' => $ativa('site.servicos')])>Serviços</a>
+        <a href="{{ route('site.produtos') }}" @class(['active' => $ativa('site.produtos', 'site.produto.*')])>Produtos</a>
+
+        <a href="{{ route('cliente.carrinho') }}" @class(['active' => $ativa('cliente.carrinho')])>
+            Carrinho
+
+            <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+
+                @if($quantidadeCarrinho > 0)
+                    <span class="nav-badge">{{ $quantidadeCarrinho }}</span>
+                @endif
+            </span>
+        </a>
+
+        <a href="{{ route('site.ia') }}" @class(['active' => $ativa('site.ia')])>
+            IA
+
+            <span class="nav-icon nav-icon-ia">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"
+                     stroke-width=".8" stroke-linejoin="round">
+                    <path d="M8.5 5.7Q10.4 12.3 17 14.2Q10.4 16.1 8.5 22.7Q6.6 16.1 0 14.2Q6.6 12.3 8.5 5.7Z"/>
+                    <path opacity=".75" d="M17.1 1.3Q18 4.6 21.3 5.5Q18 6.4 17.1 9.7Q16.2 6.4 12.9 5.5Q16.2 4.6 17.1 1.3Z"/>
+                    <path opacity=".5" d="M21.9 8.2Q22.35 9.85 24 10.3Q22.35 10.75 21.9 12.4Q21.45 10.75 19.8 10.3Q21.45 9.85 21.9 8.2Z"/>
+                </svg>
+            </span>
+        </a>
+
+        @auth
+            @if(!auth()->user()->is_admin)
+
+                <a href="{{ route('agendamento.agendar') }}" @class(['active' => $ativa('agendamento.*')])>Agendamentos</a>
+
+                <a href="{{ route('cliente.notificacoes') }}" @class(['active' => $ativa('cliente.notificacoes*')])>
+                    Notificações
+
+                    <span class="nav-icon">
+                        <i class="bi bi-bell"></i>
+
+                        @if(($quantidadeNotificacoes ?? 0) > 0)
+                            <span class="nav-badge">
+                                {{ $quantidadeNotificacoes > 9 ? '9+' : $quantidadeNotificacoes }}
+                            </span>
+                        @endif
+                    </span>
+                </a>
+
+            @endif
+        @endauth
+
+    </nav>
+
+    <div class="client-user-area">
+
+        @auth
+
+            <a
+                href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('cliente.perfil') }}"
+                class="client-profile"
+            >
+                <span class="client-avatar-initials">
+                    {{ auth()->user()->iniciais }}
+                </span>
+
+                <span class="client-profile-info">
+                    <strong>{{ auth()->user()->nome }}</strong>
+                    @if(auth()->user()->is_admin)
+                        <small>Administrador</small>
+                    @endif
+                </span>
+            </a>
+
+            @if(!auth()->user()->is_admin)
+                <a href="{{ route('cliente.perfil.editar') }}" class="client-icon-btn" title="Editar perfil">
+                    <i class="bi bi-gear"></i>
+                </a>
+            @endif
+
+            <a href="{{ route('cliente.logout') }}" class="client-icon-btn" title="Sair">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+
+        @else
+
+            <a href="{{ route('cliente.login') }}" class="client-login">Entrar</a>
+
+        @endauth
+
+    </div>
+
+</header>
 
 {{-- Tela inicial do site: sem footer. O botão leva para a página home. --}}
 <main class="inicio-page">
 
     <h1 class="inicio-title">
-        <span class="inicio-line ini-anim">Um salão que cuida</span>
-        <span class="inicio-line inicio-line--red ini-anim">de cada detalhe</span>
-        <span class="inicio-line ini-anim">não só do corte</span>
+        <span class="inicio-line ini-anim" style="--d: 0ms">Um salão que cuida</span>
+        <span class="inicio-line inicio-line--red ini-anim" style="--d: 120ms">de cada detalhe,</span>
+        <span class="inicio-line ini-anim" style="--d: 240ms">não só do corte</span>
     </h1>
 
     <div class="inicio-intro">
 
-        <p>
+        <p class="ini-anim" style="--d: 360ms">
             Cabelo, unhas e depilação com atendimento individual e produtos de
             qualidade, para realçar a sua essência.
         </p>
 
-        <div class="inicio-cta-wrap">
+        <div class="inicio-cta-wrap ini-anim ini-float-a" style="--d: 480ms">
             <a href="{{ route('home') }}" class="inicio-cta">
                 <span class="inicio-btn">Conhecer o salão</span>
             </a>
@@ -155,12 +158,13 @@
     </div>
 
     <img
-        class="inicio-butterfly"
-        src="{{ asset('images/Design_sem_nome-removebg-preview.png') }}"
+        class="inicio-butterfly ini-anim"
+        style="--d: 200ms"
+        src="{{ asset('images/logo-borboleta-4k.png') }}"
         alt="Borboleta do logo do Salão Sempre Diva"
     >
 
-    <div class="inicio-card-wrap ini-anim">
+    <div class="inicio-card-wrap ini-anim ini-float-b" style="--d: 600ms">
         <a href="{{ route('site.servicos') }}" class="inicio-card">
             <img src="{{ asset('images/trabalho1.png') }}" alt="Corte de cabelo feito no salão">
             <strong>Nossos trabalhos</strong>
@@ -168,11 +172,11 @@
         </a>
     </div>
 
-    <div class="inicio-pill-wrap ini-anim">
+    <div class="inicio-pill-wrap ini-anim ini-float-c" style="--d: 720ms">
         <a href="{{ route('site.servicos') }}" class="inicio-pill">Nossos serviços</a>
     </div>
 
-    <div class="inicio-stats">
+    <div class="inicio-stats ini-anim" style="--d: 840ms">
 
         <div class="inicio-stats-title"><span>20</span> anos</div>
 
@@ -187,5 +191,6 @@
     </div>
 
 </main>
+
 
 @endsection
