@@ -130,8 +130,20 @@ button{
 }
 
 .login-box h2{
+    /* mesma fonte dos títulos da home (Cormorant Garamond) */
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-size:2.1rem;
+    font-weight:600;
+    line-height:1.15;
+    color:#33282a;
+
     text-align:center;
     margin-bottom:30px;
+}
+
+/* o form tinha 350px fixos e ficava mais estreito que o "Criar Conta" (que está fora dele) */
+.login-box form{
+    width:100%;
 }
 
 .login-box input{
@@ -149,7 +161,9 @@ button{
 .login-box button{
     width:100%;
 
-    padding:15px;
+    height:46px;
+    padding:0 11px;
+    font-size:13px;
 
     border:none;
 
@@ -168,13 +182,18 @@ button{
 }
 
 .btn-secondary{
-    display:block;
+    /* mesma altura do botão Entrar (a borda de 1px não deixa maior) */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:46px;
 
     text-align:center;
 
     text-decoration:none;
 
-    padding:15px;
+    padding:0 11px;
+    font-size:13px;
 
     border:1px solid #9d1228;
 

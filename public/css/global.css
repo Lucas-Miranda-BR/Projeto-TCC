@@ -311,10 +311,11 @@ body{
 
 .client-login {
     height: 40px;
-    padding: 0 26px;
+    padding: 0 22px;
 
     display: inline-flex;
     align-items: center;
+    gap: 9px;
 
     border: 1px solid var(--vinho);
     border-radius: 30px;
@@ -324,6 +325,7 @@ body{
     letter-spacing: .08em;
     text-transform: uppercase;
     text-decoration: none;
+    white-space: nowrap;
 
     color: var(--vinho);
     background: transparent;
@@ -334,6 +336,13 @@ body{
 .client-login:hover {
     background: var(--vinho);
     color: #fff;
+}
+
+/* ícone de perfil (usa a cor do texto, então inverte junto no hover) */
+.client-login-icon {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
 }
 
 

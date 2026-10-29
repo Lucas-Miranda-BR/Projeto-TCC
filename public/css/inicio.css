@@ -18,8 +18,13 @@
     --ini-borb-direita: 11.7%;
     --ini-borb-base: 48px;
 
-    /* degradê vermelho transparente dos botões brancos */
-    --ini-vidro: linear-gradient(90deg, rgba(208, 17, 43, .14) 0%, rgba(255, 255, 255, .92) 100%);
+    /* degradê rosa quase branco só dentro das caixas (cartão e pílula), sem tocar a página */
+    --ini-vidro: linear-gradient(135deg, #fbe1e7 0%, #fff8f9 100%);
+    --ini-vidro-hover: linear-gradient(135deg, #f8d2db 0%, #fffafb 100%);
+
+    /* sombras das caixas: um tom rosado suave + uma sombra neutra curta */
+    --ini-sombra: 0 12px 32px rgba(208, 17, 43, .28), 0 3px 10px rgba(0, 0, 0, .12);
+    --ini-sombra-hover: 0 16px 40px rgba(208, 17, 43, .36), 0 4px 12px rgba(0, 0, 0, .14);
 }
 
 .inicio-page {
@@ -89,6 +94,20 @@
     font-weight: 500;
     line-height: 1.16;
     letter-spacing: -.01em;
+}
+
+/* brilho rosa atrás do título: fica só em volta do texto, não cobre a página.
+   "closest-side" faz o degradê chegar a zero antes de tocar as bordas, sem contorno. */
+.inicio-title::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -170px -240px -150px -210px;
+
+    background:
+        radial-gradient(ellipse closest-side at 45% 50%, rgba(255, 140, 165, .34) 0%, rgba(255, 160, 180, .2) 40%, rgba(255, 180, 198, .08) 72%, rgba(255, 190, 205, 0) 100%);
+
+    pointer-events: none;
 }
 
 .inicio-line {
@@ -220,14 +239,14 @@
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-radius: 16px;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, .08);
+    box-shadow: var(--ini-sombra);
 
     transition: box-shadow .2s ease, background .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
 }
 
 .inicio-card:hover {
-    background: linear-gradient(90deg, rgba(208, 17, 43, .22) 0%, rgba(255, 255, 255, .95) 100%);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+    background: var(--ini-vidro-hover);
+    box-shadow: var(--ini-sombra-hover);
 }
 
 .inicio-card img {
@@ -268,7 +287,7 @@
 
     border-radius: 999px;
     background: var(--ini-vidro);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, .07);
+    box-shadow: var(--ini-sombra);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 
@@ -457,6 +476,8 @@
     }
 
     .inicio-title {
+        position: relative; /* o brilho rosa (::before) acompanha o título */
+        z-index: 2;
         max-width: none;
         font-size: clamp(32px, 9vw, 46px);
     }

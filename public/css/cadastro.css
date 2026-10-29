@@ -65,10 +65,12 @@
 
 .cadastro-box{
     width:700px;
+    max-width:100%;
 
     background:white;
 
-    padding:40px;
+    /* compacto para a caixa inteira caber na tela, sem precisar rolar */
+    padding:22px 36px 20px;
 
     border-radius:15px;
 
@@ -77,19 +79,22 @@
 
 .cadastro-box h2{
     text-align:center;
-    margin-bottom:30px;
+    font-size:24px;
+    line-height:1.2;
+    margin-bottom:2px;
 }
 
 .form-row{
     display:flex;
-    gap:15px;
-    margin-bottom:15px;
+    gap:12px;
+    margin-bottom:9px;
 }
 
 .form-row input{
     flex:1;
 
-    padding:15px;
+    padding:9px 13px;
+    font-size:14px;
 
     border:1px solid #ddd;
 
@@ -99,7 +104,7 @@
 .cadastro-box button{
     width:100%;
 
-    padding:15px;
+    padding:7px;
 
     border:none;
 
@@ -111,12 +116,12 @@
 
     cursor:pointer;
 
-    margin-top:10px;
+    margin-top:4px;
 }   
 .cadastro-subtitulo {
-    margin: 6px 0 22px;
+    margin: 2px 0 12px;
 
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.5;
 
     color: #777777;
@@ -129,12 +134,12 @@
     display: flex;
     flex-direction: column;
 
-    gap: 7px;
+    gap: 4px;
 }
 
 
 .form-group label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
 
     color: #444444;
@@ -147,9 +152,9 @@
 
 
 .cadastro-errors {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 
-    padding: 13px 15px;
+    padding: 9px 12px;
 
     display: flex;
     align-items: flex-start;
@@ -183,7 +188,7 @@
 .btn-criar-conta {
     width: 100%;
 
-    min-height: 48px;
+    min-height: 36px;
 
     display: flex;
     align-items: center;
@@ -198,7 +203,7 @@
 
     color: #ffffff;
 
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
 
     cursor: pointer;
@@ -209,6 +214,13 @@
 }
 
 
+/* botão mais estreito e centralizado (antes ocupava a largura toda) */
+.cadastro-box .btn-criar-conta {
+    width: 320px;
+    max-width: 100%;
+    margin: 4px auto 0;
+}
+
 .btn-criar-conta:hover {
     background: #7f0e20;
 
@@ -216,35 +228,45 @@
 }
 
 
+/* a linha dos botões tem a mesma largura do "Criar Conta" (320px), para ficar alinhada */
 .cadastro-acoes {
-    margin-top: 18px;
+    width: 320px;
+    max-width: 100%;
+    margin: 10px auto 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    gap: 12px;
+    gap: 8px;
 
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 
 .btn-cadastro-voltar,
 .btn-cadastro-login,
 .btn-cadastro-logout {
-    min-height: 42px;
+    /* os dois botões dividem a linha em partes iguais */
+    flex: 1 1 0;
+    min-width: 0;
 
-    padding: 0 16px;
+    min-height: 30px;
+
+    padding: 0 8px;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    gap: 7px;
+    gap: 5px;
+
+    white-space: nowrap;
+    text-decoration: none;
 
     border-radius: 9px;
 
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
 
     transition:
@@ -315,14 +337,14 @@
 .cadastro-aviso {
     width: 100%;
 
-    margin: 0 0 20px;
+    margin: 0 0 12px;
 
-    padding: 13px 15px;
+    padding: 8px 12px;
 
     display: flex;
     align-items: flex-start;
 
-    gap: 11px;
+    gap: 9px;
 
     border: 1px solid #ead6a7;
     border-radius: 10px;
@@ -350,7 +372,7 @@
 }
 
 .cadastro-aviso strong {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
 
     color: #7c601d;
@@ -359,8 +381,62 @@
 .cadastro-aviso p {
     margin: 0;
 
-    font-size: 13px !important;
-    line-height: 1.5 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
 
     color: #725f35;
+}
+
+/* telas baixas (notebooks pequenos): compacta mais um pouco para não rolar */
+@media (max-height: 720px) {
+    .cadastro-box {
+        padding: 14px 32px 14px;
+    }
+
+    .cadastro-subtitulo {
+        margin-bottom: 8px;
+    }
+
+    .cadastro-aviso {
+        margin-bottom: 8px;
+    }
+
+    .form-row {
+        margin-bottom: 6px;
+    }
+
+    .form-row input {
+        padding: 7px 12px;
+    }
+
+    .btn-criar-conta {
+        min-height: 34px;
+    }
+
+    .cadastro-acoes {
+        margin-top: 8px;
+    }
+}
+
+/* Reforço: tamanho e fonte dos botões. Seletores mais específicos + !important
+   para que nenhum outro CSS da página (layout, navegador) aumente o texto. */
+.cadastro-box .btn-criar-conta,
+.cadastro-box .cadastro-acoes a {
+    font-family: inherit;
+    line-height: 1.2;
+    letter-spacing: 0;
+}
+
+.cadastro-box .btn-criar-conta {
+    font-size: 13px !important;
+}
+
+.cadastro-box .cadastro-acoes a {
+    font-size: 12px !important;
+}
+
+.cadastro-box .btn-criar-conta i,
+.cadastro-box .cadastro-acoes a i {
+    font-size: 13px !important;
+    line-height: 1;
 }
