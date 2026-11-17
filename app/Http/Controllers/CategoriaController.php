@@ -14,7 +14,7 @@ class CategoriaController extends Controller
         $categorias = CategoriaModel::all();
 
         return view(
-            'admin.categorias.index',
+            'admin.produtos.index',
             compact('categorias')
         );
     }
@@ -113,7 +113,7 @@ class CategoriaController extends Controller
 
 
         return redirect()
-            ->route('admin.categorias.index')
+            ->route('admin.produtos.index')
             ->with(
                 'success',
                 'Categoria atualizada com sucesso!'
@@ -133,7 +133,7 @@ class CategoriaController extends Controller
 
 
             return redirect()
-                ->route('admin.categorias.index')
+                ->route('admin.produtos.index')
                 ->with(
                     'success',
                     'Categoria excluída com sucesso!'
