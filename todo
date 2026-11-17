@@ -1,8 +1,6 @@
 -- BACKEND --
 
 - Ao finalizar compra -> Adicionar valor ao faturamento (Untested)
-- Ao finalizar agendamento -> Adicionar valor ao faturamento (Untested)
-
 
 - Add agendamento atrassado (10% a ser pago)
 - Add "Freeze" da Pagina IA
