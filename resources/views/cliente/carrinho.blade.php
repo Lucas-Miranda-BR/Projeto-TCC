@@ -132,29 +132,30 @@
 
                         </div>
 
+                        @php
+                            $precoUnitario = $linha['item']->desconto_ativo ? $linha['item']->preco_final : $linha['item']->preco;
+                            if (is_string($precoUnitario)) {
+                                $precoUnitario = str_replace(',', '.', $precoUnitario);
+                            }
+                        @endphp
 
                         <form
                             action="{{ route('carrinho.atualizar', $linha['item']->item_id) }}"
                             method="POST"
                             class="carrinho-quantidade-form"
                             data-id="{{ $linha['item']->item_id }}"
+                            data-preco="{{ (float) $precoUnitario }}"
                         >
-
                             @csrf
 
                             <div class="quantidade-box">
-
-
                                 <button
                                     type="button"
                                     class="quantidade-btn quantidade-menos"
                                     title="Diminuir quantidade"
                                 >
-
                                     <i class="bi bi-dash"></i>
-
                                 </button>
-
 
                                 <input
                                     type="number"
@@ -167,20 +168,14 @@
                                     required
                                 >
 
-
                                 <button
                                     type="button"
                                     class="quantidade-btn quantidade-mais"
                                     title="Aumentar quantidade"
                                 >
-
                                     <i class="bi bi-plus"></i>
-
                                 </button>
-
-
                             </div>
-
                         </form>
 
 
@@ -234,7 +229,7 @@
             </section>
 
 
-            <aside class="carrinho-resumo">
+            <aside class="carrinho-resumo" id="carrinho-resumo" data-desconto="{{ $valorDescontoPercentual ?? 0 }}">
 
 
                 <h2>

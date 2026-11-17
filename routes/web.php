@@ -254,6 +254,16 @@ Route::prefix('cliente')->group(function () {
 
 
     Route::post(
+        '/finalizar',
+        [
+            CarrinhoController::class,
+            'finalizar'
+        ]
+    )->name('carrinho.finalizar');
+
+
+    Route::match(
+        ['post', 'patch'],
         '/{id}',
         [
             CarrinhoController::class,
@@ -269,15 +279,6 @@ Route::prefix('cliente')->group(function () {
             'remover'
         ]
     )->name('carrinho.remover');
-
-
-    Route::post(
-        '/finalizar',
-        [
-            CarrinhoController::class,
-            'finalizar'
-        ]
-    )->name('carrinho.finalizar');
 
 });
 
@@ -618,6 +619,42 @@ Route::prefix('admin')
             ]
         )->name('admin.marcas.store');
 
+        Route::post(
+            '/marcas/store',
+            [
+                MarcaController::class,
+                'storeMarca'
+            ]
+        )->name('admin.marcas.store');
+
+
+        Route::get(
+            '/marcas/{id}/edit',
+            [
+                MarcaController::class,
+                'editMarca'
+            ]
+        )->name('admin.marcas.edit');
+
+
+        Route::put(
+            '/marcas/{id}',
+            [
+                MarcaController::class,
+                'updateMarca'
+            ]
+        )->name('admin.marcas.update');
+
+
+        Route::delete(
+            '/marcas/{id}',
+            [
+                MarcaController::class,
+                'destroyMarca'
+            ]
+        )->name('admin.marcas.destroy');
+
+
 
         /*
         |--------------------------------------------------------------------------
@@ -632,6 +669,41 @@ Route::prefix('admin')
                 'store'
             ]
         )->name('admin.categorias.store');
+
+        Route::post(
+            '/categorias/store',
+            [
+                CategoriaController::class,
+                'storeCategoria'
+            ]
+        )->name('admin.categorias.store');
+
+        Route::get(
+            '/categorias/{id}/edit',
+            [
+                CategoriaController::class,
+                'editCategoria'
+            ]
+        )->name('admin.categorias.edit');
+
+
+        Route::put(
+            '/categorias/{id}',
+            [
+                CategoriaController::class,
+                'updateCategoria'
+            ]
+        )->name('admin.categorias.update');
+
+
+        Route::delete(
+            '/categorias/{id}',
+            [
+                CategoriaController::class,
+                'destroyCategoria'
+            ]
+        )->name('admin.categorias.destroy');
+
 
         /*
         |--------------------------------------------------------------------------

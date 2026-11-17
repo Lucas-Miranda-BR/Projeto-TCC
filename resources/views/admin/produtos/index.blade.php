@@ -43,6 +43,13 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="produto-alert produto-alert-error">
+                    <i class="bi bi-exclamation-circle"></i>
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @if($errors->any())
                 <div class="produto-alert produto-alert-error">
                     <i class="bi bi-exclamation-circle"></i>
@@ -283,6 +290,14 @@
                                     <div class="lateral-item-nome">
                                         <span class="categoria-bolinha"></span>
                                         <span>{{ $categoria->nome }}</span>
+                                        <span><a href="{{ route('admin.categorias.edit', $categoria->categoria_id) }}">Editar</a></span>
+                                        <form action="{{ route('admin.categorias.destroy', $categoria->categoria_id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-excluir-categoria" title="Excluir categoria" onclick="return confirm('Deseja excluir essa categoria?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                     </div>
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('categoria_id', $categoria->categoria_id)->count() }} itens
@@ -320,6 +335,14 @@
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('marca_id', $marca->marca_id)->count() }} itens
                                     </span>
+                                    <span><a href="{{ route('admin.marcas.edit', $marca->marca_id) }}">Editar</a></span>
+                                    <form action="{{ route('admin.marcas.destroy', $marca->marca_id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-excluir-marca" title="Excluir marca" onclick="return confirm('Deseja excluir essa marca?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
                                 </div>
                             @empty
                                 <p class="lateral-vazio">Nenhuma marca cadastrada.</p>

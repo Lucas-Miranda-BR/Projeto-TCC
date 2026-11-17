@@ -8,6 +8,8 @@ use App\Models\PedidoModel;
 use App\Models\CarrinhoItemModel;
 use App\Models\TemplateNotificacaoModel;
 use App\Models\NotificacaoModel;
+use App\Models\NetworthModel;
+use Carbon\Carbon;
 use MercadoPago\MercadoPagoConfig;
 use MercadoPago\Client\Payment\PaymentClient;
 
@@ -23,7 +25,7 @@ class PagamentoController extends Controller
 
             if ($pedido && $pedido->status !== 'A') {
                 $pedido->status = 'A';
-                $pedido->pedido_data = now(); 
+                $pedido->pedido_data = Carbon::now(); 
                 $pedido->save();
 
                 foreach ($pedido->carrinhos_itens as $pedidoItem) {
@@ -36,6 +38,8 @@ class PagamentoController extends Controller
                         $item->save();
                     }
                 }
+
+                $this->registrarFaturamentoCompra($pedido);
 
                 $this->dispararNotificacaoCompra($pedido);
             }
@@ -100,7 +104,7 @@ class PagamentoController extends Controller
 
                     if ($statusMp === 'approved' && $pedido->status !== 'A') {
                         $pedido->status = 'A';
-                        $pedido->pedido_data = now(); 
+                        $pedido->pedido_data = Carbon::now(); 
                         $pedido->save();
 
                         foreach ($pedido->carrinhos_itens as $pedidoItem) {
@@ -111,6 +115,8 @@ class PagamentoController extends Controller
                                 $item->save();
                             }
                         }
+
+                        $this->registrarFaturamentoCompra($pedido);
 
                         $this->dispararNotificacaoCompra($pedido);
                     }
@@ -125,6 +131,28 @@ class PagamentoController extends Controller
         }
 
         return response()->json(['status' => 'success'], 200);
+    }
+
+    private function registrarFaturamentoCompra($pedido)
+    {
+        $valorCompra = (float) $pedido->valor_total;
+
+        if ($valorCompra <= 0) {
+            return;
+        }
+
+        $agora = Carbon::now();
+        $hoje = $agora->toDateString();
+        $horaAtual = $agora->hour;
+
+        $registro = NetworthModel::firstOrCreate(
+            ['dia' => $hoje, 'hora' => $horaAtual],
+            ['ganho' => 0, 'custo' => 0, 'networth' => 0]
+        );
+
+        $registro->ganho += $valorCompra;
+        $registro->networth = $registro->ganho - $registro->custo;
+        $registro->save();
     }
 
     private function dispararNotificacaoCompra($pedido)
@@ -146,7 +174,7 @@ class PagamentoController extends Controller
                 'cliente_id' => $pedido->cliente_id,
                 'titulo' => $template->titulo,
                 'conteudo' => $textoFinal,
-                'data_recebida' => now(),
+                'data_recebida' => Carbon::now(),
                 'visualizada' => false
             ]);
         }

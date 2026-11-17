@@ -7,6 +7,7 @@ use App\Models\AgendamentoModel;
 use App\Models\ProcedimentoModel;
 use App\Models\NotificacaoModel;
 use App\Models\TemplateNotificacaoModel;
+use App\Models\NetworthModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,7 +77,7 @@ class AgendamentoController extends Controller
                     'cliente_id' => $cliente_id,
                     'titulo' => $template->titulo,
                     'conteudo' => $textoFinal,
-                    'data_recebida' => now(),
+                    'data_recebida' => Carbon::now(),
                     'visualizada' => false
                 ]);
             }
@@ -90,10 +91,50 @@ class AgendamentoController extends Controller
     {
         $agendamento = AgendamentoModel::findOrFail($id);
         
-        $agendamento->isConcluido = 1;
-        $agendamento->save();
+        if (!$agendamento->isConcluido) {
+            $agendamento->isConcluido = 1;
+            $agendamento->save();
 
-        return redirect()->back()->with('success', 'Agendamento concluído com sucesso!');
+            $this->registrarFaturamentoAgendamento($agendamento);
+        }
+
+        return redirect()->back()->with('success', 'Agendamento concluído e faturamento atualizado com sucesso!');
+    }
+
+    private function registrarFaturamentoAgendamento($agendamento)
+    {
+        $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
+
+        if (!$procedimento) {
+            return;
+        }
+
+        $precoBruto = $procedimento->desconto_ativo 
+            ? $procedimento->preco_final 
+            : ($procedimento->preco_final ?? $procedimento->preco ?? $procedimento->valor ?? 0);
+
+        if (is_string($precoBruto)) {
+            $precoBruto = str_replace(',', '.', $precoBruto);
+        }
+
+        $valorProcedimento = (float) $precoBruto;
+
+        if ($valorProcedimento <= 0) {
+            return;
+        }
+
+        $agora = Carbon::now('America/Sao_Paulo');
+        $hoje = $agora->toDateString();
+        $horaAtual = $agora->hour;
+
+        $registro = NetworthModel::firstOrCreate(
+            ['dia' => $hoje, 'hora' => $horaAtual],
+            ['ganho' => 0, 'custo' => 0, 'networth' => 0]
+        );
+
+        $registro->ganho += $valorProcedimento;
+        $registro->networth = $registro->ganho - $registro->custo;
+        $registro->save();
     }
 
     public function cancelarAgendamento($id)
@@ -119,7 +160,7 @@ class AgendamentoController extends Controller
                 'cliente_id' => $clienteId,
                 'titulo' => $template->titulo,
                 'conteudo' => $textoFinal,
-                'data_recebida' => now(),
+                'data_recebida' => Carbon::now(),
                 'visualizada' => false
             ]);
         }
@@ -172,7 +213,7 @@ class AgendamentoController extends Controller
                 'cliente_id' => $clienteId,
                 'titulo' => $template->titulo,
                 'conteudo' => $textoFinal,
-                'data_recebida' => now(),
+                'data_recebida' => Carbon::now(),
                 'visualizada' => false
             ]);
         }
