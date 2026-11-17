@@ -271,7 +271,7 @@ class CarrinhoController extends Controller
 
             session()->forget('carrinho');
 
-            return redirect()->away($preference->sandbox_init_point);
+            return redirect()->away($preference->sandbox_init_point)->with('success', "Compra finalizada!");
 
         } catch (ValidationException $e) {
             return redirect()->route('cliente.carrinho')->withErrors($e->errors());
@@ -280,7 +280,6 @@ class CarrinhoController extends Controller
             if (method_exists($e, 'getApiResponse') && $e->getApiResponse()) {
                 $errorMessage .= " | Detalhes da API: " . json_encode($e->getApiResponse()->getContent());
             }
-            dd($errorMessage);
         }
     }
 }
