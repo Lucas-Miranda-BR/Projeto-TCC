@@ -12,7 +12,7 @@ class NetworthController extends Controller
     {
         $hoje = Carbon::today()->toDateString();
         
-        $registrosHoje = NetworthModel::where('dia', $hoje)->get();
+        $registrosHoje = NetworthModel::where('dia',$hoje)->get();
 
         $registroHoje = (object) [
             'ganho' => $registrosHoje->sum('ganho'),
@@ -27,16 +27,17 @@ class NetworthController extends Controller
     {
         $request->validate(['valor_ganho' => 'required|numeric|min:0.01']);
 
-        $hoje = Carbon::today()->toDateString();
-        $horaAtual = Carbon::now()->hour;
+        $agora = Carbon::now('America/Sao_Paulo');
+        $hoje =$agora->toDateString();
+        $horaAtual =$agora->hour;
 
         $registro = NetworthModel::firstOrCreate(
-            ['dia' => $hoje, 'hora' => $horaAtual],
+            ['dia' => $hoje, 'hora' =>$horaAtual],
             ['ganho' => 0, 'custo' => 0, 'networth' => 0]
         );
 
-        $registro->ganho += $request->valor_ganho;
-        $registro->networth = $registro->ganho - $registro->custo;
+        $registro->ganho +=$request->valor_ganho;
+        $registro->networth = $registro->ganho -$registro->custo;
         $registro->save();
 
         return redirect()->back()->with('success', 'Ganho registrado na hora atual com sucesso!');
@@ -46,16 +47,17 @@ class NetworthController extends Controller
     {
         $request->validate(['valor_custo' => 'required|numeric|min:0.01']);
 
-        $hoje = Carbon::today()->toDateString();
-        $horaAtual = Carbon::now()->hour;
+        $agora = Carbon::now('America/Sao_Paulo');
+        $hoje =$agora->toDateString();
+        $horaAtual =$agora->hour;
 
         $registro = NetworthModel::firstOrCreate(
-            ['dia' => $hoje, 'hora' => $horaAtual],
+            ['dia' => $hoje, 'hora' =>$horaAtual],
             ['ganho' => 0, 'custo' => 0, 'networth' => 0]
         );
 
-        $registro->custo += $request->valor_custo;
-        $registro->networth = $registro->ganho - $registro->custo;
+        $registro->custo +=$request->valor_custo;
+        $registro->networth = $registro->ganho -$registro->custo;
         $registro->save();
 
         return redirect()->back()->with('success', 'Custo registrado na hora atual com sucesso!');

@@ -1,8 +1,10 @@
 -- BACKEND --
 
-- Fix Carrinho Dinamico - Untested
+- Ao finalizar compra -> Adicionar valor ao faturamento (Untested)
+- Ao finalizar agendamento -> Adicionar valor ao faturamento (Untested)
 
-- Add utilidades de faturamento (Ao finalizar compra -> adicionar ao faturamento e Ao finalizar agendamento -. adicionar ao faturamento)
+
+- Add agendamento atrassado (10% a ser pago)
 - Add "Freeze" da Pagina IA
 - Add opção de colocar a imagem gerada junto ao atendimento (NanoBanana não será adicionado, no momento.)
 

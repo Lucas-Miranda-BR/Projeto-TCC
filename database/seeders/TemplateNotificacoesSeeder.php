@@ -46,6 +46,12 @@ class TemplateNotificacoesSeeder extends Seeder
         ]);
 
         TemplateNotificacaoModel::create([
+            'tipo' => 'agendamento_atrassado',
+            'titulo' => 'Agendamento Atrassado ⏰',
+            'conteudo' => 'Você não comparaeceu no seu agendamento para {procedimento}. Cancelamos esse agendamento, porfavor reagende. Você será taxado 10% do agendamento por não comparecer.'
+        ]);
+
+        TemplateNotificacaoModel::create([
             'tipo' => 'compra_confirmada',
             'titulo' => 'Compra Confirmada! 🛍️',
             'conteudo' => 'Olá! Sua compra referente ao pedido #{pedido} no valor de R$ {valor} foi confirmada com sucesso, vá até o local para retirar. Agradecemos a preferência!'
