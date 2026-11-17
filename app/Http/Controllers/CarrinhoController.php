@@ -101,6 +101,19 @@ class CarrinhoController extends Controller
             return redirect()->route('cliente.carrinho')->with('erro', 'Produto esgotado.');
         }
 
+        if ($quantidade <= 0) {
+            unset($carrinho[$id]);
+            session()->put('carrinho', $carrinho);
+
+            if ($isAjax) {
+                return response()->json([
+                    'removido' => true,
+                    'novo_total' => number_format($this->calcularTotalCarrinho($carrinho), 2, ',', '.')
+                ]);
+            }
+            return $this->remover($id);
+        }
+
         if ($item->estoque < $quantidade) {
             $carrinho[$id] = $item->estoque;
             session()->put('carrinho', $carrinho);
@@ -165,6 +178,32 @@ class CarrinhoController extends Controller
         }
 
         return 0;
+    }
+
+    private function calcularTotalCarrinho(array $carrinho)
+    {
+        $total = 0;
+
+        foreach ($carrinho as $itemId => $qtd) {
+            $produto = ItemModel::find($itemId);
+            if ($produto) {
+                $preco = $produto->desconto_ativo ? $produto->preco_final : ($produto->preco_final ?? $produto->preco);
+                if (is_string($preco)) {
+                    $preco = str_replace(',', '.', $preco);
+                }
+                $total += (float) $preco * (int) $qtd;
+            }
+        }
+
+        $cliente = Auth::user();
+        if ($cliente) {
+            $desconto = $this->getDescontoAniversario($cliente);
+            if ($desconto > 0) {
+                $total -= ($total * ($desconto / 100));
+            }
+        }
+
+        return $total;
     }
 
     public function finalizar()
