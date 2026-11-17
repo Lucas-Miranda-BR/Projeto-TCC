@@ -247,7 +247,7 @@ Route::prefix('cliente')->group(function () {
     )->name('carrinho.adicionar');
 
 
-    Route::post(
+    Route::match(['post, patch'],
         '/{id}',
         [
             CarrinhoController::class,

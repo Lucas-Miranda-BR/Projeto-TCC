@@ -1,17 +1,36 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    function mostrarToastDinamico(mensagem, tipo = 'success') {
-        const divAlerta = document.createElement('div');
-        divAlerta.className = `carrinho-alert ${tipo === 'erro' ? 'error' : 'success'}`;
-        divAlerta.innerHTML = `<p><i class="bi bi-${tipo === 'erro' ? 'exclamation-triangle' : 'check-circle'}"></i> ${mensagem}</p>`;
-        
-        const header = document.querySelector('.carrinho-header');
-        if (header) {
-            header.insertAdjacentElement('afterend', divAlerta);
-            setTimeout(() => {
-                divAlerta.style.opacity = '0';
-                setTimeout(() => divAlerta.remove(), 300);
-            }, 5000);
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function recalcularTelaImediatamente() {
+        let totalGeral = 0;
+
+        document.querySelectorAll('.carrinho-quantidade-form').forEach(function (form) {
+            const itemId = form.dataset.id;
+            const preco = parseFloat(form.dataset.preco) || 0;
+            const input = form.querySelector('.quantidade-input');
+            const quantidade = parseInt(input.value) || 1;
+
+            const subtotal = preco * quantidade;
+            totalGeral += subtotal;
+
+            const subtotalEl = document.getElementById('subtotal-' + itemId);
+            if (subtotalEl) {
+                subtotalEl.innerText = 'R$ ' + formatarMoeda(subtotal);
+            }
+        });
+
+        const resumoEl = document.getElementById('carrinho-resumo');
+        const descontoPercentual = resumoEl ? (parseFloat(resumoEl.dataset.desconto) || 0) : 0;
+        if (descontoPercentual > 0) {
+            totalGeral = totalGeral - (totalGeral * (descontoPercentual / 100));
+        }
+
+        const totalEl = document.getElementById('valor-total-carrinho');
+        if (totalEl) {
+            totalEl.innerText = 'R$ ' + formatarMoeda(totalGeral);
         }
     }
 
@@ -27,89 +46,72 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function atualizarBotoesUI() {
             const quantidade = parseInt(input.value);
-            botaoMenos.disabled = quantidade <= parseInt(input.min);
-            botaoMais.disabled = quantidade >= parseInt(input.max);
+            const min = parseInt(input.min) || 1;
+            const max = parseInt(input.max) || 999;
+            botaoMenos.disabled = quantidade <= min;
+            botaoMais.disabled = quantidade >= max;
         }
 
-        function enviarAtualizacaoServidor(novaQuantidade) {
-            botaoMenos.disabled = true;
-            botaoMais.disabled = true;
+        function sincronizarComServidor(novaQuantidade) {
+            const formData = new FormData();
+            formData.append('_token', tokenCsrf);
+            formData.append('quantidade', novaQuantidade);
+            formData.append('ajax', '1');
 
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': tokenCsrf,
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify({ 
-                    _method: 'PATCH',
-                    quantidade: novaQuantidade 
-                })
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if (data.removido) {
-                    const itemCard = form.closest('.carrinho-item');
-                    if(itemCard) itemCard.remove();
-                    
-                    if (data.novo_total) {
-                        document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
-                    }
-                    
-                    if(data.mensagem) {
-                        mostrarToastDinamico(data.mensagem, 'erro');
-                    }
-                    
-                    if(document.querySelectorAll('.carrinho-item').length === 0) {
-                        window.location.reload();
-                    }
-                    return;
+                if (data.novo_subtotal) {
+                    const subtotalEl = document.getElementById('subtotal-' + itemId);
+                    if (subtotalEl) subtotalEl.innerText = 'R$ ' + data.novo_subtotal;
                 }
-
-                if (data.erro) {
-                    if (data.estoque_atual !== undefined) {
-                        input.value = data.estoque_atual;
-                    }
-                    if (data.mensagem) {
-                        mostrarToastDinamico(data.mensagem, 'erro');
-                    }
-                    return;
-                }
-
-                const subtotalEl = document.getElementById('subtotal-' + itemId);
-                if (subtotalEl && data.novo_subtotal) {
-                    subtotalEl.innerText = 'R$ ' + data.novo_subtotal;
-                }
-                
                 if (data.novo_total) {
-                    document.getElementById('valor-total-carrinho').innerText = 'R$ ' + data.novo_total;
+                    const totalEl = document.getElementById('valor-total-carrinho');
+                    if (totalEl) totalEl.innerText = 'R$ ' + data.novo_total;
+                }
+                if (data.erro && data.estoque_atual !== undefined) {
+                    input.value = data.estoque_atual;
+                    recalcularTelaImediatamente();
+                    atualizarBotoesUI();
                 }
             })
             .catch(error => {
-                console.error('Erro na requisição AJAX:', error);
-            })
-            .finally(() => {
-                atualizarBotoesUI();
+                console.error('Erro ao sincronizar carrinho:', error);
             });
         }
 
-        botaoMenos.addEventListener('click', function () {
+        botaoMenos.addEventListener('click', function (e) {
+            e.preventDefault();
             let quantidade = parseInt(input.value);
-            if (quantidade > parseInt(input.min)) {
+            const min = parseInt(input.min) || 1;
+
+            if (quantidade > min) {
                 quantidade--;
                 input.value = quantidade;
-                enviarAtualizacaoServidor(quantidade);
+                atualizarBotoesUI();
+                recalcularTelaImediatamente();
+                sincronizarComServidor(quantidade);
             }
         });
 
-        botaoMais.addEventListener('click', function () {
+        botaoMais.addEventListener('click', function (e) {
+            e.preventDefault();
             let quantidade = parseInt(input.value);
-            if (quantidade < parseInt(input.max)) {
+            const max = parseInt(input.max) || 999;
+
+            if (quantidade < max) {
                 quantidade++;
                 input.value = quantidade;
-                enviarAtualizacaoServidor(quantidade);
+                atualizarBotoesUI();
+                recalcularTelaImediatamente();
+                sincronizarComServidor(quantidade);
             }
         });
 

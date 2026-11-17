@@ -86,44 +86,30 @@ class CarrinhoController extends Controller
         $item = ItemModel::find($id);
         $quantidade = (int) $request->input('quantidade');
         $carrinho = session()->get('carrinho', []);
+        $isAjax = $request->ajax() || $request->expectsJson() || $request->has('ajax');
 
         if (!$item || $item->estoque <= 0) {
             unset($carrinho[$id]);
             session()->put('carrinho', $carrinho);
 
-            if ($request->expectsJson()) {
+            if ($isAjax) {
                 return response()->json([
                     'removido' => true,
-                    'mensagem' => 'Este produto esgotou e foi removido do carrinho.',
                     'novo_total' => number_format($this->calcularTotalCarrinho($carrinho), 2, ',', '.')
                 ]);
             }
             return redirect()->route('cliente.carrinho')->with('erro', 'Produto esgotado.');
         }
 
-        if ($quantidade <= 0) {
-            unset($carrinho[$id]);
-            session()->put('carrinho', $carrinho);
-
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'removido' => true,
-                    'mensagem' => 'Produto removido do carrinho.',
-                    'novo_total' => number_format($this->calcularTotalCarrinho($carrinho), 2, ',', '.')
-                ]);
-            }
-            return $this->remover($id);
-        }
-
         if ($item->estoque < $quantidade) {
             $carrinho[$id] = $item->estoque;
             session()->put('carrinho', $carrinho);
 
-            if ($request->expectsJson()) {
+            if ($isAjax) {
                 return response()->json([
                     'erro' => true,
                     'estoque_atual' => $item->estoque,
-                    'mensagem' => 'Estoque máximo disponível atingido (' . $item->estoque . ' un).'
+                    'mensagem' => 'Estoque máximo atingido.'
                 ]);
             }
             return redirect()->back()->with('erro', 'Estoque insuficiente.');
@@ -132,15 +118,14 @@ class CarrinhoController extends Controller
         $carrinho[$id] = $quantidade;
         session()->put('carrinho', $carrinho);
 
-        $precoBase = $item->preco_final ?? $item->preco;
+        $precoBase = $item->desconto_ativo ? $item->preco_final : ($item->preco_final ?? $item->preco);
         if (is_string($precoBase)) {
             $precoBase = str_replace(',', '.', $precoBase);
         }
         $novoSubtotal = (float) $precoBase * $quantidade;
-
         $novoTotal = $this->calcularTotalCarrinho($carrinho);
 
-        if ($request->expectsJson()) {
+        if ($isAjax) {
             return response()->json([
                 'sucesso' => true,
                 'novo_subtotal' => number_format($novoSubtotal, 2, ',', '.'),
@@ -149,31 +134,6 @@ class CarrinhoController extends Controller
         }
 
         return redirect()->route('cliente.carrinho');
-    }
-
-    private function calcularTotalCarrinho(array $carrinho)
-    {
-        $total = 0;
-        foreach ($carrinho as $itemId => $qtd) {
-            $produto = ItemModel::find($itemId);
-            if ($produto) {
-                $preco = $produto->preco_final ?? $produto->preco;
-                if (is_string($preco)) {
-                    $preco = str_replace(',', '.', $preco);
-                }
-                $total += (float) $preco * $qtd;
-            }
-        }
-
-        $cliente = Auth::user();
-        if ($cliente) {
-            $desconto = $this->getDescontoAniversario($cliente);
-            if ($desconto > 0) {
-                $total -= ($total * ($desconto / 100));
-            }
-        }
-
-        return $total;
     }
 
     public function remover($id)
