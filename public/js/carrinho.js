@@ -36,14 +36,17 @@ document.addEventListener('DOMContentLoaded', function () {
             botaoMais.disabled = true;
 
             fetch(url, {
-                method: 'PATCH',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': tokenCsrf,
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ quantidade: novaQuantidade })
+                body: JSON.stringify({ 
+                    _method: 'PATCH',
+                    quantidade: novaQuantidade 
+                })
             })
             .then(response => response.json())
             .then(data => {
