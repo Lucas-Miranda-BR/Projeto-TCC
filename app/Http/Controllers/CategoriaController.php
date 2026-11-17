@@ -70,7 +70,7 @@ class CategoriaController extends Controller
 
         return view(
             'admin.categorias.edit',
-            compact('marca')
+            compact('categoria')
         );
     }
 
