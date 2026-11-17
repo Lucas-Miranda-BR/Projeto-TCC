@@ -1,7 +1,9 @@
-- Add EDIT/REMOVE "Marca"
-- Add EDIT/REMOVE "Categoria"
+-- BACKEND --
+
+- Add EDIT/REMOVE "Marca" - Untested
+- Add EDIT/REMOVE "Categoria" - Untested
+- Fix Push-Notificações de Carrinho - Untested
+
+
 - Add "Freeze" da Pagina IA
 - Fix Carrinho Dinamico
-
-
-- Add Nanobanana API?

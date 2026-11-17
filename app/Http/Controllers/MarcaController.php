@@ -4,39 +4,162 @@ namespace App\Http\Controllers;
 
 use App\Models\MarcaModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 class MarcaController extends Controller
 {
-    public function store(Request $request)
+    public function indexMarca()
     {
-        $dados = $request->validate([
-            'nome' => [
-                'required',
-                'string',
-                'max:255'
+        $marcas = MarcaModel::all();
+
+        return view(
+            'admin.marcas.index',
+            compact('marcas')
+        );
+    }
+
+    public function storeMarca(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'nome' => [
+                    'required',
+                    'string',
+                    'max:255'
+                ]
             ]
-        ]);
+        );
 
-        $existe = MarcaModel::where('nome', $dados['nome'])
-            ->exists();
 
-        if ($existe) {
+        if ($validator->fails()) {
+
             return redirect()
-                ->route('admin.produtos.index')
-                ->withErrors([
-                    'Essa marca já está cadastrada.'
-                ]);
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+
         }
 
+
+        $validated =
+            $validator->validated();
+
+
         MarcaModel::create([
-            'nome' => $dados['nome']
+            'nome' =>
+                $validated['nome'],
         ]);
 
+
         return redirect()
-            ->route('admin.produtos.index')
+            ->back()
             ->with(
                 'success',
                 'Marca cadastrada com sucesso!'
             );
+    }
+
+
+    public function editMarca($id)
+    {
+        $marca =
+            MarcaModel::findOrFail($id);
+
+
+        return view(
+            'admin.marcas.edit',
+            compact('marca')
+        );
+    }
+
+
+    public function updateMarca(Request $request, $id) {
+        $marca =
+            MarcaModel::findOrFail($id);
+
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'nome' => [
+                    'required',
+                    'string',
+                    'max:255'
+                ]
+            ]
+        );
+
+
+        if ($validator->fails()) {
+
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+
+        }
+
+
+        $validated =
+            $validator->validated();
+
+
+        $marca->update([
+            'nome' =>
+                $validated['nome'],
+        ]);
+
+
+        return redirect()
+            ->route('admin.marcas.index')
+            ->with(
+                'success',
+                'Marca atualizada com sucesso!'
+            );
+    }
+
+
+    public function destroyMarca($id)
+    {
+        try {
+
+            $marca =
+                MarcaModel::findOrFail($id);
+
+
+            $marca->delete();
+
+
+            return redirect()
+                ->route('admin.marcas.index')
+                ->with(
+                    'success',
+                    'Marca excluída com sucesso!'
+                );
+
+        } catch (QueryException $e) {
+
+            if ($e->getCode() == '23000') {
+
+                return redirect()
+                    ->back()
+                    ->with(
+                        'error',
+                        'Não é possível excluir esta marca, pois existem outros registros associados a ela.'
+                    );
+
+            }
+
+
+            return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'Occoreu um erro ao tentar excluir a marca.'
+                );
+
+        }
     }
 }
