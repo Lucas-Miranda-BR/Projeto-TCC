@@ -43,6 +43,13 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="produto-alert produto-alert-error">
+                    <i class="bi bi-exclamation-circle"></i>
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @if($errors->any())
                 <div class="produto-alert produto-alert-error">
                     <i class="bi bi-exclamation-circle"></i>
