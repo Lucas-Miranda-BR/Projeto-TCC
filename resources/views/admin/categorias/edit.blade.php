@@ -56,7 +56,7 @@
     </form>
 
 
-    <a href="{{ route('admin.categorias.index') }}">
+    <a href="{{ route('admin.produtos.index') }}">
         Voltar
     </a>
 

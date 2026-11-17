@@ -113,7 +113,7 @@ class MarcaController extends Controller
 
 
         return redirect()
-            ->route('admin.marcas.index')
+            ->route('admin.produtos.index')
             ->with(
                 'success',
                 'Marca atualizada com sucesso!'
@@ -133,7 +133,7 @@ class MarcaController extends Controller
 
 
             return redirect()
-                ->route('admin.marcas.index')
+                ->route('admin.produtos.index')
                 ->with(
                     'success',
                     'Marca excluída com sucesso!'
