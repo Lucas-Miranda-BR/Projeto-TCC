@@ -283,6 +283,7 @@
                                     <div class="lateral-item-nome">
                                         <span class="categoria-bolinha"></span>
                                         <span>{{ $categoria->nome }}</span>
+                                        <span><a href="{{ route('admin.categorias.edit', $categoria->categoria_id) }}"> edit</a></span>
                                     </div>
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('categoria_id', $categoria->categoria_id)->count() }} itens
