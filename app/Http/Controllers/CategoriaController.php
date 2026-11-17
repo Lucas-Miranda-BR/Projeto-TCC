@@ -144,7 +144,7 @@ class CategoriaController extends Controller
             if ($e->getCode() == '23000') {
 
                 return redirect()
-                    ->back()
+                    ->route('admin.produtos.index')
                     ->with(
                         'error',
                         'Não é possível excluir esta categoria, pois existem outros registros associados a ela.'
@@ -154,7 +154,7 @@ class CategoriaController extends Controller
 
 
             return redirect()
-                ->back()
+                ->route('admin.produtos.index')
                 ->with(
                     'error',
                     'Occoreu um erro ao tentar excluir a categoria.'

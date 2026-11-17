@@ -328,7 +328,7 @@
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('marca_id', $marca->marca_id)->count() }} itens
                                     </span>
-                                    <span><a href="{{ route('admin.marcas.edit', $marca->marca_id) }}"></a>Editar</span>
+                                    <span><a href="{{ route('admin.marcas.edit', $marca->marca_id) }}">Editar</a></span>
                                     <form action="{{ route('admin.marcas.destroy', $marca->marca_id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
