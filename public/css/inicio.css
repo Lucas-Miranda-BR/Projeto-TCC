@@ -1,0 +1,514 @@
+/* =====================================================
+   TELA INICIAL (resources/views/inicio.blade.php)
+   Preto, vermelho e branco em tema claro.
+   Fontes: Manrope (textos) e Playfair Display (título). Só nesta tela; a navbar segue o global.css
+   Botão: hover #7A1212 | clique #4F0404
+===================================================== */
+
+:root {
+    --ini-preto: #0d0d0d;
+    --ini-vermelho: #d0112b;
+    --ini-hover: #7A1212;
+    --ini-ativo: #4F0404;
+    --ini-cinza: #5c5c5c;
+    --ini-cinza-claro: #777777;
+
+    /* posição/tamanho da borboleta (o brilho atrás usa os mesmos valores) */
+    --ini-borb-largura: clamp(420px, 56vw, 780px);
+    --ini-borb-direita: 11.7%;
+    --ini-borb-base: 48px;
+
+    /* degradê rosa quase branco só dentro das caixas (cartão e pílula), sem tocar a página */
+    --ini-vidro: linear-gradient(135deg, #fbe1e7 0%, #fff8f9 100%);
+    --ini-vidro-hover: linear-gradient(135deg, #f8d2db 0%, #fffafb 100%);
+
+    /* sombras das caixas: um tom rosado suave + uma sombra neutra curta */
+    --ini-sombra: 0 12px 32px rgba(208, 17, 43, .28), 0 3px 10px rgba(0, 0, 0, .12);
+    --ini-sombra-hover: 0 16px 40px rgba(208, 17, 43, .36), 0 4px 12px rgba(0, 0, 0, .14);
+}
+
+.inicio-page {
+    position: relative;
+
+    /* ocupa a tela inteira abaixo da navbar (72px) */
+    min-height: max(640px, calc(100vh - 72px));
+    overflow: hidden;
+
+    font-family: 'Manrope', sans-serif;
+    color: var(--ini-preto);
+
+    background: #ffffff;
+}
+
+/* brilho em degradê atrás da borboleta: fica só em volta dela, não na página toda */
+.inicio-page::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+
+    /* de um lado a outro da tela, só na parte de baixo (não cobre a página inteira) */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 78%;
+
+    /* "closest-side" faz o degradê chegar a zero antes de tocar qualquer borda:
+       não sobra nenhum contorno. Cores bem claras, quase brancas. */
+    background:
+        radial-gradient(ellipse closest-side at 50% 52%, rgba(208, 17, 43, .13) 0%, rgba(208, 17, 43, .06) 45%, rgba(208, 17, 43, 0) 100%),
+        radial-gradient(ellipse closest-side at 58% 42%, rgba(255, 175, 155, .16) 0%, rgba(255, 175, 155, 0) 100%);
+
+    pointer-events: none;
+}
+
+.inicio-page a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================
+   NAVBAR SEM A LINHA DIVISÓRIA
+   Este CSS só é carregado na tela inicial, então as outras páginas continuam com a linha.
+========================= */
+
+.client-navbar {
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+}
+
+/* =========================
+   TÍTULO E TEXTO
+========================= */
+
+.inicio-title {
+    position: absolute;
+    left: 6.25%;
+    top: 17%;
+    z-index: 2;
+
+    max-width: 52%;
+
+    /* fonte com serifa elegante, estilo salão de beleza (Playfair Display) */
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-size: clamp(32px, 3.7vw, 56px);
+    font-weight: 500;
+    line-height: 1.16;
+    letter-spacing: -.01em;
+}
+
+/* brilho rosa atrás do título: fica só em volta do texto, não cobre a página.
+   "closest-side" faz o degradê chegar a zero antes de tocar as bordas, sem contorno. */
+.inicio-title::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -170px -240px -150px -210px;
+
+    background:
+        radial-gradient(ellipse closest-side at 45% 50%, rgba(255, 140, 165, .34) 0%, rgba(255, 160, 180, .2) 40%, rgba(255, 180, 198, .08) 72%, rgba(255, 190, 205, 0) 100%);
+
+    pointer-events: none;
+}
+
+.inicio-line {
+    display: block;
+}
+
+.inicio-line--red {
+    color: var(--ini-vermelho);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.inicio-intro {
+    position: absolute;
+    left: 66%;
+    top: 12%;
+    z-index: 2;
+
+    width: 19.5%;
+    min-width: 230px;
+}
+
+.inicio-intro p {
+    margin-bottom: 18px;
+
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ini-cinza);
+}
+
+/* botão preto; o conjunto todo é um link. A caixa por fora cuida do flutuar (o hover fica no link) */
+.inicio-cta-wrap {
+    display: inline-block;
+}
+
+.inicio-cta {
+    display: inline-flex;
+    align-items: center;
+}
+
+.inicio-btn {
+    height: 46px;
+    padding: 0 28px;
+
+    display: inline-flex;
+    align-items: center;
+
+    border-radius: 999px;
+    background: var(--ini-preto);
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition: background-color .2s ease;
+}
+
+.inicio-cta {
+    transition: transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* sem hover vermelho: o botão preto só clareia um pouco e o círculo vermelho não muda */
+.inicio-cta:hover .inicio-btn {
+    background: #2a2a2a;
+}
+
+.inicio-cta:active .inicio-btn {
+    background: #000;
+}
+
+.inicio-cta:focus {
+    outline: none;
+}
+
+.inicio-cta:focus-visible {
+    outline: 2px solid var(--ini-vermelho);
+    outline-offset: 4px;
+    border-radius: 999px;
+}
+
+/* =========================
+   BORBOLETA
+========================= */
+
+.inicio-butterfly {
+    position: absolute;
+    right: var(--ini-borb-direita);
+    bottom: var(--ini-borb-base);
+    z-index: 1;
+
+    width: var(--ini-borb-largura);
+
+    /* a imagem tem margem transparente em cima e embaixo: o corte tira esse espaço */
+    aspect-ratio: 534 / 289;
+    object-fit: cover;
+    object-position: center;
+
+    pointer-events: none;
+}
+
+/* =========================
+   CARTÃO, PÍLULA E NÚMEROS
+========================= */
+
+/* wrappers: cuidam da posição, do deslizar e do flutuar (o hover fica no link de dentro) */
+.inicio-card-wrap {
+    position: absolute;
+    left: 2.4%;
+    bottom: 12%;
+    z-index: 3;
+}
+
+.inicio-pill-wrap {
+    position: absolute;
+    /* ao lado do cartão, para não cobrir o texto da imagem da borboleta */
+    left: calc(2.4% + 224px);
+    bottom: 12%;
+    z-index: 3;
+}
+
+.inicio-card {
+    display: block;
+    position: relative;
+
+    width: 200px;
+    padding: 8px 8px 12px;
+
+    background: var(--ini-vidro);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: var(--ini-sombra);
+
+    transition: box-shadow .2s ease, background .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.inicio-card:hover {
+    background: var(--ini-vidro-hover);
+    box-shadow: var(--ini-sombra-hover);
+}
+
+.inicio-card img {
+    display: block;
+    width: 100%;
+    height: 100px;
+
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 10px;
+}
+
+.inicio-card strong {
+    display: block;
+    margin: 10px 6px 0;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.inicio-card span {
+    display: block;
+    margin: 2px 6px 0;
+
+    font-size: 10px;
+    line-height: 1.5;
+    color: var(--ini-cinza);
+}
+
+.inicio-pill {
+    position: relative;
+
+    width: 132px;
+    height: 44px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 999px;
+    background: var(--ini-vidro);
+    box-shadow: var(--ini-sombra);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    transition: background .2s ease, color .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.inicio-pill:hover {
+    background: linear-gradient(90deg, var(--ini-vermelho) 0%, var(--ini-hover) 100%);
+    color: #fff;
+}
+
+.inicio-pill:active {
+    background: linear-gradient(90deg, var(--ini-hover) 0%, var(--ini-ativo) 100%);
+    color: #fff;
+}
+
+.inicio-stats {
+    position: absolute;
+    right: 4.4%;
+    bottom: 12%;
+    z-index: 3;
+
+    text-align: right;
+}
+
+.inicio-stats-title {
+    font-size: 24px;
+    letter-spacing: -.02em;
+}
+
+.inicio-stats-title span {
+    color: var(--ini-vermelho);
+}
+
+.inicio-stats p {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--ini-cinza);
+}
+
+.inicio-avatars {
+    margin-top: 14px;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.inicio-avatars img {
+    width: 36px;
+    height: 36px;
+
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.inicio-avatars img + img {
+    margin-left: -8px;
+}
+
+/* =========================
+   HOVER: LEVE EXPANDIDA
+========================= */
+
+@media (hover: hover) {
+
+    .inicio-cta:hover,
+    .inicio-card:hover,
+    .inicio-pill:hover {
+        transform: scale(1.06);
+    }
+}
+
+.inicio-cta:focus-visible,
+.inicio-card:focus-visible,
+.inicio-pill:focus-visible {
+    transform: scale(1.06);
+}
+
+.inicio-cta:active,
+.inicio-card:active,
+.inicio-pill:active {
+    transform: scale(.98);
+}
+
+/* =========================
+   ANIMAÇÃO DE ENTRADA (CSS puro, sem JavaScript)
+   - Cada elemento com .ini-anim desliza da esquerda. O atraso vem da variável --d,
+     definida no HTML (style="--d: 120ms"), o que monta a sequência em camadas.
+   - Sem estado "escondido": o elemento só fica invisível DURANTE o atraso (fill-mode backwards).
+     Se o navegador não suportar animação, tudo aparece normal.
+   - Quem tem .ini-float-a/b/c, depois de entrar, passa a flutuar de baixo pra cima.
+========================= */
+
+@keyframes ini-entra {
+    from {
+        opacity: 0;
+        transform: translate3d(-140px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes ini-entra-texto {
+    from {
+        opacity: 0;
+        transform: translate3d(-60px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes ini-flutuar {
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(0, -10px, 0);
+    }
+}
+
+.ini-anim {
+    animation: ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards;
+}
+
+/* linhas do título: percurso mais curto e curva bem suave */
+.inicio-line.ini-anim {
+    animation: ini-entra-texto 550ms cubic-bezier(.33, 1, .68, 1) var(--d, 0ms) backwards;
+}
+
+/* entra (700ms) e, logo depois, começa a flutuar; cada um num ritmo diferente */
+.ini-float-a {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 4.6s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
+}
+
+.ini-float-b {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 5.4s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
+}
+
+.ini-float-c {
+    animation:
+        ini-entra 700ms cubic-bezier(.22, 1, .36, 1) var(--d, 0ms) backwards,
+        ini-flutuar 6.2s ease-in-out calc(var(--d, 0ms) + 700ms) infinite;
+}
+
+/* =========================
+   TELAS MENORES
+========================= */
+
+@media (max-width: 900px) {
+
+    .inicio-page {
+        min-height: auto;
+        padding: 48px 24px 0;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* brilho acompanha a borboleta, que aqui fica no fluxo da página */
+    .inicio-page::before {
+        height: 360px;
+    }
+
+    .inicio-title,
+    .inicio-intro,
+    .inicio-stats,
+    .inicio-butterfly,
+    .inicio-pill-wrap {
+        position: static;
+    }
+
+    .inicio-title {
+        position: relative; /* o brilho rosa (::before) acompanha o título */
+        z-index: 2;
+        max-width: none;
+        font-size: clamp(32px, 9vw, 46px);
+    }
+
+    .inicio-intro {
+        width: auto;
+        max-width: 360px;
+        margin-top: 20px;
+    }
+
+    .inicio-stats {
+        margin-top: 28px;
+        text-align: left;
+    }
+
+    .inicio-avatars {
+        justify-content: flex-start;
+    }
+
+    .inicio-pill-wrap {
+        margin: 24px 0 0;
+        align-self: flex-start;
+    }
+
+    .inicio-butterfly {
+        width: 100%;
+        max-width: 520px;
+        margin: 8px auto 0;
+    }
+
+    .inicio-card-wrap {
+        display: none;
+    }
+}
