@@ -247,7 +247,17 @@ Route::prefix('cliente')->group(function () {
     )->name('carrinho.adicionar');
 
 
-    Route::match(['post, patch'],
+    Route::post(
+        '/finalizar',
+        [
+            CarrinhoController::class,
+            'finalizar'
+        ]
+    )->name('carrinho.finalizar');
+
+
+    Route::match(
+        ['post', 'patch'],
         '/{id}',
         [
             CarrinhoController::class,
@@ -263,15 +273,6 @@ Route::prefix('cliente')->group(function () {
             'remover'
         ]
     )->name('carrinho.remover');
-
-
-    Route::post(
-        '/finalizar',
-        [
-            CarrinhoController::class,
-            'finalizar'
-        ]
-    )->name('carrinho.finalizar');
 
 });
 
