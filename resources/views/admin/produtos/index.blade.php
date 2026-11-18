@@ -289,19 +289,21 @@
                                 <div class="lateral-item">
                                     <div class="lateral-item-nome">
                                         <span class="categoria-bolinha"></span>
-                                        <span>{{ $categoria->nome }}</span>
-                                        <span><a href="{{ route('admin.categorias.edit', $categoria->categoria_id) }}">Editar</a></span>
-                                        <form action="{{ route('admin.categorias.destroy', $categoria->categoria_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn-excluir-categoria" title="Excluir categoria" onclick="return confirm('Deseja excluir essa categoria?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
+                                        <span class="lateral-nome-texto" title="{{ $categoria->nome }}">{{ $categoria->nome }}</span>
                                     </div>
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('categoria_id', $categoria->categoria_id)->count() }} itens
                                     </span>
+                                    <div class="lateral-acoes">
+                                        <a href="{{ route('admin.categorias.edit', $categoria->categoria_id) }}">Editar</a>
+                                        <form action="{{ route('admin.categorias.destroy', $categoria->categoria_id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-excluir-categoria" title="Excluir categoria" onclick="return confirm('Deseja excluir essa categoria?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             @empty
                                 <p class="lateral-vazio">Nenhuma categoria cadastrada.</p>
@@ -330,19 +332,21 @@
                                 <div class="lateral-item">
                                     <div class="lateral-item-nome">
                                         <span class="marca-bolinha"></span>
-                                        <span>{{ $marca->nome }}</span>
+                                        <span class="lateral-nome-texto" title="{{ $marca->nome }}">{{ $marca->nome }}</span>
                                     </div>
                                     <span class="lateral-quantidade">
                                         {{ $produtos->where('marca_id', $marca->marca_id)->count() }} itens
                                     </span>
-                                    <span><a href="{{ route('admin.marcas.edit', $marca->marca_id) }}">Editar</a></span>
-                                    <form action="{{ route('admin.marcas.destroy', $marca->marca_id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn-excluir-marca" title="Excluir marca" onclick="return confirm('Deseja excluir essa marca?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
+                                    <div class="lateral-acoes">
+                                        <a href="{{ route('admin.marcas.edit', $marca->marca_id) }}">Editar</a>
+                                        <form action="{{ route('admin.marcas.destroy', $marca->marca_id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-excluir-marca" title="Excluir marca" onclick="return confirm('Deseja excluir essa marca?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             @empty
                                 <p class="lateral-vazio">Nenhuma marca cadastrada.</p>

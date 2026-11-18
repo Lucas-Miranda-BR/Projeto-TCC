@@ -1762,3 +1762,459 @@ span:last-child {
     }
 
 }
+
+/* =====================================================================
+   CORREÇÕES DE LAYOUT — página de produtos do admin
+   (cole daqui até o fim do arquivo, se você já tiver mexido no restante)
+   ===================================================================== */
+
+/* 1) Cabeçalho do catálogo: o formulário "Novo produto" vira um painel
+      que abre por cima da tabela, em vez de empurrar o título para baixo.
+      (o CSS antigo só conhecia .novo-produto-painel; o blade usa
+      .novo-produto-conteudo — agora as duas classes funcionam) */
+.produtos-content .catalogo-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.produtos-content .catalogo-header > div:first-child {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.produtos-content .novo-produto-painel,
+.produtos-content .novo-produto-conteudo {
+    position: absolute;
+    z-index: 30;
+
+    top: calc(100% + 9px);
+    right: 0;
+
+    width: min(480px, calc(100vw - 48px));
+
+    padding: 16px 20px 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #ddd4d4;
+    border-radius: 15px;
+
+    box-shadow: 0 15px 40px rgba(50, 30, 30, 0.14);
+
+    /* ao abrir, a página rola até a janelinha aparecer inteira, com folga */
+    scroll-margin: 96px 0 28px;
+}
+
+/* formulário compacto: tudo cabe na janelinha, sem barra de rolagem */
+.produtos-content .novo-produto-conteudo .novo-produto-cabecalho,
+.produtos-content .novo-produto-painel .novo-produto-cabecalho {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+}
+
+.produtos-content .novo-produto-conteudo .novo-produto-cabecalho h3,
+.produtos-content .novo-produto-painel .novo-produto-cabecalho h3 {
+    font-size: 18px !important;
+}
+
+.produtos-content .novo-produto-conteudo .form-group,
+.produtos-content .novo-produto-painel .form-group {
+    margin-bottom: 10px;
+
+    gap: 4px;
+}
+
+.produtos-content .novo-produto-conteudo .form-row,
+.produtos-content .novo-produto-painel .form-row {
+    gap: 10px;
+}
+
+.produtos-content .novo-produto-conteudo .form-group label,
+.produtos-content .novo-produto-painel .form-group label {
+    font-size: 12.5px !important;
+}
+
+.produtos-content .novo-produto-conteudo .form-group input,
+.produtos-content .novo-produto-conteudo .form-group select,
+.produtos-content .novo-produto-painel .form-group input,
+.produtos-content .novo-produto-painel .form-group select {
+    min-height: 38px;
+}
+
+.produtos-content .novo-produto-conteudo .form-group textarea,
+.produtos-content .novo-produto-painel .form-group textarea {
+    height: 62px;
+    min-height: 62px;
+    max-height: 120px;
+}
+
+.produtos-content .novo-produto-conteudo .btn-salvar-produto,
+.produtos-content .novo-produto-painel .btn-salvar-produto {
+    min-height: 40px;
+}
+
+.produtos-content .novo-produto-conteudo form {
+    margin: 0;
+}
+
+
+/* 2) Campos do formulário: textarea, select e arquivo no mesmo padrão */
+.produtos-content .form-group textarea {
+    width: 100%;
+    min-height: 96px;
+
+    padding: 11px 12px;
+
+    resize: vertical;
+    outline: none;
+
+    background: #ffffff;
+
+    border: 1px solid #ddd4d4;
+    border-radius: 8px;
+
+    color: #453d3d;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px !important;
+    line-height: 1.5;
+}
+
+.produtos-content .form-group textarea::placeholder,
+.produtos-content .form-group input::placeholder {
+    color: #a39a9a;
+}
+
+.produtos-content .form-group textarea:focus {
+    border-color: #a90f2d;
+
+    box-shadow: 0 0 0 3px rgba(169, 15, 45, 0.06);
+}
+
+.produtos-content .form-group select {
+    padding-right: 34px;
+
+    cursor: pointer;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a90f2d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6l4.5 4.5L12.5 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+}
+
+.produtos-content .form-group input[type="file"] {
+    min-height: 43px;
+
+    color: #706868;
+
+    cursor: pointer;
+}
+
+.produtos-content .form-group input[type="file"]::file-selector-button {
+    margin-right: 12px;
+    padding: 7px 14px;
+
+    background: #f6eded;
+
+    border: 0;
+    border-radius: 7px;
+
+    color: #514747;
+
+    cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.produtos-content .form-group input[type="file"]::file-selector-button:hover {
+    background: #efdede;
+}
+
+
+/* 3) Tabela: foto pequena, descrição cortada com "…", nada quebra de linha */
+.produtos-content .tabela-produtos {
+    min-width: 820px;
+}
+
+.produtos-content .tabela-produtos th,
+.produtos-content .tabela-produtos td {
+    padding-left: 9px;
+    padding-right: 9px;
+
+    white-space: nowrap;
+
+    vertical-align: middle;
+}
+
+.produtos-content .tabela-produtos th:first-child,
+.produtos-content .tabela-produtos td:first-child {
+    width: 66px;
+
+    padding-left: 12px;
+}
+
+.produtos-content .tabela-produtos td img {
+    display: block;
+
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+
+    object-fit: cover;
+
+    background: #f7eeee;
+
+    border-radius: 10px;
+}
+
+.produtos-content .tabela-produtos th:nth-child(3),
+.produtos-content .tabela-produtos td:nth-child(3) {
+    max-width: 160px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* 4) Categorias e marcas: "Editar" e lixeira no mesmo padrão do painel */
+.produtos-content .lateral-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.produtos-content .lateral-item-nome {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 6px 10px;
+}
+
+.produtos-content .lateral-item form {
+    margin: 0;
+
+    display: inline-flex;
+}
+
+.produtos-content .lateral-item a,
+.produtos-content .lateral-item button {
+    min-height: 27px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: 1px solid #ecdede;
+    border-radius: 999px;
+
+    color: #a90f2d;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px !important;
+    font-weight: 500;
+}
+
+.produtos-content .lateral-item a {
+    padding: 0 11px;
+}
+
+.produtos-content .lateral-item button {
+    width: 27px;
+
+    padding: 0;
+
+    color: #8c8080;
+}
+
+.produtos-content .lateral-item a:hover {
+    background: #fff4f5;
+}
+
+.produtos-content .lateral-item button:hover {
+    background: #fff4f5;
+
+    border-color: #e4c4c9;
+
+    color: #a90f2d;
+}
+
+
+/* 4b) Paginação de Categorias e Marcas (montada por js/admin/produtos.js) */
+.produtos-content .lateral-paginacao {
+    margin-top: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.produtos-content .lateral-pag-info {
+    color: #706868;
+
+    font-size: 12px !important;
+}
+
+.produtos-content .lateral-pag-botoes {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+.produtos-content .lateral-pag-btn {
+    min-width: 28px;
+    height: 28px;
+
+    padding: 0 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e3d9d9;
+    border-radius: 999px;
+
+    color: #514747;
+
+    cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px !important;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.produtos-content .lateral-pag-btn:hover:not(:disabled) {
+    background: #fff4f5;
+
+    border-color: #a90f2d;
+
+    color: #a90f2d;
+}
+
+.produtos-content .lateral-pag-btn.active {
+    background: #a90f2d;
+
+    border-color: #a90f2d;
+
+    color: #ffffff;
+}
+
+.produtos-content .lateral-pag-btn:disabled {
+    opacity: 0.4;
+
+    cursor: default;
+}
+
+
+/* 5) Sem produtos: mostra só uma mensagem (a da tabela) */
+.produtos-content .catalogo-card:not(:has(.produto-linha)) .nenhum-produto-pesquisa,
+.produtos-content .catalogo-card:not(:has(.produto-linha)) .catalogo-footer {
+    display: none !important;
+}
+
+
+/* 6) O catálogo ocupa a largura toda (a tabela tem muitas colunas) e
+      Categorias/Marcas ficam lado a lado embaixo dele */
+.produtos-content .produtos-area {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.produtos-content .produtos-lateral {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    align-items: start;
+}
+
+@media (max-width: 700px) {
+
+    .produtos-content .produtos-lateral {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .produtos-content .novo-produto-conteudo {
+        position: static;
+
+        width: 100%;
+        max-height: none;
+
+        margin-top: 12px;
+
+        box-shadow: none;
+    }
+
+    .produtos-content .catalogo-header > div:first-child {
+        flex-basis: 100%;
+    }
+}
+
+
+/* 7) Categorias e marcas: colunas fixas (nome | itens | Editar + lixeira)
+      para que os botões fiquem alinhados em todas as linhas e o nome
+      longo seja cortado com "..." */
+.produtos-content .lateral-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 56px auto;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.produtos-content .lateral-item-nome {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    gap: 9px;
+}
+
+.produtos-content .lateral-nome-texto {
+    min-width: 0;
+    max-width: 100%;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.produtos-content .lateral-quantidade {
+    text-align: right;
+
+    white-space: nowrap;
+}
+
+.produtos-content .lateral-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 8px;
+}
+
+.produtos-content .lateral-acoes a {
+    min-width: 62px;
+}

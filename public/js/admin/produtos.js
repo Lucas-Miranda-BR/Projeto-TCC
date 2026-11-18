@@ -119,3 +119,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
     renderizarPagina();
 });
+
+
+/* Paginação das listas laterais (Categorias e Marcas): 5 itens por página */
+document.addEventListener('DOMContentLoaded', function () {
+
+    const itensPorPagina = 5;
+
+    document.querySelectorAll('.produtos-lateral .lateral-lista').forEach(function (lista) {
+
+        const itens = Array.from(lista.querySelectorAll('.lateral-item'));
+
+        if (itens.length <= itensPorPagina) {
+            return;
+        }
+
+        const totalPaginas = Math.ceil(itens.length / itensPorPagina);
+        let paginaAtual = 1;
+
+        const barra = document.createElement('div');
+        barra.className = 'lateral-paginacao';
+
+        const info = document.createElement('span');
+        info.className = 'lateral-pag-info';
+
+        const botoes = document.createElement('div');
+        botoes.className = 'lateral-pag-botoes';
+
+        barra.appendChild(info);
+        barra.appendChild(botoes);
+        lista.insertAdjacentElement('afterend', barra);
+
+        function criarBotao(texto, aoClicar, desabilitado, ativo) {
+            const botao = document.createElement('button');
+            botao.type = 'button';
+            botao.className = 'lateral-pag-btn' + (ativo ? ' active' : '');
+            botao.textContent = texto;
+            botao.disabled = !!desabilitado;
+            botao.addEventListener('click', aoClicar);
+            return botao;
+        }
+
+        function renderizar() {
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = inicio + itensPorPagina;
+
+            itens.forEach(function (item, indice) {
+                item.style.display = (indice >= inicio && indice < fim) ? '' : 'none';
+            });
+
+            info.textContent = (inicio + 1) + '–' + Math.min(fim, itens.length) + ' de ' + itens.length;
+
+            botoes.innerHTML = '';
+            botoes.appendChild(criarBotao('‹', function () {
+                paginaAtual--;
+                renderizar();
+            }, paginaAtual === 1));
+
+            for (let p = 1; p <= totalPaginas; p++) {
+                botoes.appendChild(criarBotao(p, function () {
+                    paginaAtual = p;
+                    renderizar();
+                }, false, p === paginaAtual));
+            }
+
+            botoes.appendChild(criarBotao('›', function () {
+                paginaAtual++;
+                renderizar();
+            }, paginaAtual === totalPaginas));
+        }
+
+        renderizar();
+    });
+});
