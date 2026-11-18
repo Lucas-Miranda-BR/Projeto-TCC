@@ -13,6 +13,53 @@ use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
+
+    public function processarFaltasComDelay($clienteId = null)
+    {
+        $limiteAtraso = Carbon::today()->subDay()->toDateString();
+
+        $query = AgendamentoModel::where('status', 0)
+            ->whereDate('data', '<=', $limiteAtraso);
+
+        if ($clienteId) {
+            $query->where('cliente_id', $clienteId);
+        }
+
+        $agendamentosAtrasados = $query->get();
+
+        foreach ($agendamentosAtrasados as $agendamento) {
+            $agendamento->status = 2;
+            $agendamento->save();
+
+            if ($agendamento->cliente_id) {
+                $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
+                $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
+                $dataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
+
+                $template = TemplateNotificacaoModel::where('tipo', 'agendamento_atrassado')->first();
+
+                if ($template) {
+                    $textoFinal = str_replace(
+                        ['{procedimento}', '{data}', '{hora}'],
+                        [$nomeProcedimento, $dataFormatada, $agendamento->hora],
+                        $template->conteudo
+                    );
+
+                    NotificacaoModel::create([
+                        'cliente_id' => $agendamento->cliente_id,
+                        'titulo' => $template->titulo,
+                        'conteudo' => $textoFinal,
+                        'data_recebida' => Carbon::now(),
+                        'visualizada' => false
+                    ]);
+                }
+            }
+
+            $agendamento->status = 0;
+            $agendamento->save();
+        }
+    }
+
     public function createAgendamento(Request $request)
     {
         $cliente = Auth::user();
@@ -23,12 +70,23 @@ class AgendamentoController extends Controller
                 ->with('erro', 'Faça login ou cadastro para agendar o seu horário.');
         }
 
+        $this->processarFaltasComDelay($cliente->cliente_id);
+
+        $temTaxaFalta = AgendamentoModel::where('cliente_id', $cliente->cliente_id)
+            ->where('status', 0)
+            ->exists();
+
         $procedimentos = ProcedimentoModel::all();
         
         $procedimentoSelecionado = $request->query('procedimento_id');
         $imagemGeradaId = $request->query('imagem_id');
         
-        return view('agendamento.agendar', compact('procedimentos', 'cliente', 'procedimentoSelecionado', 'imagemGeradaId'));
+        return view('agendamento.agendar', compact(
+            'procedimentos',
+            'cliente',
+            'procedimentoSelecionado',
+            'imagemGeradaId'
+        ));
     }
 
     public function storeAgendamento(Request $request)
@@ -50,12 +108,14 @@ class AgendamentoController extends Controller
 
         $cliente_id = Auth::id() ?? $request->cliente_id;
 
+        $this->processarFaltasComDelay($cliente_id);
+
         $agendamento = AgendamentoModel::create([
             'cliente_id' => $cliente_id,
             'procedimento_id' => $request->procedimento_id,
             'data' => $request->data,
             'hora' => $request->hora,
-            'isConcluido' => 0
+            'status' => 0
         ]);
 
         $procedimento = ProcedimentoModel::find($request->procedimento_id);
@@ -89,10 +149,12 @@ class AgendamentoController extends Controller
 
     public function concluirAgendamento($id)
     {
+        $this->processarFaltasComDelay();
+
         $agendamento = AgendamentoModel::findOrFail($id);
         
-        if (!$agendamento->isConcluido) {
-            $agendamento->isConcluido = 1;
+        if ($agendamento->status != 1) {
+            $agendamento->status = 1;
             $agendamento->save();
 
             $this->registrarFaturamentoAgendamento($agendamento);
@@ -123,9 +185,8 @@ class AgendamentoController extends Controller
             return;
         }
 
-        $agora = Carbon::now('America/Sao_Paulo');
-        $hoje = $agora->toDateString();
-        $horaAtual = $agora->hour;
+        $hoje = Carbon::today()->toDateString();
+        $horaAtual = Carbon::now()->hour;
 
         $registro = NetworthModel::firstOrCreate(
             ['dia' => $hoje, 'hora' => $horaAtual],

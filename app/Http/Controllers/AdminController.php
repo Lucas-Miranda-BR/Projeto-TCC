@@ -17,7 +17,7 @@ class AdminController extends Controller
     }
 
 
-    public function dadosDashboard(\Illuminate\Http\Request $request)
+    public function dadosDashboard(Request $request)
     {
         $periodo = $request->query('periodo', 'semana');
 
@@ -32,7 +32,7 @@ class AdminController extends Controller
         if ($periodo === 'dia') {
             
             $horaAtual = Carbon::now()->hour;
-            $registrosHora = \App\Models\NetworthModel::where('dia', $hojeStr)
+            $registrosHora = NetworthModel::where('dia', $hojeStr)
                 ->get()
                 ->keyBy('hora');
 
@@ -59,7 +59,7 @@ class AdminController extends Controller
             $dias = ($periodo === 'mes') ? 30 : 7;
             $dataInicio = Carbon::today()->subDays($dias - 1);
 
-            $registrosDiarios = \App\Models\NetworthModel::selectRaw('dia, SUM(networth) as total_dia')
+            $registrosDiarios = NetworthModel::selectRaw('dia, SUM(networth) as total_dia')
                 ->where('dia', '>=', $dataInicio->toDateString())
                 ->where('dia', '<=', $hojeStr)
                 ->groupBy('dia')
@@ -132,7 +132,7 @@ class AdminController extends Controller
                 'imagens_geradas'
             ])
                 ->orderBy(
-                    'isConcluido',
+                    'status',
                     'asc'
                 )
                 ->orderBy(

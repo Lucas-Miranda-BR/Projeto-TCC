@@ -27,6 +27,13 @@
                 <p>Gerencie os horários e atendimentos dos clientes.</p>
             </div>
 
+            @if(session('success'))
+                <div class="produto-alert produto-alert-success" style="margin-bottom: 20px;">
+                    <i class="bi bi-check-circle"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <div class="agendamentos-acoes">
                 <a href="{{ route('admin.procedimentos.index') }}" class="btn-procedimentos">
                     Gerenciar Procedimentos
@@ -56,22 +63,26 @@
                             <tbody>
                                 @foreach($agendamentos as $agendamento)
                                     <tr>
-                                        <td>{{ $agendamento->clientes->nome}}</td>
+                                        <td>{{ $agendamento->clientes->nome ?? 'Cliente' }}</td>
                                         
-                                        <td>{{ $agendamento->procedimentos->nome}}</td>
+                                        <td>{{ $agendamento->procedimentos->nome ?? 'Serviço' }}</td>
                                         
                                         <td>{{ date('d/m/Y', strtotime($agendamento->data)) }}</td>
                                         
                                         <td>{{ $agendamento->hora }}</td>
                                         
-                                        @if ($agendamento->isConcluido == 1)
-                                            <td>Concluido</td>
-                                        @else
-                                            <td>Pendente</td>
-                                        @endif
+                                        <td>
+                                            @if ($agendamento->status == 1)
+                                                <span class="status-concluido">Concluído</span>
+                                            @elseif ($agendamento->status == 2)
+                                                <span class="status-falta">Atrasado</span>
+                                            @else
+                                                <span class="status-pendente">Não Concluído</span>
+                                            @endif
+                                        </td>
 
-                                        @if ($agendamento->isConcluido == 0)
-                                            <td>
+                                        <td>
+                                            @if ($agendamento->status != 1)
                                                 <div class="acoes-agendamento">
                                                     
                                                     <form action="{{ route('admin.agendamentos.concluir', $agendamento->agendamento_id) }}" method="POST">
@@ -95,15 +106,12 @@
                                                     </form>
 
                                                 </div>
-                                            </td>
-
-                                        @else
-                                            <td>
+                                            @else
                                                 <button disabled class="btn-agendamento-finalizado">
                                                     Finalizado
                                                 </button>
-                                            </td>
-                                        @endif
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

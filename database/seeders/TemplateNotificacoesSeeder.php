@@ -25,7 +25,8 @@ class TemplateNotificacoesSeeder extends Seeder
         TemplateNotificacaoModel::create([
             'tipo' => 'promocao_aniversario',
             'titulo' => 'Feliz Aniversário! 🎉',
-            'conteudo' => 'Parabéns {nome}! Preparamos um desconto especial de {desconto} de aniversário para você.']);
+            'conteudo' => 'Parabéns {nome}! Preparamos um desconto especial de {desconto} de aniversário para você.'
+        ]);
 
         TemplateNotificacaoModel::create([
             'tipo' => 'agendamento_confirmado',
@@ -47,8 +48,8 @@ class TemplateNotificacoesSeeder extends Seeder
 
         TemplateNotificacaoModel::create([
             'tipo' => 'agendamento_atrassado',
-            'titulo' => 'Agendamento Atrassado ⏰',
-            'conteudo' => 'Você não comparaeceu no seu agendamento para {procedimento}. Cancelamos esse agendamento, porfavor reagende. Você será taxado 10% do agendamento por não comparecer.'
+            'titulo' => 'Ausência no Agendamento ⏰',
+            'conteudo' => 'Você não compareceu ao seu agendamento para {procedimento} no dia {data} às {hora}. Cancelamos esse horário; por favor, realize um novo agendamento. Será aplicada uma taxa de 10% no seu próximo serviço devido ao não comparecimento.'
         ]);
 
         TemplateNotificacaoModel::create([
