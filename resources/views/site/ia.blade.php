@@ -147,25 +147,6 @@
                                     </button>
                                 @endforeach
 
-                                @php
-                                    $temAdesivo = collect($procedimentos)->contains(function ($p) {
-                                        return stripos($p->nome, 'adesiv') !== false;
-                                    });
-                                @endphp
-
-                                @unless($temAdesivo)
-                                    <button
-                                        type="button"
-                                        class="dropdown-option"
-                                        role="option"
-                                        aria-selected="false"
-                                        data-value="adesivo-unha"
-                                        data-usa-cor="1"
-                                    >
-                                        Adesivo de unha
-                                    </button>
-                                @endunless
-
                             </div>
 
                         </div>
@@ -173,19 +154,54 @@
                     </div>
 
 
-                    <!-- COR (apenas o input com o ID da cor) -->
+                    <!-- COR (dropdown com todas as cores do banco; valor = ID da cor) -->
                     <div class="option-group" id="grupo-cor" hidden>
 
-                        <label for="cor_id" class="option-label">ID da Cor</label>
+                        <span class="option-label">Selecione o visual</span>
 
-                        <input
-                            type="number"
-                            name="cor_id"
-                            id="cor_id"
-                            class="option-row"
-                            placeholder="Digite o ID da cor"
-                            min="1"
-                        >
+                        <input type="hidden" name="cor_id" id="cor_id">
+
+                        <div class="dropdown" id="dropdownCor">
+
+                            <button
+                                type="button"
+                                class="option-row dropdown-trigger"
+                                aria-haspopup="listbox"
+                                aria-expanded="false"
+                            >
+                                <span class="option-name" id="corSelecionada">
+                                    Selecione uma cor
+                                </span>
+                                <i class="bi bi-chevron-down"></i>
+                            </button>
+
+                            <div class="dropdown-menu" role="listbox" aria-label="Cor">
+
+                                <button
+                                    type="button"
+                                    class="dropdown-option dropdown-cor-option"
+                                    role="option"
+                                    aria-selected="false"
+                                    data-value=""
+                                >
+                                    Não altere
+                                </button>
+
+                                @foreach ($cores as $cor)
+                                    <button
+                                        type="button"
+                                        class="dropdown-option dropdown-cor-option"
+                                        role="option"
+                                        aria-selected="false"
+                                        data-value="{{ $cor->cor_id }}"
+                                    >
+                                        {{ $cor->nome }}
+                                    </button>
+                                @endforeach
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -304,7 +320,7 @@
             O resultado apresentado é uma simulação criada por
             inteligência artificial e serve apenas como referência visual.
 
-            API NÃO ADICIONADA!
+            !API NÃO ADICIONADA!
 
         </small>
 
