@@ -131,71 +131,14 @@
                             <div class="dropdown-menu" role="listbox" aria-label="Procedimento">
 
                                 @foreach ($procedimentos as $procedimento)
-                                    @php
-                                        $usaCor = (bool) optional($procedimento->tipos)->colorivel;
-                                    @endphp
-
                                     <button
                                         type="button"
                                         class="dropdown-option"
                                         role="option"
                                         aria-selected="false"
                                         data-value="{{ $procedimento->procedimento_id }}"
-                                        data-usa-cor="{{ $usaCor ? 1 : 0 }}"
                                     >
                                         {{ $procedimento->nome }}
-                                    </button>
-                                @endforeach
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- COR (dropdown com todas as cores do banco; valor = ID da cor) -->
-                    <div class="option-group" id="grupo-cor" hidden>
-
-                        <span class="option-label">Selecione o visual</span>
-
-                        <input type="hidden" name="cor_id" id="cor_id">
-
-                        <div class="dropdown" id="dropdownCor">
-
-                            <button
-                                type="button"
-                                class="option-row dropdown-trigger"
-                                aria-haspopup="listbox"
-                                aria-expanded="false"
-                            >
-                                <span class="option-name" id="corSelecionada">
-                                    Selecione uma cor
-                                </span>
-                                <i class="bi bi-chevron-down"></i>
-                            </button>
-
-                            <div class="dropdown-menu" role="listbox" aria-label="Cor">
-
-                                <button
-                                    type="button"
-                                    class="dropdown-option dropdown-cor-option"
-                                    role="option"
-                                    aria-selected="false"
-                                    data-value=""
-                                >
-                                    Não altere
-                                </button>
-
-                                @foreach ($cores as $cor)
-                                    <button
-                                        type="button"
-                                        class="dropdown-option dropdown-cor-option"
-                                        role="option"
-                                        aria-selected="false"
-                                        data-value="{{ $cor->cor_id }}"
-                                    >
-                                        {{ $cor->nome }}
                                     </button>
                                 @endforeach
 
