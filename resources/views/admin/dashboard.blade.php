@@ -6,6 +6,12 @@
 @endpush
 
 @section('content')
+@php
+    $iaEstaAtiva = isset($iaAtiva)
+        ? (bool) $iaAtiva
+        : \App\Http\Middleware\VerificarPaginaIaAtiva::estaAtiva();
+@endphp
+
 <div class="admin-layout">
     
     @include('components.admin.sidebar')
@@ -25,6 +31,13 @@
                 <h2 id="dashboard-date">Carregando data...</h2>
                 <h1 id="dashboard-time">--:--</h1>
             </div>
+
+            @if(session('success'))
+                <div class="alert alert-success" style="margin-bottom: 20px; padding: 12px 16px; border-radius: 8px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+                    <i class="bi bi-check-circle-fill"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <section class="dashboard-cards">
 
@@ -49,6 +62,32 @@
                         Gerenciar Custos
                     </a>
                     
+                </div>
+
+                <div class="dashboard-card ia-control-card">
+
+                    <div class="dashboard-card-header">
+                        <span>Página Provador de Estilo (IA)</span>
+                        <span style="font-weight: 600; color: {{ $iaEstaAtiva ? '#198754' : '#dc3545' }};">
+                            <i class="bi {{ $iaEstaAtiva ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
+                            {{ $iaEstaAtiva ? 'Ativa' : 'Desativada' }}
+                        </span>
+                    </div>
+
+                    <p style="margin: 10px 0 16px 0; font-size: 0.92rem; opacity: 0.85;">
+                        {{ $iaEstaAtiva
+                            ? 'A página de IA está aberta para os usuários.'
+                            : 'A página de IA está bloqueada para os usuários não administradores.' }}
+                    </p>
+
+                    <form action="{{ route('admin.ia.toggle') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="link-gerenciar" style="border: none; cursor: pointer; background: transparent; padding: 0; font-size: 0.95rem; font-weight: 600;">
+                            <i class="bi {{ $iaEstaAtiva ? 'bi-toggle-on' : 'bi-toggle-off' }}"></i>
+                            {{ $iaEstaAtiva ? 'Desativar página IA' : 'Ativar página IA' }}
+                        </button>
+                    </form>
+
                 </div>
 
             </section>

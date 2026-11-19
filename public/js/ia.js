@@ -1,121 +1,86 @@
-document.addEventListener('DOMContentLoaded', function () {
+// Apenas interface: a integração com a IA ainda não foi feita.
 
-    let procedimentos = window.dadosProcedimentos || [];
-
-    let imagemInput = document.getElementById('imagem_prompt');
-    let previewContainer = document.getElementById('previewContainer');
-    let previewImagem = document.getElementById('previewImagem');
-    let removerImagem = document.getElementById('removerImagem');
-    let imagemAntes = document.getElementById('imagemAntes');
-    let imagemDepois = document.getElementById('imagemDepois');
-    let resultado = document.getElementById('resultado');
-    let loading = document.getElementById('loading');
-    let btnGerar = document.getElementById('btnGerar');
-    
-    let selectProcedimento = document.getElementById('procedimento_id');
-    let selectCor = document.getElementById('cor_id');
-    let grupoCor = document.getElementById('grupo-cor');
-
-    if (selectProcedimento) {
-        selectProcedimento.addEventListener('change', function () {
-            let idSelecionado = this.value;
-            
-            let procedimento = procedimentos.find(p => p.procedimento_id == idSelecionado);
-
-            if (procedimento && procedimento.tipos && procedimento.tipos.colorivel) {
-                grupoCor.style.display = 'block'; 
-            } else {
-                grupoCor.style.display = 'none';
-                selectCor.value = ""; 
-            }
-        });
-    }
-
-    if (imagemInput) {
-        imagemInput.addEventListener('change', function () {
-            let arquivo = this.files[0];
-            if (!arquivo) return;
-
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                previewImagem.src = e.target.result;
-                imagemAntes.src = e.target.result;
-                previewContainer.classList.add('active');
-            };
-            reader.readAsDataURL(arquivo);
-        });
-    }
-
-    if (removerImagem) {
-        removerImagem.addEventListener('click', function () {
-            imagemInput.value = '';
-            previewImagem.src = '';
-            imagemAntes.src = '';
-            previewContainer.classList.remove('active');
-        });
-    }
-
-    if (btnGerar) {
-        btnGerar.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            let arquivo = imagemInput.files[0];
-            let procedimentoVal = selectProcedimento.value;
-            let corVal = selectCor.value;
-
-            if (!arquivo) {
-                alert('Por favor, escolha uma foto.');
-                return;
-            }
-
-            if (!procedimentoVal) {
-                alert('Escolha um procedimento.');
-                return;
-            }
-
-            if (grupoCor.style.display === 'block' && !corVal) {
-                alert('Escolha uma cor.');
-                return;
-            }
-
-            resultado.classList.add('active');
-            loading.style.display = 'flex';
-            imagemDepois.style.display = 'none';
-            resultado.scrollIntoView({ behavior: 'smooth' });
-
-            let form = document.querySelector('form');
-            let formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Sucesso! Dados salvos no backend:', data);
-                
-                if (data.redirect_url) {
-                    let btnAgendar = document.querySelector('.btn-agendar');
-                    if (btnAgendar) {
-                        btnAgendar.href = data.redirect_url;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao enviar form:', error);
-            });
-
-            setTimeout(function () {
-                imagemDepois.src = imagemAntes.src;
-                loading.style.display = 'none';
-                imagemDepois.style.display = 'block';
-            }, 2000);
-
-            resultado.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-});
+   var inputFoto   = document.getElementById('imagem_prompt');
+   var areaUpload  = document.getElementById('uploadArea');
+   var previewBox  = document.getElementById('previewContainer');
+   var previewImg  = document.getElementById('previewImagem');
+   var resultado   = document.getElementById('resultado');
+   
+   inputFoto.addEventListener('change', function () {
+       var arquivo = inputFoto.files[0];
+       if (!arquivo) return;
+   
+       previewImg.src = URL.createObjectURL(arquivo);
+       previewBox.classList.add('active');
+       areaUpload.style.display = 'none';
+   });
+   
+   document.getElementById('removerImagem').addEventListener('click', function () {
+       inputFoto.value = '';
+       previewImg.src = '';
+       previewBox.classList.remove('active');
+       areaUpload.style.display = '';
+       resultado.classList.remove('active');
+       document.querySelector('.ia-page').classList.remove('has-result');
+   });
+   
+   
+   /* Procedimento: dropdown único */
+   var dropdown     = document.getElementById('dropdownProcedimento');
+   var gatilho      = dropdown.querySelector('.dropdown-trigger');
+   var opcoes       = dropdown.querySelectorAll('.dropdown-option');
+   
+   function fecharDropdown() {
+       dropdown.classList.remove('open');
+       gatilho.setAttribute('aria-expanded', 'false');
+   }
+   
+   gatilho.addEventListener('click', function () {
+       var aberto = dropdown.classList.toggle('open');
+       gatilho.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+   });
+   
+   document.addEventListener('click', function (e) {
+       if (!dropdown.contains(e.target)) fecharDropdown();
+   });
+   
+   document.addEventListener('keydown', function (e) {
+       if (e.key === 'Escape') fecharDropdown();
+   });
+   
+   opcoes.forEach(function (opcao) {
+       opcao.addEventListener('click', function () {
+   
+           opcoes.forEach(function (o) {
+               o.classList.remove('selected');
+               o.setAttribute('aria-selected', 'false');
+           });
+   
+           opcao.classList.add('selected');
+           opcao.setAttribute('aria-selected', 'true');
+   
+           document.getElementById('procedimento_id').value = opcao.dataset.value;
+           document.getElementById('procedimentoSelecionado').textContent = opcao.textContent.trim();
+           gatilho.classList.add('selected');
+   
+           fecharDropdown();
+       });
+   });
+   
+   document.querySelector('.ia-form').addEventListener('submit', function (evento) {
+       evento.preventDefault();
+   
+       if (!inputFoto.files[0]) {
+           inputFoto.click();
+           return;
+       }
+   
+       document.getElementById('imagemAntes').src = previewImg.src;
+       resultado.classList.add('active');
+       document.querySelector('.ia-page').classList.add('has-result');
+   });
+   
+   document.getElementById('btnNova').addEventListener('click', function () {
+       resultado.classList.remove('active');
+       document.querySelector('.ia-page').classList.remove('has-result');
+   });

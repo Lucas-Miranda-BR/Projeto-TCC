@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('desconto_id');
             $table->string('nome');
             $table->integer('valor');
-            $table->timestamp('quando_terminar');
+            $table->date('quando_terminar')->nullable();
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

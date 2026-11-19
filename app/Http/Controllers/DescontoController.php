@@ -73,12 +73,14 @@ class DescontoController extends Controller
                 ->withInput();
         }
 
+        $quandoTerminar = $request->filled('quando_terminar')
+            ? Carbon::parse($request->quando_terminar)->toDateString()
+            : null;
+
         $desconto = DescontoModel::create([
             'nome' => $request->nome,
             'valor' => $request->valor,
-            'quando_terminar' => $request->quando_terminar
-                ? Carbon::parse($request->quando_terminar)->format('Y-m-d')
-                : null,
+            'quando_terminar' => $quandoTerminar,
         ]);
 
         $desconto->itens()->sync($itensParaAplicar);
@@ -174,12 +176,14 @@ class DescontoController extends Controller
                     ->withInput();
             }
 
+            $quandoTerminar = $request->filled('quando_terminar')
+                ? Carbon::parse($request->quando_terminar)->toDateString()
+                : null;
+
             $desconto->update([
                 'nome' => $request->nome,
                 'valor' => $request->valor,
-                'quando_terminar' => $request->quando_terminar
-                    ? Carbon::parse($request->quando_terminar)->format('Y-m-d')
-                    : null,
+                'quando_terminar' => $quandoTerminar,
             ]);
 
             $desconto->itens()->sync($itensParaAplicar);
