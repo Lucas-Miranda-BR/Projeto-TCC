@@ -13,6 +13,7 @@
 >
 
 @endpush
+
 @section('content')
 
 <div class="admin-layout">
@@ -203,12 +204,12 @@
                                 type="date"
                                 name="quando_terminar"
                                 id="quando_terminar"
-                                min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
-                                value="{{ old('quando_terminar') }}"
+                                min="{{ \Carbon\Carbon::today()->toDateString() }}"
+                                value="{{ old('quando_terminar', '') }}"
                             >
 
                             <small>
-                                Deixe em branco se o desconto for permanente.
+                                Deixe em branco se o desconto for permanente (sem data de expiração).
                             </small>
 
                         </div>
