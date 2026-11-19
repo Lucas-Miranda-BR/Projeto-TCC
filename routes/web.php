@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Middleware\VerificarPaginaIaAtiva;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SiteController;
@@ -83,7 +87,8 @@ Route::prefix('site')->group(function () {
     Route::get(
         '/ia',
         [SiteController::class, 'viewIa']
-    )->name('site.ia');
+    )->middleware(VerificarPaginaIaAtiva::class)
+     ->name('site.ia');
 
 });
 
@@ -99,7 +104,8 @@ Route::prefix('ia')->group(function () {
     Route::post(
         '/gerar',
         [AiFotoController::class, 'storePrompt']
-    )->name('ia.gerar');
+    )->middleware(VerificarPaginaIaAtiva::class)
+     ->name('ia.gerar');
 
 });
 
@@ -332,6 +338,28 @@ Route::prefix('admin')
         )->name(
             'admin.dashboard.dados'
         );
+
+        Route::post('/ia/toggle-acesso', function (Request $request) {
+            $atual = VerificarPaginaIaAtiva::estaAtiva();
+            $novoEstado = !$atual;
+
+            $caminho = VerificarPaginaIaAtiva::caminhoArquivoConfig();
+            $pasta = dirname($caminho);
+            if (!File::exists($pasta)) {
+                File::makeDirectory($pasta, 0755, true);
+            }
+
+            File::put($caminho, json_encode(['ativa' => $novoEstado]));
+
+            return redirect()
+                ->route('admin.dashboard')
+                ->with(
+                    'success',
+                    $novoEstado
+                        ? 'Página do Provador de Estilo (IA) ativada!'
+                        : 'Página do Provador de Estilo (IA) desativada!'
+                );
+        })->name('admin.ia.toggle');
 
 
         /*
@@ -801,6 +829,3 @@ Route::prefix('admin')
             [DescontoController::class, 'destroy'])
         ->name('admin.descontos.destroy');
     });
-
-    
-

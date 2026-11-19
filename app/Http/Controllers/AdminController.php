@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\NetworthModel;
 use Illuminate\Http\Request;
+use App\Http\Middleware\VerificarPaginaIaAtiva;
 
 class AdminController extends Controller
 {
     public function viewDashboard()
     {
-        return view('admin.dashboard');
+        $iaAtiva = VerificarPaginaIaAtiva::estaAtiva();
+        return view('admin.dashboard', compact('iaAtiva'));
     }
 
 
