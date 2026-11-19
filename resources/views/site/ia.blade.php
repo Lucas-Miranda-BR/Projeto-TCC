@@ -113,6 +113,7 @@
                         <span class="option-label">Procedimento</span>
 
                         <input type="hidden" name="procedimento_id" id="procedimento_id">
+                        <input type="hidden" name="cor_id" id="cor_id">
 
                         <div class="dropdown" id="dropdownProcedimento">
 
@@ -131,18 +132,49 @@
                             <div class="dropdown-menu" role="listbox" aria-label="Procedimento">
 
                                 @foreach ($procedimentos as $procedimento)
+                                    @php
+                                        /* Só mostra as cores quando o tipo do procedimento é colorível
+                                           (coluna tipo.colorivel, via ProcedimentoModel::tipos) */
+                                        $usaCor = (bool) optional($procedimento->tipos)->colorivel;
+                                    @endphp
+
                                     <button
                                         type="button"
                                         class="dropdown-option"
                                         role="option"
                                         aria-selected="false"
                                         data-value="{{ $procedimento->procedimento_id }}"
+                                        data-usa-cor="{{ $usaCor ? 1 : 0 }}"
                                     >
                                         {{ $procedimento->nome }}
                                     </button>
                                 @endforeach
 
                             </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- COR (aparece só nos procedimentos que permitem cor) -->
+                    <div class="option-group" id="grupo-cor" hidden>
+
+                        <span class="option-label">Selecione o visual</span>
+
+                        <div class="option-list" id="listaCores">
+
+                            <button type="button" class="option-row option-color" data-value="Não altere">
+                                <span class="option-name">Não altere</span>
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+
+                            @foreach ($cores as $cor)
+
+                                <button type="button" class="option-row option-color" data-value="{{ $cor->cor_id }}">
+                                    <span class="option-name">{{ $cor->nome }}</span>
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            @endforeach
 
                         </div>
 
@@ -263,7 +295,7 @@
             O resultado apresentado é uma simulação criada por
             inteligência artificial e serve apenas como referência visual.
 
-            !API NÃO ADICIONADA!
+            API NÃO ADICIONADA!
 
         </small>
 
@@ -278,5 +310,7 @@
 
 
 @push('scripts')
+
 <script src="{{ asset('js/ia.js') }}"></script>
+
 @endpush
