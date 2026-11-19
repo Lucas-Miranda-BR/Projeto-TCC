@@ -113,7 +113,6 @@
                         <span class="option-label">Procedimento</span>
 
                         <input type="hidden" name="procedimento_id" id="procedimento_id">
-                        <input type="hidden" name="cor_id" id="cor_id">
 
                         <div class="dropdown" id="dropdownProcedimento">
 
@@ -133,8 +132,6 @@
 
                                 @foreach ($procedimentos as $procedimento)
                                     @php
-                                        /* Só mostra as cores quando o tipo do procedimento é colorível
-                                           (coluna tipo.colorivel, via ProcedimentoModel::tipos) */
                                         $usaCor = (bool) optional($procedimento->tipos)->colorivel;
                                     @endphp
 
@@ -157,7 +154,6 @@
                                 @endphp
 
                                 @unless($temAdesivo)
-                                    {{-- Só visual: mostra "Adesivo de unha" mesmo sem esse procedimento no banco --}}
                                     <button
                                         type="button"
                                         class="dropdown-option"
@@ -177,50 +173,19 @@
                     </div>
 
 
-                    <!-- COR (aparece só nos procedimentos que permitem cor) -->
+                    <!-- COR (apenas o input com o ID da cor) -->
                     <div class="option-group" id="grupo-cor" hidden>
 
-                        <span class="option-label">Selecione o visual</span>
+                        <label for="cor_id" class="option-label">ID da Cor</label>
 
-                        <div class="option-list" id="listaCores">
-
-                            <button type="button" class="option-row option-color" data-value="Não altere">
-                                <span class="option-name">Não altere</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-
-                            @foreach ($cores as $cor)
-                                @php
-                                    /* A tabela cor não tem código de cor: a bolinha é deduzida pelo nome. */
-                                    $hex = null;
-                                    $mapaCores = [
-                                        'vinho' => '#5e0f1e', 'bord' => '#5e0f1e', 'vermelh' => '#a81c2e',
-                                        'nude' => '#d4a5a0', 'rosa' => '#e8a0b4', 'pink' => '#e0508a',
-                                        'francesinha' => '#f3e2e2', 'branc' => '#f4f1f1', 'off' => '#f1ece6',
-                                        'azul' => '#1f5078', 'verde' => '#3f7a4f', 'roxo' => '#6b3f86',
-                                        'lil' => '#a98bc7', 'laranja' => '#e0772b', 'amarel' => '#e6c229',
-                                        'dourad' => '#c9a227', 'prat' => '#b8bcc2', 'cinza' => '#8a8a8a',
-                                        'marrom' => '#6b4a3a', 'castanh' => '#3b2418', 'ruiv' => '#b85c3c',
-                                        'cobre' => '#b8693d', 'loir' => '#d8b48a', 'mel' => '#d8b48a',
-                                        'platinad' => '#e0dbd0', 'pret' => '#1c1c1c',
-                                    ];
-                                    $nomeCor = \Illuminate\Support\Str::ascii(mb_strtolower($cor->nome));
-                                    foreach ($mapaCores as $trecho => $codigo) {
-                                        if (str_contains($nomeCor, $trecho)) { $hex = $codigo; break; }
-                                    }
-                                @endphp
-
-                                <button type="button" class="option-row option-color" data-value="{{ $cor->cor_id }}">
-                                    <span
-                                        class="option-dot"
-                                        @if($hex) style="background: {{ $hex }};" @endif
-                                    ></span>
-                                    <span class="option-name">{{ $cor->nome }}</span>
-                                    <i class="bi bi-chevron-right"></i>
-                                </button>
-                            @endforeach
-
-                        </div>
+                        <input
+                            type="number"
+                            name="cor_id"
+                            id="cor_id"
+                            class="option-row"
+                            placeholder="Digite o ID da cor"
+                            min="1"
+                        >
 
                     </div>
 
@@ -339,7 +304,7 @@
             O resultado apresentado é uma simulação criada por
             inteligência artificial e serve apenas como referência visual.
 
-            !API NÃO ADICIONADA!
+            API NÃO ADICIONADA!
 
         </small>
 
@@ -354,113 +319,5 @@
 
 
 @push('scripts')
-
-<script>
-    /* Apenas interface: a integração com a IA ainda não foi feita.
-       Quando for, basta enviar o formulário (procedimento_id, cor_id, imagem_prompt). */
-
-    var inputFoto   = document.getElementById('imagem_prompt');
-    var areaUpload  = document.getElementById('uploadArea');
-    var previewBox  = document.getElementById('previewContainer');
-    var previewImg  = document.getElementById('previewImagem');
-    var resultado   = document.getElementById('resultado');
-
-    inputFoto.addEventListener('change', function () {
-        var arquivo = inputFoto.files[0];
-        if (!arquivo) return;
-
-        previewImg.src = URL.createObjectURL(arquivo);
-        previewBox.classList.add('active');
-        areaUpload.style.display = 'none';
-    });
-
-    document.getElementById('removerImagem').addEventListener('click', function () {
-        inputFoto.value = '';
-        previewImg.src = '';
-        previewBox.classList.remove('active');
-        areaUpload.style.display = '';
-        resultado.classList.remove('active');
-        document.querySelector('.ia-page').classList.remove('has-result');
-    });
-
-
-    /* Procedimento: dropdown único */
-    var dropdown     = document.getElementById('dropdownProcedimento');
-    var gatilho      = dropdown.querySelector('.dropdown-trigger');
-    var opcoes       = dropdown.querySelectorAll('.dropdown-option');
-    var grupoCor     = document.getElementById('grupo-cor');
-    var cores        = document.querySelectorAll('#listaCores .option-color');
-
-    function fecharDropdown() {
-        dropdown.classList.remove('open');
-        gatilho.setAttribute('aria-expanded', 'false');
-    }
-
-    gatilho.addEventListener('click', function () {
-        var aberto = dropdown.classList.toggle('open');
-        gatilho.setAttribute('aria-expanded', aberto ? 'true' : 'false');
-    });
-
-    document.addEventListener('click', function (e) {
-        if (!dropdown.contains(e.target)) fecharDropdown();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') fecharDropdown();
-    });
-
-    opcoes.forEach(function (opcao) {
-        opcao.addEventListener('click', function () {
-
-            opcoes.forEach(function (o) {
-                o.classList.remove('selected');
-                o.setAttribute('aria-selected', 'false');
-            });
-
-            opcao.classList.add('selected');
-            opcao.setAttribute('aria-selected', 'true');
-
-            document.getElementById('procedimento_id').value = opcao.dataset.value;
-            document.getElementById('procedimentoSelecionado').textContent = opcao.textContent.trim();
-            gatilho.classList.add('selected');
-
-            /* troca de procedimento limpa a cor */
-            document.getElementById('cor_id').value = '';
-            cores.forEach(function (c) { c.classList.remove('selected'); });
-
-            grupoCor.hidden = opcao.dataset.usaCor !== '1';
-
-            fecharDropdown();
-        });
-    });
-
-    cores.forEach(function (cor) {
-        cor.addEventListener('click', function () {
-            cores.forEach(function (c) { c.classList.remove('selected'); });
-            cor.classList.add('selected');
-            document.getElementById('cor_id').value = cor.dataset.value;
-        });
-    });
-
-
-    /* Botão: só mostra o layout do resultado (sem chamar IA) */
-    document.querySelector('.ia-form').addEventListener('submit', function (evento) {
-        evento.preventDefault();
-
-        if (!inputFoto.files[0]) {
-            inputFoto.click();
-            return;
-        }
-
-        document.getElementById('imagemAntes').src = previewImg.src;
-        resultado.classList.add('active');
-        document.querySelector('.ia-page').classList.add('has-result');
-    });
-
-    document.getElementById('btnNova').addEventListener('click', function () {
-        resultado.classList.remove('active');
-        document.querySelector('.ia-page').classList.remove('has-result');
-    });
-</script>
-
+<script src="{{ asset('js/ia.js') }}"></script>
 @endpush

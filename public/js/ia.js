@@ -1,121 +1,112 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Apenas interface: a integração com a IA ainda não foi feita.
 
-    let procedimentos = window.dadosProcedimentos || [];
+    var inputFoto   = document.getElementById('imagem_prompt');
+    var areaUpload  = document.getElementById('uploadArea');
+    var previewBox  = document.getElementById('previewContainer');
+    var previewImg  = document.getElementById('previewImagem');
+    var resultado   = document.getElementById('resultado');
+    var removerBtn  = document.getElementById('removerImagem');
 
-    let imagemInput = document.getElementById('imagem_prompt');
-    let previewContainer = document.getElementById('previewContainer');
-    let previewImagem = document.getElementById('previewImagem');
-    let removerImagem = document.getElementById('removerImagem');
-    let imagemAntes = document.getElementById('imagemAntes');
-    let imagemDepois = document.getElementById('imagemDepois');
-    let resultado = document.getElementById('resultado');
-    let loading = document.getElementById('loading');
-    let btnGerar = document.getElementById('btnGerar');
-    
-    let selectProcedimento = document.getElementById('procedimento_id');
-    let selectCor = document.getElementById('cor_id');
-    let grupoCor = document.getElementById('grupo-cor');
-
-    if (selectProcedimento) {
-        selectProcedimento.addEventListener('change', function () {
-            let idSelecionado = this.value;
-            
-            let procedimento = procedimentos.find(p => p.procedimento_id == idSelecionado);
-
-            if (procedimento && procedimento.tipos && procedimento.tipos.colorivel) {
-                grupoCor.style.display = 'block'; 
-            } else {
-                grupoCor.style.display = 'none';
-                selectCor.value = ""; 
-            }
-        });
-    }
-
-    if (imagemInput) {
-        imagemInput.addEventListener('change', function () {
-            let arquivo = this.files[0];
+    if (inputFoto) {
+        inputFoto.addEventListener('change', function () {
+            var arquivo = inputFoto.files[0];
             if (!arquivo) return;
 
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                previewImagem.src = e.target.result;
-                imagemAntes.src = e.target.result;
-                previewContainer.classList.add('active');
-            };
-            reader.readAsDataURL(arquivo);
+            previewImg.src = URL.createObjectURL(arquivo);
+            previewBox.classList.add('active');
+            areaUpload.style.display = 'none';
         });
     }
 
-    if (removerImagem) {
-        removerImagem.addEventListener('click', function () {
-            imagemInput.value = '';
-            previewImagem.src = '';
-            imagemAntes.src = '';
-            previewContainer.classList.remove('active');
+    if (removerBtn) {
+        removerBtn.addEventListener('click', function () {
+            inputFoto.value = '';
+            previewImg.src = '';
+            previewBox.classList.remove('active');
+            areaUpload.style.display = '';
+            if (resultado) resultado.classList.remove('active');
+            var page = document.querySelector('.ia-page');
+            if (page) page.classList.remove('has-result');
         });
     }
 
-    if (btnGerar) {
-        btnGerar.addEventListener('click', function (e) {
-            e.preventDefault();
+    var dropdown = document.getElementById('dropdownProcedimento');
+    var grupoCor = document.getElementById('grupo-cor');
+    var corInput = document.getElementById('cor_id');
 
-            let arquivo = imagemInput.files[0];
-            let procedimentoVal = selectProcedimento.value;
-            let corVal = selectCor.value;
+    if (dropdown) {
+        var gatilho = dropdown.querySelector('.dropdown-trigger');
+        var opcoes  = dropdown.querySelectorAll('.dropdown-option');
 
-            if (!arquivo) {
-                alert('Por favor, escolha uma foto.');
-                return;
-            }
+        function fecharDropdown() {
+            dropdown.classList.remove('open');
+            if (gatilho) gatilho.setAttribute('aria-expanded', 'false');
+        }
 
-            if (!procedimentoVal) {
-                alert('Escolha um procedimento.');
-                return;
-            }
-
-            if (grupoCor.style.display === 'block' && !corVal) {
-                alert('Escolha uma cor.');
-                return;
-            }
-
-            resultado.classList.add('active');
-            loading.style.display = 'flex';
-            imagemDepois.style.display = 'none';
-            resultado.scrollIntoView({ behavior: 'smooth' });
-
-            let form = document.querySelector('form');
-            let formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Sucesso! Dados salvos no backend:', data);
-                
-                if (data.redirect_url) {
-                    let btnAgendar = document.querySelector('.btn-agendar');
-                    if (btnAgendar) {
-                        btnAgendar.href = data.redirect_url;
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Erro ao enviar form:', error);
+        if (gatilho) {
+            gatilho.addEventListener('click', function () {
+                var aberto = dropdown.classList.toggle('open');
+                gatilho.setAttribute('aria-expanded', aberto ? 'true' : 'false');
             });
+        }
 
-            setTimeout(function () {
-                imagemDepois.src = imagemAntes.src;
-                loading.style.display = 'none';
-                imagemDepois.style.display = 'block';
-            }, 2000);
+        document.addEventListener('click', function (e) {
+            if (!dropdown.contains(e.target)) fecharDropdown();
+        });
 
-            resultado.scrollIntoView({ behavior: 'smooth' });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') fecharDropdown();
+        });
+
+        opcoes.forEach(function (opcao) {
+            opcao.addEventListener('click', function () {
+                opcoes.forEach(function (o) {
+                    o.classList.remove('selected');
+                    o.setAttribute('aria-selected', 'false');
+                });
+
+                opcao.classList.add('selected');
+                opcao.setAttribute('aria-selected', 'true');
+
+                var procInput = document.getElementById('procedimento_id');
+                var procLabel = document.getElementById('procedimentoSelecionado');
+                if (procInput) procInput.value = opcao.dataset.value;
+                if (procLabel) procLabel.textContent = opcao.textContent.trim();
+                if (gatilho) gatilho.classList.add('selected');
+
+                if (corInput) corInput.value = '';
+                if (grupoCor) grupoCor.hidden = opcao.dataset.usaCor !== '1';
+
+                fecharDropdown();
+            });
+        });
+    }
+
+    var formIa = document.querySelector('.ia-form');
+    if (formIa) {
+        formIa.addEventListener('submit', function (evento) {
+            evento.preventDefault();
+
+            if (!inputFoto || !inputFoto.files[0]) {
+                if (inputFoto) inputFoto.click();
+                return;
+            }
+
+            var imgAntes = document.getElementById('imagemAntes');
+            if (imgAntes) imgAntes.src = previewImg.src;
+            if (resultado) resultado.classList.add('active');
+            var page = document.querySelector('.ia-page');
+            if (page) page.classList.add('has-result');
+        });
+    }
+
+    var btnNova = document.getElementById('btnNova');
+    if (btnNova) {
+        btnNova.addEventListener('click', function () {
+            if (resultado) resultado.classList.remove('active');
+            var page = document.querySelector('.ia-page');
+            if (page) page.classList.remove('has-result');
         });
     }
 });
