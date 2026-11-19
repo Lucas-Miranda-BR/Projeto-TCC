@@ -20,7 +20,7 @@ class VerificarPaginaIaAtiva
         $caminho = self::caminhoArquivoConfig();
 
         if (!File::exists($caminho)) {
-            return true;
+            return true; // Ativa por padrão
         }
 
         $dados = json_decode(File::get($caminho), true);
@@ -31,6 +31,7 @@ class VerificarPaginaIaAtiva
     {
         $ativa = self::estaAtiva();
 
+        // Permite que o admin continue acessando mesmo se estiver desativada
         $usuario = Auth::user();
         $isAdmin = $usuario && (
             (isset($usuario->tipo) && $usuario->tipo === 'admin') ||
@@ -41,7 +42,7 @@ class VerificarPaginaIaAtiva
         if (!$ativa && !$isAdmin) {
             return redirect()
                 ->route('home')
-                ->with('erro', 'O Provador de Estilo (IA) está temporariamente indisponível.');
+                ->with('erro', 'A página do Provador de Estilo (IA) está temporariamente desativada.');
         }
 
         return $next($request);
