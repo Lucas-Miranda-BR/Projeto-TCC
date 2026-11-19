@@ -76,8 +76,8 @@
 
                     <p style="margin: 10px 0 16px 0; font-size: 0.92rem; opacity: 0.85;">
                         {{ $iaEstaAtiva
-                            ? 'A página /site/ia está aberta para os usuários.'
-                            : 'A página /site/ia está bloqueada para usuários.' }}
+                            ? 'A página de IA está aberta para os usuários.'
+                            : 'A página de IA está bloqueada para os usuários não administradores.' }}
                     </p>
 
                     <form action="{{ route('admin.ia.toggle') }}" method="POST">

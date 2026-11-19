@@ -14,6 +14,13 @@
 
 @include('components.navbar')
 
+@if(session('erro'))
+    <div style="max-width: 1140px; margin: 20px auto; padding: 14px 18px; border-radius: 10px; background: #fff3cd; color: #664d03; border: 1px solid #ffecb5; display: flex; align-items: center; gap: 10px; font-weight: 500;">
+        <i class="bi bi-exclamation-triangle-fill" style="font-size: 1.2rem; color: #997404;"></i>
+        <span>{{ session('erro') }}</span>
+    </div>
+@endif
+
 <main class="home-page">
 
     {{-- HERO --}}
