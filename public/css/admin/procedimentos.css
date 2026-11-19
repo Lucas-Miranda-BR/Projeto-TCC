@@ -1094,3 +1094,242 @@ tbody tr:hover {
     }
 
 }
+/* =========================================
+   AJUSTES DE ORGANIZACAO E RESPONSIVIDADE
+   ========================================= */
+
+.procedimentos-content {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.procedimentos-topo {
+    grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.85fr);
+    align-items: stretch;
+}
+
+.novo-procedimento,
+.cadastro-lateral-card,
+.procedimento-cadastros-laterais {
+    min-width: 0;
+}
+
+.novo-procedimento,
+.cadastro-lateral-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.procedimentos-content .form-row,
+.procedimentos-content .form-row-descricao {
+    min-width: 0;
+}
+
+.procedimentos-content .form-group input,
+.procedimentos-content .form-group select,
+.procedimentos-content .form-group textarea {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.procedimento-cadastros-laterais {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.lista-procedimentos {
+    min-width: 0;
+}
+
+.table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.procedimentos-table {
+    min-width: 760px;
+}
+
+@media (max-width: 1050px) {
+    .procedimentos-topo {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .procedimento-cadastros-laterais {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 700px) {
+    .procedimentos-content {
+        padding: 24px 18px 40px;
+    }
+
+    .procedimentos-topo {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .novo-procedimento,
+    .cadastro-lateral-card {
+        padding: 18px;
+    }
+
+    .procedimentos-content .form-row,
+    .procedimentos-content .form-row-descricao {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .procedimento-cadastros-laterais {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .procedimentos-table {
+        min-width: 760px;
+    }
+}
+
+
+/* =========================================
+   CORREÇÃO DO CARD NOVO PROCEDIMENTO
+========================================= */
+
+/* Impede que o formulário acompanhe a altura
+   dos cards laterais */
+   .procedimentos-topo {
+    align-items: start !important;
+}
+
+.novo-procedimento {
+    align-self: start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px;
+}
+
+/* Organização geral do formulário */
+.novo-procedimento form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Primeira linha: Tipo e Nome */
+.procedimentos-content .form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+}
+
+/* Segunda linha: Descrição e Preço */
+.procedimentos-content .form-row-descricao {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 175px;
+    align-items: start;
+    gap: 14px;
+}
+
+/* Evita que os campos ultrapassem a caixa */
+.novo-procedimento .form-group {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+.novo-procedimento input,
+.novo-procedimento select,
+.novo-procedimento textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Altura da descrição */
+.novo-procedimento textarea {
+    min-height: 84px;
+    resize: vertical;
+}
+
+/* Campo de preço */
+.preco-input {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.preco-input span {
+    flex-shrink: 0;
+}
+
+.preco-input input {
+    min-width: 0;
+    flex: 1;
+}
+
+/* Área do botão */
+.procedimento-form-footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 0;
+}
+
+/* Botão cadastrar */
+.btn-salvar {
+    min-width: 220px;
+    min-height: 42px;
+    padding: 0 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 1050px) {
+    .procedimentos-topo {
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .novo-procedimento {
+        width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    .novo-procedimento {
+        padding: 18px;
+    }
+
+    .procedimentos-content .form-row,
+    .procedimentos-content .form-row-descricao {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .procedimento-form-footer {
+        justify-content: stretch;
+    }
+
+    .btn-salvar {
+        width: 100%;
+        min-width: 0;
+    }
+}

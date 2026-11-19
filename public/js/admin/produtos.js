@@ -121,10 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-/* Paginação das listas laterais (Categorias e Marcas): 5 itens por página */
+/* Paginação das listas laterais (Categorias e Marcas): 4 itens por página */
 document.addEventListener('DOMContentLoaded', function () {
 
-    const itensPorPagina = 5;
+    const itensPorPagina = 4;
 
     document.querySelectorAll('.produtos-lateral .lateral-lista').forEach(function (lista) {
 
