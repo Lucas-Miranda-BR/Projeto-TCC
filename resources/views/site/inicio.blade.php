@@ -149,12 +149,6 @@
             qualidade, para realçar a sua essência.
         </p>
 
-        <div class="inicio-cta-wrap ini-anim ini-float-a" style="--d: 480ms">
-            <a href="{{ route('home') }}" class="inicio-cta">
-                <span class="inicio-btn">Conhecer o salão</span>
-            </a>
-        </div>
-
     </div>
 
     <img

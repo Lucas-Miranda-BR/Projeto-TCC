@@ -1,9 +1,12 @@
+
 @extends('layouts.app')
 
 @push('css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@500;600&family=Open+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/ia.css') }}">
 @endpush
 
@@ -11,13 +14,12 @@
 
 @include('components.navbar')
 
-<main class="ia-page">
+<main class="ia-page sd-pagina">
 
     <!-- CABEÇALHO -->
     <header class="ia-header">
 
         <div class="ia-header-title">
-            <span class="ia-eyebrow">Salão Sandra Nerys / Experiência de beleza</span>
             <h1>Provador de Estilo</h1>
         </div>
 
@@ -41,7 +43,26 @@
             <!-- 01 / SUA FOTO -->
             <div class="ia-column ia-upload">
 
-                <h2 class="ia-column-title">01 / Sua foto</h2>
+                <h2 class="ia-column-title">
+                    Sua foto
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect x="3" y="3" width="18" height="18" rx="3"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="m21 15-5-5L5 21"/>
+                    </svg>
+                </h2>
 
                 <div class="photo-stage">
 
@@ -92,7 +113,9 @@
                     hidden
                 >
 
-                <small class="ia-note">Obs: Imagem meramente ilustrativa</small>
+                <small class="ia-note">
+                    Obs: Imagem meramente ilustrativa
+                </small>
 
             </div>
 
@@ -101,19 +124,22 @@
             <div class="ia-column ia-options">
 
                 <h2 class="ia-column-title">
-                    02 / Personalize
+                    Personalize
                     <i class="bi bi-stars"></i>
                 </h2>
 
                 <div class="options-card">
 
-                    <!-- PROCEDIMENTO (dropdown único) -->
+                    <!-- PROCEDIMENTO -->
                     <div class="option-group" id="grupo-procedimento">
 
                         <span class="option-label">Procedimento</span>
 
-                        <input type="hidden" name="procedimento_id" id="procedimento_id">
-                        <input type="hidden" name="cor_id" id="cor_id">
+                        <input
+                            type="hidden"
+                            name="procedimento_id"
+                            id="procedimento_id"
+                        >
 
                         <div class="dropdown" id="dropdownProcedimento">
 
@@ -126,15 +152,19 @@
                                 <span class="option-name" id="procedimentoSelecionado">
                                     Selecione um procedimento
                                 </span>
+
                                 <i class="bi bi-chevron-down"></i>
                             </button>
 
-                            <div class="dropdown-menu" role="listbox" aria-label="Procedimento">
+                            <div
+                                class="dropdown-menu"
+                                role="listbox"
+                                aria-label="Procedimento"
+                            >
 
                                 @foreach ($procedimentos as $procedimento)
+
                                     @php
-                                        /* Só mostra as cores quando o tipo do procedimento é colorível
-                                           (coluna tipo.colorivel, via ProcedimentoModel::tipos) */
                                         $usaCor = (bool) optional($procedimento->tipos)->colorivel;
                                     @endphp
 
@@ -148,6 +178,7 @@
                                     >
                                         {{ $procedimento->nome }}
                                     </button>
+
                                 @endforeach
 
                             </div>
@@ -156,31 +187,39 @@
 
                     </div>
 
-                    <!-- COR (aparece só nos procedimentos que permitem cor) -->
+
+                    <!-- SELEÇÃO DE CORES -->
                     <div class="option-group" id="grupo-cor" hidden>
 
-                        <span class="option-label">Selecione o visual</span>
+                        <label for="cor_id" class="option-label">
+                            Selecione o visual
+                        </label>
 
-                        <div class="option-list" id="listaCores">
+                        <select
+                            name="cor_id"
+                            id="cor_id"
+                            class="select-cor"
+                            disabled
+                        >
 
-                            <button type="button" class="option-row option-color" data-value="Não altere">
-                                <span class="option-name">Não altere</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
+                            <option value="" selected disabled>
+                                Selecione uma cor
+                            </option>
 
                             @foreach ($cores as $cor)
 
-                                <button type="button" class="option-row option-color" data-value="{{ $cor->cor_id }}">
-                                    <span class="option-name">{{ $cor->nome }}</span>
-                                    <i class="bi bi-chevron-right"></i>
-                                </button>
+                                <option value="{{ $cor->cor_id }}">
+                                    {{ $cor->nome }}
+                                </option>
+
                             @endforeach
 
-                        </div>
+                        </select>
 
                     </div>
 
 
+                    <!-- DESCRIÇÃO DA IA -->
                     <div class="ia-description">
 
                         <i class="bi bi-stars"></i>
@@ -193,6 +232,7 @@
                     </div>
 
 
+                    <!-- BOTÃO SIMULAR -->
                     <button
                         type="submit"
                         id="btnGerar"
@@ -207,6 +247,7 @@
             </div>
 
         </section>
+
     </form>
 
 
@@ -226,6 +267,7 @@
 
         <div class="before-after">
 
+            <!-- ANTES -->
             <div class="result-image">
 
                 <span>Antes</span>
@@ -248,6 +290,7 @@
             </div>
 
 
+            <!-- DEPOIS -->
             <div class="result-image">
 
                 <span>Depois</span>
@@ -256,7 +299,10 @@
 
                     <div class="placeholder-ia">
                         <i class="bi bi-stars"></i>
-                        <p>A simulação com IA estará disponível em breve.</p>
+
+                        <p>
+                            A simulação com IA estará disponível em breve.
+                        </p>
                     </div>
 
                 </div>
@@ -266,6 +312,7 @@
         </div>
 
 
+        <!-- AÇÕES DO RESULTADO -->
         <div class="result-actions">
 
             <p>
@@ -274,12 +321,16 @@
 
             <div class="result-buttons">
 
-                <button type="button" id="btnNova" class="btn-nova">
+                <button
+                    type="button"
+                    id="btnNova"
+                    class="btn-nova"
+                >
                     Nova simulação
                 </button>
 
                 <a
-                   href="{{ route('agendamento.agendar') }}"
+                    href="{{ route('agendamento.agendar') }}"
                     class="btn-agendar"
                 >
                     Agendar meu horário
@@ -295,7 +346,7 @@
             O resultado apresentado é uma simulação criada por
             inteligência artificial e serve apenas como referência visual.
 
-            API NÃO ADICIONADA!
+            !API NÃO ADICIONADA!
 
         </small>
 
@@ -303,14 +354,12 @@
 
 </main>
 
-
 @include('components.footer')
 
 @endsection
 
 
+<!-- ARQUIVO JAVASCRIPT EXTERNO -->
 @push('scripts')
-
-<script src="{{ asset('js/ia.js') }}"></script>
-
+    <script src="{{ asset('js/ia.js') }}" defer></script>
 @endpush

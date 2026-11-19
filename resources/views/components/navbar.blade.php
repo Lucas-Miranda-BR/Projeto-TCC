@@ -87,7 +87,7 @@
 
                 <span class="client-profile-info">
                     <strong>{{ auth()->user()->nome }}</strong>
-                    <small>{{ auth()->user()->is_admin ? 'Administrador' : 'Cliente' }}</small>
+                    <small>{{ auth()->user()->is_admin ? 'Administrador' : ' ' }}</small>
                 </span>
             </a>
 
