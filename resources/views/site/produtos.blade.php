@@ -56,6 +56,9 @@
 
 <main class="produtos-page sd-pagina">
 
+    {{-- liga o modo "remover fundo": as fotos ficam ocultas até serem processadas (evita piscar o fundo branco) --}}
+    <script>document.querySelector('.produtos-page').classList.add('js-remover-fundo');</script>
+
     {{-- Ícone padrão (shampoo) usado quando o produto não tem imagem --}}
     <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
         <symbol id="icone-shampoo" viewBox="0 0 100 140">
@@ -79,11 +82,35 @@
     <section class="produtos-banner produtos-banner--fundo">
         <div class="sd-miolo produtos-banner-grade">
             <div class="produtos-banner-texto">
+                <nav class="produtos-trilha" aria-label="Você está em">
+                    <a href="{{ route('home') }}">Início</a>
+                    <span aria-hidden="true">/</span>
+                    <span>Produtos</span>
+                </nav>
                 <h1>Nossos produtos</h1>
                 <p>Selecionados um a um pela Sandra para manter o resultado do salão por muito mais tempo.</p>
             </div>
             <div class="produtos-banner-foto">
-                <img src="{{ asset('images/produtos-banner.png') }}" alt="Shampoo, máscara, óleo e leave-in vendidos no salão">
+                <div class="banner-produtos" role="img" aria-label="Spray leave-in, shampoo, máscara e óleo vendidos no salão">
+                    <div class="bp-palco">
+                        <div class="bp-item bp-shampoo">
+                            <span class="bp-sombra"></span>
+                            <div class="bp-flutua"><img src="{{ asset('images/banner/shampoo.png') }}" alt="" width="174" height="575"></div>
+                        </div>
+                        <div class="bp-item bp-spray">
+                            <span class="bp-sombra"></span>
+                            <div class="bp-flutua"><img src="{{ asset('images/banner/spray.png') }}" alt="" width="162" height="500"></div>
+                        </div>
+                        <div class="bp-item bp-pote">
+                            <span class="bp-sombra"></span>
+                            <div class="bp-flutua"><img src="{{ asset('images/banner/pote.png') }}" alt="" width="290" height="325"></div>
+                        </div>
+                        <div class="bp-item bp-oleo">
+                            <span class="bp-sombra"></span>
+                            <div class="bp-flutua"><img src="{{ asset('images/banner/oleo.png') }}" alt="" width="84" height="245"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -295,6 +322,8 @@
 
 @include('components.footer')
 
+@push('js')
 <script src="{{ asset('js/produtos.js') }}"></script>
+@endpush
 
 @endsection

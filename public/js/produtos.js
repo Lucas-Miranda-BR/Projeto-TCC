@@ -20,16 +20,19 @@
 
         /*
          * REMOÇÃO DE FUNDO DAS IMAGENS
+         * - Só age se a borda da foto for de uma cor só; caso contrário, deixa a foto como está.
+         * - Apaga a cor "de fora para dentro", então detalhes internos da mesma cor (rótulo branco) ficam.
+         * - Não altera o arquivo no servidor: o recorte é refeito a cada visita.
          */
 
-        var TOL = 38;
+        var TOL = 38;                      // distância de cor considerada "fundo"
         var TOL2 = TOL * TOL;
-        var SUAVIZACAO = 1.5;
-        var MIN_BORDA = 0.8;
+        var SUAVIZACAO = 1.5;              // transição suave na borda do recorte
+        var MIN_BORDA = 0.8;               // % da borda que precisa ter a cor do fundo
         var MIN_REMOVIDO = 0.02;
         var MAX_REMOVIDO = 0.94;
-        var MARGEM = 0.04;
-        var MAX_LADO = 700;
+        var MARGEM = 0.04;                 // folga em volta do produto depois de cortar
+        var MAX_LADO = 700;                // lado maior usado no processamento (px)
 
         function mediana(v) {
             v.sort(function (a, b) {
@@ -87,10 +90,11 @@
 
                     ctx.drawImage(img, 0, 0, w, h);
 
+                    // Dá erro se a imagem for de outro domínio (cai no catch e mantém a original).
                     var dados = ctx.getImageData(0, 0, w, h);
                     var d = dados.data;
 
-                    // Verifica se a imagem já possui transparência.
+                    // Já é um PNG recortado: não mexe.
                     var cantos = [
                         0,
                         (w - 1) * 4,
@@ -110,7 +114,7 @@
                         return resolve(false);
                     }
 
-                    // Identifica os pixels da borda.
+                    // Pixels da borda da imagem.
                     var per = [];
                     var x, y;
 
@@ -122,7 +126,7 @@
                         per.push(y * w, y * w + w - 1);
                     }
 
-                    // Calcula a cor predominante do fundo.
+                    // Cor do fundo = mediana da borda.
                     var rs = [];
                     var gs = [];
                     var bs = [];
@@ -147,7 +151,7 @@
                         return dr * dr + dg * dg + db * db;
                     }
 
-                    // Verifica se a borda possui uma cor uniforme.
+                    // A borda precisa ser (quase toda) dessa cor, ou não é fundo liso.
                     var limite = Math.pow(TOL * 1.2, 2);
                     var parecidos = 0;
 
@@ -161,7 +165,7 @@
                         return resolve(false);
                     }
 
-                    // Identifica o fundo usando flood fill.
+                    // Flood fill a partir da borda: 1 = fundo, 2 = borda do produto.
                     var mascara = new Uint8Array(w * h);
                     var pilha = new Int32Array(w * h);
                     var topo = 0;
@@ -214,14 +218,14 @@
                         return resolve(false);
                     }
 
-                    // Remove o fundo.
+                    // Apaga o fundo.
                     for (i = 0; i < mascara.length; i++) {
                         if (mascara[i] === 1) {
                             d[i * 4 + 3] = 0;
                         }
                     }
 
-                    // Suaviza as bordas.
+                    // Suaviza a borda do recorte (e tira o "resto" do fundo misturado na cor).
                     cand.forEach(function (n) {
                         var a = (Math.sqrt(dist2(n)) - TOL) / (TOL * SUAVIZACAO);
 
@@ -239,7 +243,7 @@
                         d[p + 3] = Math.round(255 * a);
                     });
 
-                    // Identifica os limites do produto.
+                    // Corta as sobras transparentes.
                     var minX = w;
                     var maxX = -1;
                     var minY = h;
@@ -260,7 +264,7 @@
                         return resolve(false);
                     }
 
-                    // Adiciona uma pequena margem.
+                    // Folga em volta do produto.
                     var margem = Math.round(
                         Math.max(maxX - minX + 1, maxY - minY + 1) * MARGEM
                     );
@@ -299,11 +303,13 @@
                     }, 'image/png');
 
                 } catch (e) {
+                    // Imagem de outro domínio, falta de memória etc.: mantém a original.
                     resolve(false);
                 }
             });
         }
 
+        // Mostra a imagem (a classe js-remover-fundo no blade as mantém ocultas até aqui).
         function pronta(img) {
             img.classList.add('fundo-ok');
         }
