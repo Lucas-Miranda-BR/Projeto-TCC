@@ -1454,3 +1454,993 @@ textarea {
         min-width: 650px;
     }
 }
+
+
+/* =========================================================
+   DASHBOARD (visão geral)
+   Layout em cartões: resumo, gráfico, destaques e tabela.
+   Classes novas começam com "dash-" e só existem na tela
+   admin/dashboard.blade.php.
+   ========================================================= */
+
+.dash-page {
+    --dash-radius: 22px;
+    --dash-borda: rgba(157, 18, 40, 0.09);
+    --dash-sombra: 0 10px 30px rgba(80, 20, 30, 0.06);
+
+    width: 100%;
+    min-height: calc(100vh - 76px);
+
+    padding: 36px 48px 64px;
+
+    background:
+        radial-gradient(900px 340px at 85% -80px, rgba(248, 231, 234, 0.9), transparent 70%),
+        var(--background);
+}
+
+
+/* ---------- cabeçalho ---------- */
+.dash-header {
+    margin-bottom: 28px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    gap: 18px;
+}
+
+.dash-header .breadcrumb-admin {
+    margin-bottom: 10px;
+}
+
+.dash-header h1 {
+    margin: 0;
+
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.12;
+
+    color: #2a1a1d;
+}
+
+.dash-header p {
+    margin-top: 6px;
+
+    font-size: 14px;
+
+    color: #7b6f72;
+}
+
+.dash-separador {
+    margin: 0 4px;
+
+    color: #c9b9bd;
+}
+
+#dashboard-time {
+    font-weight: 600;
+
+    color: #4b3a3e;
+}
+
+.dash-header-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+
+/* seletor de período */
+.dash-select {
+    position: relative;
+
+    height: 44px;
+
+    padding: 0 14px 0 16px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 9px;
+
+    background: var(--white);
+
+    border: 1px solid var(--dash-borda);
+    border-radius: 999px;
+
+    color: var(--primary);
+
+    box-shadow: 0 4px 14px rgba(80, 20, 30, 0.04);
+}
+
+.dash-select i {
+    font-size: 14px;
+}
+
+.dash-select select {
+    height: 100%;
+
+    padding-right: 20px;
+
+    outline: none;
+    border: none;
+
+    background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%239d1228' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6l4.5 4.5L12.5 6'/%3E%3C/svg%3E") no-repeat right center / 12px;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+    color: #3b2c30;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
+/* botões */
+.dash-btn {
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.dash-btn-escuro {
+    background: #2b1a1e;
+
+    color: #ffffff;
+
+    box-shadow: 0 8px 18px rgba(43, 26, 30, 0.18);
+}
+
+.dash-btn-escuro:hover {
+    background: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+.dash-btn-claro {
+    background: var(--white);
+
+    border-color: #e5d5d9;
+
+    color: #3b2c30;
+}
+
+.dash-btn-claro:hover {
+    background: var(--primary-soft);
+
+    border-color: #dcb7bf;
+
+    color: var(--primary);
+}
+
+.dash-btn-pequeno {
+    min-height: 36px;
+
+    padding: 0 15px;
+
+    font-size: 12px;
+}
+
+
+/* ---------- cartão base ---------- */
+.dash-card {
+    min-width: 0;
+
+    background: var(--white);
+
+    border: 1px solid var(--dash-borda);
+    border-radius: var(--dash-radius);
+
+    box-shadow: var(--dash-sombra);
+}
+
+.dash-card-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+.dash-card-titulo {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 11px;
+
+    color: #2f2023;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dash-card-titulo i {
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary-light);
+
+    border-radius: 50%;
+
+    color: var(--primary);
+
+    font-size: 15px;
+}
+
+
+/* ---------- linha 1: resumo ---------- */
+.dash-resumo {
+    margin-bottom: 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 22px;
+}
+
+/* cartão principal em vinho, com vidro fosco decorativo */
+.dash-hero {
+    position: relative;
+
+    min-height: 214px;
+
+    padding: 26px 30px 24px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: linear-gradient(135deg, #c4203f 0%, #9d1228 48%, #6c0c1e 100%);
+
+    border: none;
+
+    color: #ffffff;
+
+    box-shadow: 0 20px 40px rgba(157, 18, 40, 0.28);
+}
+
+.dash-hero::before,
+.dash-hero::after {
+    content: '';
+
+    position: absolute;
+
+    pointer-events: none;
+
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    border-radius: 28px;
+
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.03));
+}
+
+.dash-hero::before {
+    top: 24px;
+    right: 34px;
+
+    width: 108px;
+    height: 108px;
+
+    transform: rotate(14deg);
+}
+
+.dash-hero::after {
+    top: 56px;
+    right: 96px;
+
+    width: 78px;
+    height: 78px;
+
+    opacity: 0.8;
+
+    transform: rotate(-9deg);
+}
+
+.dash-hero > * {
+    position: relative;
+
+    z-index: 1;
+}
+
+.dash-hero-rotulo {
+    font-size: 13px;
+    font-weight: 500;
+
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.dash-hero-valor {
+    margin-top: 12px;
+
+    display: block;
+
+    font-size: clamp(32px, 3.8vw, 48px);
+    font-weight: 500;
+
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+
+.dash-centavos {
+    margin-left: 2px;
+
+    font-size: 0.5em;
+    font-weight: 400;
+
+    letter-spacing: 0;
+
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dash-hero-legenda {
+    margin-top: 6px;
+
+    font-size: 12px;
+
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.dash-hero-rodape {
+    margin-top: auto;
+
+    padding-top: 22px;
+}
+
+.dash-hero-texto {
+    margin-bottom: 9px;
+
+    font-size: 12px;
+
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dash-hero-barra {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.dash-barra {
+    flex: 1;
+
+    height: 8px;
+
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.22);
+
+    border-radius: 999px;
+}
+
+.dash-barra-preenchida {
+    width: 0;
+    height: 100%;
+
+    background: #ffffff;
+
+    border-radius: 999px;
+
+    transition: width 0.5s ease;
+}
+
+.dash-pilula {
+    min-width: 54px;
+
+    padding: 5px 12px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border-radius: 999px;
+
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* cartões pequenos */
+.dash-stat {
+    min-height: 214px;
+
+    padding: 24px 24px 22px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-stat-topo {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+.dash-stat-icone {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary-light);
+
+    border-radius: 50%;
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+.dash-stat-rotulo {
+    color: #5a4a4e;
+
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.dash-stat-valor {
+    margin-top: auto;
+
+    display: block;
+
+    color: #2a1a1d;
+
+    font-size: clamp(24px, 2.4vw, 32px);
+    font-weight: 500;
+
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+}
+
+.dash-stat-legenda {
+    margin-top: 8px;
+
+    display: block;
+
+    color: #85787c;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* cartão escuro em degradê (igual ao cartão de destaque da referência) */
+.dash-stat-destaque {
+    background: linear-gradient(135deg, #5a1626 0%, #34101a 100%);
+
+    border: none;
+
+    box-shadow: 0 20px 40px rgba(52, 16, 26, 0.26);
+}
+
+.dash-stat-destaque .dash-stat-icone {
+    background: rgba(255, 255, 255, 0.14);
+
+    color: #ffffff;
+}
+
+.dash-stat-destaque .dash-stat-rotulo,
+.dash-stat-destaque .dash-stat-valor {
+    color: #ffffff;
+}
+
+.dash-stat-destaque .dash-stat-legenda {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* ---------- linha 2: gráfico + destaques ---------- */
+.dash-meio {
+    margin-bottom: 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(300px, 360px);
+
+    gap: 22px;
+}
+
+.dash-grafico {
+    padding: 24px 26px 22px;
+}
+
+.dash-chip-periodo {
+    padding: 7px 14px;
+
+    background: var(--primary-soft);
+
+    border: 1px solid var(--dash-borda);
+    border-radius: 999px;
+
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.dash-grafico-total {
+    margin-top: 22px;
+
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+
+    gap: 4px 14px;
+}
+
+.dash-grafico-total strong {
+    color: #2a1a1d;
+
+    font-size: 32px;
+    font-weight: 500;
+
+    letter-spacing: -0.5px;
+}
+
+.dash-grafico-total small {
+    color: #85787c;
+
+    font-size: 12px;
+}
+
+.dash-grafico-area {
+    position: relative;
+
+    width: 100%;
+    height: 290px;
+
+    margin-top: 18px;
+}
+
+.dash-grafico-area canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* painel "Atenção ao caixa" */
+.dash-destaques {
+    padding: 24px 24px 22px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.dash-destaque-box {
+    padding: 18px 18px 16px;
+
+    background: #fff9fa;
+
+    border: 1px solid #f0dadf;
+    border-radius: 18px;
+}
+
+.dash-destaque-topo {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+.dash-destaque-topo strong {
+    display: block;
+
+    color: #2f2023;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dash-destaque-topo small {
+    display: block;
+
+    margin-top: 1px;
+
+    color: #85787c;
+
+    font-size: 12px;
+}
+
+.dash-destaque-valor {
+    margin: 16px 0 10px;
+
+    display: block;
+
+    color: var(--red);
+
+    font-size: 30px;
+    font-weight: 500;
+
+    letter-spacing: -0.5px;
+}
+
+.dash-destaque-meta {
+    margin-top: 12px;
+
+    color: #6f6366;
+
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+/* sem dia no negativo: tudo em verde */
+.dash-destaque-ok {
+    background: #f6fbf6;
+
+    border-color: #d9ecd9;
+}
+
+.dash-destaque-ok .dash-stat-icone {
+    background: #e3f2e4;
+
+    color: var(--green);
+}
+
+.dash-destaque-ok .dash-destaque-valor {
+    color: var(--green);
+}
+
+.dash-destaque-botoes {
+    margin-top: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+}
+
+
+/* ---------- chips de status ---------- */
+.dash-chip {
+    padding: 5px 12px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    border-radius: 999px;
+
+    font-size: 11.5px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.dash-chip::before {
+    content: '';
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+.dash-chip-pos {
+    background: #e8f4e9;
+
+    color: #2f7a36;
+}
+
+.dash-chip-neg {
+    background: #fdeceb;
+
+    color: #b53b37;
+}
+
+.dash-chip-neutro {
+    background: #f1ecec;
+
+    color: #7a6f72;
+}
+
+.dash-positivo {
+    color: var(--green);
+}
+
+.dash-negativo {
+    color: var(--red);
+}
+
+.dash-mudo {
+    color: #a99ea1;
+}
+
+
+/* ---------- linha 3: tabela ---------- */
+.dash-tabela-card {
+    padding: 22px 26px 12px;
+}
+
+.dash-tabela-scroll {
+    margin-top: 14px;
+
+    overflow-x: auto;
+}
+
+.dash-tabela {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.dash-tabela th {
+    padding: 12px 14px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #f0e4e7;
+
+    color: #8a7d81;
+
+    font-size: 11.5px;
+    font-weight: 500;
+
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.dash-tabela td {
+    padding: 0 14px;
+
+    height: 54px;
+
+    border-bottom: 1px solid #f6eef0;
+
+    color: #3b2c30;
+
+    font-size: 13.5px;
+
+    white-space: nowrap;
+}
+
+.dash-tabela tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dash-tabela tbody tr:hover td {
+    background: #fff9fa;
+}
+
+.dash-tabela-valor {
+    font-weight: 600;
+}
+
+.dash-tabela-vazio {
+    text-align: center;
+
+    color: #8a7d81 !important;
+}
+
+.dash-bolinha {
+    width: 8px;
+    height: 8px;
+
+    margin-right: 11px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    background: #d9cdd0;
+}
+
+.dash-bolinha-pos {
+    background: var(--green);
+}
+
+.dash-bolinha-neg {
+    background: var(--red);
+}
+
+
+/* ---------- menu lateral: visual de antes, só mais arrumado ---------- */
+.sidebar-header {
+    margin: 0 16px 6px;
+    padding: 28px 8px 20px;
+
+    border-bottom: 1px solid #f3e9eb;
+}
+
+.menu-item {
+    position: relative;
+
+    min-height: 44px;
+
+    margin-bottom: 4px;
+}
+
+/* item ativo: mesmo fundo rosa claro e texto vinho de antes,
+   com uma barrinha arredondada no lugar do traço colado na borda */
+.menu-item.active {
+    background: var(--primary-light);
+
+    color: var(--primary);
+
+    box-shadow: none;
+}
+
+.menu-item.active::before {
+    content: '';
+
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+
+    width: 3px;
+
+    border-radius: 0 4px 4px 0;
+
+    background: var(--primary);
+}
+
+
+/* ---------- responsivo ---------- */
+@media (max-width: 1250px) {
+
+    .dash-page {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    .dash-resumo {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dash-hero {
+        grid-column: 1 / -1;
+    }
+
+    .dash-stat {
+        min-height: 180px;
+    }
+}
+
+@media (max-width: 1050px) {
+
+    .dash-meio {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dash-destaque-botoes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+
+    .dash-page {
+        padding: 26px 20px 50px;
+    }
+
+    .dash-header h1 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .dash-header {
+        align-items: stretch;
+    }
+
+    .dash-header-acoes {
+        width: 100%;
+    }
+
+    .dash-header-acoes .dash-select,
+    .dash-header-acoes .dash-btn {
+        flex: 1 1 100%;
+
+        justify-content: space-between;
+    }
+
+    .dash-header-acoes .dash-btn {
+        justify-content: center;
+    }
+
+    .dash-resumo {
+        grid-template-columns: minmax(0, 1fr);
+
+        gap: 16px;
+    }
+
+    .dash-hero {
+        padding: 22px 22px 20px;
+    }
+
+    .dash-hero::before {
+        right: 18px;
+
+        width: 90px;
+        height: 90px;
+    }
+
+    .dash-hero::after {
+        right: 66px;
+
+        width: 66px;
+        height: 66px;
+    }
+
+    .dash-stat {
+        min-height: 150px;
+    }
+
+    .dash-grafico,
+    .dash-destaques,
+    .dash-tabela-card {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .dash-grafico-area {
+        height: 250px;
+    }
+
+    .dash-destaque-botoes {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dash-tabela {
+        min-width: 520px;
+    }
+}

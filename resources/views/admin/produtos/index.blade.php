@@ -3,6 +3,7 @@
 @push('css')
 <link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}">
 <link rel="stylesheet" href="{{ asset('css/admin/produtos.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/select-custom.css') }}">
 @endpush
 
 @section('content')

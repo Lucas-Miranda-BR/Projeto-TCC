@@ -192,6 +192,43 @@
 
 
 /* =========================================================
+   TEXTAREA
+   ========================================================= */
+
+.form-group textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px 14px;
+    color: #453a3c;
+    background: #ffffff;
+    border: 1px solid #ddd2d4;
+    border-radius: 10px;
+    outline: none;
+    resize: vertical;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group textarea:hover {
+    border-color: #cdbbbe;
+}
+
+.form-group textarea:focus {
+    border-color: #9d1228;
+    box-shadow: 0 0 0 3px rgba(157, 18, 40, 0.08);
+}
+
+.form-group textarea::placeholder,
+.form-group input::placeholder {
+    color: #a99ea1;
+}
+
+
+/* =========================================================
    SELECT
    ========================================================= */
 
@@ -438,4 +475,271 @@
         font-size: 12px;
     }
 
+}
+
+
+/* =========================================================
+   DROPDOWN (select) ESTILIZADO — Cadastrar produto e Editar produto
+   O <select> original continua no form (escondido); o visual é
+   montado por js/admin/produtos.js
+   ========================================================= */
+
+.select-custom {
+    position: relative;
+
+    width: 100%;
+}
+
+/* select de verdade: continua no form, mas invisível */
+.select-custom .select-custom__native {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    margin: 0;
+    padding: 0;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+/* ---------- botão fechado ---------- */
+.select-custom .select-custom__trigger {
+    width: 100%;
+    min-height: 43px;
+
+    padding: 0 12px 0 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #ddd4d4;
+    border-radius: 8px;
+
+    color: #453d3d;
+
+    cursor: pointer;
+    outline: none;
+    text-align: left;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.select-custom .select-custom__trigger:hover {
+    border-color: #cdbbbe;
+}
+
+.select-custom .select-custom__trigger:focus-visible,
+.select-custom.is-open .select-custom__trigger {
+    border-color: #a90f2d;
+
+    box-shadow: 0 0 0 3px rgba(169, 15, 45, 0.07);
+}
+
+.select-custom .select-custom__trigger:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+.select-custom__valor {
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-custom.is-placeholder .select-custom__valor {
+    color: #a39a9a;
+}
+
+/* setinha */
+.select-custom__seta {
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a90f2d' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.5 6l4.5 4.5L12.5 6'/%3E%3C/svg%3E") center / contain no-repeat;
+
+    transition: transform 0.2s ease;
+}
+
+.select-custom.is-open .select-custom__seta {
+    transform: rotate(180deg);
+}
+
+
+/* ---------- lista de opções ---------- */
+.select-custom .select-custom__menu {
+    position: absolute;
+    z-index: 80;
+
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+
+    max-height: 232px;
+
+    margin: 0;
+    padding: 6px;
+
+    overflow-y: auto;
+
+    list-style: none;
+
+    background: #ffffff;
+
+    border: 1px solid #e7dddd;
+    border-radius: 12px;
+
+    box-shadow: 0 14px 34px rgba(50, 30, 30, 0.15);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+
+    transition:
+        opacity 0.16s ease,
+        transform 0.16s ease,
+        visibility 0.16s;
+}
+
+.select-custom.is-open .select-custom__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* abre para cima quando falta espaço embaixo */
+.select-custom.is-drop-up .select-custom__menu {
+    top: auto;
+    bottom: calc(100% + 6px);
+
+    transform: translateY(4px);
+}
+
+.select-custom.is-drop-up.is-open .select-custom__menu {
+    transform: translateY(0);
+}
+
+.select-custom .select-custom__option {
+    margin: 0;
+    padding: 9px 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    border-radius: 8px;
+
+    color: #514747;
+
+    cursor: pointer;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.select-custom__option span {
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-custom .select-custom__option.is-vazio {
+    color: #9a9090;
+}
+
+.select-custom .select-custom__option.is-ativo {
+    background: #fff4f5;
+
+    color: #a90f2d;
+}
+
+.select-custom .select-custom__option.is-selecionado {
+    background: #fbeaed;
+
+    color: #a90f2d;
+
+    font-weight: 500;
+}
+
+/* ✓ na opção escolhida */
+.select-custom .select-custom__option.is-selecionado::after {
+    content: '';
+
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a90f2d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* barra de rolagem fina */
+.select-custom .select-custom__menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.select-custom .select-custom__menu::-webkit-scrollbar-thumb {
+    background: #e4d6d8;
+
+    border-radius: 999px;
+}
+
+
+/* ---------- tamanhos por tela ---------- */
+/* janelinha "Novo produto": campos compactos */
+.novo-produto-conteudo .select-custom .select-custom__trigger,
+.novo-produto-painel .select-custom .select-custom__trigger {
+    min-height: 38px;
+}
+
+.novo-produto-conteudo .select-custom .select-custom__menu,
+.novo-produto-painel .select-custom .select-custom__menu {
+    max-height: 190px;
+}
+
+/* tela "Editar produto" */
+.produto-edit-card .select-custom .select-custom__trigger {
+    min-height: 46px;
+
+    padding: 0 14px;
+
+    border-color: #ddd2d4;
+    border-radius: 10px;
+}
+
+.produto-edit-card .select-custom .select-custom__trigger:focus-visible,
+.produto-edit-card .select-custom.is-open .select-custom__trigger {
+    border-color: #9d1228;
+
+    box-shadow: 0 0 0 3px rgba(157, 18, 40, 0.08);
 }

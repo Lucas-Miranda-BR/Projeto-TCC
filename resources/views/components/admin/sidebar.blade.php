@@ -52,7 +52,7 @@
             }}"
         >
 
-            <i class="bi bi-calendar3"></i>
+            <i class="bi bi-bell"></i>
 
             <span>
                 Notificações
@@ -137,14 +137,21 @@
 
     <a
         href="{{ route('admin.descontos.index') }}"
-        class="menu-item"
+        class="menu-item {{
+            request()->routeIs('admin.descontos.*')
+                ? 'active'
+                : ''
+        }}"
     >
 
-    <i class="bi bi-calendar3"></i>
+        <i class="bi bi-tag"></i>
 
-    <span>
-        Descontos
-    </span>
+        <span>
+            Descontos
+        </span>
 
     </a>
+
+    </nav>
+
 </aside>

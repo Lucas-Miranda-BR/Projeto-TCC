@@ -6,132 +6,223 @@
 @endpush
 
 @section('content')
-@php
-    $iaEstaAtiva = isset($iaAtiva)
-        ? (bool) $iaAtiva
-        : \App\Http\Middleware\VerificarPaginaIaAtiva::estaAtiva();
-@endphp
-
 <div class="admin-layout">
-    
+
     @include('components.admin.sidebar')
 
     <div class="admin-main">
-        
+
         @include('components.admin.navbar')
 
-        <main class="dashboard-content">
+        <main class="dash-page">
 
-            <div class="dashboard-header">
-                <span class="breadcrumb-admin">
-                    Painel >
-                    <strong>Dashboard</strong>
-                </span>
-                
-                <h2 id="dashboard-date">Carregando data...</h2>
-                <h1 id="dashboard-time">--:--</h1>
-            </div>
+            {{-- CABEÇALHO --}}
+            <header class="dash-header">
 
-            @if(session('success'))
-                <div class="alert alert-success" style="margin-bottom: 20px; padding: 12px 16px; border-radius: 8px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
-                    <i class="bi bi-check-circle-fill"></i>
-                    {{ session('success') }}
+                <div class="dash-header-texto">
+                    <span class="breadcrumb-admin">
+                        Painel >
+                        <strong>Dashboard</strong>
+                    </span>
+
+                    <h1>Visão geral</h1>
+
+                    <p>
+                        <span id="dashboard-date">Carregando data...</span>
+                        <span class="dash-separador">·</span>
+                        <span id="dashboard-time">--:--</span>
+                    </p>
                 </div>
-            @endif
 
-            <section class="dashboard-cards">
+                <div class="dash-header-acoes">
 
-                <div class="dashboard-card networth-card">
-                    
-                    <div class="dashboard-card-header">
-                        <span>Fluxo de Caixa (Networth)</span>
-                        <select id="card-periodo-select" class="filtro-select">
-                            <option value="dia">Hoje (Por Hora)</option>
+                    <label class="dash-select" for="card-periodo-select">
+                        <i class="bi bi-calendar3"></i>
+                        <select id="card-periodo-select" aria-label="Período">
+                            <option value="dia">Hoje (por hora)</option>
                             <option value="semana" selected>Últimos 7 dias</option>
                             <option value="mes">Últimos 30 dias</option>
                         </select>
-                    </div>
-                    
-                    <strong class="dashboard-card-value text-networth" id="dashboard-networth">
-                        R$ 0,00
-                    </strong>
-                    
-                    <small id="dashboard-networth-label">Ganhos - Custos (Hoje)</small>
-                    
-                    <a href="{{ route('admin.networth.gerenciar') }}" class="link-gerenciar">
-                        Gerenciar Custos
+                    </label>
+
+                    <a href="{{ route('admin.networth.gerenciar') }}" class="dash-btn dash-btn-escuro">
+                        Gerenciar custos
+                        <i class="bi bi-plus-lg"></i>
                     </a>
-                    
+
                 </div>
 
-                <div class="dashboard-card ia-control-card">
+            </header>
 
-                    <div class="dashboard-card-header">
-                        <span>Página Provador de Estilo (IA)</span>
-                        <span style="font-weight: 600; color: {{ $iaEstaAtiva ? '#198754' : '#dc3545' }};">
-                            <i class="bi {{ $iaEstaAtiva ? 'bi-check-circle-fill' : 'bi-x-circle-fill' }}"></i>
-                            {{ $iaEstaAtiva ? 'Ativa' : 'Desativada' }}
-                        </span>
+
+            {{-- LINHA 1: RESUMO --}}
+            <section class="dash-resumo">
+
+                <article class="dash-card dash-hero">
+
+                    <span class="dash-hero-rotulo">Fluxo de caixa (networth)</span>
+
+                    <strong class="dash-hero-valor" id="dashboard-networth">R$ 0,00</strong>
+
+                    <small class="dash-hero-legenda" id="dashboard-networth-label">Ganhos - Custos (Hoje)</small>
+
+                    <div class="dash-hero-rodape">
+                        <div class="dash-hero-texto">
+                            <span id="hero-progresso-texto">0 de 0 dias no positivo</span>
+                        </div>
+
+                        <div class="dash-hero-barra">
+                            <div class="dash-barra">
+                                <div class="dash-barra-preenchida" id="hero-progresso"></div>
+                            </div>
+                            <span class="dash-pilula" id="hero-percentual">0%</span>
+                        </div>
                     </div>
 
-                    <p style="margin: 10px 0 16px 0; font-size: 0.92rem; opacity: 0.85;">
-                        {{ $iaEstaAtiva
-                            ? 'A página de IA está aberta para os usuários.'
-                            : 'A página de IA está bloqueada para os usuários não administradores.' }}
-                    </p>
+                </article>
 
-                    <form action="{{ route('admin.ia.toggle') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="link-gerenciar" style="border: none; cursor: pointer; background: transparent; padding: 0; font-size: 0.95rem; font-weight: 600;">
-                            <i class="bi {{ $iaEstaAtiva ? 'bi-toggle-on' : 'bi-toggle-off' }}"></i>
-                            {{ $iaEstaAtiva ? 'Desativar página IA' : 'Ativar página IA' }}
-                        </button>
-                    </form>
 
-                </div>
+                <article class="dash-card dash-stat">
+
+                    <div class="dash-stat-topo">
+                        <span class="dash-stat-icone"><i class="bi bi-graph-up-arrow"></i></span>
+                        <span class="dash-stat-rotulo" id="stat-melhor-rotulo">Melhor dia</span>
+                    </div>
+
+                    <strong class="dash-stat-valor" id="stat-melhor-valor">R$ 0,00</strong>
+
+                    <small class="dash-stat-legenda" id="stat-melhor-data">—</small>
+
+                </article>
+
+
+                <article class="dash-card dash-stat dash-stat-destaque">
+
+                    <div class="dash-stat-topo">
+                        <span class="dash-stat-icone"><i class="bi bi-bar-chart"></i></span>
+                        <span class="dash-stat-rotulo" id="stat-media-rotulo">Média por dia</span>
+                    </div>
+
+                    <strong class="dash-stat-valor" id="stat-media-valor">R$ 0,00</strong>
+
+                    <small class="dash-stat-legenda" id="stat-media-legenda">no período</small>
+
+                </article>
 
             </section>
 
-            <section class="dashboard-charts">
 
-                <div class="chart-card networth-chart">
-                    
-                    <div class="chart-header">
-                        <div>
-                            <div class="chart-title-row">
-                                <h3>Evolução do Fluxo de Caixa</h3>
-                                
-                                <select id="filtro-periodo" class="filtro-select">
-                                    <option value="dia">Hoje (Por Hora)</option>
-                                    <option value="semana" selected>Últimos 7 dias</option>
-                                    <option value="mes">Últimos 30 dias</option>
-                                </select>
-                            </div>
-                            
-                            <p>Desempenho financeiro líquido</p>
-                        </div>
-                        
-                        <span>
-                            {{ now()->format('d/m/Y') }}
-                            <i class="bi bi-calendar3"></i>
+            {{-- LINHA 2: GRÁFICO + DESTAQUES --}}
+            <section class="dash-meio">
+
+                <article class="dash-card dash-grafico">
+
+                    <div class="dash-card-cabecalho">
+                        <span class="dash-card-titulo">
+                            <i class="bi bi-bar-chart-line"></i>
+                            Evolução do fluxo de caixa
                         </span>
+
+                        <span class="dash-chip-periodo" id="chart-periodo">Últimos 7 dias</span>
                     </div>
 
-                    <div class="chart-area">
+                    <div class="dash-grafico-total">
+                        <strong id="chart-total">R$ 0,00</strong>
+                        <small>Desempenho financeiro líquido no período</small>
+                    </div>
+
+                    <div class="dash-grafico-area">
                         <canvas id="grafico-faturamento"></canvas>
                     </div>
-                    
+
+                </article>
+
+
+                <article class="dash-card dash-destaques">
+
+                    <div class="dash-card-cabecalho">
+                        <span class="dash-card-titulo">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Atenção ao caixa
+                        </span>
+                    </div>
+
+                    <div class="dash-destaque-box" id="destaque-box">
+
+                        <div class="dash-destaque-topo">
+                            <span class="dash-stat-icone" id="destaque-icone"><i class="bi bi-arrow-down-right"></i></span>
+
+                            <div>
+                                <strong id="destaque-titulo">Pior dia do período</strong>
+                                <small id="destaque-data">—</small>
+                            </div>
+                        </div>
+
+                        <strong class="dash-destaque-valor" id="destaque-valor">R$ 0,00</strong>
+
+                        <span class="dash-chip" id="destaque-chip">—</span>
+
+                        <p class="dash-destaque-meta" id="destaque-meta">—</p>
+
+                    </div>
+
+                    <div class="dash-destaque-botoes">
+                        <a href="{{ route('admin.networth.gerenciar') }}" class="dash-btn dash-btn-escuro">
+                            Gerenciar custos
+                        </a>
+
+                        <a href="{{ route('admin.agendamentos') }}" class="dash-btn dash-btn-claro">
+                            Ver agendamentos
+                        </a>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            {{-- LINHA 3: TABELA --}}
+            <section class="dash-card dash-tabela-card">
+
+                <div class="dash-card-cabecalho">
+                    <span class="dash-card-titulo">
+                        <i class="bi bi-receipt"></i>
+                        Movimentação do período
+                    </span>
+
+                    <a href="{{ route('admin.networth.gerenciar') }}" class="dash-btn dash-btn-claro dash-btn-pequeno">
+                        Ver custos
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="dash-tabela-scroll">
+                    <table class="dash-tabela">
+                        <thead>
+                            <tr>
+                                <th id="tabela-coluna-data">Data</th>
+                                <th>Valor líquido</th>
+                                <th>Variação</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-movimentacao">
+                            <tr>
+                                <td colspan="4" class="dash-tabela-vazio">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </section>
-            
+
         </main>
-        
+
     </div>
-    
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="{{ asset('js/admin/dashboard.js') }}"></script>
 
 @endsection
