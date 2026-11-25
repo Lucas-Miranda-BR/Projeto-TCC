@@ -554,6 +554,11 @@
 
                         <span>
                             Valor do serviço
+                            @if(!empty($temTaxaFalta))
+                                <small style="display: block; color: #b42318; font-weight: 600; margin-top: 2px;">
+                                    (+10% taxa de atraso inclusa)
+                                </small>
+                            @endif
                         </span>
 
                         <strong id="resumo-preco">
@@ -561,6 +566,20 @@
                         </strong>
 
                     </div>
+
+
+
+                    @if(!empty($temTaxaFalta))
+                        <div class="resumo-aviso" style="background: #fef3f2; border: 1px solid #fecdca; color: #b42318;">
+
+                            <i class="bi bi-exclamation-triangle-fill" style="color: #d92d20;"></i>
+
+                            <span>
+                                <strong>Agendamento em atraso:</strong> devido ao não comparecimento no horário anterior, foi aplicado um acréscimo de <strong>10%</strong> no valor deste serviço.
+                            </span>
+
+                        </div>
+                    @endif
 
 
 

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
-
     public function processarFaltasComDelay($clienteId = null)
     {
         $limiteAtraso = Carbon::today()->subDay()->toDateString();
@@ -54,9 +53,6 @@ class AgendamentoController extends Controller
                     ]);
                 }
             }
-
-            $agendamento->status = 0;
-            $agendamento->save();
         }
     }
 
@@ -73,10 +69,24 @@ class AgendamentoController extends Controller
         $this->processarFaltasComDelay($cliente->cliente_id);
 
         $temTaxaFalta = AgendamentoModel::where('cliente_id', $cliente->cliente_id)
-            ->where('status', 0)
+            ->where('status', 2)
             ->exists();
 
         $procedimentos = ProcedimentoModel::all();
+
+        if ($temTaxaFalta) {
+            $procedimentos->transform(function ($proc) {
+                foreach (['preco', 'valor', 'preco_final'] as $campo) {
+                    if (isset($proc->$campo) && $proc->$campo !== null) {
+                        $val = is_string($proc->$campo) ? str_replace(',', '.', $proc->$campo) : $proc->$campo;
+                        if (is_numeric($val) && (float) $val > 0) {
+                            $proc->$campo = round((float) $val * 1.10, 2);
+                        }
+                    }
+                }
+                return $proc;
+            });
+        }
         
         $procedimentoSelecionado = $request->query('procedimento_id');
         $imagemGeradaId = $request->query('imagem_id');
@@ -85,7 +95,8 @@ class AgendamentoController extends Controller
             'procedimentos',
             'cliente',
             'procedimentoSelecionado',
-            'imagemGeradaId'
+            'imagemGeradaId',
+            'temTaxaFalta'
         ));
     }
 
@@ -110,6 +121,16 @@ class AgendamentoController extends Controller
 
         $this->processarFaltasComDelay($cliente_id);
 
+        $temTaxaFalta = AgendamentoModel::where('cliente_id', $cliente_id)
+            ->where('status', 2)
+            ->exists();
+
+        if ($temTaxaFalta) {
+            AgendamentoModel::where('cliente_id', $cliente_id)
+                ->where('status', 2)
+                ->update(['status' => 3]);
+        }
+
         $agendamento = AgendamentoModel::create([
             'cliente_id' => $cliente_id,
             'procedimento_id' => $request->procedimento_id,
@@ -117,6 +138,11 @@ class AgendamentoController extends Controller
             'hora' => $request->hora,
             'status' => 0
         ]);
+
+        // Guarda na sessão que este novo agendamento deve receber +10% ao ser concluído
+        if ($temTaxaFalta) {
+            session()->push('agendamentos_taxa_falta', $agendamento->agendamento_id);
+        }
 
         $procedimento = ProcedimentoModel::find($request->procedimento_id);
         $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
@@ -132,6 +158,10 @@ class AgendamentoController extends Controller
                     [$nomeProcedimento, $dataFormatada, $agendamento->hora], 
                     $template->conteudo
                 );
+
+                if ($temTaxaFalta) {
+                    $textoFinal .= ' (Acréscimo de 10% aplicado por ausência anterior).';
+                }
 
                 NotificacaoModel::create([
                     'cliente_id' => $cliente_id,
@@ -154,16 +184,28 @@ class AgendamentoController extends Controller
         $agendamento = AgendamentoModel::findOrFail($id);
         
         if ($agendamento->status != 1) {
+            $idsComTaxa = session('agendamentos_taxa_falta', []);
+            $aplicarTaxaFalta = in_array($agendamento->agendamento_id, $idsComTaxa);
+
+            if (!$aplicarTaxaFalta && $agendamento->status == 2) {
+                $aplicarTaxaFalta = true;
+            }
+
             $agendamento->status = 1;
             $agendamento->save();
 
-            $this->registrarFaturamentoAgendamento($agendamento);
+            if ($aplicarTaxaFalta) {
+                $novosIds = array_values(array_diff($idsComTaxa, [$agendamento->agendamento_id]));
+                session(['agendamentos_taxa_falta' => $novosIds]);
+            }
+
+            $this->registrarFaturamentoAgendamento($agendamento, $aplicarTaxaFalta);
         }
 
         return redirect()->back()->with('success', 'Agendamento concluído e faturamento atualizado com sucesso!');
     }
 
-    private function registrarFaturamentoAgendamento($agendamento)
+    private function registrarFaturamentoAgendamento($agendamento, $aplicarTaxaFalta = false)
     {
         $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
 
@@ -183,6 +225,10 @@ class AgendamentoController extends Controller
 
         if ($valorProcedimento <= 0) {
             return;
+        }
+
+        if ($aplicarTaxaFalta) {
+            $valorProcedimento = round($valorProcedimento * 1.10, 2);
         }
 
         $hoje = Carbon::today()->toDateString();
