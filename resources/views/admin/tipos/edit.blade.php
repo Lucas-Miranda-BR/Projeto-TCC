@@ -52,14 +52,14 @@
 
         <div>
 
-            <label for="colorivel">
+            <label for="is_colorivel">
                 Permite coloração
             </label>
 
             <select
-                name="colorivel"
-                id="colorivel"
-                value="{{ old('colorivel') }}"
+                name="is_colorivel"
+                id="is_colorivel"
+                value="{{ old('is_colorivel') }}"
                 placeholder="Ex: Corte"
                 required
             >
