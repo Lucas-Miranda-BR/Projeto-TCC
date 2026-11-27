@@ -1,7 +1,10 @@
 -- BACKEND --
 
+-- A ser testado --
+- Add opção de colocar a imagem gerada junto ao agendamento/agendar (NanoBanana não será adicionado, no momento.)
+
 -- A ser adicionado --
-- Add opção de colocar a imagem gerada junto ao atendimento (NanoBanana não será adicionado, no momento.)
+- Add opção de colocar a imagem gerada junto ao admin/agendamentos/index (NanoBanana não será adicionado, no momento.)
 
 
 -- FRONTEND --
