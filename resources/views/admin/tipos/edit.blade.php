@@ -59,7 +59,7 @@
             <select
                 name="is_colorivel"
                 id="is_colorivel"
-                value="{{ old('is_colorivel') }}"
+                value="{{ old('is_colorivel', $tipo->is_colorivel) }}"
                 placeholder="Ex: Corte"
                 required
             >
