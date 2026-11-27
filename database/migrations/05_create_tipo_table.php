@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tipo', function (Blueprint $table) {
             $table->id('tipo_id');
             $table->string('nome');
-            $table->boolean('colorivel')->default(false);
+            $table->boolean('is_colorivel')->default(false);
             $table->timestamp('criado')->useCurrent();
             $table->timestamp('atualizado')->useCurrent()->useCurrentOnUpdate();
         });

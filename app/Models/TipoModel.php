@@ -14,7 +14,7 @@ class TipoModel extends Model
     protected $primaryKey = 'tipo_id';
     protected $fillable = [
         'nome',
-        'colorivel'
+        'is_colorivel'
     ];
 
     public function procedimentos(): HasMany {
