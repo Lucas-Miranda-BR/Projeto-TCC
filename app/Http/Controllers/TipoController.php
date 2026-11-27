@@ -37,7 +37,7 @@ class TipoController extends Controller
                 ->withInput();
         }
 
-        $tipo = TipoModel::create([
+        TipoModel::create([
             'nome' => $request->nome,
             'is_colorivel' => $request->boolean('is_colorivel'),
         ]);
@@ -78,6 +78,7 @@ class TipoController extends Controller
         }
 
         $validated = $validator->validated();
+        $validated['is_colorivel'] = $request->boolean('is_colorivel') ? 1 : 0;
 
         $tipo->update($validated);
 

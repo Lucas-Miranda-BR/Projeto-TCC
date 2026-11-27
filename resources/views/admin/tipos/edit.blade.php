@@ -1,4 +1,19 @@
-@if (session('error'))
+@extends('layouts.app')
+
+@section('content')
+
+@php
+    $valorColorivel = (int) old(
+        'is_colorivel',
+        $tipo->is_colorivel ?? 0
+    );
+@endphp
+
+<div class="admin-tipos">
+
+    <h1>Editar Tipo</h1>
+
+    @if (session('error'))
         <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
             {{ session('error') }}
         </div>
@@ -9,13 +24,16 @@
             {{ session('success') }}
         </div>
     @endif
-@extends('layouts.app')
 
-@section('content')
-
-<div class="admin-tipos">
-
-    <h1>Editar Tipo</h1>
+    @if ($errors->any())
+        <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form
         action="{{ route(
@@ -28,7 +46,6 @@
         @csrf
 
         @method('PUT')
-
 
         <div>
 
@@ -49,7 +66,6 @@
 
         </div>
 
-
         <div>
 
             <label for="is_colorivel">
@@ -59,12 +75,14 @@
             <select
                 name="is_colorivel"
                 id="is_colorivel"
-                value="{{ old('is_colorivel', $tipo->is_colorivel) }}"
-                placeholder="Ex: Corte"
                 required
             >
-                <option value="0">Não</option>
-                <option value="1">Sim</option>
+                <option value="0" {{ $valorColorivel === 0 ? 'selected' : '' }}>
+                    Não
+                </option>
+                <option value="1" {{ $valorColorivel === 1 ? 'selected' : '' }}>
+                    Sim
+                </option>
             </select>
 
         </div>
@@ -74,7 +92,6 @@
         </button>
 
     </form>
-
 
     <a href="{{ route('admin.tipos.index') }}">
         Voltar
