@@ -1,34 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    let procedimentos = window.dadosProcedimentos || [];
-    
-    let selectProcedimento = document.getElementById('procedimento_id');
-    let exibeTipo = document.getElementById('exibe-tipo');
-    let resumoNome = document.getElementById('resumo-nome');
-    let resumoDescricao = document.getElementById('resumo-descricao');
-    let resumoPreco = document.getElementById('resumo-preco');
+    var paginaAgendamento = document.querySelector('.agendamento-page');
+    var procedimentos = [];
 
-    if (selectProcedimento) {
-        selectProcedimento.addEventListener('change', function() {
-            let idSelecionado = this.value;
-            
-            let procedimento = procedimentos.find(p => p.procedimento_id == idSelecionado);
+    if (paginaAgendamento && paginaAgendamento.dataset.procedimentos) {
+        try {
+            procedimentos = JSON.parse(paginaAgendamento.dataset.procedimentos);
+        } catch (e) {
+            procedimentos = [];
+        }
+    }
 
-            if (procedimento) {
-                if (procedimento.tipos) {
-                    exibeTipo.innerHTML = `<strong>Tipo de Serviço:</strong> ${procedimento.tipos.nome}`;
-                }
+    var selectProcedimento = document.getElementById('procedimento_id');
+    var exibeTipo = document.getElementById('exibe-tipo');
+    var resumoNome = document.getElementById('resumo-nome');
+    var resumoDescricao = document.getElementById('resumo-descricao');
+    var resumoPreco = document.getElementById('resumo-preco');
 
-                resumoNome.innerHTML = `<strong>Serviço:</strong> ${procedimento.nome}`;
-                
-                resumoDescricao.innerHTML = `<strong>Descrição:</strong> ${procedimento.descricao}`;
-                
-                let precoFormatado = parseFloat(procedimento.preco).toLocaleString('pt-BR', {
+    function atualizarResumo() {
+        if (!selectProcedimento) return;
+
+        var idSelecionado = selectProcedimento.value;
+        var procedimento = procedimentos.find(function(p) {
+            return String(p.procedimento_id) === String(idSelecionado);
+        });
+
+        if (procedimento) {
+            if (procedimento.tipos && exibeTipo) {
+                exibeTipo.innerHTML = '<strong>Tipo de Serviço:</strong> ' + procedimento.tipos.nome;
+            }
+
+            if (resumoNome) {
+                resumoNome.innerHTML = '<strong>Serviço:</strong> ' + procedimento.nome;
+            }
+
+            if (resumoDescricao) {
+                resumoDescricao.innerHTML = '<strong>Descrição:</strong> ' + procedimento.descricao;
+            }
+
+            if (resumoPreco) {
+                var precoFormatado = parseFloat(procedimento.preco).toLocaleString('pt-BR', {
                     style: 'currency',
                     currency: 'BRL'
                 });
-                resumoPreco.innerHTML = `<strong>Valor:</strong> ${precoFormatado}`;
+                resumoPreco.innerHTML = '<strong>Valor:</strong> ' + precoFormatado;
             }
-        });
+        }
     }
+
+    if (selectProcedimento) {
+        selectProcedimento.addEventListener('change', atualizarResumo);
+        if (selectProcedimento.value) {
+            atualizarResumo();
+        }
+    }
+
 });

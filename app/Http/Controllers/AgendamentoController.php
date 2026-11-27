@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\AgendamentoModel;
 use App\Models\ProcedimentoModel;
+use App\Models\ImagemGeradaModel;
 use App\Models\NotificacaoModel;
 use App\Models\TemplateNotificacaoModel;
 use App\Models\NetworthModel;
@@ -13,6 +15,32 @@ use Illuminate\Support\Facades\Auth;
 
 class AgendamentoController extends Controller
 {
+    private function excluirImagemGerada(AgendamentoModel $agendamento): void
+    {
+        if (!$agendamento->imagem_gerada_id) {
+            return;
+        }
+
+        $imagem = ImagemGeradaModel::find($agendamento->imagem_gerada_id);
+
+        if ($imagem) {
+            if ($imagem->caminho_imagem_gerada) {
+                $caminhoAbsoluto = public_path($imagem->caminho_imagem_gerada);
+                if (file_exists($caminhoAbsoluto)) {
+                    @unlink($caminhoAbsoluto);
+                }
+            }
+
+            $agendamento->imagem_gerada_id = null;
+            $agendamento->save();
+
+            $imagem->delete();
+        } else {
+            $agendamento->imagem_gerada_id = null;
+            $agendamento->save();
+        }
+    }
+
     public function processarFaltasComDelay($clienteId = null)
     {
         $limiteAtraso = Carbon::today()->subDay()->toDateString();
@@ -24,7 +52,12 @@ class AgendamentoController extends Controller
             $queryJaAtrasados->where('cliente_id', $clienteId);
         }
 
-        $queryJaAtrasados->update(['status' => 3]);
+        $agendamentosEstourados = $queryJaAtrasados->get();
+        foreach ($agendamentosEstourados as $agendamento) {
+            $agendamento->status = 3;
+            $agendamento->save();
+            $this->excluirImagemGerada($agendamento);
+        }
 
         $queryNovosAtrasos = AgendamentoModel::where('status', 0)
             ->whereDate('data', '<=', $limiteAtraso);
@@ -68,7 +101,7 @@ class AgendamentoController extends Controller
     public function createAgendamento(Request $request)
     {
         $cliente = Auth::user();
-        
+
         if (!$cliente) {
             return redirect()
                 ->route('cliente.login')
@@ -96,15 +129,21 @@ class AgendamentoController extends Controller
                 return $proc;
             });
         }
-        
+
         $procedimentoSelecionado = $request->query('procedimento_id');
-        $imagemGeradaId = $request->query('imagem_id');
-        
+        $imagemGeradaId = $request->query('imagem_gerada_id') ?? $request->query('imagem_id');
+        $imagemGerada = null;
+
+        if ($imagemGeradaId) {
+            $imagemGerada = ImagemGeradaModel::find($imagemGeradaId);
+        }
+
         return view('agendamento.agendar', compact(
             'procedimentos',
             'cliente',
             'procedimentoSelecionado',
             'imagemGeradaId',
+            'imagemGerada',
             'temTaxaFalta'
         ));
     }
@@ -123,6 +162,11 @@ class AgendamentoController extends Controller
             'procedimento_id' => [
                 'required',
                 'exists:procedimento,procedimento_id'
+            ],
+            'imagem_gerada_id' => [
+                'nullable',
+                'integer',
+                'exists:imagem_gerada,imagem_gerada_id'
             ]
         ]);
 
@@ -143,6 +187,7 @@ class AgendamentoController extends Controller
         $agendamento = AgendamentoModel::create([
             'cliente_id' => $cliente_id,
             'procedimento_id' => $request->procedimento_id,
+            'imagem_gerada_id' => $request->imagem_gerada_id ?: null,
             'data' => $request->data,
             'hora' => $request->hora,
             'status' => 0
@@ -160,10 +205,10 @@ class AgendamentoController extends Controller
 
             if ($template) {
                 $dataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
-                
+
                 $textoFinal = str_replace(
-                    ['{procedimento}', '{data}', '{hora}'], 
-                    [$nomeProcedimento, $dataFormatada, $agendamento->hora], 
+                    ['{procedimento}', '{data}', '{hora}'],
+                    [$nomeProcedimento, $dataFormatada, $agendamento->hora],
                     $template->conteudo
                 );
 
@@ -190,7 +235,7 @@ class AgendamentoController extends Controller
         $this->processarFaltasComDelay();
 
         $agendamento = AgendamentoModel::findOrFail($id);
-        
+
         if ($agendamento->status != 1) {
             $idsComTaxa = session('agendamentos_taxa_falta', []);
             $aplicarTaxaFalta = in_array($agendamento->agendamento_id, $idsComTaxa);
@@ -204,6 +249,7 @@ class AgendamentoController extends Controller
             }
 
             $this->registrarFaturamentoAgendamento($agendamento, $aplicarTaxaFalta);
+            $this->excluirImagemGerada($agendamento);
         }
 
         return redirect()->back()->with('success', 'Agendamento concluído e faturamento atualizado com sucesso!');
@@ -217,8 +263,8 @@ class AgendamentoController extends Controller
             return;
         }
 
-        $precoBruto = $procedimento->desconto_ativo 
-            ? $procedimento->preco_final 
+        $precoBruto = $procedimento->desconto_ativo
+            ? $procedimento->preco_final
             : ($procedimento->preco_final ?? $procedimento->preco ?? $procedimento->valor ?? 0);
 
         if (is_string($precoBruto)) {
@@ -252,18 +298,18 @@ class AgendamentoController extends Controller
     {
         $agendamento = AgendamentoModel::findOrFail($id);
         $clienteId = $agendamento->cliente_id;
-        
+
         $procedimento = ProcedimentoModel::find($agendamento->procedimento_id);
         $nomeProcedimento = $procedimento ? $procedimento->nome : 'nosso serviço';
-        
+
         $template = TemplateNotificacaoModel::where('tipo', 'agendamento_cancelado')->first();
 
         if ($template && $clienteId) {
             $dataFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
-            
+
             $textoFinal = str_replace(
-                ['{procedimento}', '{data}', '{hora}'], 
-                [$nomeProcedimento, $dataFormatada, $agendamento->hora], 
+                ['{procedimento}', '{data}', '{hora}'],
+                [$nomeProcedimento, $dataFormatada, $agendamento->hora],
                 $template->conteudo
             );
 
@@ -276,7 +322,8 @@ class AgendamentoController extends Controller
             ]);
         }
 
-        $agendamento->delete(); 
+        $this->excluirImagemGerada($agendamento);
+        $agendamento->delete();
 
         return redirect()->back()->with('success', 'Agendamento cancelado e cliente notificado.');
     }
@@ -284,7 +331,7 @@ class AgendamentoController extends Controller
     public function editAgendamento($id)
     {
         $agendamento = AgendamentoModel::with(['clientes', 'procedimentos'])->findOrFail($id);
-        
+
         return view('admin.agendamentos.edit', compact('agendamento'));
     }
 
@@ -299,7 +346,7 @@ class AgendamentoController extends Controller
         $clienteId = $agendamento->cliente_id;
 
         $dataAntigaFormatada = Carbon::parse($agendamento->data)->format('d/m/Y');
-        
+
         $agendamento->data = $request->data;
         $agendamento->hora = $request->hora;
         $agendamento->save();
@@ -313,10 +360,9 @@ class AgendamentoController extends Controller
         $template = TemplateNotificacaoModel::where('tipo', 'agendamento_reagendado')->first();
 
         if ($template && $clienteId) {
-            
             $textoFinal = str_replace(
-                ['{procedimento}', '{data_antiga}', '{nova_data}', '{nova_hora}'], 
-                [$nomeProcedimento, $dataAntigaFormatada, $novaDataFormatada, $novaHora], 
+                ['{procedimento}', '{data_antiga}', '{nova_data}', '{nova_hora}'],
+                [$nomeProcedimento, $dataAntigaFormatada, $novaDataFormatada, $novaHora],
                 $template->conteudo
             );
 

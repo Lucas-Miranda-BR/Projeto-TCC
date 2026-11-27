@@ -22,7 +22,10 @@
 @include('components.navbar')
 
 
-<main class="agendamento-page">
+<main
+    class="agendamento-page"
+    data-procedimentos="{{ json_encode($procedimentos) }}"
+>
 
 
     <section class="agendamento-hero">
@@ -546,6 +549,35 @@
                         </div>
 
 
+                        @if(!empty($imagemGerada) && !empty($imagemGerada->caminho_imagem_gerada))
+                            <div class="resumo-item">
+
+                                <span class="resumo-item-icon">
+
+                                    <i class="bi bi-image"></i>
+
+                                </span>
+
+                                <div>
+
+                                    <small>
+                                        Simulação IA anexada
+                                    </small>
+
+                                    <div style="margin-top: 6px;">
+                                        <img
+                                            src="{{ asset($imagemGerada->caminho_imagem_gerada) }}"
+                                            alt="Prévia gerada pela IA"
+                                            style="max-width: 100%; border-radius: 8px; display: block;"
+                                        >
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        @endif
+
+
                     </div>
 
 
@@ -624,17 +656,9 @@
 
 @include('components.footer')
 
-
-
-<script>
-
-    window.dadosProcedimentos =
-        @json($procedimentos);
-
-</script>
-
-
-<script src="{{ asset('js/agendamento.js') }}"></script>
-
-
 @endsection
+
+
+@push('scripts')
+<script src="{{ asset('js/agendamento.js') }}"></script>
+@endpush

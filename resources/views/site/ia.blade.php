@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @push('css')
@@ -295,9 +294,16 @@
 
                 <span>Depois</span>
 
-                <div class="image-box generated">
+                <div class="image-box generated" id="boxImagemDepois">
 
-                    <div class="placeholder-ia">
+                    <img
+                        id="imagemDepois"
+                        src=""
+                        alt="Imagem gerada pela simulação"
+                        style="display: none; width: 100%; height: 100%; object-fit: cover;"
+                    >
+
+                    <div class="placeholder-ia" id="placeholderIa">
                         <i class="bi bi-stars"></i>
 
                         <p>
@@ -313,7 +319,7 @@
 
 
         <!-- AÇÕES DO RESULTADO -->
-        <div class="result-actions">
+        <div class="result-actionas">
 
             <p>
                 Gostou do resultado?
@@ -331,9 +337,11 @@
 
                 <a
                     href="{{ route('agendamento.agendar') }}"
+                    data-base-url="{{ route('agendamento.agendar') }}"
+                    id="btnAnexarAgendamento"
                     class="btn-agendar"
                 >
-                    Agendar meu horário
+                    Anexar com um agendamento.
                 </a>
 
             </div>
@@ -345,8 +353,6 @@
 
             O resultado apresentado é uma simulação criada por
             inteligência artificial e serve apenas como referência visual.
-
-            !API NÃO ADICIONADA!
 
         </small>
 

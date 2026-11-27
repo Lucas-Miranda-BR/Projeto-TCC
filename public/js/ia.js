@@ -1,10 +1,48 @@
-// Apenas interface: a integração com a IA ainda não foi feita.
+// Integração de interface e simulação local (sem chamar API externa).
 
 var inputFoto   = document.getElementById('imagem_prompt');
 var areaUpload  = document.getElementById('uploadArea');
 var previewBox  = document.getElementById('previewContainer');
 var previewImg  = document.getElementById('previewImagem');
 var resultado   = document.getElementById('resultado');
+var iaPage      = document.querySelector('.ia-page');
+
+var imagemDepois   = document.getElementById('imagemDepois');
+var placeholderIa  = document.getElementById('placeholderIa');
+var btnAnexar      = document.getElementById('btnAnexarAgendamento');
+var btnGerar       = document.getElementById('btnGerar');
+
+var imagemGeradaIdAtual = null;
+
+function atualizarLinkAgendamento() {
+    if (!btnAnexar) return;
+
+    var baseUrl = btnAnexar.dataset.baseUrl || btnAnexar.href.split('?')[0];
+    var params = new URLSearchParams();
+    var procId = document.getElementById('procedimento_id').value;
+
+    if (imagemGeradaIdAtual) {
+        params.set('imagem_gerada_id', imagemGeradaIdAtual);
+    }
+    if (procId) {
+        params.set('procedimento_id', procId);
+    }
+
+    var query = params.toString();
+    btnAnexar.href = query ? baseUrl + '?' + query : baseUrl;
+}
+
+function resetarPreviewDepois() {
+    imagemGeradaIdAtual = null;
+    if (imagemDepois) {
+        imagemDepois.src = '';
+        imagemDepois.style.display = 'none';
+    }
+    if (placeholderIa) {
+        placeholderIa.style.display = '';
+    }
+    atualizarLinkAgendamento();
+}
 
 inputFoto.addEventListener('change', function () {
     var arquivo = inputFoto.files[0];
@@ -14,6 +52,7 @@ inputFoto.addEventListener('change', function () {
     previewImg.src = URL.createObjectURL(arquivo);
     previewBox.classList.add('active');
     areaUpload.style.display = 'none';
+    resetarPreviewDepois();
 });
 
 document.getElementById('removerImagem').addEventListener('click', function () {
@@ -24,7 +63,8 @@ document.getElementById('removerImagem').addEventListener('click', function () {
     areaUpload.style.display = '';
 
     resultado.classList.remove('active');
-    document.querySelector('.ia-page').classList.remove('has-result');
+    if (iaPage) iaPage.classList.remove('has-result');
+    resetarPreviewDepois();
 });
 
 
@@ -97,16 +137,17 @@ opcoes.forEach(function (opcao) {
         selectCor.disabled = !usaCor;
         selectCor.required = usaCor;
 
+        atualizarLinkAgendamento();
         fecharDropdown();
     });
 });
 
 
 /* ==========================================================
-   BOTÃO: MOSTRA O LAYOUT DO RESULTADO (SEM CHAMAR IA)
+   BOTÃO: ENVIA PROMPT, APAGA ORIGINAL TEMPORÁRIA E MOSTRA RESULTADO
    ========================================================== */
 
-document.querySelector('.ia-form').addEventListener('submit', function (evento) {
+document.querySelector('.ia-form').addEventListener('submit', async function (evento) {
     evento.preventDefault();
 
     if (!inputFoto.files[0]) {
@@ -114,10 +155,48 @@ document.querySelector('.ia-form').addEventListener('submit', function (evento) 
         return;
     }
 
-    document.getElementById('imagemAntes').src = previewImg.src;
+    var form = this;
+    var formData = new FormData(form);
+    if (btnGerar) btnGerar.disabled = true;
 
-    resultado.classList.add('active');
-    document.querySelector('.ia-page').classList.add('has-result');
+    try {
+        var response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            body: formData
+        });
+
+        var data = await response.json();
+
+        if (!response.ok || !data.success) {
+            var msg = data.errors
+                ? Object.values(data.errors).flat().join('\n')
+                : (data.message || 'Erro ao processar a simulação.');
+            alert(msg);
+            return;
+        }
+
+        imagemGeradaIdAtual = data.imagem_gerada_id;
+        atualizarLinkAgendamento();
+
+        document.getElementById('imagemAntes').src = previewImg.src;
+
+        if (imagemDepois && data.imagem_gerada_url) {
+            imagemDepois.src = data.imagem_gerada_url;
+            imagemDepois.style.display = 'block';
+            if (placeholderIa) placeholderIa.style.display = 'none';
+        }
+
+        resultado.classList.add('active');
+        if (iaPage) iaPage.classList.add('has-result');
+    } catch (err) {
+        alert('Falha na comunicação com o servidor.');
+    } finally {
+        if (btnGerar) btnGerar.disabled = false;
+    }
 });
 
 
@@ -127,5 +206,6 @@ document.querySelector('.ia-form').addEventListener('submit', function (evento) 
 
 document.getElementById('btnNova').addEventListener('click', function () {
     resultado.classList.remove('active');
-    document.querySelector('.ia-page').classList.remove('has-result');
+    if (iaPage) iaPage.classList.remove('has-result');
+    resetarPreviewDepois();
 });
