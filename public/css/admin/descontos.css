@@ -1439,3 +1439,142 @@
     }
 
 }
+
+
+/* =========================================================
+   AJUSTE DE FONTES (padronização tipográfica)
+   Escala: 12 (apoio) / 13 (corpo) / 14 (destaque) / Playfair (títulos)
+   ========================================================= */
+
+.descontos-content,
+.descontos-content input,
+.descontos-content select,
+.descontos-content textarea,
+.descontos-content button,
+.descontos-content a {
+    font-family: 'Poppins', sans-serif;
+}
+
+.descontos-content {
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* títulos */
+.descontos-header h1 {
+    font-size: 34px;
+    line-height: 1.2;
+    letter-spacing: -0.2px;
+}
+
+.descontos-header p,
+.descontos-lista-header p,
+.desconto-form-card-header p {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.breadcrumb-admin {
+    font-size: 12px;
+}
+
+.descontos-lista-header h2,
+.desconto-form-card-header h2 {
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+/* resumo */
+.desconto-resumo-card span {
+    font-size: 13px;
+}
+
+.desconto-resumo-card strong {
+    font-size: 28px;
+    line-height: 1.1;
+}
+
+/* tabela */
+.descontos-tabela th {
+    font-size: 12px;
+    letter-spacing: 0.4px;
+}
+
+.descontos-tabela td,
+.desconto-nome span {
+    font-size: 14px;
+}
+
+.desconto-validade {
+    font-size: 13px;
+}
+
+.desconto-valor {
+    font-size: 15px;
+}
+
+.badge-desconto {
+    font-size: 12px;
+}
+
+/* botões */
+.btn-novo-desconto,
+.btn-voltar-descontos,
+.btn-desconto-cancelar,
+.btn-desconto-principal,
+.btn-desconto-excluir {
+    font-size: 13px;
+    letter-spacing: 0.1px;
+}
+
+/* formulário */
+.desconto-selecao label,
+.form-group-desconto label {
+    font-size: 13px;
+}
+
+.form-group-desconto select,
+.desconto-selecao select,
+.form-group-desconto input,
+.input-percentual input {
+    font-size: 14px;
+}
+
+.form-group-desconto small,
+.desconto-ajuda {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.desconto-tipo-alerta strong {
+    font-size: 13px;
+}
+
+.desconto-tipo-alerta p {
+    font-size: 12px;
+}
+
+/* vazio / paginação */
+.descontos-vazio strong {
+    font-size: 15px;
+}
+
+.descontos-vazio span {
+    font-size: 13px;
+}
+
+.descontos-paginacao a,
+.descontos-paginacao span {
+    font-size: 13px;
+}
+
+.descontos-paginacao p {
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+    .descontos-header h1 { font-size: 28px; }
+    .descontos-tabela td { font-size: 13px; }
+    .descontos-paginacao a { font-size: 12px; }
+}

@@ -2485,3 +2485,197 @@ span:last-child {
 
     box-shadow: 0 0 0 3px rgba(157, 18, 40, 0.08);
 }
+
+
+/* =========================================================
+   RESUMO DE ESTOQUE (Bastante / Atenção / Esgotados)
+   Mesmo tratamento dos cartões do dashboard: degradê,
+   ícone redondo, texto claro e número grande embaixo.
+   ========================================================= */
+.produtos-content .estoque-card {
+    position: relative;
+
+    min-height: 170px;
+
+    padding: 22px 24px 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    overflow: hidden;
+
+    border: none;
+    border-radius: 17px;
+
+    color: #ffffff;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.produtos-content .estoque-card:hover {
+    transform: translateY(-3px);
+}
+
+.produtos-content .estoque-card > * {
+    position: relative;
+
+    z-index: 1;
+}
+
+.produtos-content .estoque-bastante {
+    background: linear-gradient(135deg, #34b56f 0%, #1f9d55 48%, #146a3a 100%);
+
+    box-shadow: 0 16px 32px rgba(31, 157, 85, 0.24);
+}
+
+.produtos-content .estoque-atencao {
+    background: linear-gradient(135deg, #f59a5c 0%, #e8692f 48%, #b8451a 100%);
+
+    box-shadow: 0 16px 32px rgba(232, 105, 47, 0.26);
+}
+
+.produtos-content .estoque-esgotado {
+    background: linear-gradient(135deg, #c4203f 0%, #9d1228 48%, #6c0c1e 100%);
+
+    box-shadow: 0 16px 32px rgba(157, 18, 40, 0.26);
+}
+
+.produtos-content .estoque-card:hover.estoque-bastante {
+    box-shadow: 0 20px 38px rgba(31, 157, 85, 0.32);
+}
+
+.produtos-content .estoque-card:hover.estoque-atencao {
+    box-shadow: 0 20px 38px rgba(232, 105, 47, 0.34);
+}
+
+.produtos-content .estoque-card:hover.estoque-esgotado {
+    box-shadow: 0 20px 38px rgba(157, 18, 40, 0.34);
+}
+
+.produtos-content .estoque-topo {
+    margin-bottom: 14px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+.produtos-content .estoque-icone {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    border: none;
+    border-radius: 50%;
+
+    color: #ffffff;
+
+    font-size: 16px;
+}
+
+.produtos-content .estoque-titulo {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 14px !important;
+    font-weight: 500;
+
+    letter-spacing: 0;
+}
+
+.produtos-content .estoque-card strong,
+.produtos-content .estoque-card strong span,
+.produtos-content .estoque-bastante strong,
+.produtos-content .estoque-bastante strong span,
+.produtos-content .estoque-atencao strong,
+.produtos-content .estoque-atencao strong span,
+.produtos-content .estoque-esgotado strong,
+.produtos-content .estoque-esgotado strong span {
+    color: #ffffff;
+}
+
+.produtos-content .estoque-card strong {
+    margin-top: auto;
+
+    font-size: 32px !important;
+    font-weight: 500;
+
+    letter-spacing: -0.5px;
+}
+
+.produtos-content .estoque-card strong span {
+    font-size: 15px !important;
+    font-weight: 400;
+
+    letter-spacing: 0;
+
+    opacity: 0.8;
+}
+
+.produtos-content .estoque-legenda {
+    margin-top: 8px;
+
+    display: block;
+
+    color: rgba(255, 255, 255, 0.8);
+
+    font-size: 12px !important;
+    line-height: 1.45;
+}
+
+
+/* etiquetas de status na tabela: mesmas cores dos cartões */
+.produtos-content .status-produto.disponivel {
+    background: linear-gradient(135deg, #e3f6ea, #f4fcf7);
+
+    border-color: #a9dcbc;
+
+    color: #178044;
+}
+
+.produtos-content .status-produto.disponivel .status-bolinha {
+    background: #1f9d55;
+}
+
+.produtos-content .status-produto.estoque-baixo {
+    background: linear-gradient(135deg, #ffeadb, #fff6ef);
+
+    border-color: #f2bf9f;
+
+    color: #c9541f;
+}
+
+.produtos-content .status-produto.estoque-baixo .status-bolinha {
+    background: #e8692f;
+}
+
+.produtos-content .status-produto.sem-estoque {
+    background: linear-gradient(135deg, #fbe3e7, #fef3f5);
+
+    border-color: #e5aab5;
+
+    color: #9d1228;
+}
+
+.produtos-content .status-produto.sem-estoque .status-bolinha {
+    background: #9d1228;
+}
+
+@media (max-width: 640px) {
+
+    .produtos-content .estoque-card {
+        min-height: 128px;
+    }
+}

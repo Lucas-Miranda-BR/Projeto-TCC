@@ -56,23 +56,34 @@
                 </div>
 
 
-                <a
-                    href="{{ route('admin.clientes') }}"
-                    class="btn-nova-notificacao"
-                >
+                <div class="notificacoes-admin-acoes">
 
-                    <i class="bi bi-send"></i>
+                    <a
+                        href="{{ route('admin.templates.index') }}"
+                        class="btn-gerenciar-templates"
+                    >
 
-                    Enviar notificação
+                        <i class="bi bi-layout-text-window"></i>
 
-                </a>
+                        Gerenciar notificações
+
+                    </a>
+
+
+                    <a
+                        href="{{ route('admin.clientes') }}"
+                        class="btn-nova-notificacao"
+                    >
+
+                        <i class="bi bi-send"></i>
+
+                        Enviar notificação
+
+                    </a>
+
+                </div>
 
             </div>
-
-            <div>
-                <a href="{{ route('admin.templates.index') }}"> Gerenciar Notficaçoes </a>
-            </div>
-            
 
 
             @if(session('success'))

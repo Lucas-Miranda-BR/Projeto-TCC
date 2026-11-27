@@ -1,0 +1,122 @@
+/* =========================================================
+   SALÃO SEMPRE DIVA
+   ADMINISTRATIVO - FLUXO DE CAIXA (networth)
+   Reaproveita os cartões do dashboard (dash-*)
+   ========================================================= */
+
+.nw-page .dash-header-texto p strong { color: #2f2929; font-weight: 600; }
+
+/* alertas */
+.nw-alerta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.nw-alerta-sucesso { background: #edf8f0; border: 1px solid #cbe9d1; color: #347445; }
+.nw-alerta-erro    { background: #fdecee; border: 1px solid #f1c3ca; color: #9d1228; }
+
+/* formulários */
+.nw-formularios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.nw-form-card { position: relative; overflow: hidden; }
+
+.nw-form-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+}
+
+.ganho-card::before { background: linear-gradient(90deg, #34b56f, #1f9d55); }
+.custo-card::before { background: linear-gradient(90deg, #c4203f, #9d1228); }
+
+.nw-form-card .form-group { margin-bottom: 18px; }
+
+.nw-form-card label {
+    display: block;
+    margin-bottom: 8px;
+    color: #3d3434;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nw-input {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    background: #fff;
+    border: 1px solid #e3d3d5;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.nw-input:focus-within {
+    border-color: #9d1228;
+    box-shadow: 0 0 0 3px rgba(157, 18, 40, 0.1);
+}
+
+.nw-input span {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: #fdf3f4;
+    border-right: 1px solid #f1e5e6;
+    color: #9d1228;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.nw-input input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 14px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #2f2929;
+}
+
+.btn-submit {
+    width: 100%;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .2s, filter .2s;
+}
+
+.btn-ganho { background: linear-gradient(135deg, #34b56f, #1f9d55); box-shadow: 0 4px 12px rgba(31, 157, 85, .22); }
+.btn-custo { background: linear-gradient(135deg, #ad1429, #7d0d1d); box-shadow: 0 4px 12px rgba(157, 18, 40, .22); }
+
+.btn-submit:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+@media (max-width: 900px) {
+    .nw-formularios { grid-template-columns: 1fr; }
+}
+
+/* espaçamento interno dos cartões de formulário */
+.nw-form-card { padding: 26px 28px 28px; }
+.nw-form-card .dash-card-cabecalho { margin-bottom: 20px; }
+.nw-formularios { margin-top: 4px; }
