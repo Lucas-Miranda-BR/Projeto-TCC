@@ -402,6 +402,13 @@
 
                             </div>
 
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                    <input type="checkbox" name="colorivel" value="1">
+                                    Permite selecionar cor
+                                </label>
+                            </div>
+
 
                             <button
                                 type="submit"
