@@ -107,14 +107,14 @@
                             required
                         >
 
-                        <label for="colorivel">
+                        <label for="is_colorivel">
                             Permite coloração
                         </label>
 
                         <select
-                            name="colorivel"
-                            id="colorivel"
-                            value="{{ old('colorivel') }}"
+                            name="is_colorivel"
+                            id="is_colorivel"
+                            value="{{ old('is_colorivel') }}"
                             placeholder="Ex: Corte"
                             required
                         >
@@ -164,7 +164,7 @@
 
                                 <tr>
                                     <th>Tipo</th>
-                                    <th>Colorivel</th>
+                                    <th>is_Colorivel</th>
                                 </tr>
 
                             </thead>
@@ -180,7 +180,7 @@
                                             {{ $tipo->nome}}
                                         </td>
 
-                                        @if ($tipo->colorivel == 1)     
+                                        @if ($tipo->is_colorivel == 1)     
                                         <td>
                                             Sim
                                         </td>
