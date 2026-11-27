@@ -17,14 +17,23 @@ class AgendamentoController extends Controller
     {
         $limiteAtraso = Carbon::today()->subDay()->toDateString();
 
-        $query = AgendamentoModel::where('status', 0)
+        $queryJaAtrasados = AgendamentoModel::where('status', 2)
+            ->whereDate('data', '<', $limiteAtraso);
+
+        if ($clienteId) {
+            $queryJaAtrasados->where('cliente_id', $clienteId);
+        }
+
+        $queryJaAtrasados->update(['status' => 3]);
+
+        $queryNovosAtrasos = AgendamentoModel::where('status', 0)
             ->whereDate('data', '<=', $limiteAtraso);
 
         if ($clienteId) {
-            $query->where('cliente_id', $clienteId);
+            $queryNovosAtrasos->where('cliente_id', $clienteId);
         }
 
-        $agendamentosAtrasados = $query->get();
+        $agendamentosAtrasados = $queryNovosAtrasos->get();
 
         foreach ($agendamentosAtrasados as $agendamento) {
             $agendamento->status = 2;
@@ -139,7 +148,6 @@ class AgendamentoController extends Controller
             'status' => 0
         ]);
 
-        // Guarda na sessão que este novo agendamento deve receber +10% ao ser concluído
         if ($temTaxaFalta) {
             session()->push('agendamentos_taxa_falta', $agendamento->agendamento_id);
         }
@@ -186,10 +194,6 @@ class AgendamentoController extends Controller
         if ($agendamento->status != 1) {
             $idsComTaxa = session('agendamentos_taxa_falta', []);
             $aplicarTaxaFalta = in_array($agendamento->agendamento_id, $idsComTaxa);
-
-            if (!$aplicarTaxaFalta && $agendamento->status == 2) {
-                $aplicarTaxaFalta = true;
-            }
 
             $agendamento->status = 1;
             $agendamento->save();

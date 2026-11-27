@@ -76,13 +76,15 @@
                                                 <span class="status-concluido">Concluído</span>
                                             @elseif ($agendamento->status == 2)
                                                 <span class="status-falta">Atrasado</span>
+                                            @elseif ($agendamento->status == 3)
+                                                <span class="status-cancelado">Cancelado (Atraso)</span>
                                             @else
                                                 <span class="status-pendente">Não Concluído</span>
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if ($agendamento->status != 1)
+                                            @if ($agendamento->status == 0 || $agendamento->status == 2)
                                                 <div class="acoes-agendamento">
                                                     
                                                     <form action="{{ route('admin.agendamentos.concluir', $agendamento->agendamento_id) }}" method="POST">
@@ -106,9 +108,13 @@
                                                     </form>
 
                                                 </div>
-                                            @else
+                                            @elseif ($agendamento->status == 1)
                                                 <button disabled class="btn-agendamento-finalizado">
                                                     Finalizado
+                                                </button>
+                                            @else
+                                                <button disabled class="btn-agendamento-finalizado">
+                                                    Cancelado (Atraso)
                                                 </button>
                                             @endif
                                         </td>
