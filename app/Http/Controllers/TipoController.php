@@ -24,7 +24,7 @@ class TipoController extends Controller
                 'string',
                 'max:255'
             ],
-            'colorivel' => [
+            'is_colorivel' => [
                 'nullable',
                 'boolean'
             ]
@@ -39,13 +39,12 @@ class TipoController extends Controller
 
         $tipo = TipoModel::create([
             'nome' => $request->nome,
-            'colorivel' => $request->boolean('colorivel'),
+            'is_colorivel' => $request->boolean('is_colorivel'),
         ]);
 
         return redirect()
             ->back()
-            ->with('success', 'Tipo cadastrado com sucesso!')
-            ->withInput(['tipo_id' => $tipo->tipo_id]);
+            ->with('success', 'Tipo cadastrado com sucesso!');
     }
 
     public function editTipo($id)
@@ -65,7 +64,7 @@ class TipoController extends Controller
                 'string',
                 'max:255'
             ],
-            'colorivel' => [
+            'is_colorivel' => [
                 'required',
                 'boolean'
             ]

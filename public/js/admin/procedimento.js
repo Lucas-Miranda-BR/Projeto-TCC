@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
         function atualizarStatusColorivel() {
 
             const opcaoSelecionada =
-                selectTipo.options[
-                    selectTipo.selectedIndex
-                ];
+                selectTipo.selectedIndex >= 0
+                    ? selectTipo.options[selectTipo.selectedIndex]
+                    : null;
 
 
-            if (!opcaoSelecionada.value) {
+            if (!opcaoSelecionada || !opcaoSelecionada.value) {
 
                 statusColorivel.style.display =
                     'none';
@@ -30,10 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
+            const valorColorivel = (
+                opcaoSelecionada.getAttribute('data-colorivel') || ''
+            ).toString().toLowerCase().trim();
+
+
             const isColorivel =
-                opcaoSelecionada.getAttribute(
-                    'data-colorivel'
-                ) === '1';
+                ['1', 'true', 'on', 'yes'].includes(valorColorivel);
 
 
             statusColorivel.style.display =

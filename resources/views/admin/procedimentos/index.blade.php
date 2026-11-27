@@ -172,26 +172,18 @@
 
 
                                     @foreach($tipos as $tipo)
+                                        @php
+                                            $permiteCor = !empty($tipo->is_colorivel) || !empty($tipo->is_colorivel);
+                                        @endphp
 
                                         <option
                                             value="{{ $tipo->tipo_id }}"
-                                            data-colorivel="{{
-                                                !empty($tipo->is_colorivel)
-                                                    ? '1'
-                                                    : '0'
-                                            }}"
-                                            {{
-                                                old('tipo_id') == $tipo->tipo_id
-                                                    ? 'selected'
-                                                    : ''
-                                            }}
+                                            data-colorivel="{{ $permiteCor ? '1' : '0' }}"
+                                            {{ old('tipo_id') == $tipo->tipo_id ? 'selected' : '' }}
                                         >
-
                                             {{ $tipo->nome }}
-
                                         </option>
-
-                                    @endforeach
+                                @endforeach
 
                                 </select>
 
