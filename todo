@@ -1,10 +1,6 @@
 -- BACKEND --
 
--- A ser testado --
-- Ao finalizar compra -> Adicionar valor ao faturamento
-- Add agendamento atrassado (10% a ser pago)
-
--- A ser adicionado --
+-- A ser adicionado | Não será adicionado quando Nanobanana ser pago --
 - Add opção de colocar a imagem gerada junto ao atendimento (NanoBanana não será adicionado, no momento.)
 
 
