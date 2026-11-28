@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             
             ClienteDummySeeder::class,
             TemplateNotificacoesSeeder::class,
-            DescontoSeeder::class
+            DescontoSeeder::class,
+            TipoSeeder::class,
+            ProcedimentoSeeder::class
 
         ]);
     }

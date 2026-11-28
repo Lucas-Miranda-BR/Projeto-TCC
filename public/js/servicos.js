@@ -1,104 +1,80 @@
 /* =========================================================
    SERVIÇOS — carrossel deslizável + paleta de tons
    ========================================================= */
-   document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 
-    /* ---------- carrossel ---------- */
-    const trilho = document.getElementById('sv-trilho');
-    if (trilho) {
-        const cards = Array.from(trilho.querySelectorAll('.sv-card'));
+    /* ---------- carrossel (coverflow) ---------- */
+    const palco = document.getElementById('sv-trilho');
+    if (palco) {
+        const cards = Array.from(palco.querySelectorAll('.sv-card'));
         const btnAnt = document.getElementById('sv-anterior');
         const btnProx = document.getElementById('sv-proximo');
         const pontos = document.getElementById('sv-pontos');
+        let atual = 0;
 
-        const passo = () => {
-            if (cards.length < 2) return trilho.clientWidth;
-            return cards[1].offsetLeft - cards[0].offsetLeft;
-        };
-
-        /* pontos */
         cards.forEach(function (_, i) {
             const b = document.createElement('button');
             b.type = 'button';
             b.className = 'sv-ponto';
             b.setAttribute('aria-label', 'Ir para o serviço ' + (i + 1));
-            b.addEventListener('click', function () {
-                trilho.scrollTo({ left: i * passo(), behavior: 'smooth' });
-            });
+            b.addEventListener('click', function () { ir(i); });
             pontos.appendChild(b);
         });
 
-        function atualizar() {
-            const max = trilho.scrollWidth - trilho.clientWidth;
-            const atual = Math.min(cards.length - 1, Math.round(trilho.scrollLeft / passo()));
-            const indice = trilho.scrollLeft >= max - 4 ? cards.length - 1 : atual;
-
-            pontos.querySelectorAll('.sv-ponto').forEach(function (p, i) {
-                p.classList.toggle('ativo', i === indice);
+        function ir(i) {
+            atual = Math.max(0, Math.min(cards.length - 1, i));
+            cards.forEach(function (c, n) {
+                const pos = n - atual;
+                if (Math.abs(pos) <= 2) c.setAttribute('data-pos', pos);
+                else c.removeAttribute('data-pos');
+                c.setAttribute('aria-hidden', pos === 0 ? 'false' : 'true');
+                c.querySelectorAll('a').forEach(function (a) { a.tabIndex = pos === 0 ? 0 : -1; });
             });
-
-            const meio = trilho.scrollLeft + trilho.clientWidth / 2;
-            let mais = 0, dist = Infinity;
-            cards.forEach(function (c, i) {
-                const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - meio);
-                if (d < dist) { dist = d; mais = i; }
-            });
-            cards.forEach(function (c, i) { c.classList.toggle('ativo', i === mais); });
-            pontos.querySelectorAll('.sv-ponto').forEach(function (p, i) { p.classList.toggle('ativo', i === mais); });
-
-            if (btnAnt) btnAnt.disabled = trilho.scrollLeft <= 4;
-            if (btnProx) btnProx.disabled = trilho.scrollLeft >= max - 4;
+            pontos.querySelectorAll('.sv-ponto').forEach(function (p, n) { p.classList.toggle('ativo', n === atual); });
+            if (btnAnt) btnAnt.disabled = atual === 0;
+            if (btnProx) btnProx.disabled = atual === cards.length - 1;
         }
 
-        trilho.addEventListener('scroll', function () { window.requestAnimationFrame(atualizar); }, { passive: true });
-        window.addEventListener('resize', atualizar);
+        if (btnAnt) btnAnt.addEventListener('click', function () { ir(atual - 1); });
+        if (btnProx) btnProx.addEventListener('click', function () { ir(atual + 1); });
 
-        let alvo = 0;
-        const ir = function (i) {
-            alvo = Math.max(0, Math.min(cards.length - 1, i));
-            trilho.scrollTo({ left: alvo * passo(), behavior: 'smooth' });
-        };
-        let temporizador;
-        trilho.addEventListener('scroll', function () {
-            clearTimeout(temporizador);
-            temporizador = setTimeout(function () { alvo = Math.round(trilho.scrollLeft / passo()); }, 140);
-        }, { passive: true });
-        if (btnAnt) btnAnt.addEventListener('click', function () { ir(alvo - 1); });
-        if (btnProx) btnProx.addEventListener('click', function () { ir(alvo + 1); });
-
-        trilho.addEventListener('keydown', function (e) {
-            if (e.key === 'ArrowRight') { e.preventDefault(); ir(alvo + 1); }
-            if (e.key === 'ArrowLeft')  { e.preventDefault(); ir(alvo - 1); }
+        palco.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowRight') { e.preventDefault(); ir(atual + 1); }
+            if (e.key === 'ArrowLeft')  { e.preventDefault(); ir(atual - 1); }
         });
 
-        /* arrastar com o mouse (toque já funciona nativamente) */
-        let apertado = false, inicioX = 0, inicioScroll = 0, moveu = false;
+        /* deslizar (dedo ou mouse) e clicar nos cards de trás */
+        let apertado = false, inicioX = 0, moveu = false;
 
-        trilho.addEventListener('pointerdown', function (e) {
-            if (e.pointerType !== 'mouse') return;
-            apertado = true; moveu = false;
-            inicioX = e.clientX; inicioScroll = trilho.scrollLeft;
+        palco.addEventListener('pointerdown', function (e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            apertado = true; moveu = false; inicioX = e.clientX;
         });
-
         window.addEventListener('pointermove', function (e) {
             if (!apertado) return;
-            const dx = e.clientX - inicioX;
-            if (Math.abs(dx) > 5) { moveu = true; trilho.classList.add('arrastando'); }
-            if (moveu) trilho.scrollLeft = inicioScroll - dx;
+            if (Math.abs(e.clientX - inicioX) > 8) { moveu = true; palco.classList.add('arrastando'); }
         });
-
-        function soltar() {
+        function soltar(e) {
             if (!apertado) return;
             apertado = false;
-            if (moveu) {
-                trilho.classList.remove('arrastando');
-                trilho.scrollTo({ left: Math.round(trilho.scrollLeft / passo()) * passo(), behavior: 'smooth' });
-            }
+            palco.classList.remove('arrastando');
+            const dx = e.clientX - inicioX;
+            if (moveu && Math.abs(dx) > 40) ir(atual + (dx < 0 ? 1 : -1));
         }
         window.addEventListener('pointerup', soltar);
-        window.addEventListener('pointercancel', soltar);
+        window.addEventListener('pointercancel', function () { apertado = false; palco.classList.remove('arrastando'); });
 
-        atualizar();
+        palco.addEventListener('click', function (e) {
+            if (moveu) { e.preventDefault(); e.stopPropagation(); moveu = false; return; }
+            const card = e.target.closest('.sv-card');
+            if (card && card.getAttribute('data-pos') !== '0') {
+                e.preventDefault();
+                ir(parseInt(card.dataset.indice, 10));
+            }
+        }, true);
+
+        palco.querySelectorAll('img').forEach(function (img) { img.draggable = false; });
+        ir(0);
     }
 
     /* ---------- paleta de tons ---------- */
